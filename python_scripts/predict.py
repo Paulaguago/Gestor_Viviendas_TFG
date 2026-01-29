@@ -14,6 +14,9 @@ import json
 
 warnings.filterwarnings('ignore')
 
+# Definir la raíz del proyecto (subiendo un nivel desde python_scripts)
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
 # Variables globales para cache (se cargan una sola vez)
 _MODELO_CACHE = None
 _PREPROCESSOR_CACHE = None
@@ -25,7 +28,7 @@ def _read_active_model_path(base_dir='model'):
     Devuelve ruta absoluta si es válida, o None si no está configurada o no existe.
     """
     try:
-        base = os.path.join(os.path.dirname(__file__), base_dir)
+        base = os.path.join(PROJECT_ROOT, base_dir)
         cfg_path = os.path.join(base, 'active_model.json')
         if not os.path.exists(cfg_path):
             return None
@@ -37,7 +40,7 @@ def _read_active_model_path(base_dir='model'):
         # Si es relativo, resolver respecto a la raíz del proyecto
         model_path = raw_path
         if not os.path.isabs(model_path):
-            model_path = os.path.join(os.path.dirname(__file__), model_path)
+            model_path = os.path.join(PROJECT_ROOT, model_path)
         if os.path.exists(model_path) and os.path.getsize(model_path) > 0:
             return model_path
         return None
@@ -53,7 +56,7 @@ def find_model_file(base_dir='model'):
         if env_override:
             env_path = env_override
             if not os.path.isabs(env_path):
-                env_path = os.path.join(os.path.dirname(__file__), env_path)
+                env_path = os.path.join(PROJECT_ROOT, env_path)
             if os.path.exists(env_path) and os.path.getsize(env_path) > 0:
                 print(f"[DEBUG] MODEL_OVERRIDE_PATH activo -> {env_path}", file=sys.stderr)
                 return env_path
@@ -69,7 +72,7 @@ def find_model_file(base_dir='model'):
         return cfg_path
 
     # 2) Fallback a búsqueda por nombres conocidos en model/
-    model_dir = os.path.join(os.path.dirname(__file__), base_dir)
+    model_dir = os.path.join(PROJECT_ROOT, base_dir)
     possible_names = [
         'model_randomforest.pkl',
         'modelo_random_forest.pkl',
@@ -85,7 +88,7 @@ def find_model_file(base_dir='model'):
 
 def find_preprocessor_file(base_dir='model'):
     """Busca el archivo del preprocesador"""
-    model_dir = os.path.join(os.path.dirname(__file__), base_dir)
+    model_dir = os.path.join(PROJECT_ROOT, base_dir)
     path = os.path.join(model_dir, 'preprocessor.pkl')
     
     if os.path.exists(path):
@@ -96,8 +99,8 @@ def find_target_encoder_file():
     """Busca el archivo del target encoder para categóricas"""
     # Buscar en modelos_predictivos/alquiler
     paths = [
-        os.path.join(os.path.dirname(__file__), 'modelos_predictivos', 'alquiler', 'target_encoder_airbnb.pkl'),
-        os.path.join(os.path.dirname(__file__), 'model', 'target_encoder.pkl')
+        os.path.join(PROJECT_ROOT, 'modelos_predictivos', 'alquiler', 'target_encoder_airbnb.pkl'),
+        os.path.join(PROJECT_ROOT, 'model', 'target_encoder.pkl')
     ]
     for p in paths:
         if os.path.exists(p):

@@ -37,8 +37,9 @@ def main():
         # Cargar modelo
         modelo = joblib.load(model_path)
 
-        # Cargar target encoder
-        encoder_path = os.path.join(os.path.dirname(__file__), 'modelos_predictivos', 'alquiler', 'target_encoder_airbnb.pkl')
+        # Cargar target encoder (buscando desde la raíz del proyecto)
+        project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        encoder_path = os.path.join(project_root, 'modelos_predictivos', 'alquiler', 'target_encoder_airbnb.pkl')
         encoder = joblib.load(encoder_path) if os.path.exists(encoder_path) else None
 
         # Construir DataFrame con features

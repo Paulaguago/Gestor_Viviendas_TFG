@@ -144,7 +144,7 @@ router.post('/predict/alquiler', (req, res) => {
   const neigh_grouped = barriosValidos.includes(barrio) ? barrio : 'Other';
 
   const condaPath = 'C:\\Users\\Paula\\anaconda3\\Scripts\\conda.exe';
-  const scriptPath = path.join(projectRoot, 'predict.py');
+  const scriptPath = path.join(projectRoot, 'python_scripts', 'predict.py');
   const argsBase = [
     origen,
     barrio,
@@ -265,7 +265,7 @@ router.post('/alquiler/shap-local', (req, res) => {
     
     const condaPath = 'C:\\Users\\Paula\\anaconda3\\Scripts\\conda.exe';
     const pythonExe = 'C:\\Users\\Paula\\anaconda3\\python.exe';
-    const scriptPath = path.join(projectRoot, 'shap_local_rental.py');
+    const scriptPath = path.join(projectRoot, 'python_scripts', 'shap_local_rental.py');
     
     const inputJson = JSON.stringify(inputData);
     const args = [modelPath]; // JSON via env para evitar problemas de parseo en CLI
@@ -387,7 +387,7 @@ router.post('/predict', (req, res) => {
 
   // Ejecutar el script Python: preferir conda (entorno que contiene sklearn 1.6.1) si existe, si no usar python del sistema
   const condaPath = 'C:\\Users\\Paula\\anaconda3\\Scripts\\conda.exe';
-  const scriptPath = path.join(projectRoot, 'predict.py');
+  const scriptPath = path.join(projectRoot, 'python_scripts', 'predict.py');
   const argsBase = [
     origen,
     barrio,
