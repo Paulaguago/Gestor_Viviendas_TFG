@@ -1,0 +1,202 @@
+[
+  {
+    "feature": "house_type",
+    "importance": 0.2684772285540235
+  },
+  {
+    "feature": "renta_media_prov",
+    "importance": 0.10482488410649207
+  },
+  {
+    "feature": "kitchen",
+    "importance": 0.10026710160401374
+  },
+  {
+    "feature": "m2_useful",
+    "importance": 0.09828024971812548
+  },
+  {
+    "feature": "m2_real",
+    "importance": 0.08773318585466083
+  },
+  {
+    "feature": "loc_zone",
+    "importance": 0.07535373236690059
+  },
+  {
+    "feature": "lift",
+    "importance": 0.06619851065600175
+  },
+  {
+    "feature": "loc_city",
+    "importance": 0.058077301188903085
+  },
+  {
+    "feature": "size_segment",
+    "importance": 0.05704818887883123
+  },
+  {
+    "feature": "loc_district",
+    "importance": 0.05702986651377132
+  },
+  {
+    "feature": "bath_num",
+    "importance": 0.05699294407965965
+  },
+  {
+    "feature": "house_type_freq",
+    "importance": 0.053900768665232475
+  },
+  {
+    "feature": "loc_neigh",
+    "importance": 0.05235246499572166
+  },
+  {
+    "feature": "loc_city_freq",
+    "importance": 0.0420923697016663
+  },
+  {
+    "feature": "bath_per_room",
+    "importance": 0.03901119636467278
+  },
+  {
+    "feature": "loc_zone_freq",
+    "importance": 0.035178119677661136
+  },
+  {
+    "feature": "house_type & house_type_freq",
+    "importance": 0.032918413951529085
+  },
+  {
+    "feature": "house_type & kitchen",
+    "importance": 0.032668954162289376
+  },
+  {
+    "feature": "renta_per_capita",
+    "importance": 0.032609980875845226
+  },
+  {
+    "feature": "m2_diff",
+    "importance": 0.03227260064436299
+  },
+  {
+    "feature": "amenities_score",
+    "importance": 0.0314858069379724
+  },
+  {
+    "feature": "loc_district_freq",
+    "importance": 0.03142305739280146
+  },
+  {
+    "feature": "house_type & lift",
+    "importance": 0.029779761327217873
+  },
+  {
+    "feature": "condition",
+    "importance": 0.028348932057722914
+  },
+  {
+    "feature": "room_num",
+    "importance": 0.025717598211067533
+  },
+  {
+    "feature": "house_type & renta_media_prov",
+    "importance": 0.02432344680089666
+  },
+  {
+    "feature": "companies_per_capita",
+    "importance": 0.02395833444913648
+  },
+  {
+    "feature": "has_premium_outdoor",
+    "importance": 0.023218815589646905
+  },
+  {
+    "feature": "population_prov",
+    "importance": 0.021758334781692836
+  },
+  {
+    "feature": "swimming_pool",
+    "importance": 0.02046933647414882
+  },
+  {
+    "feature": "terrace",
+    "importance": 0.019805322592499223
+  },
+  {
+    "feature": "pop_density_relative",
+    "importance": 0.019402765812665396
+  },
+  {
+    "feature": "house_type & renta_per_capita",
+    "importance": 0.017833323133944708
+  },
+  {
+    "feature": "energetic_certif",
+    "importance": 0.01768295184300524
+  },
+  {
+    "feature": "companies_prov_vs_national_%",
+    "importance": 0.01669469633309652
+  },
+  {
+    "feature": "population_prov_vs_national_%",
+    "importance": 0.014466840665872331
+  },
+  {
+    "feature": "number_of_companies_prov",
+    "importance": 0.014296980074152853
+  },
+  {
+    "feature": "m2_ratio",
+    "importance": 0.013061052604128855
+  },
+  {
+    "feature": "heating",
+    "importance": 0.012081158808616342
+  },
+  {
+    "feature": "orientation",
+    "importance": 0.011412343306342809
+  },
+  {
+    "feature": "age",
+    "importance": 0.0088153380627064
+  },
+  {
+    "feature": "garden",
+    "importance": 0.008256847088244425
+  },
+  {
+    "feature": "age_squared",
+    "importance": 0.00758454807075054
+  },
+  {
+    "feature": "balcony",
+    "importance": 0.002026446229220803
+  },
+  {
+    "feature": "air_conditioner",
+    "importance": 0.0
+  },
+  {
+    "feature": "garage",
+    "importance": 0.0
+  },
+  {
+    "feature": "floor",
+    "importance": 0.0
+  },
+  {
+    "feature": "ground_size",
+    "importance": 0.0
+  },
+  {
+    "feature": "chimney",
+    "importance": 0.0
+  },
+  {
+    "feature": "built_in_wardrobe",
+    "importance": 0.0
+  }
+]

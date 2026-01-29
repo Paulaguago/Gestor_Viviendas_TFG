@@ -416,3 +416,29 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# =========================
+# Documentación TFG (archivos grandes)
+# =========================
+*.pdf
+*.zip
+*.rar
+*.7z
+
+# =========================
+# Bases de datos locales
+# =========================
+*.db
+*.sqlite
+*.sqlite3
+
+# =========================
+# Entornos virtuales adicionales
+# =========================
+venv/
+.env
+.env.*
+
+*.csv
+modelos_predictivos/alquiler/RF/*.pkl
+

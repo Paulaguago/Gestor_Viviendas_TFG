@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Predicción de Alquiler</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/prediccion/form_prediccion_alquiler.css">
+</head>
+<body>
+  <div class="shell">
+    <h1><i class="bi bi-house-door"></i> Configura tu predicción de alquiler</h1>
+    <p class="lead">Selecciona el nivel de detalle y completa datos básicos. Esta vista es una primera prueba de flujo; luego se conectará al backend real.</p>
+
+    <form method="post" action="/predict/alquiler">
+      <div class="stack">
+        <strong><i class="bi bi-lightning-charge"></i> Modo de predicción:</strong>
+        <label class="radio">
+          <input type="radio" name="modelo" value="rapida" checked>
+          <span>Predicción rápida (más ágil)</span>
+        </label>
+        <label class="radio">
+          <input type="radio" name="modelo" value="detallada">
+          <span>Predicción detallada (explicable)</span>
+        </label>
+        <small class="hint">Los nombres están simplificados; internamente se mapean a modelos distintos.</small>
+      </div>
+
+      <div class="field">
+        <label for="origen"><i class="bi bi-geo-alt"></i> Localidad</label>
+        <select id="origen" name="origen" required>
+          <option value="" disabled selected>Selecciona ciudad</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="barrio"><i class="bi bi-buildings"></i> Barrio</label>
+        <select id="barrio" name="barrio" required disabled>
+          <option value="" disabled selected>Selecciona un barrio</option>
+        </select>
+        
+      </div>
+
+      <div class="field">
+        <label for="huespedes"><i class="bi bi-people"></i> Huéspedes</label>
+        <input id="huespedes" name="accommodates" type="number" min="1" placeholder="2" required>
+      </div>
+
+      <div class="field">
+        <label for="habitaciones"><i class="bi bi-door-closed"></i> Habitaciones</label>
+        <input id="habitaciones" name="bedrooms" type="number" min="0" placeholder="1" required>
+      </div>
+
+      <div class="field">
+        <label for="banos"><i class="bi bi-droplet"></i> Baños</label>
+        <input id="banos" name="bathrooms" type="number" min="0" step="0.5" placeholder="1" required>
+      </div>
+
+      <div class="field">
+        <label for="tipo_estancia"><i class="bi bi-house"></i> Tipo de estancia</label>
+        <select id="tipo_estancia" name="room_type" required>
+          <option value="entire">Vivienda completa</option>
+          <option value="private">Habitación privada</option>
+          <option value="shared">Habitación compartida</option>
+          <option value="hotel">Hotel / Apartahotel</option>
+        </select>
+      </div>
+
+      <div class="amenities-box">
+        <label style="font-weight:700;"><i class="bi bi-stars"></i> Servicios (amenities)</label>
+        <input class="amenity-search" type="text" id="amenity-search" placeholder="Buscar amenity..." aria-label="Buscar amenity">
+        <div class="amenities-grid" id="amenities-grid"></div>
+        <small class="hint">Selecciona los que apliquen</small>
+      </div>
+
+      <div class="field">
+        <label for="stay_date"><i class="bi bi-calendar-event"></i> Fecha de estancia (opcional)</label>
+        <input id="stay_date" name="stay_date" type="date">
+      </div>
+
+      <div class="field">
+        <label for="review_scores_rating"><i class="bi bi-star-fill"></i> Puntuación media (opcional)</label>
+        <input id="review_scores_rating" name="review_scores_rating" type="number" min="0" max="5" step="0.01" placeholder="4.85">
+      </div>
+
+      <div class="field">
+        <label for="number_of_reviews"><i class="bi bi-chat-dots"></i> Número de reseñas (opcional)</label>
+        <input id="number_of_reviews" name="number_of_reviews" type="number" min="0" placeholder="60">
+      </div>
+
+      <div class="field">
+        <label for="availability_365"><i class="bi bi-calendar-check"></i> Disponibilidad anual (días, opcional)</label>
+        <input id="availability_365" name="availability_365" type="number" min="0" max="365" placeholder="200">
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" type="submit"><i class="bi bi-play-circle"></i> Ver resultado</button>
+        <a class="btn secondary" href="/opciones-prediccion">Volver</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const OPTIONS = <%- JSON.stringify(options || {}) %>;
+    const AMENITIES = <%- JSON.stringify(amenitiesConjunto || {}) %>;
+  </script>
+  <script src="/js/prediccion/form_prediccion_alquiler.js"></script>
+
+  <div class="overlay" id="loading-overlay">
+    <div class="spinner"></div>
+    <div class="overlay-text">Se está prediciendo el precio para la vivienda, espere unos segundos...</div>
+  </div>
+
+</body>
+</html>

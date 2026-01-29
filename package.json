@@ -1,0 +1,27 @@
+{
+  "name": "airbnb-price-predictor",
+  "version": "1.0.0",
+  "description": "Aplicación web para predecir precios de Airbnb usando Machine Learning",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "airbnb",
+    "predictor",
+    "machine-learning",
+    "random-forest"
+  ],
+  "author": "Paula Guadilla",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.4",
+    "ejs": "^3.1.10",
+    "express": "^4.22.1",
+    "python-shell": "^3.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado de Predicción</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <% if (success) { %>
+                    <div class="result-square card shadow-sm mt-4">
+                        <!-- Panel informativo (1/3) -->
+                        <div class="info-panel p-3 h-100">
+                            <h5 class="fw-semibold mb-3"><i class="bi bi-info-circle me-2"></i>Sobre esta predicción</h5>
+                            <p class="mb-3 text-muted small">
+                                Este modelo se ha entrenado con técnicas de IA y ofrece una precisión aproximada del 70%. No contempla de forma explícita la calidad de los servicios, la micro-localización exacta, la revalorización reciente de la zona ni otros matices (p. ej., estado del inmueble, vistas, ruido, etc.).
+                            </p>
+                            <div class="mb-3">
+                                <h6 class="mb-1 text-muted small fw-semibold">Qué hemos tenido en cuenta</h6>
+                                <ul class="small text-muted mb-2 ps-3">
+                                    <li>Ubicación (ciudad y barrio) y estadísticas de precio del barrio (media, mediana, desv.).</li>
+                                    <li>Características del anuncio: tipo, baños, dormitorios y capacidad.</li>
+                                    <li>Señales de demanda: puntuación media, nº de reseñas y disponibilidad anual.</li>
+                                    <li>Amenidades de forma objetiva: recuento total y presencia de piscina, jacuzzi, A/A y WiFi.</li>
+                                    <li>Fecha de estancia y su contexto (festivos, puentes, temporadas y eventos).</li>
+                                </ul>
+                                <p class="small text-muted mb-0">
+                                    Los datos históricos usados fueron recopilados y consolidados en junio de 2025, por lo que son recientes. Son datos objetivos; no incorporan decoración, estado del inmueble ni otros aspectos cualitativos. Con la información introducida, el modelo calcula de forma objetiva el resultado mostrado.
+                                </p>
+                            </div>
+                            <p class="mb-0 text-muted small">
+                                Úsalo como referencia orientativa. Te recomendamos contrastar con comparables cercanos, ajustar por demanda real y condiciones específicas de tu anuncio.
+                            </p>
+                        </div>
+                        <!-- Panel de resultado (2/3) -->
+                        <div class="result-panel">
+                            <div class="card border-0 shadow-sm price-card-bg">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-currency-euro display-6 text-dark"></i>
+                                    <h2 class="mt-2 mb-1 fw-bold">€<%= prediction.toFixed(2) %></h2>
+                                    <p class="text-muted mb-1">Precio estimado por noche (conversión desde USD)</p>
+                                    <% if (typeof predictionUsd !== 'undefined') { %>
+                                        <p class="small text-muted mb-0">Valor original: $<%= predictionUsd.toFixed(2) %> USD</p>
+                                    <% } %>
+                                    <% if (typeof fechaContext !== 'undefined' && fechaContext) { %>
+                                        <div class="alert alert-info py-2 px-3 small mt-3 mb-0 text-start">
+                                            <i class="bi bi-calendar-event me-2"></i>
+                                            <strong>Contexto de fecha:</strong> <%= fechaContext %>
+                                        </div>
+                                    <% } %>
+                                    <div class="d-flex justify-content-center gap-3 mt-3">
+                                        <a href="/" class="btn btn-outline-secondary"> <i class="bi bi-arrow-left me-2"></i>Volver</a>
+                                        <a href="/" class="btn btn-dark"> <i class="bi bi-box-arrow-up-right me-2"></i>Nueva predicción</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card mt-4 shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0"><i class="bi bi-list-check me-2"></i>Resumen de entrada</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-2">
+                                        <div class="col-6"><small class="text-muted">Ciudad</small><div><i class="bi bi-geo-alt me-1"></i> <%= input.origen %></div></div>
+                                        <div class="col-6"><small class="text-muted">Barrio</small><div><i class="bi bi-pin-map me-1"></i> <%= input.barrio %></div></div>
+                                    </div>
+                                    <div class="row g-2 mt-2">
+                                        <div class="col-6"><small class="text-muted">Baños</small><div><i class="bi bi-bucket me-1"></i> <%= input.bathrooms %></div></div>
+                                        <div class="col-6"><small class="text-muted">Dormitorios</small><div><i class="bi bi-door-open me-1"></i> <%= input.bedrooms %></div></div>
+                                    </div>
+                                    <div class="row g-2 mt-2">
+                                        <div class="col-6"><small class="text-muted">Capacidad</small><div><i class="bi bi-people me-1"></i> <%= input.accommodates %></div></div>
+                                        <div class="col-6"><small class="text-muted">Tipo</small><div><i class="bi bi-house me-1"></i> <%= input.room_type %></div></div>
+                                    </div>
+                                    <div class="row g-2 mt-2">
+                                        <div class="col-12"><small class="text-muted">Comodidades (count)</small><div><i class="bi bi-stars me-1"></i> <%= input.amenities_count %></div></div>
+                                    </div>
+                                    
+                                    <hr class="my-3">
+                                    <h6 class="text-muted mb-2"><i class="bi bi-check2-square me-2"></i>Amenities detectadas</h6>
+                                    <div class="row g-2">
+                                        <div class="col-6"><small class="text-muted">Piscina</small><div><i class="bi bi-droplet me-1"></i> <%= input.has_pool %></div></div>
+                                        <div class="col-6"><small class="text-muted">Jacuzzi</small><div><i class="bi bi-bucket me-1"></i> <%= input.has_jacuzzi %></div></div>
+                                        <div class="col-6 mt-2"><small class="text-muted">Aire acondicionado</small><div><i class="bi bi-snow me-1"></i> <%= input.has_aircon %></div></div>
+                                        <div class="col-6 mt-2"><small class="text-muted">WiFi</small><div><i class="bi bi-wifi me-1"></i> <%= input.has_wifi %></div></div>
+                                    </div>
+                                    
+                                    <hr class="my-3">
+                                    <h6 class="text-muted mb-2"><i class="bi bi-star me-2"></i>Puntuación y disponibilidad</h6>
+                                    <div class="row g-2">
+                                        <div class="col-4"><small class="text-muted">Puntuación</small><div><%= input.review_scores_rating || 'N/A' %></div></div>
+                                        <div class="col-4"><small class="text-muted">Nº Reseñas</small><div><%= input.number_of_reviews || 'N/A' %></div></div>
+                                        <div class="col-4"><small class="text-muted">Disponibilidad</small><div><%= input.availability_365 || 'N/A' %> días</div></div>
+                                        <div class="col-12 mt-2"><small class="text-muted">Fecha estancia</small><div><i class="bi bi-calendar me-1"></i> <%= input.stay_date || 'No especificada' %></div></div>
+                                    </div>
+                                    
+                                    <hr class="my-3">
+                                    <h6 class="text-muted mb-2"><i class="bi bi-graph-up me-2"></i>Estadísticas del barrio</h6>
+                                    <div class="row g-2">
+                                        <div class="col-4"><small class="text-muted">Media</small><div>€<%= input.barrio_mean || 'N/A' %></div></div>
+                                        <div class="col-4"><small class="text-muted">Mediana</small><div>€<%= input.barrio_median || 'N/A' %></div></div>
+                                        <div class="col-4"><small class="text-muted">Desv. Est.</small><div>€<%= input.barrio_std || 'N/A' %></div></div>
+                                    </div>
+                                    
+                                    <% if (input.amenities && input.amenities.length > 0) { %>
+                                        <hr class="my-3">
+                                        <h6 class="text-muted mb-2"><i class="bi bi-list-ul me-2"></i>Amenities seleccionadas</h6>
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <% input.amenities.forEach(function(amenity) { %>
+                                                <span class="badge bg-secondary"><%= amenity %></span>
+                                            <% }); %>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 mt-4">
+                                <a href="/" class="btn btn-dark btn-lg"><i class="bi bi-arrow-left-circle me-2"></i>Volver a predecir</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        // Exponer los datos de entrada de esta predicción para módulos JS
+                        window.__lastInput = <%- JSON.stringify(input || null) %>;
+                        window.__prediction = <%- JSON.stringify(typeof prediction !== 'undefined' ? prediction : null) %>;
+                    </script>
+
+                    <!-- Explicaciones del modelo (RF y EBM) -->
+                    <div class="card mt-4 shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0"><i class="bi bi-diagram-3 me-2"></i>Importancia global (Random Forest)</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="rf-global" style="height: 420px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- EBM Global -->
+                    <div class="card mt-4 shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0"><i class="bi bi-activity me-2"></i>Factores más influyentes (EBM)</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="ebm-global" style="height: 420px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- EBM PDP por variable -->
+                    <div class="card mt-4 shadow-sm">
+                        <div class="card-header bg-white d-flex align-items-center">
+                            <h5 class="mb-0"><i class="bi bi-graph-up-arrow me-2"></i>Contribución por variable (PDP EBM)</h5>
+                            <div class="ms-auto d-flex align-items-center gap-2">
+                                <label for="pdp-feature-select" class="small text-muted mb-0">Variable</label>
+                                <select id="pdp-feature-select" class="form-select form-select-sm" style="min-width: 18rem"></select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="pdp-chart" style="height: 420px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- EBM Local -->
+                    <div class="card mt-4 shadow-sm">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="bi bi-bullseye me-2"></i>Explicación local (EBM)</h5>
+                            <small class="text-muted">Desglose aditivo de esta predicción</small>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-8">
+                                    <div id="ebm-local" style="height: 460px;"></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="border rounded p-3 h-100">
+                                        <h6 class="mb-2">Comparativa RF vs EBM</h6>
+                                        <div id="cmp-rf-ebm" class="small"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <div class="alert alert-danger d-flex align-items-start" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2 fs-4"></i>
+                        <div>
+                            <h5 class="mb-1">Error en la predicción</h5>
+                            <p class="mb-0"><%= error %></p>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 mt-4">
+                        <a href="/" class="btn btn-dark btn-lg"><i class="bi bi-arrow-left-circle me-2"></i>Volver a intentarlo</a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Plotly para gráficos -->
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+    <!-- Módulos para cargar explicaciones -->
+    <script type="module" src="/js/prediccion/result.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+{
+  "Barcelona": {
+    "bathrooms": {
+      "min": 0.0,
+      "max": 16.0
+    },
+    "bedrooms": {
+      "min": 0.0,
+      "max": 29.0
+    },
+    "accommodates": {
+      "min": 1.0,
+      "max": 16.0
+    }
+  },
+  "Euskadi": {
+    "bathrooms": {
+      "min": 0.0,
+      "max": 24.0
+    },
+    "bedrooms": {
+      "min": 0.0,
+      "max": 25.0
+    },
+    "accommodates": {
+      "min": 1.0,
+      "max": 16.0
+    }
+  },
+  "Girona": {
+    "bathrooms": {
+      "min": 0.0,
+      "max": 15.0
+    },
+    "bedrooms": {
+      "min": 0.0,
+      "max": 22.0
+    },
+    "accommodates": {
+      "min": 1.0,
+      "max": 16.0
+    }
+  },
+  "Madrid": {
+    "bathrooms": {
+      "min": 0.0,
+      "max": 19.0
+    },
+    "bedrooms": {
+      "min": 0.0,
+      "max": 25.0
+    },
+    "accommodates": {
+      "min": 1.0,
+      "max": 16.0
+    }
+  },
+  "Malaga": {
+    "bathrooms": {
+      "min": 0.0,
+      "max": 16.0
+    },
+    "bedrooms": {
+      "min": 0.0,
+      "max": 25.0
+    },
+    "accommodates": {
+      "min": 1.0,
+      "max": 16.0
+    }
+  },
+  "Mallorca": {
+    "bathrooms": {
+      "min": 0.0,
+      "max": 19.0
+    },
+    "bedrooms": {
+      "min": 0.0,
+      "max": 20.0
+    },
+    "accommodates": {
+      "min": 1.0,
+      "max": 16.0
+    }
+  },
+  "Menorca": {
+    "bathrooms": {
+      "min": 0.0,
+      "max": 10.0
+    },
+    "bedrooms": {
+      "min": 0.0,
+      "max": 14.0
+    },
+    "accommodates": {
+      "min": 1.0,
+      "max": 16.0
+    }
+  },
+  "Sevilla": {
+    "bathrooms": {
+      "min": 0.0,
+      "max": 9.5
+    },
+    "bedrooms": {
+      "min": 0.0,
+      "max": 14.0
+    },
+    "accommodates": {
+      "min": 1.0,
+      "max": 16.0
+    }
+  },
+  "Valencia": {
+    "bathrooms": {
+      "min": 0.0,
+      "max": 11.5
+    },
+    "bedrooms": {
+      "min": 0.0,
+      "max": 17.0
+    },
+    "accommodates": {
+      "min": 1.0,
+      "max": 16.0
+    }
+  }
+}

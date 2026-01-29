@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resultado de Alquiler</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/prediccion/alquiler_predict_result_rf.css">
+</head>
+<body>
+  <% if (sample) { %>
+    <div class="grid">
+      <div class="card">
+        <div class="title"><i class="bi bi-cash-coin"></i> Precio recomendado por noche</div>
+        <div class="price"><%= sample.price %> <%= sample.currency %></div>
+        <div class="pill">Modelo: <%= sample.modelo %></div>
+        <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:8px;">
+          <% if (sample.input) { %>
+            <span class="chip chip-guests"><i class="bi bi-people"></i> <%= sample.input.accommodates || 0 %> huéspedes</span>
+            <span class="chip chip-bedrooms"><i class="bi bi-door-closed"></i> <%= sample.input.bedrooms || 0 %> habitaciones</span>
+            <span class="chip chip-bathrooms"><i class="bi bi-droplet"></i> <%= sample.input.bathrooms || 0 %> baños</span>
+            <span class="chip chip-amenities"><i class="bi bi-star-fill"></i> <%= sample.input.amenities_count || 0 %> servicios</span>
+            <span class="chip chip-roomtype"><i class="bi bi-house"></i> <%= sample.input.room_type === 'entire' ? 'Vivienda completa' : sample.input.room_type === 'private' ? 'Habitación privada' : sample.input.room_type === 'shared' ? 'Habitación compartida' : sample.input.room_type === 'hotel' ? 'Hotel/Apartahotel' : sample.input.room_type || 'N/A' %></span>
+          <% } %>
+        </div>
+        <div class="muted"><i class="bi bi-geo-alt-fill" style="color: #10b981; margin-right: 4px;"></i><strong>Ubicación: <%= sample.barrio %> · <%= sample.ciudad %></strong></div>
+        <% if (sample.fechaContext) { %>
+          <p class="muted">Contexto de fecha: <%= sample.fechaContext %></p>
+        <% } %>
+        <hr style="margin:18px 0; border:none; border-top:1px solid #e5e7eb;">
+        <div class="title" style="color:#374151;"><i class="bi bi-search"></i> Factores clave que inlfuyen en el precio de la vivienda: </div>
+        <div id="factors" class="bar-list">
+          <div class="spinner-container">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+              <div class="spinner"></div>
+              <div style="font-size: 14px; color: #6b7280; font-weight: 600;">Importancia de las variables</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="title"><i class="bi bi-map"></i> Mapa y contexto</div>
+        <div id="map" class="map-placeholder"></div>
+        <p class="muted">Mapa centrado según la ciudad seleccionada.</p>
+        <div class="title" style="color:#374151; margin-top:16px;"><i class="bi bi-pin-map"></i> Estadísticas del barrio</div>
+        <div id="barrio-stats" class="stats-grid"></div>
+        <p class="muted" id="barrio-stats-note">Cargando estadísticas del barrio...</p>
+
+        <hr style="margin:18px 0; border:none; border-top:1px solid #e5e7eb;">
+
+        <div class="title" style="color:#374151;"><i class="bi bi-graph-up"></i> Precisión del modelo <span class="badge-soft" id="metric-model-name"></span></div>
+        <p class="metric-sub">Exactitud general estimada: <strong id="metric-acc-text">-</strong></p>
+        <div class="progress"><span id="metric-acc-bar" style="width:0%"></span></div>
+        <div class="metric-boxes">
+          <div class="metric-box soft-blue">
+            <div class="box-label"><i class="bi bi-graph-up"></i> Error medio estimado</div>
+            <div class="box-value" id="metric-mae">-</div>
+          </div>
+          <div class="metric-box soft-purple">
+            <div class="box-label"><i class="bi bi-bullseye"></i> Nivel de confianza del modelo</div>
+            <div class="box-value" id="metric-r2">-</div>
+          </div>
+          <div class="metric-box soft-green">
+            <div class="box-label"><i class="bi bi-bar-chart-line"></i> Desviación del error</div>
+            <div class="box-value" id="metric-rmse">-</div>
+          </div>
+        </div>
+        <p class="metric-sub" id="metric-long-desc"></p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-inner">
+        <div class="metric-title" style="text-align: center; margin-bottom: 2rem;">¿Cómo funciona esta predicción?</div>
+        <ul class="info-list">
+          <li><span>1</span><div><strong style="color: #3b82f6;">Analizamos</strong> las características de tu propiedad: ubicación, servicios y fechas.</div></li>
+          <li><span>2</span><div><strong style="color: #8b5cf6;">Calculamos</strong> el impacto de cada característica usando modelos de Machine Learning.</div></li>
+          <li><span>3</span><div><strong style="color: #10b981;">Sugerimos</strong> un rango de precio basado en propiedades similares.</div></li>
+        </ul>
+      </div>
+    </div>
+
+    
+  <% } else { %>
+    <div class="card" style="max-width:720px; margin: 40px auto;">
+      <h3>Error en la predicción</h3>
+      <p class="muted"><%= error || 'No se pudo calcular el precio.' %></p>
+      <a href="/form/alquiler" class="pill" style="text-decoration:none; margin-top:12px; display:inline-block;">Volver al formulario</a>
+    </div>
+  <% } %>
+
+  <% if (sample) { %>
+  <!-- Modal para información de variables (antes del script para que exista en DOM) -->
+  <div id="info-modal-backdrop" class="modal-backdrop">
+    <div class="modal-content">
+      <button class="modal-close" onclick="document.getElementById('info-modal-backdrop').classList.remove('active')">×</button>
+      <div class="modal-title" id="modal-info-title"></div>
+      <div class="modal-desc" id="modal-info-desc"></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script>
+    const sample = <%- JSON.stringify(sample) %>;
+    const barrioStatsData = <%- JSON.stringify(typeof barrioStats !== 'undefined' ? barrioStats : null) %>;
+  </script>
+  <script src="/js/prediccion/alquiler_predict_result_rf.js"></script>
+  <% } %>
+</body>
+</html>

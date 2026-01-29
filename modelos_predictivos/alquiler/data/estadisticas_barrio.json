@@ -1,0 +1,6222 @@
+{
+  "Barcelona": {
+    "la Sagrada Família": {
+      "mean_price": 227.64,
+      "median_price": 191.0,
+      "count": 877,
+      "min_price": 19.0,
+      "max_price": 2282.0
+    },
+    "el Besòs i el Maresme": {
+      "mean_price": 131.92,
+      "median_price": 93.5,
+      "count": 90,
+      "min_price": 10.0,
+      "max_price": 400.0
+    },
+    "el Camp d'en Grassot i Gràcia Nova": {
+      "mean_price": 172.47,
+      "median_price": 150.0,
+      "count": 245,
+      "min_price": 18.0,
+      "max_price": 857.0
+    },
+    "el Barri Gòtic": {
+      "mean_price": 217.88,
+      "median_price": 110.0,
+      "count": 887,
+      "min_price": 12.0,
+      "max_price": 9999.0
+    },
+    "la Barceloneta": {
+      "mean_price": 118.87,
+      "median_price": 84.0,
+      "count": 416,
+      "min_price": 18.0,
+      "max_price": 1000.0
+    },
+    "el Fort Pienc": {
+      "mean_price": 209.3,
+      "median_price": 198.0,
+      "count": 378,
+      "min_price": 16.0,
+      "max_price": 2000.0
+    },
+    "la Nova Esquerra de l'Eixample": {
+      "mean_price": 294.04,
+      "median_price": 160.0,
+      "count": 621,
+      "min_price": 16.0,
+      "max_price": 4686.0
+    },
+    "Sant Pere, Santa Caterina i la Ribera": {
+      "mean_price": 174.71,
+      "median_price": 113.0,
+      "count": 947,
+      "min_price": 14.0,
+      "max_price": 3260.0
+    },
+    "la Vila de Gràcia": {
+      "mean_price": 195.97,
+      "median_price": 162.5,
+      "count": 904,
+      "min_price": 14.0,
+      "max_price": 5863.0
+    },
+    "Diagonal Mar i el Front Marítim del Poblenou": {
+      "mean_price": 314.15,
+      "median_price": 239.5,
+      "count": 142,
+      "min_price": 9.0,
+      "max_price": 2070.0
+    },
+    "Sant Antoni": {
+      "mean_price": 269.95,
+      "median_price": 193.0,
+      "count": 800,
+      "min_price": 19.0,
+      "max_price": 4234.0
+    },
+    "el Coll": {
+      "mean_price": 465.31,
+      "median_price": 117.0,
+      "count": 29,
+      "min_price": 22.0,
+      "max_price": 9714.0
+    },
+    "la Dreta de l'Eixample": {
+      "mean_price": 316.84,
+      "median_price": 231.0,
+      "count": 1914,
+      "min_price": 14.0,
+      "max_price": 8000.0
+    },
+    "el Camp de l'Arpa del Clot": {
+      "mean_price": 218.07,
+      "median_price": 177.0,
+      "count": 251,
+      "min_price": 15.0,
+      "max_price": 3000.0
+    },
+    "Vallcarca i els Penitents": {
+      "mean_price": 193.34,
+      "median_price": 124.0,
+      "count": 71,
+      "min_price": 26.0,
+      "max_price": 1576.0
+    },
+    "el Raval": {
+      "mean_price": 135.69,
+      "median_price": 90.0,
+      "count": 991,
+      "min_price": 11.0,
+      "max_price": 1000.0
+    },
+    "el Poblenou": {
+      "mean_price": 223.62,
+      "median_price": 154.0,
+      "count": 399,
+      "min_price": 10.0,
+      "max_price": 9286.0
+    },
+    "el Poble Sec": {
+      "mean_price": 212.94,
+      "median_price": 158.0,
+      "count": 647,
+      "min_price": 19.0,
+      "max_price": 3000.0
+    },
+    "el Putxet i el Farró": {
+      "mean_price": 137.69,
+      "median_price": 116.0,
+      "count": 220,
+      "min_price": 16.0,
+      "max_price": 509.0
+    },
+    "el Clot": {
+      "mean_price": 106.41,
+      "median_price": 90.0,
+      "count": 81,
+      "min_price": 24.0,
+      "max_price": 500.0
+    },
+    "l'Antiga Esquerra de l'Eixample": {
+      "mean_price": 227.58,
+      "median_price": 171.0,
+      "count": 859,
+      "min_price": 17.0,
+      "max_price": 5000.0
+    },
+    "Sant Gervasi - Galvany": {
+      "mean_price": 163.19,
+      "median_price": 134.5,
+      "count": 506,
+      "min_price": 16.0,
+      "max_price": 2240.0
+    },
+    "el Parc i la Llacuna del Poblenou": {
+      "mean_price": 226.04,
+      "median_price": 175.0,
+      "count": 160,
+      "min_price": 22.0,
+      "max_price": 2243.0
+    },
+    "Sants": {
+      "mean_price": 163.72,
+      "median_price": 133.0,
+      "count": 274,
+      "min_price": 14.0,
+      "max_price": 1474.0
+    },
+    "Pedralbes": {
+      "mean_price": 166.64,
+      "median_price": 171.5,
+      "count": 22,
+      "min_price": 31.0,
+      "max_price": 313.0
+    },
+    "el Guinardó": {
+      "mean_price": 228.12,
+      "median_price": 114.5,
+      "count": 94,
+      "min_price": 14.0,
+      "max_price": 9143.0
+    },
+    "el Congrés i els Indians": {
+      "mean_price": 97.0,
+      "median_price": 81.0,
+      "count": 28,
+      "min_price": 17.0,
+      "max_price": 378.0
+    },
+    "la Vila Olímpica del Poblenou": {
+      "mean_price": 267.11,
+      "median_price": 242.0,
+      "count": 137,
+      "min_price": 30.0,
+      "max_price": 1500.0
+    },
+    "la Bordeta": {
+      "mean_price": 112.77,
+      "median_price": 87.5,
+      "count": 70,
+      "min_price": 18.0,
+      "max_price": 453.0
+    },
+    "Sant Martí de Provençals": {
+      "mean_price": 80.61,
+      "median_price": 59.0,
+      "count": 57,
+      "min_price": 10.0,
+      "max_price": 320.0
+    },
+    "la Maternitat i Sant Ramon": {
+      "mean_price": 185.43,
+      "median_price": 136.5,
+      "count": 68,
+      "min_price": 29.0,
+      "max_price": 3200.0
+    },
+    "Sarrià": {
+      "mean_price": 131.91,
+      "median_price": 131.5,
+      "count": 82,
+      "min_price": 19.0,
+      "max_price": 500.0
+    },
+    "les Corts": {
+      "mean_price": 180.15,
+      "median_price": 149.5,
+      "count": 224,
+      "min_price": 17.0,
+      "max_price": 1234.0
+    },
+    "Provençals del Poblenou": {
+      "mean_price": 142.93,
+      "median_price": 120.0,
+      "count": 84,
+      "min_price": 22.0,
+      "max_price": 338.0
+    },
+    "la Font d'en Fargues": {
+      "mean_price": 139.58,
+      "median_price": 42.0,
+      "count": 24,
+      "min_price": 23.0,
+      "max_price": 1732.0
+    },
+    "Navas": {
+      "mean_price": 244.57,
+      "median_price": 64.5,
+      "count": 56,
+      "min_price": 19.0,
+      "max_price": 9007.0
+    },
+    "Sants - Badal": {
+      "mean_price": 313.94,
+      "median_price": 79.0,
+      "count": 171,
+      "min_price": 21.0,
+      "max_price": 9059.0
+    },
+    "Hostafrancs": {
+      "mean_price": 230.25,
+      "median_price": 165.0,
+      "count": 166,
+      "min_price": 20.0,
+      "max_price": 3528.0
+    },
+    "la Salut": {
+      "mean_price": 136.25,
+      "median_price": 110.0,
+      "count": 61,
+      "min_price": 26.0,
+      "max_price": 1059.0
+    },
+    "la Trinitat Vella": {
+      "mean_price": 74.17,
+      "median_price": 54.0,
+      "count": 6,
+      "min_price": 22.0,
+      "max_price": 147.0
+    },
+    "la Font de la Guatlla": {
+      "mean_price": 136.55,
+      "median_price": 99.0,
+      "count": 94,
+      "min_price": 15.0,
+      "max_price": 632.0
+    },
+    "Sant Gervasi - la Bonanova": {
+      "mean_price": 144.07,
+      "median_price": 116.0,
+      "count": 75,
+      "min_price": 18.0,
+      "max_price": 840.0
+    },
+    "les Tres Torres": {
+      "mean_price": 134.83,
+      "median_price": 121.5,
+      "count": 42,
+      "min_price": 10.0,
+      "max_price": 342.0
+    },
+    "Vallvidrera, el Tibidabo i les Planes": {
+      "mean_price": 148.52,
+      "median_price": 85.0,
+      "count": 25,
+      "min_price": 36.0,
+      "max_price": 820.0
+    },
+    "la Teixonera": {
+      "mean_price": 68.35,
+      "median_price": 63.0,
+      "count": 17,
+      "min_price": 16.0,
+      "max_price": 158.0
+    },
+    "el Carmel": {
+      "mean_price": 97.48,
+      "median_price": 74.0,
+      "count": 79,
+      "min_price": 23.0,
+      "max_price": 349.0
+    },
+    "la Marina del Prat Vermell": {
+      "mean_price": 169.43,
+      "median_price": 120.0,
+      "count": 7,
+      "min_price": 22.0,
+      "max_price": 400.0
+    },
+    "el Baix Guinardó": {
+      "mean_price": 181.09,
+      "median_price": 80.0,
+      "count": 127,
+      "min_price": 19.0,
+      "max_price": 5000.0
+    },
+    "la Verneda i la Pau": {
+      "mean_price": 100.44,
+      "median_price": 84.0,
+      "count": 32,
+      "min_price": 34.0,
+      "max_price": 390.0
+    },
+    "Porta": {
+      "mean_price": 96.26,
+      "median_price": 72.0,
+      "count": 23,
+      "min_price": 24.0,
+      "max_price": 257.0
+    },
+    "Vilapicina i la Torre Llobeta": {
+      "mean_price": 169.58,
+      "median_price": 155.0,
+      "count": 45,
+      "min_price": 20.0,
+      "max_price": 1210.0
+    },
+    "la Sagrera": {
+      "mean_price": 116.37,
+      "median_price": 75.0,
+      "count": 46,
+      "min_price": 23.0,
+      "max_price": 355.0
+    },
+    "Sant Andreu": {
+      "mean_price": 124.5,
+      "median_price": 84.0,
+      "count": 50,
+      "min_price": 19.0,
+      "max_price": 1020.0
+    },
+    "Can Baró": {
+      "mean_price": 181.24,
+      "median_price": 95.0,
+      "count": 33,
+      "min_price": 23.0,
+      "max_price": 1000.0
+    },
+    "la Prosperitat": {
+      "mean_price": 58.32,
+      "median_price": 55.0,
+      "count": 19,
+      "min_price": 20.0,
+      "max_price": 110.0
+    },
+    "la Guineueta": {
+      "mean_price": 58.8,
+      "median_price": 56.0,
+      "count": 10,
+      "min_price": 20.0,
+      "max_price": 93.0
+    },
+    "Horta": {
+      "mean_price": 71.41,
+      "median_price": 63.0,
+      "count": 17,
+      "min_price": 21.0,
+      "max_price": 263.0
+    },
+    "la Vall d'Hebron": {
+      "mean_price": 91.4,
+      "median_price": 98.0,
+      "count": 5,
+      "min_price": 28.0,
+      "max_price": 189.0
+    },
+    "el Turó de la Peira": {
+      "mean_price": 35.72,
+      "median_price": 22.5,
+      "count": 18,
+      "min_price": 15.0,
+      "max_price": 104.0
+    },
+    "les Roquetes": {
+      "mean_price": 62.75,
+      "median_price": 60.5,
+      "count": 12,
+      "min_price": 20.0,
+      "max_price": 122.0
+    },
+    "la Marina de Port": {
+      "mean_price": 55.33,
+      "median_price": 43.5,
+      "count": 42,
+      "min_price": 17.0,
+      "max_price": 174.0
+    },
+    "Torre Baró": {
+      "mean_price": 136.5,
+      "median_price": 136.5,
+      "count": 2,
+      "min_price": 52.0,
+      "max_price": 221.0
+    },
+    "Verdun": {
+      "mean_price": 59.11,
+      "median_price": 41.0,
+      "count": 9,
+      "min_price": 22.0,
+      "max_price": 173.0
+    },
+    "Sant Genís dels Agudells": {
+      "mean_price": 97.86,
+      "median_price": 70.0,
+      "count": 7,
+      "min_price": 30.0,
+      "max_price": 274.0
+    },
+    "la Clota": {
+      "mean_price": 209.0,
+      "median_price": 228.0,
+      "count": 4,
+      "min_price": 80.0,
+      "max_price": 300.0
+    },
+    "Montbau": {
+      "mean_price": 74.0,
+      "median_price": 76.5,
+      "count": 4,
+      "min_price": 57.0,
+      "max_price": 86.0
+    },
+    "la Trinitat Nova": {
+      "mean_price": 61.0,
+      "median_price": 61.0,
+      "count": 2,
+      "min_price": 53.0,
+      "max_price": 69.0
+    },
+    "el Bon Pastor": {
+      "mean_price": 136.8,
+      "median_price": 166.0,
+      "count": 5,
+      "min_price": 50.0,
+      "max_price": 228.0
+    },
+    "Canyelles": {
+      "mean_price": 201.0,
+      "median_price": 201.0,
+      "count": 1,
+      "min_price": 201.0,
+      "max_price": 201.0
+    },
+    "Can Peguera": {
+      "mean_price": 33.0,
+      "median_price": 33.0,
+      "count": 1,
+      "min_price": 33.0,
+      "max_price": 33.0
+    }
+  },
+  "Euskadi": {
+    "Donostia-San SebastiÃ¡n": {
+      "mean_price": 292.61,
+      "median_price": 228.0,
+      "count": 1685,
+      "min_price": 29.0,
+      "max_price": 3427.0
+    },
+    "Sukarrieta": {
+      "mean_price": 166.06,
+      "median_price": 139.5,
+      "count": 16,
+      "min_price": 83.0,
+      "max_price": 375.0
+    },
+    "Vitoria-Gasteiz": {
+      "mean_price": 93.48,
+      "median_price": 85.0,
+      "count": 212,
+      "min_price": 18.0,
+      "max_price": 425.0
+    },
+    "Oiartzun": {
+      "mean_price": 182.03,
+      "median_price": 131.5,
+      "count": 30,
+      "min_price": 24.0,
+      "max_price": 652.0
+    },
+    "Mutriku": {
+      "mean_price": 167.21,
+      "median_price": 120.5,
+      "count": 48,
+      "min_price": 58.0,
+      "max_price": 1170.0
+    },
+    "Gorliz": {
+      "mean_price": 155.24,
+      "median_price": 132.0,
+      "count": 41,
+      "min_price": 52.0,
+      "max_price": 800.0
+    },
+    "Durango": {
+      "mean_price": 128.61,
+      "median_price": 108.0,
+      "count": 18,
+      "min_price": 32.0,
+      "max_price": 600.0
+    },
+    "AbadiÃ±o": {
+      "mean_price": 108.57,
+      "median_price": 102.0,
+      "count": 7,
+      "min_price": 41.0,
+      "max_price": 255.0
+    },
+    "Gatika": {
+      "mean_price": 404.92,
+      "median_price": 315.0,
+      "count": 13,
+      "min_price": 74.0,
+      "max_price": 1100.0
+    },
+    "Bilbao": {
+      "mean_price": 203.39,
+      "median_price": 123.0,
+      "count": 1545,
+      "min_price": 9.0,
+      "max_price": 9999.0
+    },
+    "Amurrio": {
+      "mean_price": 1682.21,
+      "median_price": 280.0,
+      "count": 14,
+      "min_price": 35.0,
+      "max_price": 9286.0
+    },
+    "Arraia-Maeztu": {
+      "mean_price": 218.2,
+      "median_price": 162.0,
+      "count": 5,
+      "min_price": 53.0,
+      "max_price": 600.0
+    },
+    "Ispaster": {
+      "mean_price": 190.3,
+      "median_price": 121.5,
+      "count": 20,
+      "min_price": 71.0,
+      "max_price": 948.0
+    },
+    "Lekeitio": {
+      "mean_price": 131.29,
+      "median_price": 122.0,
+      "count": 65,
+      "min_price": 49.0,
+      "max_price": 351.0
+    },
+    "Bermeo": {
+      "mean_price": 133.34,
+      "median_price": 116.0,
+      "count": 178,
+      "min_price": 36.0,
+      "max_price": 1000.0
+    },
+    "Laukiz": {
+      "mean_price": 251.11,
+      "median_price": 200.0,
+      "count": 19,
+      "min_price": 105.0,
+      "max_price": 657.0
+    },
+    "Elantxobe": {
+      "mean_price": 138.36,
+      "median_price": 129.5,
+      "count": 14,
+      "min_price": 80.0,
+      "max_price": 240.0
+    },
+    "Deba": {
+      "mean_price": 1575.88,
+      "median_price": 166.5,
+      "count": 52,
+      "min_price": 77.0,
+      "max_price": 9429.0
+    },
+    "Gernika-Lumo": {
+      "mean_price": 126.06,
+      "median_price": 118.0,
+      "count": 35,
+      "min_price": 43.0,
+      "max_price": 260.0
+    },
+    "Getxo": {
+      "mean_price": 257.22,
+      "median_price": 142.0,
+      "count": 158,
+      "min_price": 27.0,
+      "max_price": 9999.0
+    },
+    "Orio": {
+      "mean_price": 174.95,
+      "median_price": 155.0,
+      "count": 39,
+      "min_price": 45.0,
+      "max_price": 496.0
+    },
+    "Getaria": {
+      "mean_price": 228.65,
+      "median_price": 169.0,
+      "count": 54,
+      "min_price": 102.0,
+      "max_price": 1300.0
+    },
+    "Ea": {
+      "mean_price": 176.62,
+      "median_price": 164.0,
+      "count": 26,
+      "min_price": 76.0,
+      "max_price": 468.0
+    },
+    "Plentzia": {
+      "mean_price": 428.2,
+      "median_price": 149.5,
+      "count": 40,
+      "min_price": 65.0,
+      "max_price": 9999.0
+    },
+    "Trucios-Turtzioz": {
+      "mean_price": 348.75,
+      "median_price": 309.0,
+      "count": 4,
+      "min_price": 198.0,
+      "max_price": 579.0
+    },
+    "Hondarribia": {
+      "mean_price": 289.03,
+      "median_price": 161.0,
+      "count": 145,
+      "min_price": 48.0,
+      "max_price": 9429.0
+    },
+    "Orozko": {
+      "mean_price": 241.57,
+      "median_price": 194.0,
+      "count": 7,
+      "min_price": 93.0,
+      "max_price": 499.0
+    },
+    "Gizaburuaga": {
+      "mean_price": 125.0,
+      "median_price": 111.5,
+      "count": 6,
+      "min_price": 49.0,
+      "max_price": 239.0
+    },
+    "Artzentales": {
+      "mean_price": 358.0,
+      "median_price": 425.0,
+      "count": 3,
+      "min_price": 120.0,
+      "max_price": 529.0
+    },
+    "EreÃ±o": {
+      "mean_price": 318.5,
+      "median_price": 318.5,
+      "count": 2,
+      "min_price": 126.0,
+      "max_price": 511.0
+    },
+    "Ondarroa": {
+      "mean_price": 238.12,
+      "median_price": 96.5,
+      "count": 16,
+      "min_price": 59.0,
+      "max_price": 2000.0
+    },
+    "Bakio": {
+      "mean_price": 162.49,
+      "median_price": 143.0,
+      "count": 75,
+      "min_price": 62.0,
+      "max_price": 540.0
+    },
+    "Irun": {
+      "mean_price": 233.46,
+      "median_price": 110.0,
+      "count": 69,
+      "min_price": 44.0,
+      "max_price": 5710.0
+    },
+    "Sondika": {
+      "mean_price": 444.41,
+      "median_price": 99.0,
+      "count": 17,
+      "min_price": 60.0,
+      "max_price": 5000.0
+    },
+    "Atxondo": {
+      "mean_price": 280.33,
+      "median_price": 266.0,
+      "count": 3,
+      "min_price": 101.0,
+      "max_price": 474.0
+    },
+    "Santurtzi": {
+      "mean_price": 101.67,
+      "median_price": 93.0,
+      "count": 24,
+      "min_price": 24.0,
+      "max_price": 240.0
+    },
+    "Sopuerta": {
+      "mean_price": 929.13,
+      "median_price": 193.0,
+      "count": 15,
+      "min_price": 31.0,
+      "max_price": 9143.0
+    },
+    "Lanciego": {
+      "mean_price": 187.0,
+      "median_price": 120.0,
+      "count": 11,
+      "min_price": 39.0,
+      "max_price": 697.0
+    },
+    "Eskoriatza": {
+      "mean_price": 163.12,
+      "median_price": 165.0,
+      "count": 8,
+      "min_price": 63.0,
+      "max_price": 214.0
+    },
+    "Arrazua-Ubarrundia": {
+      "mean_price": 106.0,
+      "median_price": 106.0,
+      "count": 2,
+      "min_price": 52.0,
+      "max_price": 160.0
+    },
+    "Zumaia": {
+      "mean_price": 143.32,
+      "median_price": 133.0,
+      "count": 28,
+      "min_price": 54.0,
+      "max_price": 340.0
+    },
+    "Busturia": {
+      "mean_price": 239.84,
+      "median_price": 193.0,
+      "count": 25,
+      "min_price": 85.0,
+      "max_price": 1000.0
+    },
+    "Zarautz": {
+      "mean_price": 209.57,
+      "median_price": 195.0,
+      "count": 166,
+      "min_price": 24.0,
+      "max_price": 749.0
+    },
+    "Balmaseda": {
+      "mean_price": 104.83,
+      "median_price": 97.5,
+      "count": 6,
+      "min_price": 36.0,
+      "max_price": 206.0
+    },
+    "LantarÃ³n": {
+      "mean_price": 342.75,
+      "median_price": 335.5,
+      "count": 4,
+      "min_price": 320.0,
+      "max_price": 380.0
+    },
+    "Alkiza": {
+      "mean_price": 276.0,
+      "median_price": 276.0,
+      "count": 1,
+      "min_price": 276.0,
+      "max_price": 276.0
+    },
+    "OyÃ³n": {
+      "mean_price": 185.75,
+      "median_price": 196.0,
+      "count": 4,
+      "min_price": 101.0,
+      "max_price": 250.0
+    },
+    "Artea": {
+      "mean_price": 108.0,
+      "median_price": 108.0,
+      "count": 1,
+      "min_price": 108.0,
+      "max_price": 108.0
+    },
+    "Labastida": {
+      "mean_price": 184.73,
+      "median_price": 145.0,
+      "count": 15,
+      "min_price": 68.0,
+      "max_price": 455.0
+    },
+    "Otxandio": {
+      "mean_price": 206.5,
+      "median_price": 140.0,
+      "count": 8,
+      "min_price": 108.0,
+      "max_price": 392.0
+    },
+    "Mundaka": {
+      "mean_price": 175.56,
+      "median_price": 162.0,
+      "count": 80,
+      "min_price": 68.0,
+      "max_price": 527.0
+    },
+    "Segura": {
+      "mean_price": 136.82,
+      "median_price": 81.0,
+      "count": 11,
+      "min_price": 81.0,
+      "max_price": 495.0
+    },
+    "Sopelana": {
+      "mean_price": 214.15,
+      "median_price": 137.0,
+      "count": 81,
+      "min_price": 39.0,
+      "max_price": 2121.0
+    },
+    "Erandio": {
+      "mean_price": 212.48,
+      "median_price": 114.0,
+      "count": 25,
+      "min_price": 55.0,
+      "max_price": 850.0
+    },
+    "Moreda de Ãlava": {
+      "mean_price": 152.0,
+      "median_price": 152.0,
+      "count": 1,
+      "min_price": 152.0,
+      "max_price": 152.0
+    },
+    "Asteasu": {
+      "mean_price": 275.6,
+      "median_price": 270.0,
+      "count": 5,
+      "min_price": 127.0,
+      "max_price": 425.0
+    },
+    "Barrika": {
+      "mean_price": 230.6,
+      "median_price": 141.0,
+      "count": 25,
+      "min_price": 56.0,
+      "max_price": 750.0
+    },
+    "ValdegovÃ­a": {
+      "mean_price": 228.5,
+      "median_price": 206.5,
+      "count": 8,
+      "min_price": 54.0,
+      "max_price": 392.0
+    },
+    "Legutiano": {
+      "mean_price": 121.5,
+      "median_price": 80.5,
+      "count": 8,
+      "min_price": 48.0,
+      "max_price": 341.0
+    },
+    "Aretxabaleta": {
+      "mean_price": 227.75,
+      "median_price": 150.0,
+      "count": 8,
+      "min_price": 71.0,
+      "max_price": 884.0
+    },
+    "Asparrena": {
+      "mean_price": 1215.67,
+      "median_price": 72.0,
+      "count": 9,
+      "min_price": 42.0,
+      "max_price": 9715.0
+    },
+    "Barakaldo": {
+      "mean_price": 205.31,
+      "median_price": 108.0,
+      "count": 90,
+      "min_price": 20.0,
+      "max_price": 6166.0
+    },
+    "Mungai": {
+      "mean_price": 254.93,
+      "median_price": 188.0,
+      "count": 30,
+      "min_price": 61.0,
+      "max_price": 757.0
+    },
+    "Berriatua": {
+      "mean_price": 96.88,
+      "median_price": 85.5,
+      "count": 16,
+      "min_price": 56.0,
+      "max_price": 168.0
+    },
+    "AlegrÃ­a-Dulantzi": {
+      "mean_price": 198.0,
+      "median_price": 198.0,
+      "count": 1,
+      "min_price": 198.0,
+      "max_price": 198.0
+    },
+    "Zeanuri": {
+      "mean_price": 219.44,
+      "median_price": 211.0,
+      "count": 9,
+      "min_price": 58.0,
+      "max_price": 483.0
+    },
+    "Karrantza Harana": {
+      "mean_price": 818.15,
+      "median_price": 110.0,
+      "count": 27,
+      "min_price": 63.0,
+      "max_price": 9429.0
+    },
+    "Aia": {
+      "mean_price": 283.18,
+      "median_price": 192.5,
+      "count": 28,
+      "min_price": 48.0,
+      "max_price": 1085.0
+    },
+    "Elburgo": {
+      "mean_price": 69.75,
+      "median_price": 70.5,
+      "count": 4,
+      "min_price": 53.0,
+      "max_price": 85.0
+    },
+    "Eskuernaga": {
+      "mean_price": 1804.33,
+      "median_price": 274.0,
+      "count": 6,
+      "min_price": 38.0,
+      "max_price": 9858.0
+    },
+    "Ibarrangelu": {
+      "mean_price": 201.97,
+      "median_price": 157.0,
+      "count": 33,
+      "min_price": 97.0,
+      "max_price": 520.0
+    },
+    "Lasarte-Oria": {
+      "mean_price": 164.3,
+      "median_price": 139.5,
+      "count": 30,
+      "min_price": 76.0,
+      "max_price": 498.0
+    },
+    "Berango": {
+      "mean_price": 171.81,
+      "median_price": 112.0,
+      "count": 21,
+      "min_price": 41.0,
+      "max_price": 540.0
+    },
+    "Zigoitia": {
+      "mean_price": 118.45,
+      "median_price": 115.0,
+      "count": 11,
+      "min_price": 36.0,
+      "max_price": 370.0
+    },
+    "Lapuebla de Labarca": {
+      "mean_price": 139.0,
+      "median_price": 47.0,
+      "count": 5,
+      "min_price": 46.0,
+      "max_price": 377.0
+    },
+    "Zizurkil": {
+      "mean_price": 240.0,
+      "median_price": 240.0,
+      "count": 1,
+      "min_price": 240.0,
+      "max_price": 240.0
+    },
+    "Dima": {
+      "mean_price": 321.27,
+      "median_price": 288.0,
+      "count": 11,
+      "min_price": 83.0,
+      "max_price": 566.0
+    },
+    "Elgoibar": {
+      "mean_price": 136.23,
+      "median_price": 109.0,
+      "count": 22,
+      "min_price": 42.0,
+      "max_price": 510.0
+    },
+    "Portugalete": {
+      "mean_price": 153.33,
+      "median_price": 95.0,
+      "count": 30,
+      "min_price": 28.0,
+      "max_price": 1500.0
+    },
+    "Iurreta": {
+      "mean_price": 133.5,
+      "median_price": 133.5,
+      "count": 2,
+      "min_price": 122.0,
+      "max_price": 145.0
+    },
+    "Amezketa": {
+      "mean_price": 93.67,
+      "median_price": 36.0,
+      "count": 3,
+      "min_price": 32.0,
+      "max_price": 213.0
+    },
+    "Ribera Alta": {
+      "mean_price": 83.44,
+      "median_price": 62.0,
+      "count": 9,
+      "min_price": 31.0,
+      "max_price": 159.0
+    },
+    "Gautegiz Arteaga": {
+      "mean_price": 234.67,
+      "median_price": 203.5,
+      "count": 42,
+      "min_price": 80.0,
+      "max_price": 643.0
+    },
+    "Hernani": {
+      "mean_price": 316.5,
+      "median_price": 188.0,
+      "count": 18,
+      "min_price": 38.0,
+      "max_price": 1811.0
+    },
+    "Arrasate": {
+      "mean_price": 62.0,
+      "median_price": 53.0,
+      "count": 6,
+      "min_price": 31.0,
+      "max_price": 126.0
+    },
+    "Azpeitia": {
+      "mean_price": 142.78,
+      "median_price": 105.0,
+      "count": 23,
+      "min_price": 68.0,
+      "max_price": 495.0
+    },
+    "OÃ±ati": {
+      "mean_price": 198.89,
+      "median_price": 172.0,
+      "count": 9,
+      "min_price": 89.0,
+      "max_price": 437.0
+    },
+    "Ayala": {
+      "mean_price": 187.5,
+      "median_price": 108.0,
+      "count": 6,
+      "min_price": 75.0,
+      "max_price": 450.0
+    },
+    "Mallabia": {
+      "mean_price": 430.2,
+      "median_price": 307.0,
+      "count": 5,
+      "min_price": 134.0,
+      "max_price": 1085.0
+    },
+    "Eibar": {
+      "mean_price": 185.17,
+      "median_price": 164.5,
+      "count": 6,
+      "min_price": 96.0,
+      "max_price": 360.0
+    },
+    "Pasaia": {
+      "mean_price": 150.33,
+      "median_price": 128.5,
+      "count": 18,
+      "min_price": 55.0,
+      "max_price": 500.0
+    },
+    "Samaniego": {
+      "mean_price": 157.8,
+      "median_price": 85.0,
+      "count": 15,
+      "min_price": 73.0,
+      "max_price": 535.0
+    },
+    "Laguardia": {
+      "mean_price": 218.0,
+      "median_price": 174.0,
+      "count": 31,
+      "min_price": 74.0,
+      "max_price": 598.0
+    },
+    "Bergara": {
+      "mean_price": 208.75,
+      "median_price": 209.0,
+      "count": 4,
+      "min_price": 207.0,
+      "max_price": 210.0
+    },
+    "Loiu": {
+      "mean_price": 110.0,
+      "median_price": 87.0,
+      "count": 9,
+      "min_price": 42.0,
+      "max_price": 365.0
+    },
+    "Abaltzisketa": {
+      "mean_price": 147.0,
+      "median_price": 147.0,
+      "count": 2,
+      "min_price": 130.0,
+      "max_price": 164.0
+    },
+    "Astigarraga": {
+      "mean_price": 134.88,
+      "median_price": 126.0,
+      "count": 17,
+      "min_price": 53.0,
+      "max_price": 270.0
+    },
+    "San MillÃ¡n": {
+      "mean_price": 131.12,
+      "median_price": 111.0,
+      "count": 8,
+      "min_price": 49.0,
+      "max_price": 375.0
+    },
+    "Altzo": {
+      "mean_price": 134.33,
+      "median_price": 140.0,
+      "count": 3,
+      "min_price": 80.0,
+      "max_price": 183.0
+    },
+    "Beasain": {
+      "mean_price": 3359.67,
+      "median_price": 217.0,
+      "count": 3,
+      "min_price": 147.0,
+      "max_price": 9715.0
+    },
+    "Mendata": {
+      "mean_price": 114.67,
+      "median_price": 126.0,
+      "count": 3,
+      "min_price": 78.0,
+      "max_price": 140.0
+    },
+    "Markina-Xemein": {
+      "mean_price": 173.04,
+      "median_price": 129.5,
+      "count": 28,
+      "min_price": 37.0,
+      "max_price": 461.0
+    },
+    "Leza": {
+      "mean_price": 267.4,
+      "median_price": 251.0,
+      "count": 5,
+      "min_price": 186.0,
+      "max_price": 395.0
+    },
+    "Etxebarria": {
+      "mean_price": 108.0,
+      "median_price": 108.0,
+      "count": 1,
+      "min_price": 108.0,
+      "max_price": 108.0
+    },
+    "Azkoitia": {
+      "mean_price": 201.6,
+      "median_price": 117.0,
+      "count": 5,
+      "min_price": 77.0,
+      "max_price": 390.0
+    },
+    "Mendexa": {
+      "mean_price": 151.81,
+      "median_price": 152.5,
+      "count": 26,
+      "min_price": 70.0,
+      "max_price": 290.0
+    },
+    "Zalla": {
+      "mean_price": 80.0,
+      "median_price": 79.0,
+      "count": 4,
+      "min_price": 50.0,
+      "max_price": 112.0
+    },
+    "Galdames": {
+      "mean_price": 166.6,
+      "median_price": 120.0,
+      "count": 5,
+      "min_price": 108.0,
+      "max_price": 250.0
+    },
+    "Errenteria": {
+      "mean_price": 186.23,
+      "median_price": 134.5,
+      "count": 22,
+      "min_price": 30.0,
+      "max_price": 1067.0
+    },
+    "Kuartango": {
+      "mean_price": 102.75,
+      "median_price": 53.0,
+      "count": 8,
+      "min_price": 21.0,
+      "max_price": 321.0
+    },
+    "Bernedo": {
+      "mean_price": 256.0,
+      "median_price": 256.0,
+      "count": 2,
+      "min_price": 233.0,
+      "max_price": 279.0
+    },
+    "Gamiz-Fika": {
+      "mean_price": 284.75,
+      "median_price": 300.0,
+      "count": 4,
+      "min_price": 163.0,
+      "max_price": 376.0
+    },
+    "Urkabustaiz": {
+      "mean_price": 204.86,
+      "median_price": 138.0,
+      "count": 7,
+      "min_price": 67.0,
+      "max_price": 487.0
+    },
+    "Arrankudiaga": {
+      "mean_price": 323.67,
+      "median_price": 268.0,
+      "count": 3,
+      "min_price": 184.0,
+      "max_price": 519.0
+    },
+    "Valle de TrÃ¡paga-Trapagaran": {
+      "mean_price": 113.17,
+      "median_price": 86.5,
+      "count": 12,
+      "min_price": 37.0,
+      "max_price": 509.0
+    },
+    "Tolosa": {
+      "mean_price": 132.62,
+      "median_price": 135.5,
+      "count": 8,
+      "min_price": 60.0,
+      "max_price": 251.0
+    },
+    "Ormaiztegi": {
+      "mean_price": 133.58,
+      "median_price": 129.5,
+      "count": 12,
+      "min_price": 81.0,
+      "max_price": 186.0
+    },
+    "Zierbena": {
+      "mean_price": 206.24,
+      "median_price": 126.0,
+      "count": 17,
+      "min_price": 89.0,
+      "max_price": 1043.0
+    },
+    "Kanpezu": {
+      "mean_price": 114.86,
+      "median_price": 55.0,
+      "count": 7,
+      "min_price": 50.0,
+      "max_price": 280.0
+    },
+    "UrduÃ±a-OrduÃ±a": {
+      "mean_price": 125.5,
+      "median_price": 105.0,
+      "count": 12,
+      "min_price": 89.0,
+      "max_price": 289.0
+    },
+    "Ermua": {
+      "mean_price": 98.0,
+      "median_price": 73.0,
+      "count": 3,
+      "min_price": 21.0,
+      "max_price": 200.0
+    },
+    "Ikaztegieta": {
+      "mean_price": 240.0,
+      "median_price": 240.0,
+      "count": 1,
+      "min_price": 240.0,
+      "max_price": 240.0
+    },
+    "Elciego": {
+      "mean_price": 164.33,
+      "median_price": 132.0,
+      "count": 6,
+      "min_price": 63.0,
+      "max_price": 383.0
+    },
+    "Lemoiz": {
+      "mean_price": 121.0,
+      "median_price": 109.0,
+      "count": 14,
+      "min_price": 71.0,
+      "max_price": 243.0
+    },
+    "Basauri": {
+      "mean_price": 105.08,
+      "median_price": 95.0,
+      "count": 25,
+      "min_price": 33.0,
+      "max_price": 532.0
+    },
+    "Leioa": {
+      "mean_price": 261.04,
+      "median_price": 155.0,
+      "count": 25,
+      "min_price": 18.0,
+      "max_price": 1300.0
+    },
+    "Igorre": {
+      "mean_price": 4605.5,
+      "median_price": 4605.5,
+      "count": 2,
+      "min_price": 81.0,
+      "max_price": 9130.0
+    },
+    "Arratzu": {
+      "mean_price": 341.17,
+      "median_price": 175.0,
+      "count": 6,
+      "min_price": 110.0,
+      "max_price": 1150.0
+    },
+    "Usurbil": {
+      "mean_price": 212.64,
+      "median_price": 132.0,
+      "count": 14,
+      "min_price": 55.0,
+      "max_price": 706.0
+    },
+    "Zeberio": {
+      "mean_price": 254.75,
+      "median_price": 227.5,
+      "count": 8,
+      "min_price": 58.0,
+      "max_price": 765.0
+    },
+    "Urduliz": {
+      "mean_price": 211.9,
+      "median_price": 168.0,
+      "count": 10,
+      "min_price": 133.0,
+      "max_price": 436.0
+    },
+    "Fruiz": {
+      "mean_price": 128.0,
+      "median_price": 128.0,
+      "count": 1,
+      "min_price": 128.0,
+      "max_price": 128.0
+    },
+    "Villabona": {
+      "mean_price": 210.4,
+      "median_price": 191.0,
+      "count": 5,
+      "min_price": 135.0,
+      "max_price": 347.0
+    },
+    "Artziniega": {
+      "mean_price": 77.0,
+      "median_price": 77.0,
+      "count": 1,
+      "min_price": 77.0,
+      "max_price": 77.0
+    },
+    "Ugao-Miraballes": {
+      "mean_price": 90.67,
+      "median_price": 94.0,
+      "count": 3,
+      "min_price": 41.0,
+      "max_price": 137.0
+    },
+    "Aulesti": {
+      "mean_price": 150.83,
+      "median_price": 118.0,
+      "count": 6,
+      "min_price": 98.0,
+      "max_price": 322.0
+    },
+    "Urnieta": {
+      "mean_price": 120.45,
+      "median_price": 75.0,
+      "count": 11,
+      "min_price": 50.0,
+      "max_price": 561.0
+    },
+    "Legazpi": {
+      "mean_price": 154.3,
+      "median_price": 128.0,
+      "count": 10,
+      "min_price": 75.0,
+      "max_price": 300.0
+    },
+    "Berrobi": {
+      "mean_price": 101.0,
+      "median_price": 84.0,
+      "count": 6,
+      "min_price": 84.0,
+      "max_price": 186.0
+    },
+    "Salvatierra": {
+      "mean_price": 100.0,
+      "median_price": 100.0,
+      "count": 1,
+      "min_price": 100.0,
+      "max_price": 100.0
+    },
+    "Zuia": {
+      "mean_price": 995.45,
+      "median_price": 126.0,
+      "count": 11,
+      "min_price": 59.0,
+      "max_price": 9143.0
+    },
+    "Ortuella": {
+      "mean_price": 116.25,
+      "median_price": 100.5,
+      "count": 8,
+      "min_price": 36.0,
+      "max_price": 322.0
+    },
+    "Llodio": {
+      "mean_price": 169.12,
+      "median_price": 205.0,
+      "count": 8,
+      "min_price": 33.0,
+      "max_price": 243.0
+    },
+    "Ordizia": {
+      "mean_price": 175.0,
+      "median_price": 190.0,
+      "count": 3,
+      "min_price": 135.0,
+      "max_price": 200.0
+    },
+    "Derio": {
+      "mean_price": 146.0,
+      "median_price": 149.0,
+      "count": 4,
+      "min_price": 75.0,
+      "max_price": 211.0
+    },
+    "Elorrio": {
+      "mean_price": 133.17,
+      "median_price": 117.0,
+      "count": 6,
+      "min_price": 73.0,
+      "max_price": 239.0
+    },
+    "Zegama": {
+      "mean_price": 195.0,
+      "median_price": 165.0,
+      "count": 5,
+      "min_price": 95.0,
+      "max_price": 420.0
+    },
+    "Andoain": {
+      "mean_price": 252.33,
+      "median_price": 129.0,
+      "count": 3,
+      "min_price": 26.0,
+      "max_price": 602.0
+    },
+    "Lezo": {
+      "mean_price": 169.9,
+      "median_price": 120.5,
+      "count": 10,
+      "min_price": 79.0,
+      "max_price": 668.0
+    },
+    "Olaberria": {
+      "mean_price": 183.0,
+      "median_price": 183.0,
+      "count": 2,
+      "min_price": 181.0,
+      "max_price": 185.0
+    },
+    "YÃ©cora": {
+      "mean_price": 86.0,
+      "median_price": 86.0,
+      "count": 1,
+      "min_price": 86.0,
+      "max_price": 86.0
+    },
+    "Ataun": {
+      "mean_price": 218.0,
+      "median_price": 218.0,
+      "count": 2,
+      "min_price": 40.0,
+      "max_price": 396.0
+    },
+    "Zaldibia": {
+      "mean_price": 2738.33,
+      "median_price": 180.0,
+      "count": 3,
+      "min_price": 35.0,
+      "max_price": 8000.0
+    },
+    "Elgeta": {
+      "mean_price": 148.0,
+      "median_price": 150.0,
+      "count": 3,
+      "min_price": 110.0,
+      "max_price": 184.0
+    },
+    "Sestao": {
+      "mean_price": 122.92,
+      "median_price": 64.0,
+      "count": 24,
+      "min_price": 24.0,
+      "max_price": 1370.0
+    },
+    "Abanto y CiÃ©rvana-Abanto Zierbena": {
+      "mean_price": 143.86,
+      "median_price": 90.0,
+      "count": 7,
+      "min_price": 57.0,
+      "max_price": 500.0
+    },
+    "Iruraiz-Gauna": {
+      "mean_price": 56.0,
+      "median_price": 56.0,
+      "count": 1,
+      "min_price": 56.0,
+      "max_price": 56.0
+    },
+    "Amorebieta-Etxano": {
+      "mean_price": 202.44,
+      "median_price": 150.0,
+      "count": 9,
+      "min_price": 57.0,
+      "max_price": 801.0
+    },
+    "Arantzazu": {
+      "mean_price": 238.0,
+      "median_price": 192.0,
+      "count": 3,
+      "min_price": 162.0,
+      "max_price": 360.0
+    },
+    "Berastegi": {
+      "mean_price": 99.25,
+      "median_price": 102.5,
+      "count": 4,
+      "min_price": 72.0,
+      "max_price": 120.0
+    },
+    "Errezil": {
+      "mean_price": 194.0,
+      "median_price": 194.0,
+      "count": 2,
+      "min_price": 194.0,
+      "max_price": 194.0
+    },
+    "Areatza": {
+      "mean_price": 164.6,
+      "median_price": 124.0,
+      "count": 5,
+      "min_price": 74.0,
+      "max_price": 320.0
+    },
+    "Gordexola": {
+      "mean_price": 196.67,
+      "median_price": 250.0,
+      "count": 3,
+      "min_price": 90.0,
+      "max_price": 250.0
+    },
+    "Muskiz": {
+      "mean_price": 124.2,
+      "median_price": 119.0,
+      "count": 5,
+      "min_price": 60.0,
+      "max_price": 180.0
+    },
+    "Kortezubi": {
+      "mean_price": 323.0,
+      "median_price": 285.0,
+      "count": 3,
+      "min_price": 160.0,
+      "max_price": 524.0
+    },
+    "Arrieta": {
+      "mean_price": 237.67,
+      "median_price": 205.0,
+      "count": 6,
+      "min_price": 75.0,
+      "max_price": 484.0
+    },
+    "MaÃ±aria": {
+      "mean_price": 177.0,
+      "median_price": 177.0,
+      "count": 2,
+      "min_price": 176.0,
+      "max_price": 178.0
+    },
+    "Zambrana": {
+      "mean_price": 115.0,
+      "median_price": 115.0,
+      "count": 1,
+      "min_price": 115.0,
+      "max_price": 115.0
+    },
+    "Maruri-Jatabe": {
+      "mean_price": 301.25,
+      "median_price": 162.0,
+      "count": 4,
+      "min_price": 160.0,
+      "max_price": 721.0
+    },
+    "Bidegoian": {
+      "mean_price": 224.0,
+      "median_price": 224.0,
+      "count": 2,
+      "min_price": 131.0,
+      "max_price": 317.0
+    },
+    "Aizarnazabal": {
+      "mean_price": 84.0,
+      "median_price": 68.0,
+      "count": 4,
+      "min_price": 60.0,
+      "max_price": 140.0
+    },
+    "Zumarraga": {
+      "mean_price": 95.0,
+      "median_price": 101.5,
+      "count": 4,
+      "min_price": 58.0,
+      "max_price": 119.0
+    },
+    "Navaridas": {
+      "mean_price": 417.0,
+      "median_price": 417.0,
+      "count": 2,
+      "min_price": 386.0,
+      "max_price": 448.0
+    },
+    "Orexa": {
+      "mean_price": 98.0,
+      "median_price": 98.0,
+      "count": 2,
+      "min_price": 98.0,
+      "max_price": 98.0
+    },
+    "LagrÃ¡n": {
+      "mean_price": 205.67,
+      "median_price": 150.0,
+      "count": 3,
+      "min_price": 145.0,
+      "max_price": 322.0
+    },
+    "Zestoa": {
+      "mean_price": 111.36,
+      "median_price": 109.0,
+      "count": 11,
+      "min_price": 65.0,
+      "max_price": 187.0
+    },
+    "Aramaio": {
+      "mean_price": 76.67,
+      "median_price": 83.0,
+      "count": 3,
+      "min_price": 62.0,
+      "max_price": 85.0
+    },
+    "Munitibar-Arbatzegi Gerrikaitz": {
+      "mean_price": 523.0,
+      "median_price": 523.0,
+      "count": 1,
+      "min_price": 523.0,
+      "max_price": 523.0
+    },
+    "Mutiloa": {
+      "mean_price": 119.0,
+      "median_price": 104.0,
+      "count": 4,
+      "min_price": 92.0,
+      "max_price": 176.0
+    },
+    "Belauntza": {
+      "mean_price": 217.0,
+      "median_price": 217.0,
+      "count": 1,
+      "min_price": 217.0,
+      "max_price": 217.0
+    },
+    "Galdakao": {
+      "mean_price": 79.08,
+      "median_price": 74.0,
+      "count": 12,
+      "min_price": 42.0,
+      "max_price": 160.0
+    },
+    "Larraul": {
+      "mean_price": 229.67,
+      "median_price": 201.0,
+      "count": 3,
+      "min_price": 170.0,
+      "max_price": 318.0
+    },
+    "Morga": {
+      "mean_price": 142.5,
+      "median_price": 142.5,
+      "count": 2,
+      "min_price": 111.0,
+      "max_price": 174.0
+    },
+    "ArmiÃ±Ã³n": {
+      "mean_price": 118.0,
+      "median_price": 48.0,
+      "count": 3,
+      "min_price": 48.0,
+      "max_price": 258.0
+    },
+    "Lezama": {
+      "mean_price": 85.4,
+      "median_price": 90.0,
+      "count": 5,
+      "min_price": 40.0,
+      "max_price": 118.0
+    },
+    "Ajangiz": {
+      "mean_price": 139.8,
+      "median_price": 94.0,
+      "count": 10,
+      "min_price": 76.0,
+      "max_price": 472.0
+    },
+    "Arrigorriaga": {
+      "mean_price": 124.0,
+      "median_price": 124.0,
+      "count": 1,
+      "min_price": 124.0,
+      "max_price": 124.0
+    },
+    "Izurtza": {
+      "mean_price": 152.0,
+      "median_price": 152.0,
+      "count": 2,
+      "min_price": 130.0,
+      "max_price": 174.0
+    },
+    "Lanestosa": {
+      "mean_price": 725.0,
+      "median_price": 725.0,
+      "count": 1,
+      "min_price": 725.0,
+      "max_price": 725.0
+    },
+    "Murueta": {
+      "mean_price": 217.0,
+      "median_price": 217.0,
+      "count": 2,
+      "min_price": 171.0,
+      "max_price": 263.0
+    },
+    "Zamudio": {
+      "mean_price": 268.33,
+      "median_price": 169.0,
+      "count": 3,
+      "min_price": 136.0,
+      "max_price": 500.0
+    },
+    "Errigoiti": {
+      "mean_price": 475.0,
+      "median_price": 475.0,
+      "count": 1,
+      "min_price": 475.0,
+      "max_price": 475.0
+    },
+    "Berriz": {
+      "mean_price": 98.67,
+      "median_price": 115.0,
+      "count": 3,
+      "min_price": 59.0,
+      "max_price": 122.0
+    },
+    "Forua": {
+      "mean_price": 135.0,
+      "median_price": 135.0,
+      "count": 1,
+      "min_price": 135.0,
+      "max_price": 135.0
+    },
+    "BaÃ±os de Ebro": {
+      "mean_price": 79.0,
+      "median_price": 79.0,
+      "count": 1,
+      "min_price": 79.0,
+      "max_price": 79.0
+    },
+    "Lemoa": {
+      "mean_price": 271.0,
+      "median_price": 271.0,
+      "count": 2,
+      "min_price": 108.0,
+      "max_price": 434.0
+    },
+    "Muxika": {
+      "mean_price": 227.0,
+      "median_price": 172.0,
+      "count": 3,
+      "min_price": 84.0,
+      "max_price": 425.0
+    },
+    "IruÃ±a Oka": {
+      "mean_price": 83.5,
+      "median_price": 83.5,
+      "count": 2,
+      "min_price": 75.0,
+      "max_price": 92.0
+    },
+    "Harana": {
+      "mean_price": 535.0,
+      "median_price": 535.0,
+      "count": 1,
+      "min_price": 535.0,
+      "max_price": 535.0
+    },
+    "Zaratamo": {
+      "mean_price": 163.67,
+      "median_price": 173.0,
+      "count": 3,
+      "min_price": 140.0,
+      "max_price": 178.0
+    },
+    "Mendaro": {
+      "mean_price": 168.0,
+      "median_price": 72.0,
+      "count": 3,
+      "min_price": 54.0,
+      "max_price": 378.0
+    },
+    "Larrabetzu": {
+      "mean_price": 90.0,
+      "median_price": 90.0,
+      "count": 1,
+      "min_price": 90.0,
+      "max_price": 90.0
+    },
+    "Etxebarri, Anteiglesia de San Esteban-Etxebarri Doneztebeko Elizatea": {
+      "mean_price": 496.4,
+      "median_price": 244.5,
+      "count": 10,
+      "min_price": 39.0,
+      "max_price": 1500.0
+    },
+    "Leintz-Gatzaga": {
+      "mean_price": 176.0,
+      "median_price": 176.0,
+      "count": 1,
+      "min_price": 176.0,
+      "max_price": 176.0
+    },
+    "Gaztelu": {
+      "mean_price": 627.0,
+      "median_price": 627.0,
+      "count": 1,
+      "min_price": 627.0,
+      "max_price": 627.0
+    },
+    "Urretxu": {
+      "mean_price": 36.0,
+      "median_price": 36.0,
+      "count": 1,
+      "min_price": 36.0,
+      "max_price": 36.0
+    },
+    "Barrundia": {
+      "mean_price": 86.0,
+      "median_price": 86.0,
+      "count": 2,
+      "min_price": 62.0,
+      "max_price": 110.0
+    },
+    "Garay": {
+      "mean_price": 243.0,
+      "median_price": 243.0,
+      "count": 1,
+      "min_price": 243.0,
+      "max_price": 243.0
+    },
+    "Kripan": {
+      "mean_price": 396.0,
+      "median_price": 396.0,
+      "count": 1,
+      "min_price": 396.0,
+      "max_price": 396.0
+    },
+    "Antzuola": {
+      "mean_price": 38.0,
+      "median_price": 38.0,
+      "count": 1,
+      "min_price": 38.0,
+      "max_price": 38.0
+    },
+    "Hernialde": {
+      "mean_price": 128.0,
+      "median_price": 128.0,
+      "count": 1,
+      "min_price": 128.0,
+      "max_price": 128.0
+    },
+    "Zerain": {
+      "mean_price": 83.0,
+      "median_price": 83.0,
+      "count": 1,
+      "min_price": 83.0,
+      "max_price": 83.0
+    },
+    "Nabarniz": {
+      "mean_price": 324.0,
+      "median_price": 324.0,
+      "count": 1,
+      "min_price": 324.0,
+      "max_price": 324.0
+    },
+    "GÃºeÃ±es": {
+      "mean_price": 44.0,
+      "median_price": 44.0,
+      "count": 2,
+      "min_price": 40.0,
+      "max_price": 48.0
+    },
+    "Alonsotegi": {
+      "mean_price": 67.55,
+      "median_price": 70.0,
+      "count": 11,
+      "min_price": 43.0,
+      "max_price": 92.0
+    }
+  },
+  "Girona": {
+    "Girona": {
+      "mean_price": 159.97,
+      "median_price": 110.0,
+      "count": 556,
+      "min_price": 22.0,
+      "max_price": 8500.0
+    },
+    "Begur": {
+      "mean_price": 621.67,
+      "median_price": 265.0,
+      "count": 892,
+      "min_price": 27.0,
+      "max_price": 9928.0
+    },
+    "Torroella de Fluvià": {
+      "mean_price": 905.21,
+      "median_price": 208.0,
+      "count": 28,
+      "min_price": 95.0,
+      "max_price": 9000.0
+    },
+    "Lloret de Mar": {
+      "mean_price": 380.8,
+      "median_price": 176.0,
+      "count": 1566,
+      "min_price": 18.0,
+      "max_price": 9999.0
+    },
+    "Llagostera": {
+      "mean_price": 730.29,
+      "median_price": 246.0,
+      "count": 45,
+      "min_price": 28.0,
+      "max_price": 9858.0
+    },
+    "Torroella de Montgrí": {
+      "mean_price": 301.91,
+      "median_price": 115.0,
+      "count": 1035,
+      "min_price": 23.0,
+      "max_price": 9999.0
+    },
+    "Riudarenes": {
+      "mean_price": 335.0,
+      "median_price": 206.0,
+      "count": 10,
+      "min_price": 59.0,
+      "max_price": 1265.0
+    },
+    "Rupià": {
+      "mean_price": 284.5,
+      "median_price": 182.0,
+      "count": 10,
+      "min_price": 150.0,
+      "max_price": 645.0
+    },
+    "Esponellà": {
+      "mean_price": 278.62,
+      "median_price": 202.0,
+      "count": 8,
+      "min_price": 85.0,
+      "max_price": 715.0
+    },
+    "Ventalló": {
+      "mean_price": 634.31,
+      "median_price": 204.5,
+      "count": 42,
+      "min_price": 71.0,
+      "max_price": 9000.0
+    },
+    "Palafrugell": {
+      "mean_price": 510.85,
+      "median_price": 223.0,
+      "count": 961,
+      "min_price": 37.0,
+      "max_price": 9858.0
+    },
+    "Capmany": {
+      "mean_price": 357.95,
+      "median_price": 198.0,
+      "count": 21,
+      "min_price": 109.0,
+      "max_price": 1395.0
+    },
+    "Palamós": {
+      "mean_price": 326.19,
+      "median_price": 160.0,
+      "count": 597,
+      "min_price": 26.0,
+      "max_price": 9999.0
+    },
+    "Tossa de Mar": {
+      "mean_price": 498.64,
+      "median_price": 182.0,
+      "count": 727,
+      "min_price": 33.0,
+      "max_price": 9999.0
+    },
+    "Cadaqués": {
+      "mean_price": 309.15,
+      "median_price": 195.5,
+      "count": 494,
+      "min_price": 60.0,
+      "max_price": 4790.0
+    },
+    "Cruïlles, Monells i Sant Sadurní de l'Heura": {
+      "mean_price": 463.79,
+      "median_price": 229.5,
+      "count": 42,
+      "min_price": 40.0,
+      "max_price": 4450.0
+    },
+    "Maçanet de Cabrenys": {
+      "mean_price": 141.42,
+      "median_price": 116.0,
+      "count": 12,
+      "min_price": 52.0,
+      "max_price": 345.0
+    },
+    "L'Escala": {
+      "mean_price": 490.0,
+      "median_price": 147.0,
+      "count": 1443,
+      "min_price": 47.0,
+      "max_price": 9999.0
+    },
+    "Sant Jaume de Llierca": {
+      "mean_price": 122.0,
+      "median_price": 76.0,
+      "count": 8,
+      "min_price": 46.0,
+      "max_price": 277.0
+    },
+    "Llançà": {
+      "mean_price": 308.39,
+      "median_price": 132.0,
+      "count": 577,
+      "min_price": 45.0,
+      "max_price": 9429.0
+    },
+    "Roses": {
+      "mean_price": 287.79,
+      "median_price": 125.0,
+      "count": 2328,
+      "min_price": 27.0,
+      "max_price": 9999.0
+    },
+    "Calonge": {
+      "mean_price": 539.71,
+      "median_price": 231.0,
+      "count": 673,
+      "min_price": 39.0,
+      "max_price": 9999.0
+    },
+    "Santa Pau": {
+      "mean_price": 609.76,
+      "median_price": 176.0,
+      "count": 45,
+      "min_price": 42.0,
+      "max_price": 9429.0
+    },
+    "Rabós": {
+      "mean_price": 174.11,
+      "median_price": 150.0,
+      "count": 18,
+      "min_price": 76.0,
+      "max_price": 403.0
+    },
+    "Castell-Platja d'Aro": {
+      "mean_price": 345.9,
+      "median_price": 166.0,
+      "count": 1157,
+      "min_price": 42.0,
+      "max_price": 9999.0
+    },
+    "Portbou": {
+      "mean_price": 112.27,
+      "median_price": 108.0,
+      "count": 33,
+      "min_price": 37.0,
+      "max_price": 263.0
+    },
+    "Vidreres": {
+      "mean_price": 776.93,
+      "median_price": 282.5,
+      "count": 178,
+      "min_price": 21.0,
+      "max_price": 9999.0
+    },
+    "Sant Feliu de Guíxols": {
+      "mean_price": 225.44,
+      "median_price": 167.5,
+      "count": 520,
+      "min_price": 32.0,
+      "max_price": 4642.0
+    },
+    "Serinyà": {
+      "mean_price": 1694.71,
+      "median_price": 435.0,
+      "count": 7,
+      "min_price": 142.0,
+      "max_price": 9000.0
+    },
+    "Banyoles": {
+      "mean_price": 168.36,
+      "median_price": 128.5,
+      "count": 64,
+      "min_price": 30.0,
+      "max_price": 935.0
+    },
+    "Crespià": {
+      "mean_price": 251.67,
+      "median_price": 227.0,
+      "count": 12,
+      "min_price": 110.0,
+      "max_price": 601.0
+    },
+    "Pals": {
+      "mean_price": 277.91,
+      "median_price": 159.0,
+      "count": 615,
+      "min_price": 41.0,
+      "max_price": 9999.0
+    },
+    "Peralada": {
+      "mean_price": 492.81,
+      "median_price": 169.0,
+      "count": 37,
+      "min_price": 73.0,
+      "max_price": 9000.0
+    },
+    "Cornellà del Terri": {
+      "mean_price": 1048.72,
+      "median_price": 333.0,
+      "count": 18,
+      "min_price": 74.0,
+      "max_price": 9858.0
+    },
+    "Sant Climent Sescebes": {
+      "mean_price": 144.78,
+      "median_price": 105.0,
+      "count": 9,
+      "min_price": 62.0,
+      "max_price": 329.0
+    },
+    "La Cellera de Ter": {
+      "mean_price": 393.14,
+      "median_price": 465.0,
+      "count": 7,
+      "min_price": 77.0,
+      "max_price": 862.0
+    },
+    "Besalú": {
+      "mean_price": 131.73,
+      "median_price": 116.5,
+      "count": 44,
+      "min_price": 45.0,
+      "max_price": 500.0
+    },
+    "Fontanals de Cerdanya": {
+      "mean_price": 210.48,
+      "median_price": 195.0,
+      "count": 33,
+      "min_price": 88.0,
+      "max_price": 420.0
+    },
+    "Albons": {
+      "mean_price": 1510.26,
+      "median_price": 220.0,
+      "count": 23,
+      "min_price": 90.0,
+      "max_price": 9999.0
+    },
+    "Blanes": {
+      "mean_price": 294.15,
+      "median_price": 136.0,
+      "count": 542,
+      "min_price": 25.0,
+      "max_price": 9999.0
+    },
+    "Serra de Daró": {
+      "mean_price": 2867.41,
+      "median_price": 179.0,
+      "count": 17,
+      "min_price": 85.0,
+      "max_price": 9143.0
+    },
+    "Camprodon": {
+      "mean_price": 174.79,
+      "median_price": 138.0,
+      "count": 102,
+      "min_price": 47.0,
+      "max_price": 786.0
+    },
+    "Palau-sator": {
+      "mean_price": 546.52,
+      "median_price": 238.0,
+      "count": 31,
+      "min_price": 92.0,
+      "max_price": 9000.0
+    },
+    "Camós": {
+      "mean_price": 400.88,
+      "median_price": 240.0,
+      "count": 8,
+      "min_price": 126.0,
+      "max_price": 1110.0
+    },
+    "Sant Ferriol": {
+      "mean_price": 240.11,
+      "median_price": 123.5,
+      "count": 18,
+      "min_price": 63.0,
+      "max_price": 960.0
+    },
+    "Forallac": {
+      "mean_price": 324.57,
+      "median_price": 221.0,
+      "count": 37,
+      "min_price": 107.0,
+      "max_price": 2040.0
+    },
+    "Saus": {
+      "mean_price": 1495.65,
+      "median_price": 292.0,
+      "count": 37,
+      "min_price": 27.0,
+      "max_price": 9143.0
+    },
+    "Bolvir": {
+      "mean_price": 451.85,
+      "median_price": 233.0,
+      "count": 13,
+      "min_price": 90.0,
+      "max_price": 1310.0
+    },
+    "Sant Joan de les Abadesses": {
+      "mean_price": 166.09,
+      "median_price": 146.0,
+      "count": 47,
+      "min_price": 68.0,
+      "max_price": 440.0
+    },
+    "Castelló d'Empúries": {
+      "mean_price": 312.96,
+      "median_price": 119.0,
+      "count": 1424,
+      "min_price": 41.0,
+      "max_price": 9999.0
+    },
+    "Montagut i Oix": {
+      "mean_price": 531.55,
+      "median_price": 178.0,
+      "count": 29,
+      "min_price": 58.0,
+      "max_price": 9000.0
+    },
+    "Bellcaire d'Empordà": {
+      "mean_price": 238.05,
+      "median_price": 164.5,
+      "count": 22,
+      "min_price": 69.0,
+      "max_price": 700.0
+    },
+    "Viladamat": {
+      "mean_price": 247.07,
+      "median_price": 171.0,
+      "count": 15,
+      "min_price": 59.0,
+      "max_price": 594.0
+    },
+    "Bàscara": {
+      "mean_price": 483.63,
+      "median_price": 225.0,
+      "count": 19,
+      "min_price": 54.0,
+      "max_price": 1900.0
+    },
+    "Sils": {
+      "mean_price": 599.06,
+      "median_price": 270.0,
+      "count": 33,
+      "min_price": 45.0,
+      "max_price": 9000.0
+    },
+    "Cabanelles": {
+      "mean_price": 491.67,
+      "median_price": 443.5,
+      "count": 12,
+      "min_price": 80.0,
+      "max_price": 874.0
+    },
+    "Figueres": {
+      "mean_price": 119.45,
+      "median_price": 102.0,
+      "count": 115,
+      "min_price": 23.0,
+      "max_price": 685.0
+    },
+    "Caldes de Malavella": {
+      "mean_price": 586.16,
+      "median_price": 236.5,
+      "count": 62,
+      "min_price": 35.0,
+      "max_price": 9000.0
+    },
+    "Ordis": {
+      "mean_price": 177.17,
+      "median_price": 123.0,
+      "count": 6,
+      "min_price": 88.0,
+      "max_price": 317.0
+    },
+    "Quart": {
+      "mean_price": 320.23,
+      "median_price": 125.0,
+      "count": 13,
+      "min_price": 32.0,
+      "max_price": 1609.0
+    },
+    "Ullà": {
+      "mean_price": 175.12,
+      "median_price": 158.5,
+      "count": 16,
+      "min_price": 105.0,
+      "max_price": 286.0
+    },
+    "Olot": {
+      "mean_price": 175.72,
+      "median_price": 148.0,
+      "count": 85,
+      "min_price": 22.0,
+      "max_price": 945.0
+    },
+    "Bescanó": {
+      "mean_price": 318.88,
+      "median_price": 128.0,
+      "count": 24,
+      "min_price": 40.0,
+      "max_price": 1421.0
+    },
+    "La Vall d'en Bas": {
+      "mean_price": 782.27,
+      "median_price": 155.0,
+      "count": 33,
+      "min_price": 58.0,
+      "max_price": 9858.0
+    },
+    "La Vall de Bianya": {
+      "mean_price": 1134.29,
+      "median_price": 254.0,
+      "count": 34,
+      "min_price": 68.0,
+      "max_price": 9861.0
+    },
+    "La Selva de Mar": {
+      "mean_price": 147.89,
+      "median_price": 106.0,
+      "count": 19,
+      "min_price": 80.0,
+      "max_price": 428.0
+    },
+    "Sant Hilari Sacalm": {
+      "mean_price": 349.36,
+      "median_price": 107.5,
+      "count": 22,
+      "min_price": 60.0,
+      "max_price": 1843.0
+    },
+    "Beuda": {
+      "mean_price": 364.11,
+      "median_price": 257.0,
+      "count": 9,
+      "min_price": 95.0,
+      "max_price": 1586.0
+    },
+    "El Port de la Selva": {
+      "mean_price": 350.67,
+      "median_price": 165.0,
+      "count": 163,
+      "min_price": 35.0,
+      "max_price": 9143.0
+    },
+    "Navata": {
+      "mean_price": 603.33,
+      "median_price": 250.0,
+      "count": 27,
+      "min_price": 50.0,
+      "max_price": 9000.0
+    },
+    "Les Llosses": {
+      "mean_price": 267.67,
+      "median_price": 225.0,
+      "count": 9,
+      "min_price": 140.0,
+      "max_price": 520.0
+    },
+    "Urús": {
+      "mean_price": 251.64,
+      "median_price": 246.0,
+      "count": 11,
+      "min_price": 99.0,
+      "max_price": 424.0
+    },
+    "Vilademuls": {
+      "mean_price": 978.29,
+      "median_price": 241.0,
+      "count": 28,
+      "min_price": 60.0,
+      "max_price": 9999.0
+    },
+    "Cistella": {
+      "mean_price": 386.2,
+      "median_price": 272.0,
+      "count": 5,
+      "min_price": 147.0,
+      "max_price": 797.0
+    },
+    "Pontós": {
+      "mean_price": 518.5,
+      "median_price": 510.0,
+      "count": 4,
+      "min_price": 417.0,
+      "max_price": 637.0
+    },
+    "Sant Jordi Desvalls": {
+      "mean_price": 217.26,
+      "median_price": 173.0,
+      "count": 23,
+      "min_price": 99.0,
+      "max_price": 569.0
+    },
+    "Vilanant": {
+      "mean_price": 420.64,
+      "median_price": 350.0,
+      "count": 11,
+      "min_price": 122.0,
+      "max_price": 845.0
+    },
+    "Vallfogona de Ripollès": {
+      "mean_price": 320.5,
+      "median_price": 252.0,
+      "count": 6,
+      "min_price": 146.0,
+      "max_price": 608.0
+    },
+    "Gualta": {
+      "mean_price": 281.12,
+      "median_price": 220.0,
+      "count": 24,
+      "min_price": 58.0,
+      "max_price": 723.0
+    },
+    "Sales de Llierca": {
+      "mean_price": 275.0,
+      "median_price": 181.5,
+      "count": 20,
+      "min_price": 97.0,
+      "max_price": 1350.0
+    },
+    "Ripoll": {
+      "mean_price": 189.76,
+      "median_price": 144.0,
+      "count": 42,
+      "min_price": 33.0,
+      "max_price": 1200.0
+    },
+    "Sant Martí de Llémena": {
+      "mean_price": 165.0,
+      "median_price": 142.5,
+      "count": 10,
+      "min_price": 70.0,
+      "max_price": 334.0
+    },
+    "Arbúcies": {
+      "mean_price": 396.96,
+      "median_price": 178.5,
+      "count": 48,
+      "min_price": 67.0,
+      "max_price": 9143.0
+    },
+    "Toses": {
+      "mean_price": 170.0,
+      "median_price": 151.0,
+      "count": 12,
+      "min_price": 81.0,
+      "max_price": 320.0
+    },
+    "Amer": {
+      "mean_price": 1044.58,
+      "median_price": 173.0,
+      "count": 12,
+      "min_price": 69.0,
+      "max_price": 9143.0
+    },
+    "Corçà": {
+      "mean_price": 283.62,
+      "median_price": 249.5,
+      "count": 24,
+      "min_price": 102.0,
+      "max_price": 680.0
+    },
+    "Santa Cristina d'Aro": {
+      "mean_price": 586.1,
+      "median_price": 199.0,
+      "count": 228,
+      "min_price": 42.0,
+      "max_price": 9999.0
+    },
+    "Llívia": {
+      "mean_price": 160.72,
+      "median_price": 153.0,
+      "count": 69,
+      "min_price": 36.0,
+      "max_price": 386.0
+    },
+    "Llambilles": {
+      "mean_price": 214.0,
+      "median_price": 95.0,
+      "count": 11,
+      "min_price": 40.0,
+      "max_price": 778.0
+    },
+    "Vidrà": {
+      "mean_price": 303.38,
+      "median_price": 124.0,
+      "count": 21,
+      "min_price": 49.0,
+      "max_price": 1950.0
+    },
+    "Riumors": {
+      "mean_price": 807.88,
+      "median_price": 205.0,
+      "count": 16,
+      "min_price": 132.0,
+      "max_price": 9000.0
+    },
+    "Puigcerdà": {
+      "mean_price": 227.11,
+      "median_price": 141.0,
+      "count": 142,
+      "min_price": 32.0,
+      "max_price": 9000.0
+    },
+    "Palau-saverdera": {
+      "mean_price": 459.09,
+      "median_price": 211.0,
+      "count": 54,
+      "min_price": 73.0,
+      "max_price": 9587.0
+    },
+    "Lladó": {
+      "mean_price": 170.5,
+      "median_price": 130.0,
+      "count": 12,
+      "min_price": 72.0,
+      "max_price": 560.0
+    },
+    "Torrent": {
+      "mean_price": 311.75,
+      "median_price": 344.0,
+      "count": 4,
+      "min_price": 137.0,
+      "max_price": 422.0
+    },
+    "Maià de Montcal": {
+      "mean_price": 113.64,
+      "median_price": 73.0,
+      "count": 33,
+      "min_price": 24.0,
+      "max_price": 530.0
+    },
+    "Guils de Cerdanya": {
+      "mean_price": 359.77,
+      "median_price": 180.0,
+      "count": 13,
+      "min_price": 127.0,
+      "max_price": 1900.0
+    },
+    "Sant Martí Vell": {
+      "mean_price": 1410.62,
+      "median_price": 198.0,
+      "count": 8,
+      "min_price": 148.0,
+      "max_price": 9143.0
+    },
+    "Avinyonet de Puigventós": {
+      "mean_price": 131.6,
+      "median_price": 103.0,
+      "count": 10,
+      "min_price": 80.0,
+      "max_price": 288.0
+    },
+    "Ribes de Freser": {
+      "mean_price": 121.2,
+      "median_price": 107.0,
+      "count": 54,
+      "min_price": 35.0,
+      "max_price": 384.0
+    },
+    "Sant Joan les Fonts": {
+      "mean_price": 255.29,
+      "median_price": 150.0,
+      "count": 14,
+      "min_price": 42.0,
+      "max_price": 845.0
+    },
+    "Castellfollit de la Roca": {
+      "mean_price": 137.62,
+      "median_price": 135.5,
+      "count": 16,
+      "min_price": 47.0,
+      "max_price": 250.0
+    },
+    "Osor": {
+      "mean_price": 165.5,
+      "median_price": 118.5,
+      "count": 10,
+      "min_price": 80.0,
+      "max_price": 460.0
+    },
+    "Gombrèn": {
+      "mean_price": 151.75,
+      "median_price": 106.0,
+      "count": 16,
+      "min_price": 20.0,
+      "max_price": 454.0
+    },
+    "La Bisbal d'Emporda": {
+      "mean_price": 213.0,
+      "median_price": 129.0,
+      "count": 31,
+      "min_price": 20.0,
+      "max_price": 750.0
+    },
+    "Sant Gregori": {
+      "mean_price": 385.74,
+      "median_price": 190.0,
+      "count": 23,
+      "min_price": 87.0,
+      "max_price": 1571.0
+    },
+    "Fontanilles": {
+      "mean_price": 284.58,
+      "median_price": 185.0,
+      "count": 19,
+      "min_price": 134.0,
+      "max_price": 1200.0
+    },
+    "Campelles": {
+      "mean_price": 2146.9,
+      "median_price": 372.5,
+      "count": 10,
+      "min_price": 76.0,
+      "max_price": 9715.0
+    },
+    "Maçanet de la Selva": {
+      "mean_price": 762.77,
+      "median_price": 304.0,
+      "count": 97,
+      "min_price": 57.0,
+      "max_price": 9999.0
+    },
+    "Cassà de la Selva": {
+      "mean_price": 1187.05,
+      "median_price": 325.0,
+      "count": 21,
+      "min_price": 54.0,
+      "max_price": 9999.0
+    },
+    "Albanyà": {
+      "mean_price": 272.29,
+      "median_price": 150.0,
+      "count": 7,
+      "min_price": 100.0,
+      "max_price": 775.0
+    },
+    "Ullastret": {
+      "mean_price": 257.35,
+      "median_price": 175.0,
+      "count": 17,
+      "min_price": 65.0,
+      "max_price": 760.0
+    },
+    "Sant Mori": {
+      "mean_price": 348.08,
+      "median_price": 207.0,
+      "count": 12,
+      "min_price": 80.0,
+      "max_price": 1305.0
+    },
+    "Regencós": {
+      "mean_price": 285.56,
+      "median_price": 228.0,
+      "count": 9,
+      "min_price": 114.0,
+      "max_price": 504.0
+    },
+    "Alp": {
+      "mean_price": 154.72,
+      "median_price": 140.0,
+      "count": 145,
+      "min_price": 19.0,
+      "max_price": 852.0
+    },
+    "Queralbs": {
+      "mean_price": 120.0,
+      "median_price": 136.5,
+      "count": 6,
+      "min_price": 46.0,
+      "max_price": 180.0
+    },
+    "Vilamaniscle": {
+      "mean_price": 229.33,
+      "median_price": 109.5,
+      "count": 18,
+      "min_price": 66.0,
+      "max_price": 1595.0
+    },
+    "Vall-llobrega": {
+      "mean_price": 970.68,
+      "median_price": 459.0,
+      "count": 25,
+      "min_price": 60.0,
+      "max_price": 9000.0
+    },
+    "Hostalric": {
+      "mean_price": 358.17,
+      "median_price": 166.0,
+      "count": 6,
+      "min_price": 60.0,
+      "max_price": 948.0
+    },
+    "Llanars": {
+      "mean_price": 170.38,
+      "median_price": 132.0,
+      "count": 13,
+      "min_price": 68.0,
+      "max_price": 363.0
+    },
+    "L'Armentera": {
+      "mean_price": 184.38,
+      "median_price": 140.5,
+      "count": 26,
+      "min_price": 34.0,
+      "max_price": 939.0
+    },
+    "Vilaür": {
+      "mean_price": 194.86,
+      "median_price": 144.5,
+      "count": 14,
+      "min_price": 54.0,
+      "max_price": 583.0
+    },
+    "Colera": {
+      "mean_price": 348.83,
+      "median_price": 135.0,
+      "count": 41,
+      "min_price": 64.0,
+      "max_price": 8000.0
+    },
+    "Les Planes d'Hostoles": {
+      "mean_price": 673.38,
+      "median_price": 190.0,
+      "count": 21,
+      "min_price": 73.0,
+      "max_price": 9000.0
+    },
+    "Porqueres": {
+      "mean_price": 2417.47,
+      "median_price": 418.0,
+      "count": 17,
+      "min_price": 48.0,
+      "max_price": 9009.0
+    },
+    "Vilajuïga": {
+      "mean_price": 202.11,
+      "median_price": 133.0,
+      "count": 9,
+      "min_price": 48.0,
+      "max_price": 690.0
+    },
+    "Argelaguer": {
+      "mean_price": 184.33,
+      "median_price": 136.5,
+      "count": 6,
+      "min_price": 62.0,
+      "max_price": 426.0
+    },
+    "Aiguaviva": {
+      "mean_price": 250.71,
+      "median_price": 161.0,
+      "count": 7,
+      "min_price": 60.0,
+      "max_price": 478.0
+    },
+    "Juià": {
+      "mean_price": 247.0,
+      "median_price": 198.0,
+      "count": 5,
+      "min_price": 64.0,
+      "max_price": 693.0
+    },
+    "Sant Pere Pescador": {
+      "mean_price": 723.32,
+      "median_price": 253.5,
+      "count": 66,
+      "min_price": 77.0,
+      "max_price": 9999.0
+    },
+    "Riells i Viabrea": {
+      "mean_price": 233.29,
+      "median_price": 189.0,
+      "count": 7,
+      "min_price": 68.0,
+      "max_price": 572.0
+    },
+    "Masarac": {
+      "mean_price": 171.0,
+      "median_price": 119.0,
+      "count": 4,
+      "min_price": 54.0,
+      "max_price": 392.0
+    },
+    "Sant Miquel de Fluvià": {
+      "mean_price": 243.33,
+      "median_price": 302.0,
+      "count": 9,
+      "min_price": 55.0,
+      "max_price": 475.0
+    },
+    "Cantallops": {
+      "mean_price": 968.83,
+      "median_price": 246.0,
+      "count": 12,
+      "min_price": 74.0,
+      "max_price": 9000.0
+    },
+    "Pau": {
+      "mean_price": 215.13,
+      "median_price": 120.0,
+      "count": 23,
+      "min_price": 41.0,
+      "max_price": 800.0
+    },
+    "Llers": {
+      "mean_price": 138.5,
+      "median_price": 120.0,
+      "count": 4,
+      "min_price": 100.0,
+      "max_price": 214.0
+    },
+    "Sant Andreu Salou": {
+      "mean_price": 329.0,
+      "median_price": 345.0,
+      "count": 5,
+      "min_price": 230.0,
+      "max_price": 495.0
+    },
+    "Madremanya": {
+      "mean_price": 1207.11,
+      "median_price": 333.0,
+      "count": 19,
+      "min_price": 143.0,
+      "max_price": 9000.0
+    },
+    "Espolla": {
+      "mean_price": 138.33,
+      "median_price": 124.0,
+      "count": 6,
+      "min_price": 90.0,
+      "max_price": 206.0
+    },
+    "Boadella d'Empordà": {
+      "mean_price": 289.29,
+      "median_price": 228.0,
+      "count": 7,
+      "min_price": 136.0,
+      "max_price": 568.0
+    },
+    "Sant Aniol de Finestres": {
+      "mean_price": 157.15,
+      "median_price": 128.0,
+      "count": 13,
+      "min_price": 30.0,
+      "max_price": 421.0
+    },
+    "Sant Pau de Segúries": {
+      "mean_price": 174.09,
+      "median_price": 167.0,
+      "count": 11,
+      "min_price": 55.0,
+      "max_price": 305.0
+    },
+    "Jafre": {
+      "mean_price": 237.0,
+      "median_price": 191.0,
+      "count": 4,
+      "min_price": 120.0,
+      "max_price": 446.0
+    },
+    "Santa Coloma de Farners": {
+      "mean_price": 938.12,
+      "median_price": 307.5,
+      "count": 16,
+      "min_price": 50.0,
+      "max_price": 9000.0
+    },
+    "Mollet de Peralada": {
+      "mean_price": 4542.5,
+      "median_price": 4542.5,
+      "count": 2,
+      "min_price": 85.0,
+      "max_price": 9000.0
+    },
+    "Cabanes": {
+      "mean_price": 158.43,
+      "median_price": 147.0,
+      "count": 7,
+      "min_price": 79.0,
+      "max_price": 319.0
+    },
+    "Molló": {
+      "mean_price": 494.87,
+      "median_price": 151.0,
+      "count": 30,
+      "min_price": 99.0,
+      "max_price": 9000.0
+    },
+    "Garriguella": {
+      "mean_price": 970.12,
+      "median_price": 186.0,
+      "count": 25,
+      "min_price": 61.0,
+      "max_price": 9000.0
+    },
+    "Setcases": {
+      "mean_price": 160.56,
+      "median_price": 154.0,
+      "count": 16,
+      "min_price": 81.0,
+      "max_price": 256.0
+    },
+    "Ger": {
+      "mean_price": 193.1,
+      "median_price": 198.0,
+      "count": 21,
+      "min_price": 115.0,
+      "max_price": 313.0
+    },
+    "Mont-ras": {
+      "mean_price": 684.97,
+      "median_price": 229.0,
+      "count": 33,
+      "min_price": 90.0,
+      "max_price": 9000.0
+    },
+    "Garrigoles": {
+      "mean_price": 162.14,
+      "median_price": 124.0,
+      "count": 7,
+      "min_price": 85.0,
+      "max_price": 361.0
+    },
+    "Bordils": {
+      "mean_price": 1861.33,
+      "median_price": 682.0,
+      "count": 9,
+      "min_price": 63.0,
+      "max_price": 9000.0
+    },
+    "Agullana": {
+      "mean_price": 1338.38,
+      "median_price": 298.5,
+      "count": 8,
+      "min_price": 55.0,
+      "max_price": 8500.0
+    },
+    "Das": {
+      "mean_price": 214.64,
+      "median_price": 192.0,
+      "count": 11,
+      "min_price": 109.0,
+      "max_price": 360.0
+    },
+    "Pont de Molins": {
+      "mean_price": 367.83,
+      "median_price": 286.5,
+      "count": 6,
+      "min_price": 136.0,
+      "max_price": 817.0
+    },
+    "Sant Feliu de Pallerols": {
+      "mean_price": 406.0,
+      "median_price": 222.5,
+      "count": 14,
+      "min_price": 113.0,
+      "max_price": 1765.0
+    },
+    "Siurana": {
+      "mean_price": 416.0,
+      "median_price": 353.5,
+      "count": 8,
+      "min_price": 128.0,
+      "max_price": 872.0
+    },
+    "Fornells de la Selva": {
+      "mean_price": 280.33,
+      "median_price": 169.0,
+      "count": 6,
+      "min_price": 80.0,
+      "max_price": 950.0
+    },
+    "Mieres": {
+      "mean_price": 216.38,
+      "median_price": 172.5,
+      "count": 8,
+      "min_price": 94.0,
+      "max_price": 523.0
+    },
+    "Parlavà": {
+      "mean_price": 1203.11,
+      "median_price": 150.0,
+      "count": 9,
+      "min_price": 45.0,
+      "max_price": 9000.0
+    },
+    "Planoles": {
+      "mean_price": 155.0,
+      "median_price": 125.5,
+      "count": 12,
+      "min_price": 61.0,
+      "max_price": 350.0
+    },
+    "Foixà": {
+      "mean_price": 1400.0,
+      "median_price": 404.0,
+      "count": 9,
+      "min_price": 162.0,
+      "max_price": 9000.0
+    },
+    "Darnius": {
+      "mean_price": 2045.05,
+      "median_price": 225.0,
+      "count": 19,
+      "min_price": 47.0,
+      "max_price": 9000.0
+    },
+    "La Tallada d'Empordà": {
+      "mean_price": 281.25,
+      "median_price": 237.0,
+      "count": 12,
+      "min_price": 125.0,
+      "max_price": 565.0
+    },
+    "Anglès": {
+      "mean_price": 120.94,
+      "median_price": 89.0,
+      "count": 16,
+      "min_price": 39.0,
+      "max_price": 467.0
+    },
+    "Ultramort": {
+      "mean_price": 184.79,
+      "median_price": 151.5,
+      "count": 14,
+      "min_price": 62.0,
+      "max_price": 340.0
+    },
+    "Vila-sacra": {
+      "mean_price": 283.25,
+      "median_price": 119.5,
+      "count": 4,
+      "min_price": 45.0,
+      "max_price": 849.0
+    },
+    "Les Preses": {
+      "mean_price": 224.5,
+      "median_price": 178.5,
+      "count": 4,
+      "min_price": 121.0,
+      "max_price": 420.0
+    },
+    "Sant Llorenç de la Muga": {
+      "mean_price": 178.5,
+      "median_price": 160.5,
+      "count": 6,
+      "min_price": 85.0,
+      "max_price": 350.0
+    },
+    "Celrà": {
+      "mean_price": 225.5,
+      "median_price": 123.5,
+      "count": 14,
+      "min_price": 42.0,
+      "max_price": 1032.0
+    },
+    "Garrigàs": {
+      "mean_price": 309.0,
+      "median_price": 333.0,
+      "count": 5,
+      "min_price": 103.0,
+      "max_price": 589.0
+    },
+    "Fontcoberta": {
+      "mean_price": 1442.22,
+      "median_price": 264.0,
+      "count": 9,
+      "min_price": 104.0,
+      "max_price": 9286.0
+    },
+    "Terrades": {
+      "mean_price": 166.32,
+      "median_price": 157.0,
+      "count": 22,
+      "min_price": 87.0,
+      "max_price": 373.0
+    },
+    "Sant Julià del Llor i Bonmatí": {
+      "mean_price": 167.6,
+      "median_price": 134.0,
+      "count": 5,
+      "min_price": 78.0,
+      "max_price": 266.0
+    },
+    "Pardines": {
+      "mean_price": 142.67,
+      "median_price": 129.0,
+      "count": 9,
+      "min_price": 106.0,
+      "max_price": 210.0
+    },
+    "Palol de Revardit": {
+      "mean_price": 153.5,
+      "median_price": 144.5,
+      "count": 4,
+      "min_price": 91.0,
+      "max_price": 234.0
+    },
+    "Isòvol": {
+      "mean_price": 222.0,
+      "median_price": 190.0,
+      "count": 13,
+      "min_price": 95.0,
+      "max_price": 754.0
+    },
+    "Canet d'Adri": {
+      "mean_price": 266.62,
+      "median_price": 284.5,
+      "count": 8,
+      "min_price": 108.0,
+      "max_price": 416.0
+    },
+    "Massanes": {
+      "mean_price": 1411.43,
+      "median_price": 76.0,
+      "count": 7,
+      "min_price": 36.0,
+      "max_price": 9000.0
+    },
+    "Sant Julià de Ramis": {
+      "mean_price": 294.29,
+      "median_price": 155.0,
+      "count": 14,
+      "min_price": 40.0,
+      "max_price": 1907.0
+    },
+    "Vilobí d'Onyar": {
+      "mean_price": 1179.7,
+      "median_price": 286.5,
+      "count": 10,
+      "min_price": 120.0,
+      "max_price": 9000.0
+    },
+    "Sant Feliu de Buixalleu": {
+      "mean_price": 446.89,
+      "median_price": 531.0,
+      "count": 9,
+      "min_price": 68.0,
+      "max_price": 728.0
+    },
+    "La Pera": {
+      "mean_price": 166.33,
+      "median_price": 168.0,
+      "count": 6,
+      "min_price": 128.0,
+      "max_price": 225.0
+    },
+    "Ogassa": {
+      "mean_price": 336.0,
+      "median_price": 278.5,
+      "count": 10,
+      "min_price": 174.0,
+      "max_price": 604.0
+    },
+    "Fortià": {
+      "mean_price": 126.69,
+      "median_price": 105.0,
+      "count": 13,
+      "min_price": 29.0,
+      "max_price": 522.0
+    },
+    "Sant Miquel de Campmajor": {
+      "mean_price": 658.25,
+      "median_price": 514.0,
+      "count": 4,
+      "min_price": 93.0,
+      "max_price": 1512.0
+    },
+    "Breda": {
+      "mean_price": 307.85,
+      "median_price": 213.0,
+      "count": 13,
+      "min_price": 86.0,
+      "max_price": 1043.0
+    },
+    "Vilallonga de Ter": {
+      "mean_price": 150.9,
+      "median_price": 126.0,
+      "count": 20,
+      "min_price": 40.0,
+      "max_price": 498.0
+    },
+    "Borrassà": {
+      "mean_price": 244.8,
+      "median_price": 134.0,
+      "count": 5,
+      "min_price": 125.0,
+      "max_price": 663.0
+    },
+    "Vilafant": {
+      "mean_price": 178.33,
+      "median_price": 201.5,
+      "count": 6,
+      "min_price": 57.0,
+      "max_price": 268.0
+    },
+    "Salt": {
+      "mean_price": 53.2,
+      "median_price": 54.0,
+      "count": 5,
+      "min_price": 19.0,
+      "max_price": 76.0
+    },
+    "Viladrau": {
+      "mean_price": 1090.1,
+      "median_price": 182.5,
+      "count": 20,
+      "min_price": 65.0,
+      "max_price": 9143.0
+    },
+    "Campdevànol": {
+      "mean_price": 151.5,
+      "median_price": 170.0,
+      "count": 8,
+      "min_price": 81.0,
+      "max_price": 247.0
+    },
+    "Riudellots de la Selva": {
+      "mean_price": 81.25,
+      "median_price": 65.0,
+      "count": 4,
+      "min_price": 36.0,
+      "max_price": 159.0
+    },
+    "Vilopriu": {
+      "mean_price": 290.39,
+      "median_price": 262.0,
+      "count": 28,
+      "min_price": 115.0,
+      "max_price": 805.0
+    },
+    "Espinelves": {
+      "mean_price": 199.0,
+      "median_price": 198.5,
+      "count": 4,
+      "min_price": 122.0,
+      "max_price": 277.0
+    },
+    "Susqueda": {
+      "mean_price": 1462.8,
+      "median_price": 270.0,
+      "count": 15,
+      "min_price": 105.0,
+      "max_price": 9143.0
+    },
+    "Vilabertran": {
+      "mean_price": 600.0,
+      "median_price": 600.0,
+      "count": 1,
+      "min_price": 600.0,
+      "max_price": 600.0
+    },
+    "Verges": {
+      "mean_price": 201.8,
+      "median_price": 129.0,
+      "count": 10,
+      "min_price": 91.0,
+      "max_price": 715.0
+    },
+    "Cervià de Ter": {
+      "mean_price": 796.0,
+      "median_price": 796.0,
+      "count": 1,
+      "min_price": 796.0,
+      "max_price": 796.0
+    },
+    "Riudaura": {
+      "mean_price": 241.44,
+      "median_price": 198.0,
+      "count": 9,
+      "min_price": 116.0,
+      "max_price": 564.0
+    },
+    "Tortellà": {
+      "mean_price": 167.33,
+      "median_price": 181.0,
+      "count": 6,
+      "min_price": 95.0,
+      "max_price": 214.0
+    },
+    "Brunyola": {
+      "mean_price": 793.5,
+      "median_price": 793.5,
+      "count": 2,
+      "min_price": 419.0,
+      "max_price": 1168.0
+    },
+    "Viladasens": {
+      "mean_price": 106.0,
+      "median_price": 106.0,
+      "count": 1,
+      "min_price": 106.0,
+      "max_price": 106.0
+    },
+    "Vilamacolum": {
+      "mean_price": 1928.67,
+      "median_price": 513.5,
+      "count": 6,
+      "min_price": 230.0,
+      "max_price": 9000.0
+    },
+    "Vilamalla": {
+      "mean_price": 123.0,
+      "median_price": 123.0,
+      "count": 2,
+      "min_price": 123.0,
+      "max_price": 123.0
+    },
+    "Campllong": {
+      "mean_price": 365.0,
+      "median_price": 365.0,
+      "count": 1,
+      "min_price": 365.0,
+      "max_price": 365.0
+    },
+    "Colomers": {
+      "mean_price": 141.5,
+      "median_price": 122.0,
+      "count": 4,
+      "min_price": 121.0,
+      "max_price": 201.0
+    },
+    "Palau de Santa Eulàlia": {
+      "mean_price": 272.83,
+      "median_price": 179.5,
+      "count": 6,
+      "min_price": 59.0,
+      "max_price": 800.0
+    },
+    "Flaçà": {
+      "mean_price": 278.5,
+      "median_price": 278.5,
+      "count": 2,
+      "min_price": 103.0,
+      "max_price": 454.0
+    },
+    "La Jonquera": {
+      "mean_price": 95.67,
+      "median_price": 96.0,
+      "count": 3,
+      "min_price": 85.0,
+      "max_price": 106.0
+    },
+    "Pedret i Marzà": {
+      "mean_price": 110.0,
+      "median_price": 110.0,
+      "count": 1,
+      "min_price": 110.0,
+      "max_price": 110.0
+    }
+  },
+  "Madrid": {
+    "Cármenes": {
+      "mean_price": 69.44,
+      "median_price": 48.0,
+      "count": 52,
+      "min_price": 19.0,
+      "max_price": 342.0
+    },
+    "Justicia": {
+      "mean_price": 158.54,
+      "median_price": 128.0,
+      "count": 989,
+      "min_price": 16.0,
+      "max_price": 3000.0
+    },
+    "Universidad": {
+      "mean_price": 155.59,
+      "median_price": 116.5,
+      "count": 1728,
+      "min_price": 14.0,
+      "max_price": 8000.0
+    },
+    "Embajadores": {
+      "mean_price": 135.39,
+      "median_price": 103.0,
+      "count": 2133,
+      "min_price": 8.0,
+      "max_price": 8900.0
+    },
+    "Palos de Moguer": {
+      "mean_price": 134.63,
+      "median_price": 98.5,
+      "count": 318,
+      "min_price": 19.0,
+      "max_price": 2500.0
+    },
+    "Lucero": {
+      "mean_price": 58.14,
+      "median_price": 56.0,
+      "count": 71,
+      "min_price": 10.0,
+      "max_price": 140.0
+    },
+    "Palacio": {
+      "mean_price": 180.2,
+      "median_price": 127.0,
+      "count": 1475,
+      "min_price": 10.0,
+      "max_price": 8000.0
+    },
+    "Sol": {
+      "mean_price": 189.0,
+      "median_price": 136.0,
+      "count": 1172,
+      "min_price": 17.0,
+      "max_price": 9514.0
+    },
+    "Rios Rosas": {
+      "mean_price": 137.56,
+      "median_price": 115.0,
+      "count": 202,
+      "min_price": 19.0,
+      "max_price": 1260.0
+    },
+    "Los Angeles": {
+      "mean_price": 53.47,
+      "median_price": 33.5,
+      "count": 32,
+      "min_price": 16.0,
+      "max_price": 193.0
+    },
+    "Pueblo Nuevo": {
+      "mean_price": 99.98,
+      "median_price": 78.0,
+      "count": 184,
+      "min_price": 8.0,
+      "max_price": 1700.0
+    },
+    "Pinar del Rey": {
+      "mean_price": 111.77,
+      "median_price": 109.0,
+      "count": 113,
+      "min_price": 21.0,
+      "max_price": 507.0
+    },
+    "Lista": {
+      "mean_price": 142.77,
+      "median_price": 120.0,
+      "count": 189,
+      "min_price": 20.0,
+      "max_price": 550.0
+    },
+    "Piovera": {
+      "mean_price": 314.41,
+      "median_price": 89.0,
+      "count": 27,
+      "min_price": 62.0,
+      "max_price": 3500.0
+    },
+    "Cortes": {
+      "mean_price": 185.42,
+      "median_price": 134.0,
+      "count": 871,
+      "min_price": 20.0,
+      "max_price": 9999.0
+    },
+    "Alameda de Osuna": {
+      "mean_price": 112.04,
+      "median_price": 58.0,
+      "count": 27,
+      "min_price": 7.0,
+      "max_price": 1500.0
+    },
+    "Valverde": {
+      "mean_price": 94.09,
+      "median_price": 77.0,
+      "count": 97,
+      "min_price": 23.0,
+      "max_price": 600.0
+    },
+    "San Diego": {
+      "mean_price": 97.71,
+      "median_price": 81.0,
+      "count": 215,
+      "min_price": 16.0,
+      "max_price": 731.0
+    },
+    "Canillas": {
+      "mean_price": 80.75,
+      "median_price": 73.5,
+      "count": 106,
+      "min_price": 23.0,
+      "max_price": 399.0
+    },
+    "Acacias": {
+      "mean_price": 99.26,
+      "median_price": 88.0,
+      "count": 172,
+      "min_price": 16.0,
+      "max_price": 1050.0
+    },
+    "Argüelles": {
+      "mean_price": 135.02,
+      "median_price": 107.0,
+      "count": 290,
+      "min_price": 18.0,
+      "max_price": 1161.0
+    },
+    "Chopera": {
+      "mean_price": 94.27,
+      "median_price": 79.0,
+      "count": 133,
+      "min_price": 8.0,
+      "max_price": 900.0
+    },
+    "Valdefuentes": {
+      "mean_price": 246.72,
+      "median_price": 100.0,
+      "count": 126,
+      "min_price": 27.0,
+      "max_price": 7999.0
+    },
+    "Puerta del Angel": {
+      "mean_price": 77.86,
+      "median_price": 65.0,
+      "count": 213,
+      "min_price": 15.0,
+      "max_price": 456.0
+    },
+    "Arcos": {
+      "mean_price": 115.41,
+      "median_price": 48.5,
+      "count": 44,
+      "min_price": 28.0,
+      "max_price": 1141.0
+    },
+    "Simancas": {
+      "mean_price": 111.49,
+      "median_price": 86.0,
+      "count": 91,
+      "min_price": 25.0,
+      "max_price": 635.0
+    },
+    "Timón": {
+      "mean_price": 125.2,
+      "median_price": 87.0,
+      "count": 35,
+      "min_price": 31.0,
+      "max_price": 827.0
+    },
+    "Jerónimos": {
+      "mean_price": 215.91,
+      "median_price": 131.0,
+      "count": 89,
+      "min_price": 21.0,
+      "max_price": 4600.0
+    },
+    "Almenara": {
+      "mean_price": 104.23,
+      "median_price": 100.5,
+      "count": 176,
+      "min_price": 14.0,
+      "max_price": 368.0
+    },
+    "Niño Jesús": {
+      "mean_price": 134.66,
+      "median_price": 129.0,
+      "count": 58,
+      "min_price": 27.0,
+      "max_price": 364.0
+    },
+    "Numancia": {
+      "mean_price": 83.03,
+      "median_price": 69.0,
+      "count": 204,
+      "min_price": 19.0,
+      "max_price": 900.0
+    },
+    "Pacífico": {
+      "mean_price": 97.92,
+      "median_price": 83.0,
+      "count": 243,
+      "min_price": 20.0,
+      "max_price": 489.0
+    },
+    "Marroquina": {
+      "mean_price": 82.87,
+      "median_price": 83.0,
+      "count": 23,
+      "min_price": 28.0,
+      "max_price": 210.0
+    },
+    "Salvador": {
+      "mean_price": 149.62,
+      "median_price": 73.0,
+      "count": 16,
+      "min_price": 37.0,
+      "max_price": 800.0
+    },
+    "Rosas": {
+      "mean_price": 168.26,
+      "median_price": 89.0,
+      "count": 35,
+      "min_price": 24.0,
+      "max_price": 1084.0
+    },
+    "Concepción": {
+      "mean_price": 99.54,
+      "median_price": 78.0,
+      "count": 81,
+      "min_price": 22.0,
+      "max_price": 530.0
+    },
+    "Goya": {
+      "mean_price": 186.08,
+      "median_price": 148.0,
+      "count": 328,
+      "min_price": 15.0,
+      "max_price": 1228.0
+    },
+    "Gaztambide": {
+      "mean_price": 102.62,
+      "median_price": 85.0,
+      "count": 207,
+      "min_price": 16.0,
+      "max_price": 500.0
+    },
+    "Palomeras Sureste": {
+      "mean_price": 60.41,
+      "median_price": 40.5,
+      "count": 34,
+      "min_price": 23.0,
+      "max_price": 184.0
+    },
+    "Recoletos": {
+      "mean_price": 222.13,
+      "median_price": 160.0,
+      "count": 271,
+      "min_price": 21.0,
+      "max_price": 1725.0
+    },
+    "Hispanoamérica": {
+      "mean_price": 130.43,
+      "median_price": 117.0,
+      "count": 136,
+      "min_price": 30.0,
+      "max_price": 500.0
+    },
+    "Cuatro Caminos": {
+      "mean_price": 116.59,
+      "median_price": 102.0,
+      "count": 403,
+      "min_price": 14.0,
+      "max_price": 1753.0
+    },
+    "Arapiles": {
+      "mean_price": 119.02,
+      "median_price": 90.0,
+      "count": 236,
+      "min_price": 20.0,
+      "max_price": 1085.0
+    },
+    "San Fermín": {
+      "mean_price": 79.9,
+      "median_price": 49.0,
+      "count": 31,
+      "min_price": 26.0,
+      "max_price": 350.0
+    },
+    "Comillas": {
+      "mean_price": 95.56,
+      "median_price": 85.0,
+      "count": 132,
+      "min_price": 9.0,
+      "max_price": 500.0
+    },
+    "Almagro": {
+      "mean_price": 156.61,
+      "median_price": 140.0,
+      "count": 173,
+      "min_price": 22.0,
+      "max_price": 655.0
+    },
+    "Ibiza": {
+      "mean_price": 146.24,
+      "median_price": 118.0,
+      "count": 224,
+      "min_price": 21.0,
+      "max_price": 3990.0
+    },
+    "San Andrés": {
+      "mean_price": 79.65,
+      "median_price": 81.0,
+      "count": 62,
+      "min_price": 18.0,
+      "max_price": 600.0
+    },
+    "Delicias": {
+      "mean_price": 85.65,
+      "median_price": 83.0,
+      "count": 153,
+      "min_price": 20.0,
+      "max_price": 253.0
+    },
+    "Prosperidad": {
+      "mean_price": 101.05,
+      "median_price": 96.0,
+      "count": 171,
+      "min_price": 17.0,
+      "max_price": 464.0
+    },
+    "Moscardó": {
+      "mean_price": 73.51,
+      "median_price": 60.0,
+      "count": 135,
+      "min_price": 20.0,
+      "max_price": 286.0
+    },
+    "San Juan Bautista": {
+      "mean_price": 141.9,
+      "median_price": 87.5,
+      "count": 30,
+      "min_price": 27.0,
+      "max_price": 1290.0
+    },
+    "Fontarrón": {
+      "mean_price": 78.4,
+      "median_price": 50.0,
+      "count": 45,
+      "min_price": 1.0,
+      "max_price": 711.0
+    },
+    "Casco Histórico de Vicálvaro": {
+      "mean_price": 65.1,
+      "median_price": 54.5,
+      "count": 58,
+      "min_price": 18.0,
+      "max_price": 201.0
+    },
+    "Casa de Campo": {
+      "mean_price": 128.08,
+      "median_price": 80.0,
+      "count": 77,
+      "min_price": 17.0,
+      "max_price": 2160.0
+    },
+    "Nueva España": {
+      "mean_price": 127.84,
+      "median_price": 131.0,
+      "count": 143,
+      "min_price": 19.0,
+      "max_price": 297.0
+    },
+    "El Viso": {
+      "mean_price": 144.99,
+      "median_price": 105.5,
+      "count": 76,
+      "min_price": 19.0,
+      "max_price": 1188.0
+    },
+    "Trafalgar": {
+      "mean_price": 141.2,
+      "median_price": 128.0,
+      "count": 361,
+      "min_price": 10.0,
+      "max_price": 1400.0
+    },
+    "Ventas": {
+      "mean_price": 81.99,
+      "median_price": 72.0,
+      "count": 202,
+      "min_price": 20.0,
+      "max_price": 473.0
+    },
+    "Fuente del Berro": {
+      "mean_price": 115.37,
+      "median_price": 106.0,
+      "count": 114,
+      "min_price": 27.0,
+      "max_price": 425.0
+    },
+    "Berruguete": {
+      "mean_price": 103.36,
+      "median_price": 81.0,
+      "count": 199,
+      "min_price": 18.0,
+      "max_price": 999.0
+    },
+    "Castilla": {
+      "mean_price": 118.86,
+      "median_price": 100.0,
+      "count": 85,
+      "min_price": 43.0,
+      "max_price": 1000.0
+    },
+    "Valdezarza": {
+      "mean_price": 91.85,
+      "median_price": 59.0,
+      "count": 66,
+      "min_price": 24.0,
+      "max_price": 674.0
+    },
+    "Vista Alegre": {
+      "mean_price": 63.32,
+      "median_price": 51.5,
+      "count": 94,
+      "min_price": 14.0,
+      "max_price": 217.0
+    },
+    "Guindalera": {
+      "mean_price": 129.69,
+      "median_price": 105.0,
+      "count": 315,
+      "min_price": 7.0,
+      "max_price": 1263.0
+    },
+    "Imperial": {
+      "mean_price": 170.97,
+      "median_price": 97.0,
+      "count": 143,
+      "min_price": 26.0,
+      "max_price": 7622.0
+    },
+    "Castellana": {
+      "mean_price": 225.03,
+      "median_price": 158.0,
+      "count": 155,
+      "min_price": 30.0,
+      "max_price": 6613.0
+    },
+    "Quintana": {
+      "mean_price": 121.99,
+      "median_price": 70.0,
+      "count": 95,
+      "min_price": 20.0,
+      "max_price": 2100.0
+    },
+    "Adelfas": {
+      "mean_price": 101.82,
+      "median_price": 99.0,
+      "count": 101,
+      "min_price": 22.0,
+      "max_price": 480.0
+    },
+    "Aravaca": {
+      "mean_price": 111.08,
+      "median_price": 94.5,
+      "count": 40,
+      "min_price": 25.0,
+      "max_price": 640.0
+    },
+    "Bellas Vistas": {
+      "mean_price": 126.77,
+      "median_price": 92.0,
+      "count": 176,
+      "min_price": 17.0,
+      "max_price": 2000.0
+    },
+    "Ciudad Jardín": {
+      "mean_price": 126.54,
+      "median_price": 110.0,
+      "count": 100,
+      "min_price": 19.0,
+      "max_price": 1003.0
+    },
+    "Aluche": {
+      "mean_price": 196.24,
+      "median_price": 49.0,
+      "count": 71,
+      "min_price": 15.0,
+      "max_price": 9090.0
+    },
+    "Mirasierra": {
+      "mean_price": 96.19,
+      "median_price": 65.0,
+      "count": 21,
+      "min_price": 26.0,
+      "max_price": 400.0
+    },
+    "Abrantes": {
+      "mean_price": 52.83,
+      "median_price": 45.0,
+      "count": 42,
+      "min_price": 20.0,
+      "max_price": 124.0
+    },
+    "Canillejas": {
+      "mean_price": 81.41,
+      "median_price": 72.0,
+      "count": 75,
+      "min_price": 27.0,
+      "max_price": 450.0
+    },
+    "El Plantío": {
+      "mean_price": 73.5,
+      "median_price": 50.0,
+      "count": 18,
+      "min_price": 34.0,
+      "max_price": 286.0
+    },
+    "San Pascual": {
+      "mean_price": 63.6,
+      "median_price": 51.0,
+      "count": 35,
+      "min_price": 25.0,
+      "max_price": 207.0
+    },
+    "Valdeacederas": {
+      "mean_price": 94.1,
+      "median_price": 86.0,
+      "count": 213,
+      "min_price": 16.0,
+      "max_price": 386.0
+    },
+    "Peñagrande": {
+      "mean_price": 118.98,
+      "median_price": 76.0,
+      "count": 47,
+      "min_price": 23.0,
+      "max_price": 1230.0
+    },
+    "San Isidro": {
+      "mean_price": 83.85,
+      "median_price": 67.0,
+      "count": 162,
+      "min_price": 17.0,
+      "max_price": 1184.0
+    },
+    "Legazpi": {
+      "mean_price": 95.17,
+      "median_price": 87.5,
+      "count": 46,
+      "min_price": 18.0,
+      "max_price": 319.0
+    },
+    "Castillejos": {
+      "mean_price": 281.98,
+      "median_price": 95.0,
+      "count": 253,
+      "min_price": 14.0,
+      "max_price": 9999.0
+    },
+    "Vallehermoso": {
+      "mean_price": 90.47,
+      "median_price": 90.0,
+      "count": 88,
+      "min_price": 20.0,
+      "max_price": 225.0
+    },
+    "Ciudad Universitaria": {
+      "mean_price": 116.33,
+      "median_price": 85.5,
+      "count": 64,
+      "min_price": 15.0,
+      "max_price": 1000.0
+    },
+    "Casco Histórico de Vallecas": {
+      "mean_price": 85.12,
+      "median_price": 76.0,
+      "count": 77,
+      "min_price": 25.0,
+      "max_price": 499.0
+    },
+    "Rejas": {
+      "mean_price": 102.16,
+      "median_price": 85.0,
+      "count": 139,
+      "min_price": 33.0,
+      "max_price": 901.0
+    },
+    "Palomas": {
+      "mean_price": 133.33,
+      "median_price": 89.5,
+      "count": 6,
+      "min_price": 39.0,
+      "max_price": 298.0
+    },
+    "Orcasur": {
+      "mean_price": 98.43,
+      "median_price": 86.0,
+      "count": 56,
+      "min_price": 23.0,
+      "max_price": 500.0
+    },
+    "Estrella": {
+      "mean_price": 92.63,
+      "median_price": 60.0,
+      "count": 38,
+      "min_price": 21.0,
+      "max_price": 304.0
+    },
+    "Palomeras Bajas": {
+      "mean_price": 66.85,
+      "median_price": 40.0,
+      "count": 54,
+      "min_price": 20.0,
+      "max_price": 427.0
+    },
+    "Colina": {
+      "mean_price": 154.48,
+      "median_price": 153.0,
+      "count": 25,
+      "min_price": 40.0,
+      "max_price": 500.0
+    },
+    "Almendrales": {
+      "mean_price": 70.37,
+      "median_price": 60.0,
+      "count": 114,
+      "min_price": 22.0,
+      "max_price": 275.0
+    },
+    "Campamento": {
+      "mean_price": 49.56,
+      "median_price": 43.0,
+      "count": 27,
+      "min_price": 23.0,
+      "max_price": 141.0
+    },
+    "Costillares": {
+      "mean_price": 139.62,
+      "median_price": 122.5,
+      "count": 42,
+      "min_price": 34.0,
+      "max_price": 305.0
+    },
+    "Opañel": {
+      "mean_price": 121.95,
+      "median_price": 77.0,
+      "count": 149,
+      "min_price": 20.0,
+      "max_price": 1157.0
+    },
+    "Apostol Santiago": {
+      "mean_price": 74.93,
+      "median_price": 43.0,
+      "count": 28,
+      "min_price": 9.0,
+      "max_price": 600.0
+    },
+    "Aeropuerto": {
+      "mean_price": 79.77,
+      "median_price": 55.0,
+      "count": 13,
+      "min_price": 28.0,
+      "max_price": 300.0
+    },
+    "Buenavista": {
+      "mean_price": 66.84,
+      "median_price": 49.5,
+      "count": 38,
+      "min_price": 9.0,
+      "max_price": 371.0
+    },
+    "San Cristobal": {
+      "mean_price": 38.74,
+      "median_price": 29.0,
+      "count": 19,
+      "min_price": 16.0,
+      "max_price": 90.0
+    },
+    "Zofío": {
+      "mean_price": 69.82,
+      "median_price": 66.0,
+      "count": 50,
+      "min_price": 21.0,
+      "max_price": 225.0
+    },
+    "Santa Eugenia": {
+      "mean_price": 69.29,
+      "median_price": 54.0,
+      "count": 7,
+      "min_price": 35.0,
+      "max_price": 117.0
+    },
+    "Hellín": {
+      "mean_price": 246.33,
+      "median_price": 53.0,
+      "count": 15,
+      "min_price": 34.0,
+      "max_price": 2500.0
+    },
+    "Pilar": {
+      "mean_price": 86.12,
+      "median_price": 81.0,
+      "count": 51,
+      "min_price": 20.0,
+      "max_price": 259.0
+    },
+    "Aguilas": {
+      "mean_price": 59.7,
+      "median_price": 40.0,
+      "count": 43,
+      "min_price": 20.0,
+      "max_price": 322.0
+    },
+    "Orcasitas": {
+      "mean_price": 64.9,
+      "median_price": 42.5,
+      "count": 30,
+      "min_price": 22.0,
+      "max_price": 360.0
+    },
+    "Atocha": {
+      "mean_price": 118.4,
+      "median_price": 96.0,
+      "count": 43,
+      "min_price": 30.0,
+      "max_price": 386.0
+    },
+    "Corralejos": {
+      "mean_price": 142.38,
+      "median_price": 89.5,
+      "count": 8,
+      "min_price": 47.0,
+      "max_price": 359.0
+    },
+    "Puerta Bonita": {
+      "mean_price": 61.83,
+      "median_price": 44.0,
+      "count": 83,
+      "min_price": 8.0,
+      "max_price": 400.0
+    },
+    "Entrevías": {
+      "mean_price": 60.43,
+      "median_price": 49.5,
+      "count": 46,
+      "min_price": 20.0,
+      "max_price": 194.0
+    },
+    "Cuatro Vientos": {
+      "mean_price": 71.6,
+      "median_price": 64.0,
+      "count": 5,
+      "min_price": 36.0,
+      "max_price": 120.0
+    },
+    "Casco Histórico de Barajas": {
+      "mean_price": 86.63,
+      "median_price": 68.0,
+      "count": 54,
+      "min_price": 34.0,
+      "max_price": 261.0
+    },
+    "Portazgo": {
+      "mean_price": 72.52,
+      "median_price": 42.5,
+      "count": 46,
+      "min_price": 10.0,
+      "max_price": 950.0
+    },
+    "Los Rosales": {
+      "mean_price": 69.03,
+      "median_price": 62.0,
+      "count": 39,
+      "min_price": 8.0,
+      "max_price": 240.0
+    },
+    "Butarque": {
+      "mean_price": 58.59,
+      "median_price": 46.0,
+      "count": 17,
+      "min_price": 25.0,
+      "max_price": 180.0
+    },
+    "Vinateros": {
+      "mean_price": 37.22,
+      "median_price": 32.0,
+      "count": 18,
+      "min_price": 14.0,
+      "max_price": 91.0
+    },
+    "Amposta": {
+      "mean_price": 205.23,
+      "median_price": 82.0,
+      "count": 13,
+      "min_price": 33.0,
+      "max_price": 1000.0
+    },
+    "Pradolongo": {
+      "mean_price": 67.31,
+      "median_price": 41.5,
+      "count": 52,
+      "min_price": 17.0,
+      "max_price": 429.0
+    },
+    "El Goloso": {
+      "mean_price": 177.54,
+      "median_price": 98.0,
+      "count": 13,
+      "min_price": 53.0,
+      "max_price": 800.0
+    },
+    "La Paz": {
+      "mean_price": 102.29,
+      "median_price": 70.0,
+      "count": 21,
+      "min_price": 20.0,
+      "max_price": 500.0
+    },
+    "Valdemarín": {
+      "mean_price": 106.88,
+      "median_price": 97.0,
+      "count": 8,
+      "min_price": 35.0,
+      "max_price": 201.0
+    },
+    "Pavones": {
+      "mean_price": 60.9,
+      "median_price": 38.0,
+      "count": 10,
+      "min_price": 17.0,
+      "max_price": 126.0
+    },
+    "Media Legua": {
+      "mean_price": 68.57,
+      "median_price": 49.5,
+      "count": 14,
+      "min_price": 28.0,
+      "max_price": 222.0
+    },
+    "Ambroz": {
+      "mean_price": 52.14,
+      "median_price": 37.0,
+      "count": 14,
+      "min_price": 26.0,
+      "max_price": 142.0
+    },
+    "El Pardo": {
+      "mean_price": 117.0,
+      "median_price": 117.0,
+      "count": 2,
+      "min_price": 51.0,
+      "max_price": 183.0
+    },
+    "Fuentelareina": {
+      "mean_price": 347.2,
+      "median_price": 84.0,
+      "count": 5,
+      "min_price": 75.0,
+      "max_price": 1404.0
+    },
+    "Horcajo": {
+      "mean_price": 44.33,
+      "median_price": 41.0,
+      "count": 3,
+      "min_price": 33.0,
+      "max_price": 59.0
+    },
+    "Atalaya": {
+      "mean_price": 65.0,
+      "median_price": 65.0,
+      "count": 1,
+      "min_price": 65.0,
+      "max_price": 65.0
+    }
+  },
+  "Malaga": {
+    "Este": {
+      "mean_price": 382.88,
+      "median_price": 128.0,
+      "count": 916,
+      "min_price": 23.0,
+      "max_price": 9999.0
+    },
+    "Centro": {
+      "mean_price": 177.08,
+      "median_price": 118.0,
+      "count": 5789,
+      "min_price": 17.0,
+      "max_price": 9999.0
+    },
+    "Churriana": {
+      "mean_price": 562.12,
+      "median_price": 133.5,
+      "count": 158,
+      "min_price": 26.0,
+      "max_price": 9999.0
+    },
+    "Bailen-Miraflores": {
+      "mean_price": 191.36,
+      "median_price": 86.0,
+      "count": 299,
+      "min_price": 20.0,
+      "max_price": 9500.0
+    },
+    "Carretera de Cadiz": {
+      "mean_price": 232.45,
+      "median_price": 114.0,
+      "count": 887,
+      "min_price": 18.0,
+      "max_price": 9999.0
+    },
+    "Cruz De Humilladero": {
+      "mean_price": 241.58,
+      "median_price": 99.0,
+      "count": 443,
+      "min_price": 18.0,
+      "max_price": 9999.0
+    },
+    "Puerto de la Torre": {
+      "mean_price": 434.06,
+      "median_price": 115.0,
+      "count": 47,
+      "min_price": 32.0,
+      "max_price": 9143.0
+    },
+    "Teatinos-Universidad": {
+      "mean_price": 309.11,
+      "median_price": 120.0,
+      "count": 100,
+      "min_price": 27.0,
+      "max_price": 9999.0
+    },
+    "Ciudad Jardin": {
+      "mean_price": 341.99,
+      "median_price": 74.5,
+      "count": 80,
+      "min_price": 17.0,
+      "max_price": 9999.0
+    },
+    "Palma-Palmilla": {
+      "mean_price": 188.5,
+      "median_price": 131.0,
+      "count": 212,
+      "min_price": 19.0,
+      "max_price": 9000.0
+    },
+    "Campanillas": {
+      "mean_price": 2544.42,
+      "median_price": 319.0,
+      "count": 38,
+      "min_price": 44.0,
+      "max_price": 9429.0
+    }
+  },
+  "Mallorca": {
+    "Palma de Mallorca": {
+      "mean_price": 443.7,
+      "median_price": 160.0,
+      "count": 1301,
+      "min_price": 19.0,
+      "max_price": 9999.0
+    },
+    "Sant Llorenç des Cardassar": {
+      "mean_price": 1522.5,
+      "median_price": 243.0,
+      "count": 286,
+      "min_price": 40.0,
+      "max_price": 9999.0
+    },
+    "Selva": {
+      "mean_price": 1074.82,
+      "median_price": 260.0,
+      "count": 268,
+      "min_price": 48.0,
+      "max_price": 9999.0
+    },
+    "Banyalbufar": {
+      "mean_price": 758.07,
+      "median_price": 217.0,
+      "count": 60,
+      "min_price": 77.0,
+      "max_price": 9000.0
+    },
+    "Pollença": {
+      "mean_price": 935.83,
+      "median_price": 297.0,
+      "count": 2347,
+      "min_price": 25.0,
+      "max_price": 9999.0
+    },
+    "Alcúdia": {
+      "mean_price": 848.96,
+      "median_price": 227.0,
+      "count": 1519,
+      "min_price": 39.0,
+      "max_price": 9999.0
+    },
+    "Ses Salines": {
+      "mean_price": 1045.21,
+      "median_price": 200.5,
+      "count": 228,
+      "min_price": 42.0,
+      "max_price": 9999.0
+    },
+    "Campanet": {
+      "mean_price": 1047.86,
+      "median_price": 257.5,
+      "count": 140,
+      "min_price": 55.0,
+      "max_price": 9999.0
+    },
+    "Santa Margalida": {
+      "mean_price": 1196.26,
+      "median_price": 207.0,
+      "count": 657,
+      "min_price": 32.0,
+      "max_price": 9999.0
+    },
+    "Petra": {
+      "mean_price": 1343.65,
+      "median_price": 271.5,
+      "count": 142,
+      "min_price": 68.0,
+      "max_price": 9500.0
+    },
+    "Santanyí": {
+      "mean_price": 1222.48,
+      "median_price": 281.0,
+      "count": 941,
+      "min_price": 60.0,
+      "max_price": 9999.0
+    },
+    "Felanitx": {
+      "mean_price": 1589.08,
+      "median_price": 350.0,
+      "count": 567,
+      "min_price": 55.0,
+      "max_price": 9999.0
+    },
+    "Búger": {
+      "mean_price": 1345.09,
+      "median_price": 265.0,
+      "count": 168,
+      "min_price": 69.0,
+      "max_price": 9999.0
+    },
+    "Campos": {
+      "mean_price": 1834.04,
+      "median_price": 291.0,
+      "count": 505,
+      "min_price": 32.0,
+      "max_price": 9999.0
+    },
+    "Artà": {
+      "mean_price": 1562.12,
+      "median_price": 279.0,
+      "count": 343,
+      "min_price": 38.0,
+      "max_price": 9999.0
+    },
+    "Muro": {
+      "mean_price": 894.36,
+      "median_price": 268.0,
+      "count": 376,
+      "min_price": 15.0,
+      "max_price": 9999.0
+    },
+    "Llucmajor": {
+      "mean_price": 1597.38,
+      "median_price": 306.5,
+      "count": 572,
+      "min_price": 31.0,
+      "max_price": 9999.0
+    },
+    "Andratx": {
+      "mean_price": 951.69,
+      "median_price": 312.0,
+      "count": 215,
+      "min_price": 40.0,
+      "max_price": 9200.0
+    },
+    "Manacor": {
+      "mean_price": 1201.55,
+      "median_price": 266.0,
+      "count": 738,
+      "min_price": 27.0,
+      "max_price": 9999.0
+    },
+    "Calvià": {
+      "mean_price": 1212.86,
+      "median_price": 376.5,
+      "count": 522,
+      "min_price": 28.0,
+      "max_price": 9999.0
+    },
+    "Sineu": {
+      "mean_price": 945.91,
+      "median_price": 239.5,
+      "count": 82,
+      "min_price": 101.0,
+      "max_price": 9999.0
+    },
+    "Deyá": {
+      "mean_price": 988.7,
+      "median_price": 537.0,
+      "count": 76,
+      "min_price": 120.0,
+      "max_price": 9000.0
+    },
+    "Porreres": {
+      "mean_price": 835.57,
+      "median_price": 207.0,
+      "count": 89,
+      "min_price": 100.0,
+      "max_price": 9999.0
+    },
+    "Montuïri": {
+      "mean_price": 627.85,
+      "median_price": 254.5,
+      "count": 52,
+      "min_price": 81.0,
+      "max_price": 9000.0
+    },
+    "Alaró": {
+      "mean_price": 634.49,
+      "median_price": 232.0,
+      "count": 85,
+      "min_price": 67.0,
+      "max_price": 9999.0
+    },
+    "Fornalutx": {
+      "mean_price": 528.55,
+      "median_price": 234.0,
+      "count": 75,
+      "min_price": 71.0,
+      "max_price": 9021.0
+    },
+    "Mancor de la Vall": {
+      "mean_price": 1173.19,
+      "median_price": 338.0,
+      "count": 42,
+      "min_price": 110.0,
+      "max_price": 9999.0
+    },
+    "Escorca": {
+      "mean_price": 307.91,
+      "median_price": 200.0,
+      "count": 23,
+      "min_price": 109.0,
+      "max_price": 2024.0
+    },
+    "Lloseta": {
+      "mean_price": 889.21,
+      "median_price": 278.0,
+      "count": 57,
+      "min_price": 52.0,
+      "max_price": 9000.0
+    },
+    "Llubí": {
+      "mean_price": 865.51,
+      "median_price": 218.0,
+      "count": 93,
+      "min_price": 53.0,
+      "max_price": 9014.0
+    },
+    "Algaida": {
+      "mean_price": 1357.84,
+      "median_price": 268.5,
+      "count": 88,
+      "min_price": 70.0,
+      "max_price": 9999.0
+    },
+    "Marratxí": {
+      "mean_price": 980.89,
+      "median_price": 354.0,
+      "count": 109,
+      "min_price": 45.0,
+      "max_price": 9999.0
+    },
+    "Sa Pobla": {
+      "mean_price": 1068.98,
+      "median_price": 255.0,
+      "count": 261,
+      "min_price": 21.0,
+      "max_price": 9999.0
+    },
+    "Inca": {
+      "mean_price": 1029.31,
+      "median_price": 261.0,
+      "count": 233,
+      "min_price": 35.0,
+      "max_price": 9999.0
+    },
+    "Esporles": {
+      "mean_price": 1477.22,
+      "median_price": 499.0,
+      "count": 65,
+      "min_price": 88.0,
+      "max_price": 9999.0
+    },
+    "Lloret de Vistalegre": {
+      "mean_price": 235.82,
+      "median_price": 218.5,
+      "count": 50,
+      "min_price": 67.0,
+      "max_price": 415.0
+    },
+    "Valldemossa": {
+      "mean_price": 717.67,
+      "median_price": 285.0,
+      "count": 89,
+      "min_price": 80.0,
+      "max_price": 9999.0
+    },
+    "Ariany": {
+      "mean_price": 1780.44,
+      "median_price": 251.0,
+      "count": 78,
+      "min_price": 62.0,
+      "max_price": 9999.0
+    },
+    "Sóller": {
+      "mean_price": 834.75,
+      "median_price": 270.0,
+      "count": 436,
+      "min_price": 75.0,
+      "max_price": 9999.0
+    },
+    "Son Servera": {
+      "mean_price": 1660.2,
+      "median_price": 283.5,
+      "count": 250,
+      "min_price": 59.0,
+      "max_price": 9999.0
+    },
+    "Binissalem": {
+      "mean_price": 1309.2,
+      "median_price": 239.0,
+      "count": 88,
+      "min_price": 52.0,
+      "max_price": 9999.0
+    },
+    "Santa Eugènia": {
+      "mean_price": 2062.06,
+      "median_price": 393.0,
+      "count": 16,
+      "min_price": 75.0,
+      "max_price": 9000.0
+    },
+    "Consell": {
+      "mean_price": 883.47,
+      "median_price": 356.0,
+      "count": 17,
+      "min_price": 75.0,
+      "max_price": 9000.0
+    },
+    "Bunyola": {
+      "mean_price": 1118.18,
+      "median_price": 341.0,
+      "count": 74,
+      "min_price": 52.0,
+      "max_price": 9999.0
+    },
+    "Puigpunyent": {
+      "mean_price": 2139.59,
+      "median_price": 373.0,
+      "count": 41,
+      "min_price": 90.0,
+      "max_price": 9999.0
+    },
+    "Capdepera": {
+      "mean_price": 2295.66,
+      "median_price": 259.0,
+      "count": 472,
+      "min_price": 56.0,
+      "max_price": 9999.0
+    },
+    "Sencelles": {
+      "mean_price": 1320.33,
+      "median_price": 330.0,
+      "count": 109,
+      "min_price": 57.0,
+      "max_price": 9999.0
+    },
+    "Costitx": {
+      "mean_price": 1799.03,
+      "median_price": 243.0,
+      "count": 64,
+      "min_price": 38.0,
+      "max_price": 9999.0
+    },
+    "Vilafranc de Bonany": {
+      "mean_price": 1210.62,
+      "median_price": 218.0,
+      "count": 48,
+      "min_price": 113.0,
+      "max_price": 9999.0
+    },
+    "Estellencs": {
+      "mean_price": 725.64,
+      "median_price": 222.5,
+      "count": 22,
+      "min_price": 45.0,
+      "max_price": 9999.0
+    },
+    "Sant Joan": {
+      "mean_price": 833.04,
+      "median_price": 256.0,
+      "count": 48,
+      "min_price": 120.0,
+      "max_price": 9999.0
+    },
+    "Maria de la Salut": {
+      "mean_price": 955.63,
+      "median_price": 224.0,
+      "count": 71,
+      "min_price": 60.0,
+      "max_price": 9999.0
+    },
+    "Santa María del Camí": {
+      "mean_price": 1016.1,
+      "median_price": 277.5,
+      "count": 58,
+      "min_price": 39.0,
+      "max_price": 9999.0
+    }
+  },
+  "Menorca": {
+    "Es Mercadal": {
+      "mean_price": 502.03,
+      "median_price": 206.0,
+      "count": 707,
+      "min_price": 18.0,
+      "max_price": 9999.0
+    },
+    "Ciutadella de Menorca": {
+      "mean_price": 534.16,
+      "median_price": 213.0,
+      "count": 1409,
+      "min_price": 31.0,
+      "max_price": 9572.0
+    },
+    "Mahón": {
+      "mean_price": 756.1,
+      "median_price": 325.0,
+      "count": 191,
+      "min_price": 58.0,
+      "max_price": 9999.0
+    },
+    "Alaior": {
+      "mean_price": 567.99,
+      "median_price": 255.0,
+      "count": 633,
+      "min_price": 30.0,
+      "max_price": 9143.0
+    },
+    "Es Castell": {
+      "mean_price": 708.56,
+      "median_price": 245.0,
+      "count": 45,
+      "min_price": 22.0,
+      "max_price": 9000.0
+    },
+    "Sant Lluís": {
+      "mean_price": 730.04,
+      "median_price": 408.0,
+      "count": 477,
+      "min_price": 60.0,
+      "max_price": 9715.0
+    },
+    "Ferreries": {
+      "mean_price": 468.39,
+      "median_price": 267.5,
+      "count": 104,
+      "min_price": 80.0,
+      "max_price": 9143.0
+    },
+    "Es Migjorn Gran": {
+      "mean_price": 883.05,
+      "median_price": 512.0,
+      "count": 57,
+      "min_price": 55.0,
+      "max_price": 9858.0
+    }
+  },
+  "Sevilla": {
+    "San Lorenzo": {
+      "mean_price": 173.65,
+      "median_price": 81.5,
+      "count": 280,
+      "min_price": 30.0,
+      "max_price": 9000.0
+    },
+    "San Vicente": {
+      "mean_price": 123.85,
+      "median_price": 80.0,
+      "count": 318,
+      "min_price": 29.0,
+      "max_price": 5140.0
+    },
+    "Arenal": {
+      "mean_price": 142.3,
+      "median_price": 101.0,
+      "count": 595,
+      "min_price": 26.0,
+      "max_price": 2020.0
+    },
+    "Santa Cruz": {
+      "mean_price": 159.63,
+      "median_price": 113.0,
+      "count": 655,
+      "min_price": 25.0,
+      "max_price": 8522.0
+    },
+    "León XIII, Los Naranjos": {
+      "mean_price": 67.1,
+      "median_price": 59.5,
+      "count": 40,
+      "min_price": 32.0,
+      "max_price": 150.0
+    },
+    "Museo": {
+      "mean_price": 121.77,
+      "median_price": 98.5,
+      "count": 274,
+      "min_price": 35.0,
+      "max_price": 2550.0
+    },
+    "Alfalfa": {
+      "mean_price": 147.05,
+      "median_price": 94.0,
+      "count": 823,
+      "min_price": 20.0,
+      "max_price": 9999.0
+    },
+    "San Bernardo": {
+      "mean_price": 131.85,
+      "median_price": 101.0,
+      "count": 95,
+      "min_price": 23.0,
+      "max_price": 584.0
+    },
+    "El Cerro": {
+      "mean_price": 481.43,
+      "median_price": 56.0,
+      "count": 28,
+      "min_price": 20.0,
+      "max_price": 9999.0
+    },
+    "Encarnación, Regina": {
+      "mean_price": 129.53,
+      "median_price": 88.5,
+      "count": 426,
+      "min_price": 26.0,
+      "max_price": 1944.0
+    },
+    "an Roque": {
+      "mean_price": 93.57,
+      "median_price": 84.0,
+      "count": 95,
+      "min_price": 13.0,
+      "max_price": 255.0
+    },
+    "Feria": {
+      "mean_price": 128.52,
+      "median_price": 81.0,
+      "count": 523,
+      "min_price": 29.0,
+      "max_price": 6949.0
+    },
+    "Macarena 3 Huertas, Macarena 5": {
+      "mean_price": 66.0,
+      "median_price": 66.0,
+      "count": 1,
+      "min_price": 66.0,
+      "max_price": 66.0
+    },
+    "Triana Casco Antiguo": {
+      "mean_price": 179.15,
+      "median_price": 81.0,
+      "count": 481,
+      "min_price": 21.0,
+      "max_price": 9999.0
+    },
+    "Triana Este": {
+      "mean_price": 181.44,
+      "median_price": 69.0,
+      "count": 224,
+      "min_price": 26.0,
+      "max_price": 9059.0
+    },
+    "San Bartolomé": {
+      "mean_price": 149.96,
+      "median_price": 86.5,
+      "count": 566,
+      "min_price": 20.0,
+      "max_price": 9143.0
+    },
+    "Triana Oeste": {
+      "mean_price": 219.11,
+      "median_price": 78.0,
+      "count": 177,
+      "min_price": 23.0,
+      "max_price": 9999.0
+    },
+    "El Porvenir": {
+      "mean_price": 242.0,
+      "median_price": 77.0,
+      "count": 43,
+      "min_price": 33.0,
+      "max_price": 2000.0
+    },
+    "Santa Catalina": {
+      "mean_price": 105.45,
+      "median_price": 87.5,
+      "count": 298,
+      "min_price": 25.0,
+      "max_price": 1851.0
+    },
+    "San Julián": {
+      "mean_price": 83.12,
+      "median_price": 73.0,
+      "count": 208,
+      "min_price": 16.0,
+      "max_price": 602.0
+    },
+    "San Gil": {
+      "mean_price": 141.91,
+      "median_price": 71.0,
+      "count": 286,
+      "min_price": 21.0,
+      "max_price": 9429.0
+    },
+    "Pino Flores": {
+      "mean_price": 80.0,
+      "median_price": 73.0,
+      "count": 13,
+      "min_price": 29.0,
+      "max_price": 210.0
+    },
+    "Las Avenidas": {
+      "mean_price": 44.8,
+      "median_price": 38.0,
+      "count": 5,
+      "min_price": 15.0,
+      "max_price": 96.0
+    },
+    "Sector Sur, La Palmera, Reina Mercedes": {
+      "mean_price": 87.5,
+      "median_price": 93.0,
+      "count": 36,
+      "min_price": 14.0,
+      "max_price": 193.0
+    },
+    "El Torrejón, El Cerezo": {
+      "mean_price": 56.22,
+      "median_price": 45.0,
+      "count": 18,
+      "min_price": 15.0,
+      "max_price": 151.0
+    },
+    "Santa María de Ordas, San Nicolas": {
+      "mean_price": 78.83,
+      "median_price": 81.0,
+      "count": 6,
+      "min_price": 38.0,
+      "max_price": 108.0
+    },
+    "Santa Clara": {
+      "mean_price": 94.83,
+      "median_price": 61.0,
+      "count": 12,
+      "min_price": 34.0,
+      "max_price": 379.0
+    },
+    "San José Obrero": {
+      "mean_price": 80.48,
+      "median_price": 68.5,
+      "count": 50,
+      "min_price": 33.0,
+      "max_price": 219.0
+    },
+    "La Florida": {
+      "mean_price": 80.97,
+      "median_price": 78.0,
+      "count": 74,
+      "min_price": 29.0,
+      "max_price": 384.0
+    },
+    "Los Remedios": {
+      "mean_price": 167.02,
+      "median_price": 73.0,
+      "count": 139,
+      "min_price": 10.0,
+      "max_price": 7650.0
+    },
+    "Huerta de la Salud": {
+      "mean_price": 126.56,
+      "median_price": 74.0,
+      "count": 27,
+      "min_price": 36.0,
+      "max_price": 540.0
+    },
+    "Palacio Congresos, Urbadiez, Entrepuentes, Jardines del Eden": {
+      "mean_price": 70.44,
+      "median_price": 77.0,
+      "count": 18,
+      "min_price": 29.0,
+      "max_price": 119.0
+    },
+    "Valdezorras": {
+      "mean_price": 130.25,
+      "median_price": 119.5,
+      "count": 4,
+      "min_price": 53.0,
+      "max_price": 229.0
+    },
+    "La Calzada": {
+      "mean_price": 85.19,
+      "median_price": 84.0,
+      "count": 27,
+      "min_price": 17.0,
+      "max_price": 194.0
+    },
+    "San Pablo A y B": {
+      "mean_price": 53.62,
+      "median_price": 48.5,
+      "count": 8,
+      "min_price": 29.0,
+      "max_price": 100.0
+    },
+    "El Tardón, El Carmen": {
+      "mean_price": 88.6,
+      "median_price": 80.0,
+      "count": 35,
+      "min_price": 22.0,
+      "max_price": 328.0
+    },
+    "La Buhaira": {
+      "mean_price": 124.75,
+      "median_price": 83.0,
+      "count": 57,
+      "min_price": 36.0,
+      "max_price": 720.0
+    },
+    "Los Pajaros": {
+      "mean_price": 60.0,
+      "median_price": 54.0,
+      "count": 4,
+      "min_price": 32.0,
+      "max_price": 100.0
+    },
+    "Bellavista": {
+      "mean_price": 411.1,
+      "median_price": 70.0,
+      "count": 29,
+      "min_price": 23.0,
+      "max_price": 9429.0
+    },
+    "El Plantinar": {
+      "mean_price": 164.3,
+      "median_price": 75.0,
+      "count": 10,
+      "min_price": 38.0,
+      "max_price": 572.0
+    },
+    "Doctor Barraquer, G. Renfe, Policlínico": {
+      "mean_price": 475.48,
+      "median_price": 77.5,
+      "count": 48,
+      "min_price": 34.0,
+      "max_price": 9436.0
+    },
+    "Consolación": {
+      "mean_price": 36.25,
+      "median_price": 30.0,
+      "count": 4,
+      "min_price": 20.0,
+      "max_price": 65.0
+    },
+    "Ciudad Jardín": {
+      "mean_price": 105.64,
+      "median_price": 72.5,
+      "count": 14,
+      "min_price": 12.0,
+      "max_price": 450.0
+    },
+    "Cruz Roja, Capuchinos": {
+      "mean_price": 72.35,
+      "median_price": 55.0,
+      "count": 57,
+      "min_price": 17.0,
+      "max_price": 485.0
+    },
+    "Nervión": {
+      "mean_price": 209.34,
+      "median_price": 63.0,
+      "count": 77,
+      "min_price": 27.0,
+      "max_price": 5000.0
+    },
+    "Carretera de Carmona, María Auxiliadora, Fontanal": {
+      "mean_price": 81.18,
+      "median_price": 55.5,
+      "count": 38,
+      "min_price": 31.0,
+      "max_price": 393.0
+    },
+    "Rochelambert": {
+      "mean_price": 48.67,
+      "median_price": 45.5,
+      "count": 12,
+      "min_price": 25.0,
+      "max_price": 78.0
+    },
+    "no asignado": {
+      "mean_price": 91.8,
+      "median_price": 80.5,
+      "count": 30,
+      "min_price": 31.0,
+      "max_price": 268.0
+    },
+    "Parque Alcosa": {
+      "mean_price": 85.4,
+      "median_price": 70.0,
+      "count": 5,
+      "min_price": 32.0,
+      "max_price": 183.0
+    },
+    "Heliópolis": {
+      "mean_price": 158.0,
+      "median_price": 80.0,
+      "count": 11,
+      "min_price": 40.0,
+      "max_price": 700.0
+    },
+    "Huerta del Pilar": {
+      "mean_price": 155.56,
+      "median_price": 99.5,
+      "count": 18,
+      "min_price": 41.0,
+      "max_price": 532.0
+    },
+    "San Jerónimo": {
+      "mean_price": 59.65,
+      "median_price": 55.0,
+      "count": 17,
+      "min_price": 18.0,
+      "max_price": 170.0
+    },
+    "Colores, Entreparques": {
+      "mean_price": 91.83,
+      "median_price": 70.0,
+      "count": 35,
+      "min_price": 28.0,
+      "max_price": 304.0
+    },
+    "La Paz, Las Golondrinas": {
+      "mean_price": 44.17,
+      "median_price": 37.5,
+      "count": 6,
+      "min_price": 25.0,
+      "max_price": 87.0
+    },
+    "La Bachillera": {
+      "mean_price": 79.1,
+      "median_price": 64.0,
+      "count": 10,
+      "min_price": 43.0,
+      "max_price": 146.0
+    },
+    "Huerta de Santa Teresa": {
+      "mean_price": 129.84,
+      "median_price": 86.0,
+      "count": 25,
+      "min_price": 53.0,
+      "max_price": 671.0
+    },
+    "Bami": {
+      "mean_price": 84.0,
+      "median_price": 85.5,
+      "count": 20,
+      "min_price": 30.0,
+      "max_price": 184.0
+    },
+    "Tiro de Línea, Santa Genoveva": {
+      "mean_price": 89.88,
+      "median_price": 66.5,
+      "count": 16,
+      "min_price": 36.0,
+      "max_price": 395.0
+    },
+    "Pedro Salvador, Las Palmeritas": {
+      "mean_price": 118.75,
+      "median_price": 61.0,
+      "count": 12,
+      "min_price": 39.0,
+      "max_price": 750.0
+    },
+    "El Cano, Los Bermejales": {
+      "mean_price": 63.67,
+      "median_price": 68.0,
+      "count": 6,
+      "min_price": 33.0,
+      "max_price": 83.0
+    },
+    "San Pablo C": {
+      "mean_price": 31.0,
+      "median_price": 31.0,
+      "count": 2,
+      "min_price": 30.0,
+      "max_price": 32.0
+    },
+    "Barrio León": {
+      "mean_price": 89.29,
+      "median_price": 86.5,
+      "count": 24,
+      "min_price": 31.0,
+      "max_price": 252.0
+    },
+    "Hermandades, La Carrasca": {
+      "mean_price": 65.7,
+      "median_price": 60.5,
+      "count": 10,
+      "min_price": 24.0,
+      "max_price": 180.0
+    },
+    "Aeropuerto Viejo": {
+      "mean_price": 78.0,
+      "median_price": 81.0,
+      "count": 3,
+      "min_price": 44.0,
+      "max_price": 109.0
+    },
+    "Begoña, Santa Catalina": {
+      "mean_price": 43.53,
+      "median_price": 37.0,
+      "count": 15,
+      "min_price": 32.0,
+      "max_price": 80.0
+    },
+    "La Corza": {
+      "mean_price": 107.5,
+      "median_price": 107.5,
+      "count": 2,
+      "min_price": 34.0,
+      "max_price": 181.0
+    },
+    "Pio XII": {
+      "mean_price": 53.41,
+      "median_price": 48.5,
+      "count": 22,
+      "min_price": 28.0,
+      "max_price": 103.0
+    },
+    "Polígono Norte": {
+      "mean_price": 29.17,
+      "median_price": 25.5,
+      "count": 6,
+      "min_price": 24.0,
+      "max_price": 41.0
+    },
+    "El Carmen": {
+      "mean_price": 93.0,
+      "median_price": 71.0,
+      "count": 9,
+      "min_price": 37.0,
+      "max_price": 299.0
+    },
+    "Campos de Soria": {
+      "mean_price": 63.33,
+      "median_price": 26.0,
+      "count": 3,
+      "min_price": 26.0,
+      "max_price": 138.0
+    },
+    "Las Huertas": {
+      "mean_price": 105.25,
+      "median_price": 85.5,
+      "count": 4,
+      "min_price": 62.0,
+      "max_price": 188.0
+    },
+    "La Barzola": {
+      "mean_price": 57.4,
+      "median_price": 46.0,
+      "count": 5,
+      "min_price": 40.0,
+      "max_price": 91.0
+    },
+    "Juan XXIII": {
+      "mean_price": 54.69,
+      "median_price": 49.5,
+      "count": 16,
+      "min_price": 32.0,
+      "max_price": 81.0
+    },
+    "San Pablo D y E": {
+      "mean_price": 134.2,
+      "median_price": 51.0,
+      "count": 10,
+      "min_price": 24.0,
+      "max_price": 656.0
+    },
+    "La Palmilla, Doctor Marañón": {
+      "mean_price": 59.43,
+      "median_price": 51.0,
+      "count": 7,
+      "min_price": 32.0,
+      "max_price": 101.0
+    },
+    "Palmete": {
+      "mean_price": 85.86,
+      "median_price": 81.0,
+      "count": 7,
+      "min_price": 52.0,
+      "max_price": 126.0
+    },
+    "Giralda Sur": {
+      "mean_price": 1371.29,
+      "median_price": 68.0,
+      "count": 7,
+      "min_price": 41.0,
+      "max_price": 9000.0
+    },
+    "Retiro Obrero": {
+      "mean_price": 140.5,
+      "median_price": 103.0,
+      "count": 4,
+      "min_price": 70.0,
+      "max_price": 286.0
+    },
+    "Cisneo Alto, Santa María de Graccia": {
+      "mean_price": 89.33,
+      "median_price": 66.0,
+      "count": 3,
+      "min_price": 51.0,
+      "max_price": 151.0
+    },
+    "El Juncal, Híspalis": {
+      "mean_price": 149.17,
+      "median_price": 54.0,
+      "count": 6,
+      "min_price": 35.0,
+      "max_price": 628.0
+    },
+    "Bda. Pino Montano": {
+      "mean_price": 75.5,
+      "median_price": 45.0,
+      "count": 4,
+      "min_price": 38.0,
+      "max_price": 174.0
+    },
+    "Los Príncipes, La Fontanilla": {
+      "mean_price": 120.33,
+      "median_price": 104.0,
+      "count": 3,
+      "min_price": 19.0,
+      "max_price": 238.0
+    },
+    "Avda. de la Paz": {
+      "mean_price": 33.5,
+      "median_price": 33.5,
+      "count": 2,
+      "min_price": 20.0,
+      "max_price": 47.0
+    },
+    "Polígono Sur": {
+      "mean_price": 182.83,
+      "median_price": 72.0,
+      "count": 6,
+      "min_price": 40.0,
+      "max_price": 737.0
+    },
+    "Villegas": {
+      "mean_price": 37.71,
+      "median_price": 27.0,
+      "count": 7,
+      "min_price": 20.0,
+      "max_price": 79.0
+    },
+    "Felipe II, Los Diez Mandamientos": {
+      "mean_price": 67.8,
+      "median_price": 41.0,
+      "count": 5,
+      "min_price": 35.0,
+      "max_price": 117.0
+    },
+    "El Gordillo": {
+      "mean_price": 26.0,
+      "median_price": 26.0,
+      "count": 1,
+      "min_price": 26.0,
+      "max_price": 26.0
+    },
+    "Tablada": {
+      "mean_price": 175.83,
+      "median_price": 121.0,
+      "count": 6,
+      "min_price": 41.0,
+      "max_price": 500.0
+    },
+    "Prado, Parque María Luisa": {
+      "mean_price": 121.25,
+      "median_price": 92.5,
+      "count": 4,
+      "min_price": 50.0,
+      "max_price": 250.0
+    },
+    "La Plata": {
+      "mean_price": 48.36,
+      "median_price": 43.0,
+      "count": 11,
+      "min_price": 24.0,
+      "max_price": 99.0
+    },
+    "Amate": {
+      "mean_price": 27.29,
+      "median_price": 21.0,
+      "count": 7,
+      "min_price": 20.0,
+      "max_price": 45.0
+    },
+    "Los arcos": {
+      "mean_price": 43.5,
+      "median_price": 43.5,
+      "count": 2,
+      "min_price": 27.0,
+      "max_price": 60.0
+    },
+    "Tabladilla, La Estrella": {
+      "mean_price": 80.33,
+      "median_price": 86.0,
+      "count": 3,
+      "min_price": 54.0,
+      "max_price": 101.0
+    },
+    "Las Naciones, Parque Atlántico, Las Dalias": {
+      "mean_price": 104.0,
+      "median_price": 104.0,
+      "count": 1,
+      "min_price": 104.0,
+      "max_price": 104.0
+    },
+    "Santa Aurelia, Cantábrico, Atlántico, La Romería": {
+      "mean_price": 110.43,
+      "median_price": 130.0,
+      "count": 7,
+      "min_price": 55.0,
+      "max_price": 160.0
+    },
+    "San Matías": {
+      "mean_price": 30.0,
+      "median_price": 30.0,
+      "count": 1,
+      "min_price": 30.0,
+      "max_price": 30.0
+    },
+    "San Carlos, Tartessos": {
+      "mean_price": 68.4,
+      "median_price": 58.0,
+      "count": 15,
+      "min_price": 41.0,
+      "max_price": 119.0
+    },
+    "San Diego": {
+      "mean_price": 66.0,
+      "median_price": 66.0,
+      "count": 1,
+      "min_price": 66.0,
+      "max_price": 66.0
+    },
+    "El Rocío": {
+      "mean_price": 42.33,
+      "median_price": 34.0,
+      "count": 3,
+      "min_price": 33.0,
+      "max_price": 60.0
+    },
+    "Los Carteros": {
+      "mean_price": 70.0,
+      "median_price": 70.0,
+      "count": 1,
+      "min_price": 70.0,
+      "max_price": 70.0
+    },
+    "La Oliva": {
+      "mean_price": 4528.5,
+      "median_price": 4528.5,
+      "count": 2,
+      "min_price": 50.0,
+      "max_price": 9007.0
+    },
+    "Las Letanías": {
+      "mean_price": 17.8,
+      "median_price": 18.0,
+      "count": 5,
+      "min_price": 16.0,
+      "max_price": 20.0
+    },
+    "Bda. de Pineda": {
+      "mean_price": 112.0,
+      "median_price": 112.0,
+      "count": 1,
+      "min_price": 112.0,
+      "max_price": 112.0
+    }
+  },
+  "Valencia": {
+    "MORVEDRE": {
+      "mean_price": 121.29,
+      "median_price": 111.0,
+      "count": 147,
+      "min_price": 20.0,
+      "max_price": 368.0
+    },
+    "EL SALER": {
+      "mean_price": 630.57,
+      "median_price": 137.5,
+      "count": 70,
+      "min_price": 22.0,
+      "max_price": 9429.0
+    },
+    "CABANYAL-CANYAMELAR": {
+      "mean_price": 137.81,
+      "median_price": 118.0,
+      "count": 794,
+      "min_price": 15.0,
+      "max_price": 1129.0
+    },
+    "LA ROQUETA": {
+      "mean_price": 130.29,
+      "median_price": 118.5,
+      "count": 192,
+      "min_price": 21.0,
+      "max_price": 400.0
+    },
+    "AIORA": {
+      "mean_price": 157.37,
+      "median_price": 104.0,
+      "count": 389,
+      "min_price": 18.0,
+      "max_price": 5000.0
+    },
+    "EL CARME": {
+      "mean_price": 405.33,
+      "median_price": 114.0,
+      "count": 305,
+      "min_price": 22.0,
+      "max_price": 9858.0
+    },
+    "EXPOSICIO": {
+      "mean_price": 112.88,
+      "median_price": 102.0,
+      "count": 25,
+      "min_price": 34.0,
+      "max_price": 700.0
+    },
+    "LA MALVA-ROSA": {
+      "mean_price": 145.73,
+      "median_price": 115.0,
+      "count": 266,
+      "min_price": 17.0,
+      "max_price": 1901.0
+    },
+    "LA CARRASCA": {
+      "mean_price": 95.5,
+      "median_price": 80.5,
+      "count": 66,
+      "min_price": 25.0,
+      "max_price": 556.0
+    },
+    "EL BOTANIC": {
+      "mean_price": 119.3,
+      "median_price": 110.0,
+      "count": 152,
+      "min_price": 35.0,
+      "max_price": 750.0
+    },
+    "RUSSAFA": {
+      "mean_price": 131.45,
+      "median_price": 111.0,
+      "count": 593,
+      "min_price": 16.0,
+      "max_price": 1142.0
+    },
+    "ARRANCAPINS": {
+      "mean_price": 110.6,
+      "median_price": 99.5,
+      "count": 198,
+      "min_price": 17.0,
+      "max_price": 1150.0
+    },
+    "CIUTAT DE LES ARTS I DE LES CIENCIES": {
+      "mean_price": 165.39,
+      "median_price": 126.0,
+      "count": 103,
+      "min_price": 22.0,
+      "max_price": 1235.0
+    },
+    "EL PILAR": {
+      "mean_price": 140.81,
+      "median_price": 110.0,
+      "count": 144,
+      "min_price": 26.0,
+      "max_price": 1350.0
+    },
+    "EL MERCAT": {
+      "mean_price": 162.79,
+      "median_price": 125.5,
+      "count": 298,
+      "min_price": 25.0,
+      "max_price": 1600.0
+    },
+    "BENICALAP": {
+      "mean_price": 379.26,
+      "median_price": 82.0,
+      "count": 121,
+      "min_price": 15.0,
+      "max_price": 9004.0
+    },
+    "PENYA-ROJA": {
+      "mean_price": 246.63,
+      "median_price": 149.0,
+      "count": 113,
+      "min_price": 22.0,
+      "max_price": 2550.0
+    },
+    "SANT PAU": {
+      "mean_price": 154.09,
+      "median_price": 112.0,
+      "count": 33,
+      "min_price": 13.0,
+      "max_price": 926.0
+    },
+    "TRINITAT": {
+      "mean_price": 130.16,
+      "median_price": 119.0,
+      "count": 63,
+      "min_price": 29.0,
+      "max_price": 286.0
+    },
+    "LA SEU": {
+      "mean_price": 181.19,
+      "median_price": 110.0,
+      "count": 202,
+      "min_price": 34.0,
+      "max_price": 2970.0
+    },
+    "SANT ANTONI": {
+      "mean_price": 305.8,
+      "median_price": 81.0,
+      "count": 44,
+      "min_price": 23.0,
+      "max_price": 9858.0
+    },
+    "MESTALLA": {
+      "mean_price": 386.37,
+      "median_price": 100.0,
+      "count": 104,
+      "min_price": 24.0,
+      "max_price": 9725.0
+    },
+    "LA XEREA": {
+      "mean_price": 127.82,
+      "median_price": 110.0,
+      "count": 124,
+      "min_price": 26.0,
+      "max_price": 780.0
+    },
+    "LA RAIOSA": {
+      "mean_price": 109.7,
+      "median_price": 99.0,
+      "count": 135,
+      "min_price": 23.0,
+      "max_price": 750.0
+    },
+    "EL PERELLONET": {
+      "mean_price": 130.61,
+      "median_price": 113.5,
+      "count": 54,
+      "min_price": 10.0,
+      "max_price": 312.0
+    },
+    "SANT FRANCESC": {
+      "mean_price": 144.74,
+      "median_price": 129.0,
+      "count": 267,
+      "min_price": 23.0,
+      "max_price": 1256.0
+    },
+    "NATZARET": {
+      "mean_price": 82.0,
+      "median_price": 83.5,
+      "count": 74,
+      "min_price": 30.0,
+      "max_price": 316.0
+    },
+    "LA GRAN VIA": {
+      "mean_price": 143.31,
+      "median_price": 129.0,
+      "count": 78,
+      "min_price": 26.0,
+      "max_price": 377.0
+    },
+    "BENIMACLET": {
+      "mean_price": 97.54,
+      "median_price": 82.0,
+      "count": 111,
+      "min_price": 9.0,
+      "max_price": 920.0
+    },
+    "NOU MOLES": {
+      "mean_price": 145.87,
+      "median_price": 81.5,
+      "count": 152,
+      "min_price": 22.0,
+      "max_price": 9143.0
+    },
+    "BENIMAMET": {
+      "mean_price": 75.06,
+      "median_price": 74.0,
+      "count": 36,
+      "min_price": 20.0,
+      "max_price": 150.0
+    },
+    "LA VEGA BAIXA": {
+      "mean_price": 69.56,
+      "median_price": 51.0,
+      "count": 66,
+      "min_price": 22.0,
+      "max_price": 220.0
+    },
+    "LA PETXINA": {
+      "mean_price": 114.86,
+      "median_price": 103.0,
+      "count": 126,
+      "min_price": 19.0,
+      "max_price": 396.0
+    },
+    "MALILLA": {
+      "mean_price": 102.45,
+      "median_price": 98.0,
+      "count": 71,
+      "min_price": 10.0,
+      "max_price": 401.0
+    },
+    "JAUME ROIG": {
+      "mean_price": 90.61,
+      "median_price": 71.5,
+      "count": 18,
+      "min_price": 30.0,
+      "max_price": 262.0
+    },
+    "LA CREU DEL GRAU": {
+      "mean_price": 117.29,
+      "median_price": 90.0,
+      "count": 123,
+      "min_price": 17.0,
+      "max_price": 3292.0
+    },
+    "CIUTAT JARDI": {
+      "mean_price": 158.2,
+      "median_price": 81.0,
+      "count": 114,
+      "min_price": 10.0,
+      "max_price": 1374.0
+    },
+    "SANT LLORENS": {
+      "mean_price": 92.46,
+      "median_price": 100.0,
+      "count": 41,
+      "min_price": 26.0,
+      "max_price": 184.0
+    },
+    "NA ROVELLA": {
+      "mean_price": 212.37,
+      "median_price": 84.5,
+      "count": 68,
+      "min_price": 22.0,
+      "max_price": 4250.0
+    },
+    "CAMI FONDO": {
+      "mean_price": 510.1,
+      "median_price": 87.0,
+      "count": 49,
+      "min_price": 8.0,
+      "max_price": 9008.0
+    },
+    "ALBORS": {
+      "mean_price": 191.98,
+      "median_price": 84.0,
+      "count": 109,
+      "min_price": 15.0,
+      "max_price": 8000.0
+    },
+    "EL GRAU": {
+      "mean_price": 109.31,
+      "median_price": 106.0,
+      "count": 243,
+      "min_price": 10.0,
+      "max_price": 392.0
+    },
+    "MONT-OLIVET": {
+      "mean_price": 107.64,
+      "median_price": 108.0,
+      "count": 270,
+      "min_price": 15.0,
+      "max_price": 577.0
+    },
+    "MARXALENES": {
+      "mean_price": 86.5,
+      "median_price": 86.5,
+      "count": 56,
+      "min_price": 11.0,
+      "max_price": 192.0
+    },
+    "FAITANAR": {
+      "mean_price": 129.0,
+      "median_price": 129.0,
+      "count": 2,
+      "min_price": 80.0,
+      "max_price": 178.0
+    },
+    "EN CORTS": {
+      "mean_price": 92.36,
+      "median_price": 89.0,
+      "count": 229,
+      "min_price": 16.0,
+      "max_price": 265.0
+    },
+    "BETERO": {
+      "mean_price": 112.67,
+      "median_price": 93.0,
+      "count": 91,
+      "min_price": 22.0,
+      "max_price": 500.0
+    },
+    "L'ILLA PERDUDA": {
+      "mean_price": 87.88,
+      "median_price": 66.5,
+      "count": 72,
+      "min_price": 18.0,
+      "max_price": 333.0
+    },
+    "TORMOS": {
+      "mean_price": 243.55,
+      "median_price": 87.5,
+      "count": 60,
+      "min_price": 24.0,
+      "max_price": 8867.0
+    },
+    "VARA DE QUART": {
+      "mean_price": 92.86,
+      "median_price": 86.5,
+      "count": 14,
+      "min_price": 20.0,
+      "max_price": 259.0
+    },
+    "L'AMISTAT": {
+      "mean_price": 267.29,
+      "median_price": 86.0,
+      "count": 95,
+      "min_price": 25.0,
+      "max_price": 8000.0
+    },
+    "CAMI DE VERA": {
+      "mean_price": 88.08,
+      "median_price": 86.0,
+      "count": 13,
+      "min_price": 46.0,
+      "max_price": 169.0
+    },
+    "EL PLA DEL REMEI": {
+      "mean_price": 164.09,
+      "median_price": 129.5,
+      "count": 56,
+      "min_price": 17.0,
+      "max_price": 1132.0
+    },
+    "PATRAIX": {
+      "mean_price": 172.15,
+      "median_price": 90.0,
+      "count": 129,
+      "min_price": 22.0,
+      "max_price": 9999.0
+    },
+    "SAFRANAR": {
+      "mean_price": 158.56,
+      "median_price": 102.5,
+      "count": 18,
+      "min_price": 24.0,
+      "max_price": 362.0
+    },
+    "MASSARROJOS": {
+      "mean_price": 90.5,
+      "median_price": 90.5,
+      "count": 2,
+      "min_price": 49.0,
+      "max_price": 132.0
+    },
+    "TRES FORQUES": {
+      "mean_price": 62.38,
+      "median_price": 45.0,
+      "count": 29,
+      "min_price": 19.0,
+      "max_price": 160.0
+    },
+    "ELS ORRIOLS": {
+      "mean_price": 216.94,
+      "median_price": 82.0,
+      "count": 65,
+      "min_price": 13.0,
+      "max_price": 9008.0
+    },
+    "CAMPANAR": {
+      "mean_price": 94.29,
+      "median_price": 78.5,
+      "count": 42,
+      "min_price": 30.0,
+      "max_price": 313.0
+    },
+    "LA FONTETA S.LLUIS": {
+      "mean_price": 103.64,
+      "median_price": 111.5,
+      "count": 14,
+      "min_price": 24.0,
+      "max_price": 216.0
+    },
+    "PINEDO": {
+      "mean_price": 1394.75,
+      "median_price": 110.5,
+      "count": 20,
+      "min_price": 33.0,
+      "max_price": 3000.0
+    },
+    "LA PUNTA": {
+      "mean_price": 107.76,
+      "median_price": 97.0,
+      "count": 38,
+      "min_price": 24.0,
+      "max_price": 450.0
+    },
+    "LA FONTSANTA": {
+      "mean_price": 57.23,
+      "median_price": 40.0,
+      "count": 13,
+      "min_price": 24.0,
+      "max_price": 108.0
+    },
+    "L'HORT DE SENABRE": {
+      "mean_price": 84.89,
+      "median_price": 60.0,
+      "count": 54,
+      "min_price": 22.0,
+      "max_price": 327.0
+    },
+    "CIUTAT FALLERA": {
+      "mean_price": 214.79,
+      "median_price": 99.0,
+      "count": 19,
+      "min_price": 21.0,
+      "max_price": 2144.0
+    },
+    "MAHUELLA-TAULADELLA": {
+      "mean_price": 150.0,
+      "median_price": 150.0,
+      "count": 1,
+      "min_price": 150.0,
+      "max_price": 150.0
+    },
+    "LES TENDETES": {
+      "mean_price": 76.96,
+      "median_price": 63.5,
+      "count": 54,
+      "min_price": 22.0,
+      "max_price": 191.0
+    },
+    "TORREFIEL": {
+      "mean_price": 72.53,
+      "median_price": 65.0,
+      "count": 66,
+      "min_price": 17.0,
+      "max_price": 209.0
+    },
+    "SOTERNES": {
+      "mean_price": 95.0,
+      "median_price": 93.5,
+      "count": 26,
+      "min_price": 22.0,
+      "max_price": 260.0
+    },
+    "EL CALVARI": {
+      "mean_price": 79.08,
+      "median_price": 89.0,
+      "count": 13,
+      "min_price": 16.0,
+      "max_price": 121.0
+    },
+    "CARPESA": {
+      "mean_price": 360.0,
+      "median_price": 360.0,
+      "count": 1,
+      "min_price": 360.0,
+      "max_price": 360.0
+    },
+    "CAMI REAL": {
+      "mean_price": 62.14,
+      "median_price": 63.5,
+      "count": 22,
+      "min_price": 23.0,
+      "max_price": 130.0
+    },
+    "CIUTAT UNIVERSITARIA": {
+      "mean_price": 88.82,
+      "median_price": 91.0,
+      "count": 17,
+      "min_price": 17.0,
+      "max_price": 240.0
+    },
+    "SANT MARCEL.LI": {
+      "mean_price": 56.9,
+      "median_price": 49.5,
+      "count": 42,
+      "min_price": 24.0,
+      "max_price": 124.0
+    },
+    "LA LLUM": {
+      "mean_price": 70.6,
+      "median_price": 92.0,
+      "count": 5,
+      "min_price": 15.0,
+      "max_price": 111.0
+    },
+    "BENIFERRI": {
+      "mean_price": 100.07,
+      "median_price": 107.5,
+      "count": 14,
+      "min_price": 21.0,
+      "max_price": 214.0
+    },
+    "SANT ISIDRE": {
+      "mean_price": 51.57,
+      "median_price": 48.0,
+      "count": 7,
+      "min_price": 25.0,
+      "max_price": 95.0
+    },
+    "EL FORN D'ALCEDO": {
+      "mean_price": 80.0,
+      "median_price": 77.0,
+      "count": 3,
+      "min_price": 77.0,
+      "max_price": 86.0
+    },
+    "FAVARA": {
+      "mean_price": 109.31,
+      "median_price": 95.0,
+      "count": 16,
+      "min_price": 29.0,
+      "max_price": 344.0
+    },
+    "EL PALMAR": {
+      "mean_price": 52.0,
+      "median_price": 52.0,
+      "count": 2,
+      "min_price": 45.0,
+      "max_price": 59.0
+    },
+    "LA CREU COBERTA": {
+      "mean_price": 56.22,
+      "median_price": 39.0,
+      "count": 18,
+      "min_price": 25.0,
+      "max_price": 139.0
+    },
+    "POBLE NOU": {
+      "mean_price": 52.33,
+      "median_price": 40.0,
+      "count": 3,
+      "min_price": 30.0,
+      "max_price": 87.0
+    },
+    "LA TORRE": {
+      "mean_price": 34.5,
+      "median_price": 33.0,
+      "count": 4,
+      "min_price": 23.0,
+      "max_price": 49.0
+    },
+    "CASTELLAR-L'OLIVERAL": {
+      "mean_price": 66.75,
+      "median_price": 59.5,
+      "count": 4,
+      "min_price": 45.0,
+      "max_price": 103.0
+    },
+    "BORBOTO": {
+      "mean_price": 72.0,
+      "median_price": 72.0,
+      "count": 1,
+      "min_price": 72.0,
+      "max_price": 72.0
+    }
+  }
+}

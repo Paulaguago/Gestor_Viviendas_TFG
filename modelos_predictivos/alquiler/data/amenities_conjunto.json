@@ -1,0 +1,164 @@
+{
+  "amenities": [
+    "Acondicionador",
+    "Aire acondicionado",
+    "Amenities de baño",
+    "Ascensor",
+    "Barbacoa",
+    "Batidora",
+    "Biblioteca",
+    "Cafetera",
+    "Caja fuerte",
+    "Calefacción",
+    "Cerradura inteligente",
+    "Champú",
+    "Check-in automático",
+    "Chimenea",
+    "Cocina",
+    "Colchones ortopédicos",
+    "Consola de videojuegos",
+    "Cámaras de seguridad",
+    "Desayuno incluido",
+    "Ducha efecto lluvia",
+    "Entrada privada",
+    "Espacio de yoga",
+    "Gel de ducha",
+    "Gimnasio",
+    "Horno",
+    "Iluminación ambiental",
+    "Jacuzzi",
+    "Jardín privado",
+    "Juegos de mesa",
+    "Kit de higiene personal",
+    "Lavadora",
+    "Lavavajillas",
+    "Microondas",
+    "Muebles de exterior",
+    "Nevera",
+    "Parking privado",
+    "Persianas eléctricas",
+    "Piscina",
+    "Plancha",
+    "Portero automático",
+    "Recepción 24h",
+    "Sala de masajes",
+    "Sauna",
+    "Se admiten mascotas",
+    "Secador de pelo",
+    "Secadora",
+    "Servicio de lavandería",
+    "Servicio de limpieza",
+    "Sistema de alarma",
+    "Sistema de sonido",
+    "Smart TV",
+    "Sábanas",
+    "Terraza",
+    "Toallas",
+    "Toallas premium",
+    "Tostadora",
+    "Transporte aeropuerto",
+    "Vajilla completa",
+    "Ventiladores de techo",
+    "Vista a la montaña",
+    "WiFi",
+    "Zona de juegos infantiles",
+    "Zona de picnic"
+  ],
+  "amenities_grouped": {
+    "Climatizacion": [
+      "Aire acondicionado",
+      "Calefacción"
+    ],
+    "Lavanderia": [
+      "Lavadora",
+      "Secadora"
+    ],
+    "Acceso": [
+      "Ascensor",
+      "Check-in automático",
+      "Entrada privada"
+    ],
+    "Piscina y spa": [
+      "Jacuzzi",
+      "Piscina"
+    ],
+    "Cocina": [
+      "Cocina",
+      "Horno",
+      "Microondas",
+      "Nevera"
+    ],
+    "Vistas y ubicacion": [
+      "Vista a la montaña"
+    ],
+    "Extras": [
+      "Se admiten mascotas"
+    ],
+    "Conectividad": [
+      "WiFi"
+    ],
+    "Seguridad": [
+      "Caja fuerte",
+      "Cerradura inteligente",
+      "Cámaras de seguridad",
+      "Portero automático",
+      "Sistema de alarma"
+    ],
+    "Confort interior": [
+      "Chimenea",
+      "Colchones ortopédicos",
+      "Iluminación ambiental",
+      "Persianas eléctricas",
+      "Ventiladores de techo"
+    ],
+    "Cocina y comedor": [
+      "Barbacoa",
+      "Batidora",
+      "Cafetera",
+      "Lavavajillas",
+      "Tostadora",
+      "Vajilla completa"
+    ],
+    "Higiene": [
+      "Acondicionador",
+      "Amenities de baño",
+      "Champú",
+      "Ducha efecto lluvia",
+      "Gel de ducha",
+      "Kit de higiene personal",
+      "Plancha",
+      "Secador de pelo",
+      "Sábanas",
+      "Toallas",
+      "Toallas premium"
+    ],
+    "Entretenimiento": [
+      "Biblioteca",
+      "Consola de videojuegos",
+      "Juegos de mesa",
+      "Sistema de sonido",
+      "Smart TV"
+    ],
+    "Exterior": [
+      "Jardín privado",
+      "Muebles de exterior",
+      "Parking privado",
+      "Terraza",
+      "Zona de juegos infantiles",
+      "Zona de picnic"
+    ],
+    "Bienestar": [
+      "Espacio de yoga",
+      "Gimnasio",
+      "Sala de masajes",
+      "Sauna"
+    ],
+    "Servicios": [
+      "Desayuno incluido",
+      "Recepción 24h",
+      "Servicio de lavandería",
+      "Servicio de limpieza",
+      "Transporte aeropuerto"
+    ]
+  }
+}
