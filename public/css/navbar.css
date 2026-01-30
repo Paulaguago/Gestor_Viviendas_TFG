@@ -1,0 +1,48 @@
+/* Estilos del Navbar Principal */
+
+/* Logo y Brand */
+.navbar-brand-icon {
+    font-size: 1.5rem;
+    color: #d7bfa6;
+}
+
+.navbar-profile-icon {
+    font-size: 1.5rem;
+}
+
+/* Espaciado entre opciones del navbar */
+.navbar-nav .nav-item {
+    margin: 0 0.75rem;
+}
+
+.navbar-nav .nav-link {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+}
+
+/* Navbar estilo Airbnb Host Tools */
+.navbar-airbnb-style {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.navbar-airbnb-brand-icon {
+    font-size: 1.8rem;
+    color: #FF5A5F;
+}
+
+.navbar-airbnb-brand-text {
+    color: #484848;
+}
+
+.navbar-airbnb-links {
+    gap: 1.5rem;
+}
+
+.navbar-airbnb-link {
+    color: #484848;
+}
+
+.navbar-airbnb-avatar {
+    width: 35px;
+    height: 35px;
+}

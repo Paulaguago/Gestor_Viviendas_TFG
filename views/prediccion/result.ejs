@@ -43,10 +43,10 @@
                             <div class="card border-0 shadow-sm price-card-bg">
                                 <div class="card-body text-center">
                                     <i class="bi bi-currency-euro display-6 text-dark"></i>
-                                    <h2 class="mt-2 mb-1 fw-bold">€<%= prediction.toFixed(2) %></h2>
-                                    <p class="text-muted mb-1">Precio estimado por noche (conversión desde USD)</p>
+                                    <h2 class="mt-2 mb-1 fw-bold"><%= prediction.toFixed(2) %>€</h2>
+                                    <p class="text-muted mb-1">Precio estimado por noche</p>
                                     <% if (typeof predictionUsd !== 'undefined') { %>
-                                        <p class="small text-muted mb-0">Valor original: $<%= predictionUsd.toFixed(2) %> USD</p>
+                                        <p class="small text-muted mb-0">Valor calculado desde el modelo en EUR</p>
                                     <% } %>
                                     <% if (typeof fechaContext !== 'undefined' && fechaContext) { %>
                                         <div class="alert alert-info py-2 px-3 small mt-3 mb-0 text-start">

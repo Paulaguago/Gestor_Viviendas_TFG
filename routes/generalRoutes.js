@@ -14,9 +14,9 @@ router.get('/opciones-prediccion', (req, res) => {
   res.render('prediccion/opciones-prediccion');
 });
 
-// Ruta principal - GET / -> redirige a opciones de predicción
+// Ruta principal - GET / -> muestra el dashboard
 router.get('/', (req, res) => {
-  return res.redirect('/opciones-prediccion');
+  return res.render('dashboard');
 });
 
 // ================= EBM: endpoints para explicaciones =================
@@ -172,3 +172,14 @@ router.get('/rf/distribution', (req, res) => {
 });
 
 module.exports = router;
+
+// Nueva pantalla principal (Dashboard)
+router.get('/dashboard', (req, res) => {
+  res.render('dashboard');
+});
+
+// Ruta temporal de logout
+router.get('/logout', (req, res) => {
+  // Aqu� ir�a la l�gica de cerrar sesi�n
+  res.redirect('/');
+});

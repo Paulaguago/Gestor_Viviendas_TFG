@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Gestor Viviendas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    
+    <%- include('partials/navbar') %>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar Izquierdo (1/4 de la pantalla) -->
+            <aside class="col-lg-3 col-md-4 sidebar-dashboard">
+                <div class="sidebar-content">
+                    <h5 class="sidebar-title">Calendario</h5>
+                    
+                    <!-- Mini Calendario dinámico -->
+                    <div id="miniCalendarContainer">
+                        <!-- El calendario se genera dinámicamente con JavaScript -->
+                    </div>
+
+            <div class="mt-4">
+                        <h6 class="sidebar-subtitle">Resumen Rápido</h6>
+                        <div class="card summary-card">
+                            <div class="card-body">
+                                <div class="summary-item">
+                                    <span class="summary-label">Propiedades activas</span>
+                                    <span class="summary-value">12</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Reservas este mes</span>
+                                    <span class="summary-value text-success">28</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Ocupación media</span>
+                                    <span class="summary-value text-info">76%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Panel Principal (3/4 de la pantalla) -->
+            <main class="col-lg-9 col-md-8 main-content">
+                <div class="content-wrapper">
+                    <!-- Header del Dashboard -->
+                    <div class="dashboard-header">
+                        <h2>Bienvenido de nuevo, <span class="text-primary">Usuario</span></h2>
+                        <p class="text-muted">Resumen de tu actividad y próximas reservas</p>
+                    </div>
+
+                    <!-- Tarjetas de Estadísticas -->
+                    <div class="row stats-row mb-4">
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <div class="card stat-card">
+                                <div class="card-body">
+                                    <div class="stat-icon bg-primary">
+                                        <i class="bi bi-calendar-check"></i>
+                                    </div>
+                                    <h6>Próximas Reservas</h6>
+                                    <h3>15</h3>
+                                    <small class="text-muted">En los próximos 7 días</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <div class="card stat-card">
+                                <div class="card-body">
+                                    <div class="stat-icon bg-success">
+                                        <i class="bi bi-currency-euro"></i>
+                                    </div>
+                                    <h6>Ingresos del Mes</h6>
+                                    <h3>12.450€</h3>
+                                    <small class="text-success">+15% vs mes anterior</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <div class="card stat-card">
+                                <div class="card-body">
+                                    <div class="stat-icon bg-warning">
+                                        <i class="bi bi-exclamation-triangle"></i>
+                                    </div>
+                                    <h6>Tareas Pendientes</h6>
+                                    <h3>3</h3>
+                                    <small class="text-muted">Revisar incidencias</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <div class="card stat-card">
+                                <div class="card-body">
+                                    <div class="stat-icon bg-info">
+                                        <i class="bi bi-graph-up"></i>
+                                    </div>
+                                    <h6>Ocupación</h6>
+                                    <h3>76%</h3>
+                                    <small class="text-muted">Media actual</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección de Próximas Reservas -->
+                    <div class="card reservas-card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="bi bi-calendar-event me-2"></i>Próximas Reservas</h5>
+                            <a href="/reservas" class="btn btn-sm btn-outline-primary">Ver todas</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="reservas-scroll-container">
+                                <!-- Ejemplo de reservas (datos estáticos por ahora) -->
+                                <div class="reserva-card">
+                                    <div class="reserva-fecha">
+                                        <div class="fecha-badge">
+                                            <span class="dia">31</span>
+                                            <span class="mes">ENE</span>
+                                        </div>
+                                    </div>
+                                    <div class="reserva-info">
+                                        <h6>Apartamento Centro - Barcelona</h6>
+                                        <p class="mb-1"><i class="bi bi-person"></i> Juan Pérez · 3 noches</p>
+                                        <small class="text-muted">Check-in: 31 Ene 15:00 - Check-out: 3 Feb 11:00</small>
+                                    </div>
+                                    <div class="reserva-estado">
+                                        <span class="badge bg-success">Confirmada</span>
+                                        <p class="reserva-precio mb-0">450€</p>
+                                    </div>
+                                </div>
+
+                                <div class="reserva-card">
+                                    <div class="reserva-fecha">
+                                        <div class="fecha-badge">
+                                            <span class="dia">2</span>
+                                            <span class="mes">FEB</span>
+                                        </div>
+                                    </div>
+                                    <div class="reserva-info">
+                                        <h6>Casa Playa - Valencia</h6>
+                                        <p class="mb-1"><i class="bi bi-person"></i> María García · 5 noches</p>
+                                        <small class="text-muted">Check-in: 2 Feb 16:00 - Check-out: 7 Feb 11:00</small>
+                                    </div>
+                                    <div class="reserva-estado">
+                                        <span class="badge bg-warning">Pendiente pago</span>
+                                        <p class="reserva-precio mb-0">850€</p>
+                                    </div>
+                                </div>
+
+                                <div class="reserva-card">
+                                    <div class="reserva-fecha">
+                                        <div class="fecha-badge">
+                                            <span class="dia">5</span>
+                                            <span class="mes">FEB</span>
+                                        </div>
+                                    </div>
+                                    <div class="reserva-info">
+                                        <h6>Loft Moderno - Madrid</h6>
+                                        <p class="mb-1"><i class="bi bi-person"></i> Pedro Sánchez · 2 noches</p>
+                                        <small class="text-muted">Check-in: 5 Feb 14:00 - Check-out: 7 Feb 12:00</small>
+                                    </div>
+                                    <div class="reserva-estado">
+                                        <span class="badge bg-success">Confirmada</span>
+                                        <p class="reserva-precio mb-0">320€</p>
+                                    </div>
+                                </div>
+
+                                <div class="reserva-card">
+                                    <div class="reserva-fecha">
+                                        <div class="fecha-badge">
+                                            <span class="dia">8</span>
+                                            <span class="mes">FEB</span>
+                                        </div>
+                                    </div>
+                                    <div class="reserva-info">
+                                        <h6>Estudio Compacto - Sevilla</h6>
+                                        <p class="mb-1"><i class="bi bi-person"></i> Ana López · 4 noches</p>
+                                        <small class="text-muted">Check-in: 8 Feb 15:00 - Check-out: 12 Feb 11:00</small>
+                                    </div>
+                                    <div class="reserva-estado">
+                                        <span class="badge bg-success">Confirmada</span>
+                                        <p class="reserva-precio mb-0">480€</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección adicional: Alertas y Tareas -->
+                    <div class="row mt-4">
+                        <div class="col-lg-6 mb-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0"><i class="bi bi-bell me-2"></i>Notificaciones Recientes</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="notification-item">
+                                        <i class="bi bi-check-circle text-success"></i>
+                                        <span>Nueva reserva confirmada en Barcelona Centro</span>
+                                        <small>Hace 2 horas</small>
+                                    </div>
+                                    <div class="notification-item">
+                                        <i class="bi bi-exclamation-circle text-warning"></i>
+                                        <span>Recordatorio: Limpieza programada mañana</span>
+                                        <small>Hace 5 horas</small>
+                                    </div>
+                                    <div class="notification-item">
+                                        <i class="bi bi-info-circle text-info"></i>
+                                        <span>Nuevo mensaje del huésped Juan Pérez</span>
+                                        <small>Ayer</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0"><i class="bi bi-bar-chart me-2"></i>Rendimiento del Mes</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted small">Propiedades con mejor rendimiento:</p>
+                                    <div class="performance-item">
+                                        <span class="property-name">Apartamento Centro</span>
+                                        <span class="badge bg-success">95% ocupación</span>
+                                    </div>
+                                    <div class="performance-item">
+                                        <span class="property-name">Casa Playa Valencia</span>
+                                        <span class="badge bg-success">88% ocupación</span>
+                                    </div>
+                                    <div class="performance-item">
+                                        <span class="property-name">Loft Moderno Madrid</span>
+                                        <span class="badge bg-warning">65% ocupación</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/calendar.js"></script>
+</body>
+</html>
