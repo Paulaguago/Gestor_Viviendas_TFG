@@ -25,21 +25,21 @@
                         <!-- El calendario se genera dinámicamente con JavaScript -->
                     </div>
 
-            <div class="mt-4">
+                            <div class="mt-4">
                         <h6 class="sidebar-subtitle">Resumen Rápido</h6>
                         <div class="card summary-card">
                             <div class="card-body">
                                 <div class="summary-item">
                                     <span class="summary-label">Propiedades activas</span>
-                                    <span class="summary-value">12</span>
+                                    <span class="summary-value"><%= stats.totalViviendas %></span>
                                 </div>
                                 <div class="summary-item">
-                                    <span class="summary-label">Reservas este mes</span>
-                                    <span class="summary-value text-success">28</span>
+                                    <span class="summary-label">Reservas totales</span>
+                                    <span class="summary-value text-success"><%= stats.totalReservas %></span>
                                 </div>
                                 <div class="summary-item">
-                                    <span class="summary-label">Ocupación media</span>
-                                    <span class="summary-value text-info">76%</span>
+                                    <span class="summary-label">Incidencias</span>
+                                    <span class="summary-value <%= stats.incidenciasPendientes > 0 ? 'text-danger' : 'text-success' %>"><%= stats.incidenciasPendientes %></span>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                 <div class="content-wrapper">
                     <!-- Header del Dashboard -->
                     <div class="dashboard-header">
-                        <h2>Bienvenido de nuevo, <span class="text-primary"><%= user ? user.username : 'Usuario' %></span></h2>
+                        <h2>Bienvenido de nuevo, <span class="text-primary"><%= user ? user.nombre : 'Usuario' %></span></h2>
                         <p class="text-muted">Resumen de tu actividad y próximas reservas</p>
                     </div>
 
@@ -65,7 +65,7 @@
                                         <i class="bi bi-calendar-check"></i>
                                     </div>
                                     <h6>Próximas Reservas</h6>
-                                    <h3>15</h3>
+                                    <h3><%= stats.proximasReservas %></h3>
                                     <small class="text-muted">En los próximos 7 días</small>
                                 </div>
                             </div>
@@ -77,8 +77,8 @@
                                         <i class="bi bi-currency-euro"></i>
                                     </div>
                                     <h6>Ingresos del Mes</h6>
-                                    <h3>12.450€</h3>
-                                    <small class="text-success">+15% vs mes anterior</small>
+                                    <h3><%= stats.ingresosMes %>€</h3>
+                                    <small class="text-muted">Mes actual</small>
                                 </div>
                             </div>
                         </div>
@@ -89,8 +89,8 @@
                                         <i class="bi bi-exclamation-triangle"></i>
                                     </div>
                                     <h6>Tareas Pendientes</h6>
-                                    <h3>3</h3>
-                                    <small class="text-muted">Revisar incidencias</small>
+                                    <h3><%= stats.tareasPendientes %></h3>
+                                    <small class="text-muted"><%= stats.tareasPendientes === 0 ? 'Sin tareas pendientes' : 'Revisar tareas' %></small>
                                 </div>
                             </div>
                         </div>
@@ -98,11 +98,11 @@
                             <div class="card stat-card">
                                 <div class="card-body">
                                     <div class="stat-icon bg-info">
-                                        <i class="bi bi-graph-up"></i>
+                                        <i class="bi bi-house-door"></i>
                                     </div>
-                                    <h6>Ocupación</h6>
-                                    <h3>76%</h3>
-                                    <small class="text-muted">Media actual</small>
+                                    <h6>Propiedades Activas</h6>
+                                    <h3><%= stats.totalViviendas %></h3>
+                                    <small class="text-muted"><%= stats.totalViviendas === 0 ? 'Añade tu primera propiedad' : 'Total de viviendas' %></small>
                                 </div>
                             </div>
                         </div>
@@ -115,80 +115,50 @@
                             <a href="/reservas" class="btn btn-sm btn-outline-primary">Ver todas</a>
                         </div>
                         <div class="card-body">
-                            <div class="reservas-scroll-container">
-                                <!-- Ejemplo de reservas (datos estáticos por ahora) -->
-                                <div class="reserva-card">
-                                    <div class="reserva-fecha">
-                                        <div class="fecha-badge">
-                                            <span class="dia">31</span>
-                                            <span class="mes">ENE</span>
+                            <% if (listaProximasReservas && listaProximasReservas.length > 0) { %>
+                                <div class="reservas-scroll-container">
+                                    <% listaProximasReservas.forEach(reserva => { 
+                                        const fechaInicio = new Date(reserva.fecha_inicio);
+                                        const fechaFin = new Date(reserva.fecha_fin);
+                                        const dia = fechaInicio.getDate();
+                                        const mes = fechaInicio.toLocaleDateString('es-ES', { month: 'short' }).toUpperCase();
+                                        const horaInicio = '15:00'; // Por defecto
+                                        const horaFin = '11:00'; // Por defecto
+                                        const noches = Math.ceil((fechaFin - fechaInicio) / (1000 * 60 * 60 * 24));
+                                        const estado = reserva.estado || 'Confirmada';
+                                        const estadoClass = estado === 'Confirmada' ? 'bg-success' : (estado === 'Pendiente' ? 'bg-warning' : 'bg-info');
+                                    %>
+                                    <div class="reserva-card">
+                                        <div class="reserva-fecha">
+                                            <div class="fecha-badge">
+                                                <span class="dia"><%= dia %></span>
+                                                <span class="mes"><%= mes %></span>
+                                            </div>
+                                        </div>
+                                        <div class="reserva-info">
+                                            <h6><%= reserva.Vivienda.direccion %></h6>
+                                            <p class="mb-1"><i class="bi bi-moon-stars"></i> <%= noches %> <%= noches === 1 ? 'noche' : 'noches' %></p>
+                                            <small class="text-muted">
+                                                Check-in: <%= fechaInicio.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }) %> <%= horaInicio %> - 
+                                                Check-out: <%= fechaFin.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }) %> <%= horaFin %>
+                                            </small>
+                                        </div>
+                                        <div class="reserva-estado">
+                                            <span class="badge <%= estadoClass %>"><%= estado %></span>
+                                            <% if (reserva.precio_total) { %>
+                                            <p class="reserva-precio mb-0"><%= reserva.precio_total %>€</p>
+                                            <% } %>
                                         </div>
                                     </div>
-                                    <div class="reserva-info">
-                                        <h6>Apartamento Centro - Barcelona</h6>
-                                        <p class="mb-1"><i class="bi bi-person"></i> Juan Pérez · 3 noches</p>
-                                        <small class="text-muted">Check-in: 31 Ene 15:00 - Check-out: 3 Feb 11:00</small>
-                                    </div>
-                                    <div class="reserva-estado">
-                                        <span class="badge bg-success">Confirmada</span>
-                                        <p class="reserva-precio mb-0">450€</p>
-                                    </div>
+                                    <% }); %>
                                 </div>
-
-                                <div class="reserva-card">
-                                    <div class="reserva-fecha">
-                                        <div class="fecha-badge">
-                                            <span class="dia">2</span>
-                                            <span class="mes">FEB</span>
-                                        </div>
-                                    </div>
-                                    <div class="reserva-info">
-                                        <h6>Casa Playa - Valencia</h6>
-                                        <p class="mb-1"><i class="bi bi-person"></i> María García · 5 noches</p>
-                                        <small class="text-muted">Check-in: 2 Feb 16:00 - Check-out: 7 Feb 11:00</small>
-                                    </div>
-                                    <div class="reserva-estado">
-                                        <span class="badge bg-warning">Pendiente pago</span>
-                                        <p class="reserva-precio mb-0">850€</p>
-                                    </div>
+                            <% } else { %>
+                                <div class="empty-state text-center py-5">
+                                    <i class="bi bi-calendar-x" style="font-size: 3rem; color: #6c757d; opacity: 0.5;"></i>
+                                    <p class="mt-3 text-muted mb-0">Aún no tienes reservas pendientes</p>
+                                    <small class="text-muted">Las reservas de los próximos 7 días aparecerán aquí</small>
                                 </div>
-
-                                <div class="reserva-card">
-                                    <div class="reserva-fecha">
-                                        <div class="fecha-badge">
-                                            <span class="dia">5</span>
-                                            <span class="mes">FEB</span>
-                                        </div>
-                                    </div>
-                                    <div class="reserva-info">
-                                        <h6>Loft Moderno - Madrid</h6>
-                                        <p class="mb-1"><i class="bi bi-person"></i> Pedro Sánchez · 2 noches</p>
-                                        <small class="text-muted">Check-in: 5 Feb 14:00 - Check-out: 7 Feb 12:00</small>
-                                    </div>
-                                    <div class="reserva-estado">
-                                        <span class="badge bg-success">Confirmada</span>
-                                        <p class="reserva-precio mb-0">320€</p>
-                                    </div>
-                                </div>
-
-                                <div class="reserva-card">
-                                    <div class="reserva-fecha">
-                                        <div class="fecha-badge">
-                                            <span class="dia">8</span>
-                                            <span class="mes">FEB</span>
-                                        </div>
-                                    </div>
-                                    <div class="reserva-info">
-                                        <h6>Estudio Compacto - Sevilla</h6>
-                                        <p class="mb-1"><i class="bi bi-person"></i> Ana López · 4 noches</p>
-                                        <small class="text-muted">Check-in: 8 Feb 15:00 - Check-out: 12 Feb 11:00</small>
-                                    </div>
-                                    <div class="reserva-estado">
-                                        <span class="badge bg-success">Confirmada</span>
-                                        <p class="reserva-precio mb-0">480€</p>
-                                    </div>
-                                </div>
-                            </div>
+                            <% } %>
                         </div>
                     </div>
 
@@ -200,21 +170,21 @@
                                     <h6 class="mb-0"><i class="bi bi-bell me-2"></i>Notificaciones Recientes</h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="notification-item">
-                                        <i class="bi bi-check-circle text-success"></i>
-                                        <span>Nueva reserva confirmada en Barcelona Centro</span>
-                                        <small>Hace 2 horas</small>
-                                    </div>
-                                    <div class="notification-item">
-                                        <i class="bi bi-exclamation-circle text-warning"></i>
-                                        <span>Recordatorio: Limpieza programada mañana</span>
-                                        <small>Hace 5 horas</small>
-                                    </div>
-                                    <div class="notification-item">
-                                        <i class="bi bi-info-circle text-info"></i>
-                                        <span>Nuevo mensaje del huésped Juan Pérez</span>
-                                        <small>Ayer</small>
-                                    </div>
+                                    <% if (notificaciones && notificaciones.length > 0) { %>
+                                        <% notificaciones.forEach(notif => { %>
+                                        <div class="notification-item">
+                                            <i class="bi <%= notif.icono %> text-<%= notif.color %>"></i>
+                                            <span><%= notif.mensaje %></span>
+                                            <small><%= notif.tiempo %></small>
+                                        </div>
+                                        <% }); %>
+                                    <% } else { %>
+                                        <div class="empty-state text-center py-4">
+                                            <i class="bi bi-bell-slash" style="font-size: 2.5rem; color: #6c757d; opacity: 0.5;"></i>
+                                            <p class="mt-3 text-muted mb-0">No hay notificaciones recientes</p>
+                                            <small class="text-muted">Las actualizaciones aparecerán aquí</small>
+                                        </div>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>
@@ -224,19 +194,16 @@
                                     <h6 class="mb-0"><i class="bi bi-bar-chart me-2"></i>Rendimiento del Mes</h6>
                                 </div>
                                 <div class="card-body">
-                                    <p class="text-muted small">Propiedades con mejor rendimiento:</p>
+                                    <p class="text-muted small">Ocupación general:</p>
                                     <div class="performance-item">
-                                        <span class="property-name">Apartamento Centro</span>
-                                        <span class="badge bg-success">95% ocupación</span>
+                                        <span class="property-name">Porcentaje de ocupación</span>
+                                        <span class="badge <%= stats.ocupacion >= 80 ? 'bg-success' : (stats.ocupacion >= 50 ? 'bg-warning' : 'bg-secondary') %>">
+                                            <%= stats.ocupacion %>%
+                                        </span>
                                     </div>
-                                    <div class="performance-item">
-                                        <span class="property-name">Casa Playa Valencia</span>
-                                        <span class="badge bg-success">88% ocupación</span>
-                                    </div>
-                                    <div class="performance-item">
-                                        <span class="property-name">Loft Moderno Madrid</span>
-                                        <span class="badge bg-warning">65% ocupación</span>
-                                    </div>
+                                    <% if (stats.totalViviendas === 0) { %>
+                                    <small class="text-muted">Añade propiedades y reservas para ver estadísticas</small>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>

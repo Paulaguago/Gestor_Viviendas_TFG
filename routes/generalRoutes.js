@@ -18,32 +18,11 @@ router.get('/opciones-prediccion', requireAuth, (req, res) => {
   });
 });
 
-// Ruta principal - GET / -> muestra index si no está autenticado, dashboard si lo está
+// Ruta principal - GET / -> siempre muestra la página principal index.ejs
 router.get('/', (req, res) => {
-  if (req.isAuthenticated()) {
-    return res.render('dashboard', {
-      title: 'Dashboard - Gestor Viviendas',
-      user: req.user
-    });
-  } else {
-    // Cargar datos necesarios para el formulario de predicción
-    const { 
-      options, 
-      stats,
-      amenitiesConjunto, 
-      estadisticasBarrio,
-      fiestasES
-    } = require('../utils/dataLoader');
-    
-    return res.render('index', {
-      title: 'Inicio - Gestor Viviendas',
-      options: options || { ciudades: [], room_type: [], barrios_por_ciudad: {} },
-      stats: stats || {},
-      amenitiesConjunto: amenitiesConjunto || {},
-      estadisticasBarrio: estadisticasBarrio || {},
-      fiestasES: fiestasES || {}
-    });
-  }
+  res.render('index', {
+    title: 'Gestor Viviendas - Inicio'
+  });
 });
 
 // ================= EBM: endpoints para explicaciones =================
@@ -199,12 +178,3 @@ router.get('/rf/distribution', requireAuth, (req, res) => {
 });
 
 module.exports = router;
-
-// Nueva pantalla principal (Dashboard)
-router.get('/dashboard', requireAuth, (req, res) => {
-  res.render('dashboard', {
-    title: 'Dashboard - Gestor Viviendas',
-    user: req.user
-  });
-});
-

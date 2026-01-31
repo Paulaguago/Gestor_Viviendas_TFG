@@ -3,194 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= typeof title !== 'undefined' ? title : 'Predictor de Precio Airbnb' %></title>
+    <title><%= typeof title !== 'undefined' ? title : 'Gestor Viviendas' %></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <%- include('partials/navbar') %>
+    <!-- Incluir el navbar como partial -->
+    <%- include('partials/navbar-inicio') %>
     
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card shadow-lg">
-                    <div class="card-header bg-light text-dark border-bottom">
-                            <h2 class="mb-0"><i class="bi bi-house-door-fill me-2"></i>Predicción de precio</h2>
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <!-- Container principal del contenido -->
+        <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold">Bienvenido a Gestor Viviendas</h1>
+                    <p class="lead text-muted">Tu plataforma completa para la gestión inteligente de propiedades</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Container principal para futuras implementaciones -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-body p-5">
+                        <!-- Aquí puedes añadir más contenido en el futuro -->
+                        <div class="text-center text-muted">
+                            <i class="bi bi-building display-1 mb-3"></i>
+                            <p>Contenido en desarrollo...</p>
                         </div>
-                    <div class="card-body p-4">
-                        <form action="/predict" method="POST" class="needs-validation" novalidate id="predictionForm">
-                            
-                            <!-- SECCIÓN 1: UBICACIÓN -->
-                            <div class="section-header mb-4">
-                                <h5 class="text-muted border-bottom pb-2"><i class="bi bi-geo-alt-fill me-2"></i>Ubicación</h5>
-                                <p class="small text-muted mb-2">Selecciona ciudad y barrio donde se ubica el alojamiento</p>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="origen" class="form-label"><i class="bi bi-building me-2"></i>Ciudad / Región</label>
-                                        <select id="origen" name="origen" class="form-select" required onchange="actualizarBarrios()" data-bs-auto-close="outside">
-                                            <option value="">Selecciona una ciudad</option>
-                                            <% options.ciudades.forEach(function(ciudad) { %>
-                                                <option value="<%= ciudad.value %>"><%= ciudad.label %></option>
-                                            <% }); %>
-                                        </select>
-                                        <div class="invalid-feedback">Por favor, selecciona una ciudad.</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="barrio" class="form-label"><i class="bi bi-geo-alt me-2"></i>Barrio</label>
-                                        <select id="barrio" name="barrio" class="form-select" required data-bs-auto-close="outside">
-                                            <option value="">Seleccionar barrio</option>
-                                        </select>
-                                        <div class="invalid-feedback">Por favor, selecciona un barrio.</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- SECCIÓN 2: CARACTERÍSTICAS BÁSICAS -->
-                            <div class="section-header mb-4 mt-4">
-                                <h5 class="text-muted border-bottom pb-2"><i class="bi bi-building me-2"></i>Características básicas</h5>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="mb-3">
-                                        <label for="bedrooms" class="form-label"><i class="bi bi-door-open-fill me-2"></i>Dormitorios</label>
-                                        <select id="bedrooms" name="bedrooms" class="form-select" required>
-                                            <option value="">Selecciona</option>
-                                        </select>
-                                        <div class="invalid-feedback">Por favor, selecciona dormitorios.</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="mb-3">
-                                        <label for="bathrooms" class="form-label"><i class="bi bi-bucket-fill me-2"></i>Baños</label>
-                                        <select id="bathrooms" name="bathrooms" class="form-select" required>
-                                            <option value="">Selecciona</option>
-                                        </select>
-                                        <div class="invalid-feedback">Por favor, selecciona baños.</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="mb-3">
-                                        <label for="accommodates" class="form-label"><i class="bi bi-people-fill me-2"></i>Capacidad (personas)</label>
-                                        <select id="accommodates" name="accommodates" class="form-select" required>
-                                            <option value="">Selecciona</option>
-                                        </select>
-                                        <div class="invalid-feedback">Por favor, selecciona capacidad.</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="mb-3">
-                                        <label for="room_type" class="form-label"><i class="bi bi-house-fill me-2"></i>Tipo de alojamiento</label>
-                                        <select id="room_type" name="room_type" class="form-select" required>
-                                            <option value="">Selecciona</option>
-                                            <% options.room_type.forEach(function(tipo) { %>
-                                                <option value="<%= tipo.value %>"><%= tipo.label %></option>
-                                            <% }); %>
-                                        </select>
-                                        <div class="invalid-feedback">Por favor, selecciona tipo.</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- SECCIÓN 3: COMODIDADES -->
-                            <div class="section-header mb-4 mt-4">
-                                <h5 class="text-muted border-bottom pb-2"><i class="bi bi-stars me-2"></i>Comodidades</h5>
-                            </div>
-
-                            <div id="amenitiesArea" class="mb-3">
-                                <div id="amenitiesContainer" class="row g-2"></div>
-                                <div class="mt-2 text-end">
-                                    <button type="button" id="toggleAllAmenities" class="btn btn-sm btn-outline-secondary">Ver más</button>
-                                </div>
-                            </div>
-
-                            <!-- SECCIÓN 4: OPINIONES Y DISPONIBILIDAD -->
-                            <div class="section-header mb-4 mt-4">
-                                <h5 class="text-muted border-bottom pb-2"><i class="bi bi-star-fill me-2"></i>Puntuación y disponibilidad</h5>
-                                <p class="small text-muted mb-2">Introduce la puntuación media y la disponibilidad para mejorar la predicción</p>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="stay_date" class="form-label"><i class="bi bi-calendar-event me-2"></i>Fecha de estancia</label>
-                                        <input type="date" id="stay_date" name="stay_date" class="form-control" required>
-                                        <div id="holidayAlert" class="alert alert-warning mt-2 py-2 px-3 d-none" role="alert" style="font-size: 0.9rem;">
-                                            <i class="bi bi-info-circle me-2"></i><span id="holidayAlertText"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="review_scores_rating" class="form-label"><i class="bi bi-star-half me-2"></i>Puntuación promedio (0-5)</label>
-                                        <input type="number" id="review_scores_rating" name="review_scores_rating" class="form-control" value="4.85" min="0" max="5" step="0.01" required>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="number_of_reviews" class="form-label"><i class="bi bi-chat-dots me-2"></i>Número de reseñas</label>
-                                        <input type="number" id="number_of_reviews" name="number_of_reviews" class="form-control" value="60" min="0" max="500" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="availability_365" class="form-label"><i class="bi bi-calendar-day me-2"></i>Disponibilidad (días/año)</label>
-                                        <input type="number" id="availability_365" name="availability_365" class="form-control" value="200" min="0" max="365" required>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Estadísticas del barrio (hidden inputs - se llenan automáticamente) -->
-                            <input type="hidden" id="barrio_mean_price" name="barrio_mean_price" value="160">
-                            <input type="hidden" id="barrio_median_price" name="barrio_median_price" value="150">
-                            <input type="hidden" id="barrio_std_price" name="barrio_std_price" value="35">                            <!-- BOTONES -->
-                            <div class="d-grid gap-2 mt-4">
-                                <button type="submit" class="btn btn-dark btn-lg" id="submitBtn">
-                                    <i class="bi bi-calculator-fill me-2"></i>Predecir precio
-                                </button>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Spinner de carga -->
-    <div id="loadingSpinner" class="loading-overlay d-none">
-        <div class="spinner-container">
-            <div class="spinner-border text-light" role="status" style="width: 4rem; height: 4rem;">
-                <span class="visually-hidden">Cargando...</span>
-            </div>
-            <p class="text-light mt-3 fw-bold">Calculando precio</p>
         </div>
     </div>
+    
+    <%- include('partials/footer') %>
 
-    <!-- Data para barrios y stats por ciudad (JSON embebido) -->
-    <script>
-        const barriosPorCiudad = <%- JSON.stringify(options.barrios_por_ciudad) %>;
-        const statsByCity = <%- JSON.stringify(stats) %> || {};
-        const amenitiesConjunto = <%- JSON.stringify(amenitiesConjunto) %> || {};
-        const estadisticasBarrio = <%- JSON.stringify(estadisticasBarrio) %> || {};
-        const fiestasES = <%- JSON.stringify(fiestasES) %> || {};
-    </script>
-    <script src="/js/index.js"></script>
-
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
     
     <%- include('partials/footer') %>
 </body>

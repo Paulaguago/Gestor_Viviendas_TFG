@@ -1,6 +1,6 @@
 const express = require('express');
 const passport = require('passport');
-const User = require('../utils/userModel');
+const { User } = require('../models');
 const { requireGuest } = require('../utils/authMiddleware');
 const router = express.Router();
 
@@ -50,20 +50,31 @@ router.post('/register', requireGuest, async (req, res) => {
             return res.redirect('/auth/register');
         }
 
-        if (User.findByEmail(email)) {
+        // Verificar si el email ya existe
+        const existingEmail = await User.findOne({ where: { email } });
+        if (existingEmail) {
             req.flash('error', 'El email ya está registrado');
             return res.redirect('/auth/register');
         }
 
-        if (User.findByUsername(username)) {
-            req.flash('error', 'El nombre de usuario ya está en uso');
-            return res.redirect('/auth/register');
-        }
+        // Crear usuario en la base de datos
+        const newUser = await User.create({
+            nombre: username,
+            apellidos: '',
+            email: email,
+            password_hash: password
+        });
 
-        // Create user
-        await User.create(username, email, password);
-        req.flash('success', 'Usuario registrado exitosamente. Ahora puedes iniciar sesión.');
-        res.redirect('/auth/login');
+        // Iniciar sesión automáticamente después del registro
+        req.login(newUser, (err) => {
+            if (err) {
+                console.error('Error al iniciar sesión automáticamente:', err);
+                req.flash('success', 'Usuario registrado exitosamente. Ahora puedes iniciar sesión.');
+                return res.redirect('/auth/login');
+            }
+            // Redirigir directamente al dashboard
+            return res.redirect('/dashboard');
+        });
 
     } catch (error) {
         console.error('Error en registro:', error);

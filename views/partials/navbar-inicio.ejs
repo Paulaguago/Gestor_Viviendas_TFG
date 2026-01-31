@@ -1,0 +1,64 @@
+<!-- Navbar para páginas de inicio (index, login, register) -->
+<link rel="stylesheet" href="/css/navbar.css">
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container-fluid">
+        <!-- Logo y Nombre de la Empresa -->
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <img src="/images/logo.png" alt="Logo" class="me-2" style="height: 2.5rem;">
+            <span class="fw-bold" style="font-size: 1rem;">Gestor Viviendas</span>
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Menú derecho -->
+            <ul class="navbar-nav ms-auto">
+                <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+                    <!-- Si está autenticado, mostrar Dashboard y Perfil -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard" style="font-size: 0.875rem;">
+                            <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarPerfil" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 0.875rem;">
+                            <i class="bi bi-person-circle me-1"></i>
+                            <span><%= user ? user.username : 'Mi Perfil' %></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarPerfil">
+                            <li class="dropdown-header">
+                                <strong><%= user ? user.username : 'Usuario' %></strong>
+                                <br><small class="text-muted"><%= user ? user.email : '' %></small>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/perfil"><i class="bi bi-person me-2"></i>Ver perfil</a></li>
+                            <li><a class="dropdown-item" href="/ajustes"><i class="bi bi-gear me-2"></i>Ajustes</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form action="/auth/logout" method="POST" class="m-0">
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                <% } else { %>
+                    <!-- Si NO está autenticado, mostrar Login y Registro -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/login" style="font-size: 0.875rem; padding: 0.375rem 0.75rem;">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Iniciar Sesión
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/register" style="font-size: 0.875rem; padding: 0.375rem 0.75rem;">
+                            <i class="bi bi-person-plus me-1"></i>Registrarse
+                        </a>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>
