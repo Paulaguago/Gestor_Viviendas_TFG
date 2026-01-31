@@ -3,7 +3,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
     <div class="container-fluid">
         <!-- Logo y Nombre de la Empresa -->
-        <a class="navbar-brand d-flex align-items-center" href="/dashboard">
+        <a class="navbar-brand d-flex align-items-center" href="<% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>/dashboard<% } else { %>/<% } %>">
             <img src="/images/logo.png" alt="Logo" class="me-2" style="height: 4rem;">
             <span class="fw-bold">Gestor Viviendas</span>
         </a>
@@ -15,71 +15,104 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <!-- Menú Principal -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                <!-- Dashboard -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">
-                        <i class="bi bi-speedometer2 me-1"></i>Dashboard
-                    </a>
-                </li>
-                
-                <!-- Propiedades -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/propiedades">
-                        <i class="bi bi-building me-1"></i>Propiedades
-                    </a>
-                </li>
-                
-                <!-- Calendario -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/calendario">
-                        <i class="bi bi-calendar3 me-1"></i>Calendario
-                    </a>
-                </li>
-                
-                <!-- Reservas -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/reservas">
-                        <i class="bi bi-calendar-check me-1"></i>Reservas
-                    </a>
-                </li>
-                
-                <!-- Finanzas -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/finanzas">
-                        <i class="bi bi-cash-stack me-1"></i>Finanzas
-                    </a>
-                </li>
-                
-                <!-- Análisis -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/analisis">
-                        <i class="bi bi-graph-up me-1"></i>Análisis
-                    </a>
-                </li>
-                
-                <!-- Predicciones IA -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/predicciones">
-                        <i class="bi bi-lightbulb me-1"></i>Predicciones IA
-                    </a>
-                </li>
+                <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+                    <!-- Dashboard -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">
+                            <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    
+                    <!-- Propiedades -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/propiedades">
+                            <i class="bi bi-building me-1"></i>Propiedades
+                        </a>
+                    </li>
+                    
+                    <!-- Calendario -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/calendario">
+                            <i class="bi bi-calendar3 me-1"></i>Calendario
+                        </a>
+                    </li>
+                    
+                    <!-- Reservas -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/reservas">
+                            <i class="bi bi-calendar-check me-1"></i>Reservas
+                        </a>
+                    </li>
+                    
+                    <!-- Finanzas -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/finanzas">
+                            <i class="bi bi-cash-stack me-1"></i>Finanzas
+                        </a>
+                    </li>
+                    
+                    <!-- Análisis -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/analisis">
+                            <i class="bi bi-graph-up me-1"></i>Análisis
+                        </a>
+                    </li>
+                    
+                    <!-- Predicciones IA -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarPredicciones" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-lightbulb me-1"></i>Predicciones IA
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarPredicciones">
+                            <li><a class="dropdown-item" href="/predicciones"><i class="bi bi-house me-2"></i>Panel Principal</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/alquiler"><i class="bi bi-key me-2"></i>Predicción Alquiler</a></li>
+                            <li><a class="dropdown-item" href="/venta"><i class="bi bi-cash-coin me-2"></i>Predicción Venta</a></li>
+                        </ul>
+                    </li>
+                <% } %>
             </ul>
             
             <!-- Menú derecho (Perfil/Ajustes) -->
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarPerfil" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle me-1 navbar-profile-icon"></i>
-                        <span class="d-none d-lg-inline">Mi Perfil</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarPerfil">
-                        <li><a class="dropdown-item" href="/perfil"><i class="bi bi-person me-2"></i>Ver perfil</a></li>
-                        <li><a class="dropdown-item" href="/ajustes"><i class="bi bi-gear me-2"></i>Ajustes</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="/logout"><i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión</a></li>
-                    </ul>
-                </li>
+                <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarPerfil" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle me-1 navbar-profile-icon"></i>
+                            <span class="d-none d-lg-inline"><%= user ? user.username : 'Mi Perfil' %></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarPerfil">
+                            <li class="dropdown-header">
+                                <strong><%= user ? user.username : 'Usuario' %></strong>
+                                <br><small class="text-muted"><%= user ? user.email : '' %></small>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/perfil"><i class="bi bi-person me-2"></i>Ver perfil</a></li>
+                            <li><a class="dropdown-item" href="/ajustes"><i class="bi bi-gear me-2"></i>Ajustes</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form action="/auth/logout" method="POST" class="m-0">
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                <% } else { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/login">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>
+                            <span class="d-none d-lg-inline">Iniciar Sesión</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/register">
+                            <i class="bi bi-person-plus me-1"></i>
+                            <span class="d-none d-lg-inline">Registrarse</span>
+                        </a>
+                    </li>
+                <% } %>
             </ul>
         </div>
     </div>

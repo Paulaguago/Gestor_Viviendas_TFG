@@ -7,21 +7,48 @@ const {
   readJsonPrefer, 
   projectRoot 
 } = require('../utils/dataLoader');
+const { requireAuth } = require('../utils/authMiddleware');
 
 // ================= RUTAS UI DE NAVEGACIÓN =================
 // Landing de selección de dominio (alquiler/venta)
-router.get('/opciones-prediccion', (req, res) => {
-  res.render('prediccion/opciones-prediccion');
+router.get('/opciones-prediccion', requireAuth, (req, res) => {
+  res.render('prediccion/opciones-prediccion', {
+    title: 'Opciones de Predicción',
+    user: req.user
+  });
 });
 
-// Ruta principal - GET / -> muestra el dashboard
+// Ruta principal - GET / -> muestra index si no está autenticado, dashboard si lo está
 router.get('/', (req, res) => {
-  return res.render('dashboard');
+  if (req.isAuthenticated()) {
+    return res.render('dashboard', {
+      title: 'Dashboard - Gestor Viviendas',
+      user: req.user
+    });
+  } else {
+    // Cargar datos necesarios para el formulario de predicción
+    const { 
+      options, 
+      stats,
+      amenitiesConjunto, 
+      estadisticasBarrio,
+      fiestasES
+    } = require('../utils/dataLoader');
+    
+    return res.render('index', {
+      title: 'Inicio - Gestor Viviendas',
+      options: options || { ciudades: [], room_type: [], barrios_por_ciudad: {} },
+      stats: stats || {},
+      amenitiesConjunto: amenitiesConjunto || {},
+      estadisticasBarrio: estadisticasBarrio || {},
+      fiestasES: fiestasES || {}
+    });
+  }
 });
 
 // ================= EBM: endpoints para explicaciones =================
 // GET /explain/global -> explicación global EBM
-router.get('/explain/global', (req, res) => {
+router.get('/explain/global', requireAuth, (req, res) => {
   const base = path.join(projectRoot, 'model');
   const data = readJsonPrefer([
     path.join(base, 'ebm', 'ebm_global_explanation.json'),
@@ -32,7 +59,7 @@ router.get('/explain/global', (req, res) => {
 });
 
 // GET /explain/local -> explicación local EBM (por ahora una instancia precomputada)
-router.get('/explain/local', (req, res) => {
+router.get('/explain/local', requireAuth, (req, res) => {
   const base = path.join(projectRoot, 'model');
   const data = readJsonPrefer([
     path.join(base, 'ebm', 'ebm_local_explanation.json'),
@@ -44,7 +71,7 @@ router.get('/explain/local', (req, res) => {
 
 // ================= EBM: explicación local en vivo para la instancia actual =================
 // POST /explain/local-live
-router.post('/explain/local-live', (req, res) => {
+router.post('/explain/local-live', requireAuth, (req, res) => {
   try {
     const payload = req.body || {};
     const inp = payload.input || payload; // permitir enviar directamente el objeto
@@ -140,7 +167,7 @@ router.post('/explain/local-live', (req, res) => {
 
 // ================= Random Forest: endpoints auxiliares =================
 // GET /rf/importance -> importancias globales del RF (si se han exportado)
-router.get('/rf/importance', (req, res) => {
+router.get('/rf/importance', requireAuth, (req, res) => {
   const base = path.join(projectRoot, 'model');
   const data = readJsonPrefer([
     path.join(base, 'rf', 'feature_importance.json'),
@@ -161,7 +188,7 @@ router.get('/rf/importance', (req, res) => {
 });
 
 // GET /rf/distribution -> distribuciones de predicciones (y_true vs y_pred) si se exportaron
-router.get('/rf/distribution', (req, res) => {
+router.get('/rf/distribution', requireAuth, (req, res) => {
   const base = path.join(projectRoot, 'model');
   const data = readJsonPrefer([
     path.join(base, 'rf', 'predictions_test.json'),
@@ -174,12 +201,10 @@ router.get('/rf/distribution', (req, res) => {
 module.exports = router;
 
 // Nueva pantalla principal (Dashboard)
-router.get('/dashboard', (req, res) => {
-  res.render('dashboard');
+router.get('/dashboard', requireAuth, (req, res) => {
+  res.render('dashboard', {
+    title: 'Dashboard - Gestor Viviendas',
+    user: req.user
+  });
 });
 
-// Ruta temporal de logout
-router.get('/logout', (req, res) => {
-  // Aqu� ir�a la l�gica de cerrar sesi�n
-  res.redirect('/');
-});
