@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <!-- Logo y Nombre de la Empresa -->
         <a class="navbar-brand d-flex align-items-center" href="/">
-            <img src="/images/logo.png" alt="Logo" class="me-2" style="height: 2.5rem;">
+            <img src="/images/logo.png" alt="Logo" class="me-2" style="height: 3.5rem;">
             <span class="fw-bold" style="font-size: 1rem;">Gestor Viviendas</span>
         </a>
         
@@ -47,13 +47,13 @@
                     </li>
                 <% } else { %>
                     <!-- Si NO está autenticado, mostrar Login y Registro -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/auth/login" style="font-size: 0.875rem; padding: 0.375rem 0.75rem;">
+                    <li class="nav-item me-2">
+                        <a class="btn btn-outline-secondary" href="/auth/login" style="font-size: 0.875rem;">
                             <i class="bi bi-box-arrow-in-right me-1"></i>Iniciar Sesión
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/auth/register" style="font-size: 0.875rem; padding: 0.375rem 0.75rem;">
+                        <a class="btn btn-primary" href="/auth/register" style="font-size: 0.875rem;">
                             <i class="bi bi-person-plus me-1"></i>Registrarse
                         </a>
                     </li>

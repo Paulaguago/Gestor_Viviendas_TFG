@@ -3,53 +3,711 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= typeof title !== 'undefined' ? title : 'Gestor Viviendas' %></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title><%= typeof title !== 'undefined' ? title : 'Gestor Viviendas - Gestiona tus propiedades con IA' %></title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="/css/style.css">
+    <!-- Landing Page CSS / css propio-->
+    <link rel="stylesheet" href="/css/landing.css">
 </head>
-<body>
-    <!-- Incluir el navbar como partial -->
-    <%- include('partials/navbar-inicio') %>
+<body class="min-h-screen text-white">
     
-    <!-- Content Wrapper -->
-    <div class="content-wrapper">
-        <!-- Container principal del contenido -->
-        <div class="container mt-5">
-        <div class="row">
-            <div class="col-12">
-                <div class="text-center mb-5">
-                    <h1 class="display-4 fw-bold">Bienvenido a Gestor Viviendas</h1>
-                    <p class="lead text-muted">Tu plataforma completa para la gestión inteligente de propiedades</p>
-                </div>
+    <!-- Navbar integrado -->
+    <nav class="w-full py-4 px-6 lg:px-12 fixed top-0 z-50 bg-[#1a2332] backdrop-blur-sm border-b border-blue-700/20">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-3">
+                <img src="/images/logo.png" alt="Gestor Viviendas Logo" class="h-12 lg:h-14">
+                <span class="text-xl lg:text-2xl font-bold text-white">Gestor Viviendas</span>
+            </a>
+            
+            <!-- Enlaces de navegación (centrados) -->
+            <div class="hidden md:flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
+                <a href="#funciones" class="text-gray-200 hover:text-white transition text-base font-medium">Funciones</a>
+                <a href="#reseñas" class="text-gray-200 hover:text-white transition text-base font-medium">Reseñas</a>
+                <a href="#precios" class="text-gray-200 hover:text-white transition text-base font-medium">Precios</a>
+            </div>
+            
+            <!-- Botones de acción -->
+            <div class="flex items-center gap-4">
+                <a href="/auth/login" class="hidden md:inline-block text-white hover:text-gray-200 transition font-medium text-base">Acceder</a>
+                <a href="/auth/register" class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-6 py-2.5 rounded-full transition text-base">
+                    Empieza gratis
+                </a>
             </div>
         </div>
-        
-        <!-- Container principal para futuras implementaciones -->
-        <div class="row">
-            <div class="col-12">
-                <div class="card shadow-sm">
-                    <div class="card-body p-5">
-                        <!-- Aquí puedes añadir más contenido en el futuro -->
-                        <div class="text-center text-muted">
-                            <i class="bi bi-building display-1 mb-3"></i>
-                            <p>Contenido en desarrollo...</p>
-                        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-6 lg:px-12 min-h-screen flex items-center relative overflow-hidden">
+        <!-- Mockup flotante derecho (fondo decorativo) -->
+        <div class="hidden lg:block absolute right-0 top-1/4 w-1/3 opacity-20 transform translate-x-10 rotate-6">
+            <div class="bg-gradient-to-br from-blue-600/30 to-purple-600/30 rounded-3xl p-4 backdrop-blur-xl border border-blue-500/20">
+                <div class="bg-blue-900/50 rounded-2xl p-4 space-y-3">
+                    <div class="h-8 bg-gradient-to-r from-yellow-400/40 to-green-400/40 rounded"></div>
+                    <div class="h-20 bg-blue-800/60 rounded"></div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="h-16 bg-blue-800/60 rounded"></div>
+                        <div class="h-16 bg-blue-800/60 rounded"></div>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <!-- Mockup flotante izquierdo -->
+        <div class="hidden lg:block absolute left-0 top-2/3 w-1/4 opacity-15 transform -translate-x-5 -rotate-3">
+            <div class="bg-gradient-to-br from-green-600/30 to-blue-600/30 rounded-3xl p-3 backdrop-blur-xl border border-green-500/20">
+                <div class="bg-blue-900/50 rounded-2xl p-3 space-y-2">
+                    <div class="h-6 bg-gradient-to-r from-green-400/40 to-yellow-400/40 rounded"></div>
+                    <div class="h-14 bg-blue-800/60 rounded"></div>
+                    <div class="grid grid-cols-3 gap-1">
+                        <div class="h-10 bg-blue-800/60 rounded"></div>
+                        <div class="h-10 bg-blue-800/60 rounded"></div>
+                        <div class="h-10 bg-blue-800/60 rounded"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    
-    <%- include('partials/footer') %>
+        
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <!-- Titular Principal -->
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
+                Gestiona tus propiedades con la <span class="text-neon-green">inteligencia</span> del futuro
+            </h1>
+            
+            <!-- Subtítulo -->
+            <p class="text-lg md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto mb-12 leading-relaxed">
+                Optimiza tus rentas, automatiza el cumplimiento legal y predice el valor de tus activos con nuestra plataforma impulsada por IA.
+            </p>
+            
+            <!-- Video Demo Predicción -->
+            <div class="max-w-4xl mx-auto mb-12">
+                <div class="relative bg-gradient-to-br from-blue-800/30 to-blue-900/40 rounded-3xl p-4 border border-blue-700/30">
+                    <div class="aspect-video bg-blue-900/50 rounded-2xl flex items-center justify-center relative overflow-hidden">
+                        <!-- Próximamente: Video demo de predicción de alquiler -->
+                        <div class="text-center">
+                            <i class="bi bi-play-circle-fill text-7xl text-yellow-400 mb-4"></i>
+                            <p class="text-xl font-semibold text-gray-300">Demo de Predicción de Alquiler</p>
+                            <p class="text-sm text-gray-400 mt-2">Próximamente</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Botones CTA -->
+            <div class="flex flex-col sm:flex-row gap-4 items-center justify-center">
+                <a href="/auth/register" class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-10 py-4 rounded-full transition text-lg">
+                    <i class="bi bi-rocket-takeoff me-2"></i>Registrarme gratis
+                </a>
+                <a href="#video" class="border-2 border-white hover:bg-white/10 text-white font-bold px-10 py-4 rounded-full transition text-lg">
+                    <i class="bi bi-play-circle me-2"></i>Ver demo
+                </a>
+            </div>
+        </div>
+    </section>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    <!-- Sección de Funciones (Bento Grid Dashboard Preview) -->
+    <section class="py-20 px-6 lg:px-12" id="funciones">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl lg:text-5xl font-extrabold mb-4">Tu <span class="text-yellow-400">centro de control</span> financiero</h2>
+                <p class="text-xl text-gray-300">Todo lo que necesitas en un solo dashboard</p>
+            </div>
+            
+            <!-- Bento Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Widget 1: Gráfico de Ingresos -->
+                <div class="lg:col-span-2 bg-gradient-to-br from-blue-800/30 to-blue-900/40 rounded-3xl p-8 border border-blue-700/30 relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold">Ingresos Mensuales</h3>
+                        <i class="bi bi-bar-chart-fill text-3xl text-yellow-400"></i>
+                    </div>
+                    <!-- Placeholder para captura real de gráfico - Descomenta cuando tengas la imagen:
+                    <img src="/images/dashboard/chart-ingresos.png" alt="Gráfico de ingresos" class="w-full h-48 object-contain rounded-xl">
+                    -->
+                    <div class="h-48 flex items-end gap-2">
+                        <div class="flex-1 bg-yellow-400/30 rounded-t-xl" style="height: 60%"></div>
+                        <div class="flex-1 bg-yellow-400/40 rounded-t-xl" style="height: 45%"></div>
+                        <div class="flex-1 bg-yellow-400/50 rounded-t-xl" style="height: 75%"></div>
+                        <div class="flex-1 bg-yellow-400/60 rounded-t-xl" style="height: 55%"></div>
+                        <div class="flex-1 bg-yellow-400 rounded-t-xl" style="height: 90%"></div>
+                        <div class="flex-1 bg-yellow-400/70 rounded-t-xl" style="height: 65%"></div>
+                    </div>
+                    <p class="text-gray-400 text-sm mt-4">Análisis de ingresos mensuales</p>
+                </div>
+                
+                <!-- Widget 2: Tasa de Ocupación -->
+                <div class="bg-gradient-to-br from-blue-800/30 to-blue-900/40 rounded-3xl p-8 border border-blue-700/30 flex flex-col justify-center items-center">
+                    <i class="bi bi-graph-up-arrow text-5xl text-neon-green mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Tasa de Ocupación</h3>
+                    <p class="text-6xl font-extrabold text-neon-green mb-2">87%</p>
+                    <p class="text-gray-400 text-sm">Ocupación en tiempo real</p>
+                </div>
+                
+                <!-- Widget 3: Beneficio Neto -->
+                <div class="bg-gradient-to-br from-blue-800/30 to-blue-900/40 rounded-3xl p-8 border border-blue-700/30 flex flex-col justify-center items-center">
+                    <i class="bi bi-currency-euro text-5xl text-yellow-400 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Beneficio Neto</h3>
+                    <p class="text-6xl font-extrabold text-yellow-400 mb-2">3.2K€</p>
+                    <p class="text-gray-400 text-sm">Beneficio mensual actual</p>
+                </div>
+                
+                <!-- Widget 4: IA Predictiva -->
+                <div class="lg:col-span-2 bg-gradient-to-br from-blue-800/30 to-blue-900/40 rounded-3xl p-8 border border-blue-700/30 relative overflow-hidden">
+                    <!-- Placeholder para captura de predicción - Descomenta cuando tengas la imagen:
+                    <div class="absolute top-0 right-0 w-1/2 h-full opacity-10">
+                        <img src="/images/dashboard/prediction-ai.png" alt="Predicción IA" class="h-full object-cover">
+                    </div>
+                    -->
+                    <div class="flex items-center justify-between mb-6 relative z-10">
+                        <h3 class="text-2xl font-bold">IA Predictiva</h3>
+                        <i class="bi bi-robot text-3xl text-neon-green"></i>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-300">Precio recomendado alquiler</span>
+                            <span class="text-2xl font-bold text-yellow-400">125€/noche</span>
+                        </div>
+                        <div class="w-full bg-blue-900/50 rounded-full h-3">
+                            <div class="bg-gradient-to-r from-yellow-400 to-neon-green h-3 rounded-full" style="width: 78%"></div>
+                        </div>
+                        <p class="text-gray-400 text-sm">Basado en 2,450 propiedades similares en tu zona</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Cómo Funciona (Video) -->
+    <section class="py-20 px-6 lg:px-12 bg-gradient-to-b from-transparent to-blue-950/30" id="video">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl lg:text-5xl font-extrabold mb-4">Gestión profesional en <span class="text-yellow-400">3 pasos</span></h2>
+                <p class="text-xl text-gray-300">Así de simple. Mira cómo funciona.</p>
+            </div>
+            
+            <!-- Contenedor de Video -->
+            <div class="relative mb-16 bg-gradient-to-br from-blue-800/30 to-blue-900/40 rounded-3xl p-4 border border-blue-700/30">
+                <div class="aspect-video bg-blue-900/50 rounded-2xl flex items-center justify-center relative overflow-hidden">
+                    <!-- Foto de: Captura de pantalla del dashboard principal de la aplicación -->
+                    <i class="bi bi-play-circle-fill text-8xl text-yellow-400 cursor-pointer hover:text-yellow-500 transition hover:scale-110"></i>
+                </div>
+            </div>
+            
+            <!-- 3 Pasos -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                <div class="text-center">
+                    <div class="w-20 h-20 mx-auto mb-4 bg-yellow-400 rounded-full flex items-center justify-center">
+                        <span class="text-3xl font-extrabold text-black">1</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Sincroniza</h3>
+                    <p class="text-gray-300 text-base">Conecta tus calendarios de Airbnb, Booking y Vrbo en segundos</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 mx-auto mb-4 bg-neon-green rounded-full flex items-center justify-center">
+                        <span class="text-3xl font-extrabold text-black">2</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Automatiza</h3>
+                    <p class="text-gray-300 text-base">Partes de viajeros, cumplimiento legal y reportes sin tu intervención</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 mx-auto mb-4 bg-blue-400 rounded-full flex items-center justify-center">
+                        <span class="text-3xl font-extrabold text-black">3</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Cobra</h3>
+                    <p class="text-gray-300 text-base">Optimiza precios con IA y maximiza tus ingresos cada mes</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Estadísticas -->
+    <section class="py-16 px-6 lg:px-12 bg-blue-950/30">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div>
+                    <p class="text-5xl lg:text-6xl font-extrabold text-yellow-400 mb-2">+2,500</p>
+                    <p class="text-lg text-gray-300">Huéspedes registrados automáticamente</p>
+                </div>
+                <div>
+                    <p class="text-5xl lg:text-6xl font-extrabold text-neon-green mb-2">0%</p>
+                    <p class="text-lg text-gray-300">Errores de sincronización</p>
+                </div>
+                <div>
+                    <p class="text-5xl lg:text-6xl font-extrabold text-blue-400 mb-2">15 min</p>
+                    <p class="text-lg text-gray-300">Tiempo de gestión al mes</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cobertura Nacional (Mapa OpenStreetMap) -->
+    <section class="py-20 px-6 lg:px-12 bg-gradient-to-b from-blue-950/30 to-transparent">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl lg:text-5xl font-extrabold mb-4">Cobertura <span class="text-yellow-400">Nacional</span></h2>
+                <p class="text-xl text-gray-300">Gestiona propiedades en toda España desde un solo lugar</p>
+            </div>
+            
+            <!-- Mapa OpenStreetMap -->
+            <div class="bg-blue-900/30 backdrop-blur-sm border border-blue-700/30 rounded-3xl p-4 lg:p-6">
+                <div id="map" class="w-full h-96 lg:h-[500px] rounded-2xl overflow-hidden bg-blue-900/50 relative">
+                    <!-- El mapa se cargará aquí con Leaflet.js -->
+                </div>
+                
+                <!-- Grid de ciudades destacadas -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                    <div class="bg-blue-800/40 rounded-xl p-4 text-center border border-blue-700/30">
+                        <i class="bi bi-geo-alt-fill text-yellow-400 text-2xl mb-2"></i>
+                        <p class="font-bold text-white text-lg">Madrid</p>
+                        <p class="text-gray-400 text-sm">+234 propiedades</p>
+                    </div>
+                    <div class="bg-blue-800/40 rounded-xl p-4 text-center border border-blue-700/30">
+                        <i class="bi bi-geo-alt-fill text-yellow-400 text-2xl mb-2"></i>
+                        <p class="font-bold text-white text-lg">Barcelona</p>
+                        <p class="text-gray-400 text-sm">+189 propiedades</p>
+                    </div>
+                    <div class="bg-blue-800/40 rounded-xl p-4 text-center border border-blue-700/30">
+                        <i class="bi bi-geo-alt-fill text-yellow-400 text-2xl mb-2"></i>
+                        <p class="font-bold text-white text-lg">Valencia</p>
+                        <p class="text-gray-400 text-sm">+156 propiedades</p>
+                    </div>
+                    <div class="bg-blue-800/40 rounded-xl p-4 text-center border border-blue-700/30">
+                        <i class="bi bi-geo-alt-fill text-yellow-400 text-2xl mb-2"></i>
+                        <p class="font-bold text-white text-lg">Málaga</p>
+                        <p class="text-gray-400 text-sm">+142 propiedades</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Propiedades Destacadas -->
+    <section class="py-20 px-6 lg:px-12">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl lg:text-5xl font-extrabold mb-4">Propiedades <span class="text-neon-green">Destacadas</span></h2>
+                <p class="text-xl text-gray-300">Ejemplos reales de gestión exitosa</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Propiedad 1 -->
+                <div class="bg-gradient-to-br from-blue-800/30 to-blue-900/40 rounded-3xl overflow-hidden border border-blue-700/30 hover:border-yellow-400/50 transition group">
+                    <!-- Placeholder para imagen de propiedad -->
+                    <div class="h-56 bg-gradient-to-br from-blue-700/50 to-blue-800/50 relative overflow-hidden">
+                        <!-- Descomenta y reemplaza con imagen real:
+                        <img src="/images/properties/property-1.jpg" alt="Apartamento Madrid" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        -->
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="bi bi-house-door-fill text-6xl text-blue-600/40"></i>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-neon-green text-black font-bold px-3 py-1 rounded-full text-sm">
+                            87% ocupación
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-bold text-white">Apartamento Centro</h3>
+                            <span class="text-yellow-400 font-bold text-lg">1.850€/mes</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-4 flex items-center gap-2">
+                            <i class="bi bi-geo-alt-fill text-yellow-400"></i>
+                            Madrid, Sol
+                        </p>
+                        <div class="flex items-center gap-4 text-sm text-gray-400">
+                            <span><i class="bi bi-door-closed me-1"></i>2 hab</span>
+                            <span><i class="bi bi-droplet me-1"></i>1 baño</span>
+                            <span><i class="bi bi-arrows-fullscreen me-1"></i>65m²</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Propiedad 2 -->
+                <div class="bg-gradient-to-br from-blue-800/30 to-blue-900/40 rounded-3xl overflow-hidden border border-blue-700/30 hover:border-yellow-400/50 transition group">
+                    <div class="h-56 bg-gradient-to-br from-purple-700/50 to-purple-800/50 relative overflow-hidden">
+                        <!-- Placeholder -->
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="bi bi-building text-6xl text-purple-600/40"></i>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-yellow-400 text-black font-bold px-3 py-1 rounded-full text-sm">
+                            92% ocupación
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-bold text-white">Loft Moderno</h3>
+                            <span class="text-yellow-400 font-bold text-lg">2.100€/mes</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-4 flex items-center gap-2">
+                            <i class="bi bi-geo-alt-fill text-yellow-400"></i>
+                            Barcelona, Eixample
+                        </p>
+                        <div class="flex items-center gap-4 text-sm text-gray-400">
+                            <span><i class="bi bi-door-closed me-1"></i>3 hab</span>
+                            <span><i class="bi bi-droplet me-1"></i>2 baños</span>
+                            <span><i class="bi bi-arrows-fullscreen me-1"></i>85m²</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Propiedad 3 -->
+                <div class="bg-gradient-to-br from-blue-800/30 to-blue-900/40 rounded-3xl overflow-hidden border border-blue-700/30 hover:border-yellow-400/50 transition group">
+                    <div class="h-56 bg-gradient-to-br from-green-700/50 to-green-800/50 relative overflow-hidden">
+                        <!-- Placeholder -->
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="bi bi-house-heart-fill text-6xl text-green-600/40"></i>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-neon-green text-black font-bold px-3 py-1 rounded-full text-sm">
+                            95% ocupación
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-bold text-white">Villa Playa</h3>
+                            <span class="text-yellow-400 font-bold text-lg">3.200€/mes</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-4 flex items-center gap-2">
+                            <i class="bi bi-geo-alt-fill text-yellow-400"></i>
+                            Málaga, Marbella
+                        </p>
+                        <div class="flex items-center gap-4 text-sm text-gray-400">
+                            <span><i class="bi bi-door-closed me-1"></i>4 hab</span>
+                            <span><i class="bi bi-droplet me-1"></i>3 baños</span>
+                            <span><i class="bi bi-arrows-fullscreen me-1"></i>120m²</span>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonios (Social Proof) -->
+    <section class="py-20 px-6 lg:px-12" id="reseñas">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl lg:text-5xl font-extrabold mb-4">Lo que dicen nuestros <span class="text-yellow-400">usuarios</span></h2>
+                <p class="text-xl text-gray-300">Propietarios reales, resultados reales</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Testimonio 1 -->
+                <div class="bg-white rounded-3xl p-8">
+                    <div class="flex items-center gap-4 mb-6">
+                        <!-- Placeholder para foto real - Descomenta cuando tengas la imagen:
+                        <img src="/images/testimonials/ana-martinez.jpg" alt="Ana Martínez" class="w-16 h-16 rounded-full object-cover border-4 border-yellow-400">
+                        -->
+                        <div class="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center text-2xl font-bold text-black">
+                            AM
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-900 text-lg">Ana Martínez</p>
+                            <p class="text-gray-600 text-sm">Propietaria en Madrid</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-1 mb-4">
+                        <i class="bi bi-star-fill text-yellow-400 text-xl"></i>
+                        <i class="bi bi-star-fill text-yellow-400 text-xl"></i>
+                        <i class="bi bi-star-fill text-yellow-400 text-xl"></i>
+                        <i class="bi bi-star-fill text-yellow-400 text-xl"></i>
+                        <i class="bi bi-star-fill text-yellow-400 text-xl"></i>
+                    </div>
+                    <p class="text-gray-700 text-base leading-relaxed">
+                        "Desde que uso la plataforma, he dejado de preocuparme por los partes de viajeros. El envío automático a la policía me ahorra 3 horas a la semana."
+                    </p>
+                </div>
+
+                <!-- Testimonio 2 -->
+                <div class="bg-white rounded-3xl p-8">
+                    <div class="flex items-center gap-4 mb-6">
+                        <!-- Placeholder para foto real:
+                        <img src="/images/testimonials/javier-rodriguez.jpg" alt="Javier Rodríguez" class="w-16 h-16 rounded-full object-cover border-4 border-green-400">
+                        -->
+                        <div class="w-16 h-16 bg-gradient-to-br from-neon-green to-green-400 rounded-full flex items-center justify-center text-2xl font-bold text-black">
+                            JR
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-900 text-lg">Javier Rodríguez</p>
+                            <p class="text-gray-600 text-sm">Gestor de Flotas</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-1 mb-4">
+                        <i class="bi bi-star-fill text-yellow-400 text-xl"></i>
+                        <i class="bi bi-star-fill text-yellow-400 text-xl"></i>
+                        <i class="bi bi-star-fill text-yellow-400 text-xl"></i>
+                        <i class="bi bi-star-fill text-yellow-400 text-xl"></i>
+                        <i class="bi bi-star-fill text-yellow-400 text-xl"></i>
+                    </div>
+                    <p class="text-gray-700 text-base leading-relaxed">
+                        "La IA de predicción de precios realmente funciona. Subí mis tarifas un 12% en temporada baja sin perder ni una sola reserva."
+                    </p>
+                </div>
+
+                <!-- Testimonio 3 -->
+                <div class="bg-white rounded-3xl p-8">
+                    <div class="flex items-center gap-4 mb-6">
+                        <!-- Placeholder para foto real:
+                        <img src="/images/testimonials/laura-gomez.jpg" alt="Laura Gómez" class="w-16 h-16 rounded-full object-cover border-4 border-blue-400">
+                        -->
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full flex items-center justify-center text-2xl font-bold text-white">
+                            LG
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-900 text-lg">Laura Gómez</p>
+                            <p class="text-gray-600 text-sm">Anfitriona Airbnb</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-1 mb-4">
+                        <i class="bi bi-star-fill text-yellow-400 text-xl"></i>
+                        <i class="bi bi-star-fill text-yellow-400 text-xl"></i>
+                        <i class="bi bi-star-fill text-yellow-400 text-xl"></i>
+                        <i class="bi bi-star-fill text-yellow-400 text-xl"></i>
+                        <i class="bi bi-star-fill text-yellow-400 text-xl"></i>
+                    </div>
+                    <p class="text-gray-700 text-base leading-relaxed">
+                        "Tener los gastos e ingresos en un solo gráfico me dio la claridad que necesitaba para comprar mi segunda vivienda de inversión."
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ (Acordeón) -->
+    <section class="py-20 px-6 lg:px-12 bg-gradient-to-b from-transparent to-blue-950/40" id="precios">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl lg:text-5xl font-extrabold mb-4">Preguntas <span class="text-yellow-400">frecuentes</span></h2>
+                <p class="text-xl text-gray-300">Resolvemos tus dudas</p>
+            </div>
+            
+            <div class="space-y-4">
+                
+                <!-- FAQ 1 -->
+                <div class="bg-blue-900/30 backdrop-blur-sm border border-blue-700/30 rounded-2xl overflow-hidden">
+                    <button class="w-full text-left p-6 flex items-center justify-between hover:bg-blue-900/40 transition accordion-trigger">
+                        <span class="text-xl font-bold">¿Es seguro el envío de datos a la policía?</span>
+                        <i class="bi bi-chevron-down text-2xl transition-transform accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content px-6 pb-6">
+                        <p class="text-gray-300 text-base leading-relaxed">
+                            Totalmente. Cumplimos con el protocolo de encriptación exigido por la normativa vigente. Todos los datos se transmiten mediante conexión segura SSL/TLS y se almacenan cifrados.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="bg-blue-900/30 backdrop-blur-sm border border-blue-700/30 rounded-2xl overflow-hidden">
+                    <button class="w-full text-left p-6 flex items-center justify-between hover:bg-blue-900/40 transition accordion-trigger">
+                        <span class="text-xl font-bold">¿Cómo se sincronizan los calendarios?</span>
+                        <i class="bi bi-chevron-down text-2xl transition-transform accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content px-6 pb-6">
+                        <p class="text-gray-300 text-base leading-relaxed">
+                            Usamos iCal y conexiones directas con Airbnb, Booking y Vrbo para actualizar tu disponibilidad en milisegundos. No necesitas hacer nada manualmente después de la configuración inicial.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="bg-blue-900/30 backdrop-blur-sm border border-blue-700/30 rounded-2xl overflow-hidden">
+                    <button class="w-full text-left p-6 flex items-center justify-between hover:bg-blue-900/40 transition accordion-trigger">
+                        <span class="text-xl font-bold">¿Puedo exportar mis datos para Hacienda?</span>
+                        <i class="bi bi-chevron-down text-2xl transition-transform accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content px-6 pb-6">
+                        <p class="text-gray-300 text-base leading-relaxed">
+                            Sí, puedes generar informes en Excel o CSV de todos tus ingresos y gastos con un solo clic. Los reportes están preformateados para facilitar tu declaración de impuestos.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="bg-blue-900/30 backdrop-blur-sm border border-blue-700/30 rounded-2xl overflow-hidden">
+                    <button class="w-full text-left p-6 flex items-center justify-between hover:bg-blue-900/40 transition accordion-trigger">
+                        <span class="text-xl font-bold">¿Cuánto cuesta el servicio?</span>
+                        <i class="bi bi-chevron-down text-2xl transition-transform accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content px-6 pb-6">
+                        <p class="text-gray-300 text-base leading-relaxed">
+                            Ofrecemos un plan gratuito para empezar con hasta 2 propiedades. Para flotas más grandes, tenemos planes desde 29€/mes con todas las funcionalidades premium incluidas.
+                        </p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="py-20 px-6 lg:px-12">
+        <div class="max-w-4xl mx-auto text-center bg-gradient-to-br from-yellow-500/20 to-yellow-600/10 rounded-3xl p-12 border-2 border-yellow-400/30">
+            <h2 class="text-4xl lg:text-5xl font-extrabold mb-6">
+                ¿Listo para gestionar como un <span class="text-yellow-400">profesional</span>?
+            </h2>
+            <p class="text-xl text-gray-300 mb-8">
+                Únete a cientos de propietarios que ya están automatizando su negocio.
+            </p>
+            <a href="/auth/register" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-12 py-5 rounded-full transition text-lg">
+                <i class="bi bi-rocket-takeoff me-2"></i>Comenzar gratis ahora
+            </a>
+            <p class="text-gray-400 text-sm mt-4">Sin tarjeta de crédito • Configuración en 5 minutos</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 lg:px-12 border-t border-blue-700/30 bg-blue-950/30">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                
+                <!-- Logo y descripción -->
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="/images/logo.png" alt="Logo" class="h-12">
+                        <span class="text-2xl font-bold text-white">Gestor Viviendas</span>
+                    </div>
+                    <p class="text-gray-400 text-base mb-4">
+                        La plataforma más completa para gestionar propiedades vacacionales con inteligencia artificial.
+                    </p>
+                    <!-- Redes sociales -->
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 bg-blue-800/50 hover:bg-blue-700/50 rounded-full flex items-center justify-center transition">
+                            <i class="bi bi-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-blue-800/50 hover:bg-blue-700/50 rounded-full flex items-center justify-center transition">
+                            <i class="bi bi-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-blue-800/50 hover:bg-blue-700/50 rounded-full flex items-center justify-center transition">
+                            <i class="bi bi-instagram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Producto -->
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Producto</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#funciones" class="hover:text-white transition">Funciones</a></li>
+                        <li><a href="#precios" class="hover:text-white transition">Precios</a></li>
+                        <li><a href="#" class="hover:text-white transition">Roadmap</a></li>
+                        <li><a href="#" class="hover:text-white transition">Changelog</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Legal -->
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">Privacidad</a></li>
+                        <li><a href="#" class="hover:text-white transition">Términos</a></li>
+                        <li><a href="#" class="hover:text-white transition">Cookies</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contacto</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+            
+            <div class="border-t border-blue-700/30 pt-8 text-center">
+                <p class="text-gray-400 text-sm">© <%= new Date().getFullYear() %> Gestor Viviendas. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Leaflet.js para OpenStreetMap -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
-    <%- include('partials/footer') %>
+    <!-- Scripts -->
+    <script>
+        // Inicializar mapa de OpenStreetMap
+        document.addEventListener('DOMContentLoaded', function() {
+            // Crear mapa centrado en España
+            const map = L.map('map', {
+                center: [40.4168, -3.7038], // Madrid
+                zoom: 6,
+                scrollWheelZoom: false,
+                zoomControl: true
+            });
+            
+            // Añadir capa de OpenStreetMap con estilo oscuro
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                maxZoom: 19
+            }).addTo(map);
+            
+            // Icono personalizado (amarillo)
+            const customIcon = L.divIcon({
+                className: 'custom-marker',
+                html: '<div style="background-color: #FFD700; width: 24px; height: 24px; border-radius: 50%; border: 3px solid #1a2332; display: flex; align-items: center; justify-content: center;"><i class="bi bi-house-fill" style="color: #1a2332; font-size: 12px;"></i></div>',
+                iconSize: [24, 24],
+                iconAnchor: [12, 12]
+            });
+            
+            // Añadir marcadores de ciudades principales
+            const ciudades = [
+                { nombre: 'Madrid', coords: [40.4168, -3.7038], propiedades: 234 },
+                { nombre: 'Barcelona', coords: [41.3851, 2.1734], propiedades: 189 },
+                { nombre: 'Valencia', coords: [39.4699, -0.3763], propiedades: 156 },
+                { nombre: 'Málaga', coords: [36.7213, -4.4214], propiedades: 142 },
+                { nombre: 'Sevilla', coords: [37.3891, -5.9845], propiedades: 98 },
+                { nombre: 'Bilbao', coords: [43.2630, -2.9350], propiedades: 76 },
+                { nombre: 'Alicante', coords: [38.3452, -0.4810], propiedades: 112 },
+                { nombre: 'Granada', coords: [37.1773, -3.5986], propiedades: 64 }
+            ];
+            
+            ciudades.forEach(ciudad => {
+                L.marker(ciudad.coords, { icon: customIcon })
+                    .addTo(map)
+                    .bindPopup(`
+                        <div style="color: #1a2332; font-weight: bold; text-align: center;">
+                            <p style="margin: 0; font-size: 16px;">${ciudad.nombre}</p>
+                            <p style="margin: 4px 0 0 0; font-size: 14px; color: #666;">+${ciudad.propiedades} propiedades</p>
+                        </div>
+                    `);
+            });
+        });
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Acordeón FAQ
+        document.querySelectorAll('.accordion-trigger').forEach(button => {
+            button.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const icon = this.querySelector('.accordion-icon');
+                
+                // Cerrar todos los demás acordeones
+                document.querySelectorAll('.accordion-content').forEach(item => {
+                    if (item !== content) {
+                        item.classList.remove('active');
+                        item.previousElementSibling.querySelector('.accordion-icon').style.transform = 'rotate(0deg)';
+                    }
+                });
+                
+                // Toggle del acordeón actual
+                content.classList.toggle('active');
+                if (content.classList.contains('active')) {
+                    icon.style.transform = 'rotate(180deg)';
+                } else {
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
