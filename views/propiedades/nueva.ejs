@@ -1,0 +1,288 @@
+<!-- filepath: views/propiedades/nueva.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agregar Nueva Vivienda - Gestor de Viviendas</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/propiedades.css">
+  <!-- Font Awesome para iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="propiedades-container">
+    <a href="/propiedades" class="btn-back">
+      <i class="fas fa-arrow-left"></i> Volver a mis propiedades
+    </a>
+    
+    <div class="propiedades-header">
+      <h1><i class="fas fa-home"></i> Agregar Nueva Vivienda</h1>
+    </div>
+
+    <form action="/propiedades" method="POST" class="form-vivienda">
+      <!-- Información Básica -->
+      <div class="form-section">
+        <h2><i class="fas fa-info-circle"></i> Información Básica</h2>
+        
+        <div class="form-group">
+          <label for="nombre">Nombre de la propiedad</label>
+          <input 
+            type="text" 
+            id="nombre" 
+            name="nombre" 
+            placeholder="Ej: Apartamento céntrico en Madrid"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="descripcion">Descripción</label>
+          <textarea 
+            id="descripcion" 
+            name="descripcion" 
+            rows="4"
+            placeholder="Describe tu propiedad: características principales, ubicación, servicios cercanos..."
+          ></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="precio_noche">
+              <i class="fas fa-euro-sign"></i> Precio por noche (€)
+            </label>
+            <input 
+              type="number" 
+              id="precio_noche" 
+              name="precio_noche" 
+              step="0.01" 
+              min="0"
+              placeholder="50.00"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="superficie">
+              <i class="fas fa-ruler-combined"></i> Superficie (m²)
+            </label>
+            <input 
+              type="number" 
+              id="superficie" 
+              name="superficie" 
+              min="1"
+              placeholder="75"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="max_huespedes">
+              <i class="fas fa-users"></i> Máximo de huéspedes
+            </label>
+            <input 
+              type="number" 
+              id="max_huespedes" 
+              name="max_huespedes" 
+              min="1"
+              placeholder="4"
+              required
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Ubicación -->
+      <div class="form-section">
+        <h2><i class="fas fa-map-marker-alt"></i> Ubicación</h2>
+        
+        <div class="form-group">
+          <label for="direccion">Dirección completa</label>
+          <input 
+            type="text" 
+            id="direccion" 
+            name="direccion" 
+            placeholder="Calle Mayor, 123"
+            required
+          >
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ciudad">Ciudad</label>
+            <input 
+              type="text" 
+              id="ciudad" 
+              name="ciudad" 
+              placeholder="Madrid"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="pais">País</label>
+            <input 
+              type="text" 
+              id="pais" 
+              name="pais" 
+              placeholder="España"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="codigo_postal">Código Postal</label>
+            <input 
+              type="text" 
+              id="codigo_postal" 
+              name="codigo_postal"
+              placeholder="28001"
+            >
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="latitud">
+              <i class="fas fa-map-pin"></i> Latitud
+            </label>
+            <input 
+              type="number" 
+              id="latitud" 
+              name="latitud" 
+              step="0.000001"
+              placeholder="40.416775"
+            >
+            <small class="form-help">Opcional: para mostrar en el mapa</small>
+          </div>
+
+          <div class="form-group">
+            <label for="longitud">
+              <i class="fas fa-map-pin"></i> Longitud
+            </label>
+            <input 
+              type="number" 
+              id="longitud" 
+              name="longitud" 
+              step="0.000001"
+              placeholder="-3.703790"
+            >
+            <small class="form-help">Opcional: para mostrar en el mapa</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Características -->
+      <div class="form-section">
+        <h2><i class="fas fa-sliders-h"></i> Características</h2>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="num_dormitorios">
+              <i class="fas fa-bed"></i> Número de dormitorios
+            </label>
+            <input 
+              type="number" 
+              id="num_dormitorios" 
+              name="num_dormitorios" 
+              min="0"
+              placeholder="2"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="num_banos">
+              <i class="fas fa-bath"></i> Número de baños
+            </label>
+            <input 
+              type="number" 
+              id="num_banos" 
+              name="num_banos" 
+              min="0"
+              placeholder="1"
+              required
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Amenities -->
+      <div class="form-section">
+        <h2><i class="fas fa-star"></i> Comodidades y Servicios</h2>
+        
+        <div class="checkbox-group">
+          <label>
+            <input type="checkbox" name="wifi" value="true">
+            <i class="fas fa-wifi"></i> WiFi
+          </label>
+
+          <label>
+            <input type="checkbox" name="aire_acondicionado" value="true">
+            <i class="fas fa-snowflake"></i> Aire acondicionado
+          </label>
+
+          <label>
+            <input type="checkbox" name="calefaccion" value="true">
+            <i class="fas fa-temperature-high"></i> Calefacción
+          </label>
+
+          <label>
+            <input type="checkbox" name="cocina" value="true">
+            <i class="fas fa-utensils"></i> Cocina equipada
+          </label>
+
+          <label>
+            <input type="checkbox" name="parking" value="true">
+            <i class="fas fa-parking"></i> Parking
+          </label>
+
+          <label>
+            <input type="checkbox" name="piscina" value="true">
+            <i class="fas fa-swimming-pool"></i> Piscina
+          </label>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a href="/propiedades" class="btn btn-secondary">
+          <i class="fas fa-times"></i> Cancelar
+        </a>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-save"></i> Crear Vivienda
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Validación en tiempo real
+    document.querySelectorAll('input[required], select[required], textarea[required]').forEach(input => {
+      input.addEventListener('blur', function() {
+        if (!this.validity.valid) {
+          this.style.borderColor = '#e74c3c';
+        } else {
+          this.style.borderColor = '#27ae60';
+        }
+      });
+    });
+
+    // Confirmar antes de cancelar si hay datos en el formulario
+    document.querySelector('.btn-secondary').addEventListener('click', function(e) {
+      const formData = new FormData(document.querySelector('.form-vivienda'));
+      let hasData = false;
+      
+      for (let [key, value] of formData.entries()) {
+        if (value && value.trim() !== '') {
+          hasData = true;
+          break;
+        }
+      }
+      
+      if (hasData && !confirm('¿Estás seguro de que quieres cancelar? Se perderán los datos introducidos.')) {
+        e.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>

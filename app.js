@@ -31,6 +31,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Body parsing middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Agregar soporte para métodos HTTP PUT y DELETE
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+
 // Session configuration
 app.use(session({
     secret: 'your-secret-key-change-this-in-production',
@@ -53,6 +61,10 @@ app.use(checkAuth);
 // Routes
 app.use('/', generalRoutes);
 app.use('/auth', authRoutes);
+
+// Rutas de viviendas
+const viviendasRoutes = require('./routes/viviendas');
+app.use('/propiedades', viviendasRoutes);
 
 // Protected routes
 app.use('/prediccion', requireAuth);

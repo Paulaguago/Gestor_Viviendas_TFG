@@ -1,0 +1,211 @@
+<!-- filepath: views/propiedades/detalle.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= vivienda.nombre %> - Detalle</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" />
+</head>
+<body>
+  <div class="container">
+    <a href="/propiedades" class="btn-back">← Volver a propiedades</a>
+    
+    <h1><%= vivienda.nombre %></h1>
+
+    <!-- Información básica -->
+    <section class="info-basica">
+      <h2>Información de la vivienda</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <strong>Dirección:</strong>
+          <p><%= vivienda.direccion %>, <%= vivienda.ciudad %>, <%= vivienda.pais %> (<%= vivienda.codigo_postal %>)</p>
+        </div>
+        <div class="info-item">
+          <strong>Superficie:</strong> <%= vivienda.superficie %> m²
+        </div>
+        <div class="info-item">
+          <strong>Máximo huéspedes:</strong> <%= vivienda.max_huespedes %>
+        </div>
+      </div>
+
+      <h3>Amenities</h3>
+      <div class="amenities">
+        <% if (vivienda.wifi) { %><span class="amenity"><i class="icon-wifi"></i> WiFi</span><% } %>
+        <% if (vivienda.aire_acondicionado) { %><span class="amenity"><i class="icon-ac"></i> Aire acondicionado</span><% } %>
+        <% if (vivienda.calefaccion) { %><span class="amenity"><i class="icon-heat"></i> Calefacción</span><% } %>
+        <% if (vivienda.cocina) { %><span class="amenity"><i class="icon-kitchen"></i> Cocina</span><% } %>
+        <% if (vivienda.parking) { %><span class="amenity"><i class="icon-parking"></i> Parking</span><% } %>
+        <% if (vivienda.piscina) { %><span class="amenity"><i class="icon-pool"></i> Piscina</span><% } %>
+        <span class="amenity"><i class="icon-bed"></i> <%= vivienda.num_dormitorios %> Dormitorios</span>
+        <span class="amenity"><i class="icon-bath"></i> <%= vivienda.num_banos %> Baños</span>
+      </div>
+    </section>
+
+    <!-- Mapa -->
+    <section class="mapa-seccion">
+      <h2>Ubicación</h2>
+      <div id="mapa" style="height: 400px;"></div>
+    </section>
+
+    <!-- Documentación legal -->
+    <section class="documentacion">
+      <h2>Documentación Legal</h2>
+      <button class="btn btn-secondary" onclick="toggleDocumentos()">Ver Documentos</button>
+      <div id="documentos-lista" style="display: none;">
+        <% if (vivienda.documentos && vivienda.documentos.length > 0) { %>
+          <ul class="documentos-list">
+            <% vivienda.documentos.forEach(doc => { %>
+              <li>
+                <a href="<%= doc.ruta_archivo %>" target="_blank">
+                  <i class="icon-file"></i> <%= doc.nombre %> (<%= doc.tipo %>)
+                </a>
+                <% if (doc.fecha_expiracion) { %>
+                  <span class="expiracion">Expira: <%= new Date(doc.fecha_expiracion).toLocaleDateString() %></span>
+                <% } %>
+              </li>
+            <% }); %>
+          </ul>
+        <% } else { %>
+          <p>No hay documentos cargados</p>
+        <% } %>
+        
+        <form action="/propiedades/<%= vivienda.id %>/documentos" method="POST" enctype="multipart/form-data" class="form-documento">
+          <h3>Subir nuevo documento</h3>
+          <input type="text" name="nombre" placeholder="Nombre del documento" required>
+          <select name="tipo" required>
+            <option value="seguro">Seguro</option>
+            <option value="licencia">Licencia</option>
+            <option value="contrato">Contrato</option>
+            <option value="otro">Otro</option>
+          </select>
+          <input type="date" name="fecha_expiracion" placeholder="Fecha de expiración">
+          <input type="file" name="documento" required>
+          <button type="submit" class="btn btn-primary">Subir</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Tareas pendientes -->
+    <section class="tareas-pendientes">
+      <h2>Tareas Pendientes</h2>
+      <% if (vivienda.tareas && vivienda.tareas.length > 0) { %>
+        <div class="tareas-lista">
+          <% vivienda.tareas.forEach(tarea => { %>
+            <div class="tarea-item">
+              <div class="tarea-info">
+                <strong><%= tarea.titulo %></strong>
+                <p><%= tarea.descripcion %></p>
+                <% if (tarea.fecha_limite) { %>
+                  <span class="fecha-limite">Fecha límite: <%= new Date(tarea.fecha_limite).toLocaleDateString() %></span>
+                <% } %>
+              </div>
+              <span class="prioridad <%= tarea.prioridad %>"><%= tarea.prioridad %></span>
+            </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <p>No hay tareas pendientes</p>
+      <% } %>
+    </section>
+
+    <!-- Calendario -->
+    <section class="calendario-seccion">
+      <h2>Calendario de Ocupación</h2>
+      <div id="calendario"></div>
+    </section>
+
+    <!-- Próximas reservas -->
+    <section class="proximas-reservas">
+      <h2>Próximas Reservas</h2>
+      <% if (proximasReservas && proximasReservas.length > 0) { %>
+        <div class="reservas-banner">
+          <% proximasReservas.forEach(reserva => { %>
+            <div class="reserva-card">
+              <div class="reserva-fechas">
+                <%= new Date(reserva.fecha_entrada).toLocaleDateString() %> - 
+                <%= new Date(reserva.fecha_salida).toLocaleDateString() %>
+              </div>
+              <div class="reserva-huespedes">
+                <i class="icon-users"></i> <%= reserva.num_huespedes %> huéspedes
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <p>No hay reservas próximas</p>
+      <% } %>
+      
+      <a href="/propiedades/<%= vivienda.id %>/reservas/historico" class="btn btn-secondary">
+        Ver Histórico de Reservas
+      </a>
+    </section>
+
+    <!-- Balance financiero -->
+    <section class="balance-financiero">
+      <h2>Balance Financiero</h2>
+      <div class="balance-cards">
+        <div class="balance-card">
+          <h3>Balance Mensual</h3>
+          <p class="balance-amount <%= balanceMensual >= 0 ? 'positivo' : 'negativo' %>">
+            <%= balanceMensual.toFixed(2) %>€
+          </p>
+        </div>
+        <div class="balance-card">
+          <h3>Balance Anual</h3>
+          <p class="balance-amount <%= balanceAnual >= 0 ? 'positivo' : 'negativo' %>">
+            <%= balanceAnual.toFixed(2) %>€
+          </p>
+        </div>
+        <div class="balance-card">
+          <h3>Ocupación Histórica</h3>
+          <p class="balance-amount"><%= porcentajeOcupacion %>%</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+  <script>
+    // Inicializar mapa
+    const map = L.map('mapa').setView([<%= vivienda.latitud || 40.4168 %>, <%= vivienda.longitud || -3.7038 %>], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+    L.marker([<%= vivienda.latitud || 40.4168 %>, <%= vivienda.longitud || -3.7038 %>]).addTo(map);
+
+    // Inicializar calendario
+    document.addEventListener('DOMContentLoaded', function() {
+      const calendarEl = document.getElementById('calendario');
+      const reservas = <%- JSON.stringify(reservasMes) %>;
+      
+      const events = reservas.map(reserva => ({
+        title: 'Reservado',
+        start: reserva.fecha_entrada,
+        end: reserva.fecha_salida,
+        backgroundColor: '#4CAF50'
+      }));
+
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'es',
+        events: events,
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth'
+        }
+      });
+      calendar.render();
+    });
+
+    function toggleDocumentos() {
+      const lista = document.getElementById('documentos-lista');
+      lista.style.display = lista.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>

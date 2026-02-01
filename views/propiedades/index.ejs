@@ -1,0 +1,75 @@
+<!-- filepath: views/propiedades/index.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Propiedades - Gestor de Viviendas</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/propiedades.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="propiedades-container">
+    <div class="propiedades-header">
+      <h1><i class="fas fa-building"></i> Mis Propiedades</h1>
+      <a href="/propiedades/nueva" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Agregar Nueva Vivienda
+      </a>
+    </div>
+
+    <% if (viviendas && viviendas.length > 0) { %>
+      <div class="propiedades-grid">
+        <% viviendas.forEach(vivienda => { %>
+          <div class="propiedad-card">
+            <div class="propiedad-imagen">
+              <img src="/images/placeholder-house.jpg" alt="<%= vivienda.nombre %>">
+            </div>
+            <div class="propiedad-info">
+              <h3><%= vivienda.nombre %></h3>
+              <p class="direccion">
+                <i class="fas fa-map-marker-alt"></i> 
+                <%= vivienda.direccion %>, <%= vivienda.ciudad %>
+              </p>
+              <div class="detalles">
+                <span>
+                  <i class="fas fa-users"></i> <%= vivienda.max_huespedes %>
+                </span>
+                <span>
+                  <i class="fas fa-bed"></i> <%= vivienda.num_dormitorios %>
+                </span>
+                <span>
+                  <i class="fas fa-bath"></i> <%= vivienda.num_banos %>
+                </span>
+              </div>
+              <p class="precio"><%= vivienda.precio_noche %>€<small>/noche</small></p>
+            </div>
+            <div class="propiedad-acciones">
+              <a href="/propiedades/<%= vivienda.id %>" class="btn btn-info">
+                <i class="fas fa-eye"></i> Ver más
+              </a>
+              <a href="/propiedades/<%= vivienda.id %>/editar" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Editar
+              </a>
+              <button class="btn btn-danger" onclick="eliminarVivienda(<%= vivienda.id %>)">
+                <i class="fas fa-trash"></i> Eliminar
+              </button>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    <% } else { %>
+      <div style="text-align: center; padding: 4rem; color: #7f8c8d;">
+        <i class="fas fa-home" style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+        <h3>No tienes propiedades registradas</h3>
+        <p>Comienza agregando tu primera vivienda</p>
+        <a href="/propiedades/nueva" class="btn btn-primary" style="margin-top: 1rem;">
+          <i class="fas fa-plus"></i> Agregar Primera Vivienda
+        </a>
+      </div>
+    <% } %>
+  </div>
+
+  <script src="/js/propiedades.js"></script>
+</body>
+</html>
