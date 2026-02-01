@@ -199,12 +199,11 @@ app.get('/dashboard', requireAuth, async (req, res) => {
                 model: models.Vivienda,
                 where: { id_usuario: userId }
             }],
-            order: [['createdAt', 'DESC']],
             limit: 3
         });
         
         reservasRecientes.forEach(reserva => {
-            const horasPasadas = Math.floor((fechaHoy - new Date(reserva.createdAt)) / (1000 * 60 * 60));
+            const horasPasadas = Math.floor((fechaHoy - new Date(reserva.fecha_inicio)) / (1000 * 60 * 60));
             const tiempoTexto = horasPasadas < 1 ? 'Hace menos de 1 hora' : `Hace ${horasPasadas} ${horasPasadas === 1 ? 'hora' : 'horas'}`;
             notificaciones.push({
                 icono: 'bi-check-circle',

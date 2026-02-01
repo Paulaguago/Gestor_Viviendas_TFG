@@ -8,6 +8,7 @@ const {
   projectRoot 
 } = require('../utils/dataLoader');
 const { requireAuth } = require('../utils/authMiddleware');
+const { Vivienda, Reserva } = require('../models');
 
 // ================= RUTAS UI DE NAVEGACIÓN =================
 // Landing de selección de dominio (alquiler/venta)
@@ -23,6 +24,44 @@ router.get('/', (req, res) => {
   res.render('index', {
     title: 'Gestor Viviendas - Inicio'
   });
+});
+
+// Ruta de propiedades
+router.get('/propiedades', requireAuth, async (req, res) => {
+  try {
+    // Obtener todas las viviendas del usuario
+    const viviendas = await Vivienda.findAll({
+      where: { id_usuario: req.user.id_usuario },
+      order: [['id_vivienda', 'DESC']]
+    });
+
+    // Calcular estadísticas simples
+    const totalPropiedades = viviendas.length;
+    // Por ahora sin cálculo de ocupación hasta configurar las relaciones
+    const viviendasOcupadas = 0;
+    const viviendasLibres = totalPropiedades - viviendasOcupadas;
+
+    res.render('propiedades', {
+      title: 'Mis Propiedades',
+      user: req.user,
+      isAuthenticated: true,
+      viviendas,
+      stats: {
+        total: totalPropiedades,
+        ocupadas: viviendasOcupadas,
+        libres: viviendasLibres
+      }
+    });
+  } catch (error) {
+    console.error('Error al cargar propiedades:', error);
+    res.render('propiedades', {
+      title: 'Mis Propiedades',
+      user: req.user,
+      isAuthenticated: true,
+      viviendas: [],
+      stats: { total: 0, ocupadas: 0, libres: 0 }
+    });
+  }
 });
 
 // ================= EBM: endpoints para explicaciones =================

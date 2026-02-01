@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'Propiedades - Gestor Viviendas' %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    
+    <%- include('partials/navbar') %>
+
+    <div class="container py-5 mb-5">
+        <div class="mb-5">
+            <h1 class="display-5 fw-bold text-primary mb-2">
+                Mis Propiedades
+            </h1>
+            <p class="text-muted lead">Gestiona todas tus viviendas</p>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-lg h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="text-primary fw-semibold mb-1">Total</p>
+                                <p class="h2 fw-bold text-dark"><%= stats.total %></p>
+                            </div>
+                            <div class="bg-primary bg-opacity-10 rounded-3 p-3">
+                                <i class="bi bi-house-door-fill fs-3 text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card border-0 shadow-lg h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="text-danger fw-semibold mb-1">Ocupadas</p>
+                                <p class="h2 fw-bold text-dark"><%= stats.ocupadas %></p>
+                            </div>
+                            <div class="bg-danger bg-opacity-10 rounded-3 p-3">
+                                <i class="bi bi-lock-fill fs-3 text-danger"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card border-0 shadow-lg h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="text-success fw-semibold mb-1">Libres</p>
+                                <p class="h2 fw-bold text-dark"><%= stats.libres %></p>
+                            </div>
+                            <div class="bg-success bg-opacity-10 rounded-3 p-3">
+                                <i class="bi bi-check-circle-fill fs-3 text-success"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buscador y Filtros -->
+        <div class="card border-0 shadow-lg mb-5">
+            <div class="card-body p-4">
+                <div class="d-flex flex-column flex-lg-row gap-3">
+                    <div class="flex-grow-1">
+                        <input type="search" id="searchInput" 
+                               class="form-control form-control-lg border-2" 
+                               placeholder="Buscar por nombre o dirección...">
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="filter-btn btn btn-primary btn-lg fw-semibold" data-filter="todas">Todas</button>
+                        <button class="filter-btn btn btn-outline-secondary btn-lg fw-semibold" data-filter="libres">Libres</button>
+                        <button class="filter-btn btn btn-outline-secondary btn-lg fw-semibold" data-filter="ocupadas">Ocupadas</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Propiedades -->
+        <% if (viviendas && viviendas.length > 0) { %>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5" id="propertiesGrid">
+                <% viviendas.forEach(vivienda => { 
+                    const isOcupada = false;
+                    const estado = isOcupada ? 'ocupada' : 'libre';
+                    const nombre = vivienda.tipo_vivienda || 'Propiedad';
+                %>
+                <div class="col property-col" data-status="<%= estado %>">
+                    <div class="card border-0 shadow-lg h-100 hover-shadow transition">
+                        <div class="position-relative" style="height: 200px;">
+                            <% if (vivienda.imagen_url) { %>
+                                <img src="<%= vivienda.imagen_url %>" class="w-100 h-100 object-fit-cover card-img-top" alt="<%= nombre %>">
+                            <% } else { %>
+                                <div class="w-100 h-100 bg-primary bg-gradient d-flex align-items-center justify-content-center card-img-top">
+                                    <i class="bi bi-house-door text-white display-4 opacity-75"></i>
+                                </div>
+                            <% } %>
+                            <span class="position-absolute top-0 end-0 m-3 badge rounded-pill <%= isOcupada ? 'text-bg-danger' : 'text-bg-success' %> shadow">
+                                <%= isOcupada ? 'Ocupada' : 'Libre' %>
+                            </span>
+                        </div>
+                        
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-bold text-dark mb-3"><%= nombre %></h5>
+                            <p class="card-text text-muted mb-4 d-flex align-items-center gap-2">
+                                <i class="bi bi-geo-alt-fill text-primary"></i>
+                                <%= vivienda.direccion || 'Sin dirección' %>, <%= vivienda.ciudad || '' %>
+                            </p>
+                            
+                            <div class="d-flex gap-4 py-3 border-top border-bottom mb-4">
+                                <span class="d-flex align-items-center gap-2 text-secondary">
+                                    <i class="bi bi-people-fill text-primary"></i>
+                                    <%= vivienda.capacidad || 0 %>
+                                </span>
+                                <span class="d-flex align-items-center gap-2 text-secondary">
+                                    <i class="bi bi-door-closed-fill text-primary"></i>
+                                    <%= vivienda.habitaciones || 0 %>
+                                </span>
+                                <span class="d-flex align-items-center gap-2 text-secondary">
+                                    <i class="bi bi-droplet-fill text-primary"></i>
+                                    <%= vivienda.banos || 0 %>
+                                </span>
+                            </div>
+                            
+                            <div class="d-grid grid-cols-3 gap-2 d-flex">
+                                <button class="btn btn-primary flex-fill fw-semibold">
+                                    <i class="bi bi-eye me-1"></i> Ver
+                                </button>
+                                <button class="btn btn-warning text-white flex-fill fw-semibold">
+                                    <i class="bi bi-pencil me-1"></i> Editar
+                                </button>
+                                <button class="btn btn-outline-danger flex-fill fw-semibold btn-delete" 
+                                        data-property-id="<%= vivienda.id_vivienda %>" 
+                                        data-property-name="<%= nombre %>">
+                                    <i class="bi bi-trash me-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+            </div>
+            
+            <div class="card border-0 shadow-lg p-5 text-center d-none" id="noResultsMessage">
+                <div class="card-body">
+                    <i class="bi bi-search display-1 text-muted mb-4"></i>
+                    <h3 class="h2 fw-bold text-secondary mb-2">No se encontraron resultados</h3>
+                    <p class="text-muted">Intenta con otros términos</p>
+                </div>
+            </div>
+        <% } else { %>
+            <div class="card border-0 shadow-lg p-5 text-center">
+                <div class="card-body">
+                    <i class="bi bi-house-slash display-1 text-muted mb-4"></i>
+                    <h3 class="h2 fw-bold text-secondary mb-2">No tienes propiedades</h3>
+                    <p class="text-muted">Agrega tu primera vivienda</p>
+                </div>
+            </div>
+        <% } %>
+
+        <div class="text-center mt-5">
+            <button class="btn btn-primary btn-lg px-5 py-3 rounded-4 shadow-lg fw-bold" id="btnAddProperty">
+                <i class="bi bi-plus-circle me-2"></i>Agregar Nueva Vivienda
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal Bootstrap -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header border-0 pb-2">
+                    <h5 class="modal-title fw-bold text-dark d-flex align-items-center gap-2">
+                        <i class="bi bi-exclamation-triangle-fill text-danger fs-4"></i>
+                        Confirmar Eliminación
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-3">
+                    <p class="text-secondary mb-2 fs-6">¿Estás seguro de que quieres eliminar <strong id="propertyNameToDelete" class="text-dark"></strong>?</p>
+                    <p class="text-danger small mb-0">Esta acción no se puede deshacer.</p>
+                </div>
+                <div class="modal-footer border-0 pt-2 d-flex gap-2">
+                    <button type="button" class="btn btn-light flex-fill fw-semibold py-2" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn btn-danger flex-fill fw-semibold py-2" id="confirmDelete">
+                        Confirmar eliminación
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <%- include('partials/footer') %>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const propertiesGrid = document.getElementById('propertiesGrid');
+        const noResultsMsg = document.getElementById('noResultsMessage');
+        const deleteModalEl = document.getElementById('deleteModal');
+        const deleteModal = new bootstrap.Modal(deleteModalEl);
+        let propertyIdToDelete = null;
+
+        // Búsqueda mejorada
+        searchInput?.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
+            const cols = propertiesGrid?.querySelectorAll('.property-col');
+            let count = 0;
+            
+            cols?.forEach(col => {
+                const card = col.querySelector('.card');
+                const text = card?.textContent.toLowerCase() || '';
+                
+                if (term === '' || text.includes(term)) {
+                    col.style.display = '';
+                    count++;
+                } else {
+                    col.style.display = 'none';
+                }
+            });
+            
+            // Mostrar mensaje de no resultados
+            if (count > 0) {
+                noResultsMsg?.classList.add('d-none');
+                propertiesGrid?.classList.remove('d-none');
+            } else {
+                noResultsMsg?.classList.remove('d-none');
+                propertiesGrid?.classList.add('d-none');
+            }
+        });
+        
+        // Filtros mejorados
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Resetear estado de todos los botones
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('btn-primary');
+                    b.classList.add('btn-outline-primary');
+                });
+                
+                // Activar botón actual
+                this.classList.remove('btn-outline-primary');
+                this.classList.add('btn-primary');
+                
+                const filter = this.dataset.filter;
+                const cols = propertiesGrid?.querySelectorAll('.property-col');
+                let count = 0;
+                
+                cols?.forEach(col => {
+                    const status = col.dataset.status;
+                    
+                    if (filter === 'todas' || status === filter) {
+                        col.style.display = '';
+                        count++;
+                    } else {
+                        col.style.display = 'none';
+                    }
+                });
+                
+                // Actualizar mensaje de no resultados
+                if (count > 0) {
+                    noResultsMsg?.classList.add('d-none');
+                    propertiesGrid?.classList.remove('d-none');
+                } else {
+                    noResultsMsg?.classList.remove('d-none');
+                    propertiesGrid?.classList.add('d-none');
+                }
+                
+                // Limpiar búsqueda al filtrar
+                if (searchInput) searchInput.value = '';
+            });
+        });
+        
+        // Eliminar propiedad
+        document.querySelectorAll('.btn-delete').forEach(btn => {
+            btn.addEventListener('click', function() {
+                propertyIdToDelete = this.dataset.propertyId;
+                const propertyName = this.dataset.propertyName;
+                document.getElementById('propertyNameToDelete').textContent = propertyName;
+                deleteModal.show();
+            });
+        });
+
+        // Confirmar eliminación
+        document.getElementById('confirmDelete')?.addEventListener('click', () => {
+            if (propertyIdToDelete) {
+                // Aquí iría la llamada AJAX para eliminar la propiedad
+                console.log('Eliminando propiedad ID:', propertyIdToDelete);
+                deleteModal.hide();
+                // Simular recarga (en producción sería una llamada AJAX)
+                setTimeout(() => location.reload(), 300);
+            }
+        });
+        
+        // Agregar nueva vivienda
+        document.getElementById('btnAddProperty')?.addEventListener('click', () => {
+            window.location.href = '/propiedades/nueva';
+        });
+        
+        // Inicializar tooltips de Bootstrap si los hay
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
+</body>
+</html>
