@@ -10,6 +10,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <!-- Landing Page CSS / css propio-->
     <link rel="stylesheet" href="/css/landing.css">
+    <style>
+        body {
+            zoom: 0.8;
+        }
+        @media (max-width: 768px) {
+            body {
+                zoom: 0.85;
+            }
+        }
+    </style>
 </head>
 <body class="min-h-screen text-white">
     
@@ -108,7 +118,7 @@
     </section>
 
     <!-- Sección de Funciones (Bento Grid Dashboard Preview) -->
-    <section class="py-20 px-6 lg:px-12" id="funciones">
+    <section class="py-20 px-6 lg:px-12 bg-gradient-to-b from-blue-950/40 to-blue-950/20" id="funciones">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-12">
                 <h2 class="text-4xl lg:text-5xl font-extrabold mb-4">Tu <span class="text-yellow-400">centro de control</span> financiero</h2>
@@ -182,7 +192,7 @@
     </section>
 
     <!-- Sección Cómo Funciona (Video) -->
-    <section class="py-20 px-6 lg:px-12 bg-gradient-to-b from-transparent to-blue-950/30" id="video">
+    <section class="py-20 px-6 lg:px-12 bg-gradient-to-b from-blue-950/20 to-blue-950/50 border-t-2 border-yellow-400/20" id="video">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-12">
                 <h2 class="text-4xl lg:text-5xl font-extrabold mb-4">Gestión profesional en <span class="text-yellow-400">3 pasos</span></h2>
@@ -208,8 +218,8 @@
                 </div>
                 
                 <div class="text-center">
-                    <div class="w-20 h-20 mx-auto mb-4 bg-neon-green rounded-full flex items-center justify-center">
-                        <span class="text-3xl font-extrabold text-black">2</span>
+                    <div class="w-20 h-20 mx-auto mb-4 bg-pink-500 rounded-full flex items-center justify-center">
+                        <span class="text-3xl font-extrabold text-white">2</span>
                     </div>
                     <h3 class="text-2xl font-bold mb-3">Automatiza</h3>
                     <p class="text-gray-300 text-base">Partes de viajeros, cumplimiento legal y reportes sin tu intervención</p>
@@ -227,7 +237,7 @@
     </section>
 
     <!-- Estadísticas -->
-    <section class="py-16 px-6 lg:px-12 bg-blue-950/30">
+    <section class="py-16 px-6 lg:px-12 bg-blue-950/30 border-t-2 border-blue-700/30">
         <div class="max-w-7xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <div>
@@ -247,7 +257,7 @@
     </section>
 
     <!-- Cobertura Nacional (Mapa OpenStreetMap) -->
-    <section class="py-20 px-6 lg:px-12 bg-gradient-to-b from-blue-950/30 to-transparent">
+    <section class="py-20 px-6 lg:px-12 bg-gradient-to-b from-blue-950/50 to-blue-950/20 border-t-2 border-yellow-400/20">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-12">
                 <h2 class="text-4xl lg:text-5xl font-extrabold mb-4">Cobertura <span class="text-yellow-400">Nacional</span></h2>
@@ -288,7 +298,7 @@
     </section>
 
     <!-- Propiedades Destacadas -->
-    <section class="py-20 px-6 lg:px-12">
+    <section class="py-20 px-6 lg:px-12 border-t-2 border-blue-700/30 bg-gradient-to-b from-blue-950/20 to-transparent">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-12">
                 <h2 class="text-4xl lg:text-5xl font-extrabold mb-4">Propiedades <span class="text-neon-green">Destacadas</span></h2>
@@ -389,7 +399,7 @@
     </section>
 
     <!-- Testimonios (Social Proof) -->
-    <section class="py-20 px-6 lg:px-12" id="reseñas">
+    <section class="py-20 px-6 lg:px-12 bg-gradient-to-b from-transparent to-blue-950/40 border-t-2 border-yellow-400/20" id="reseñas">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-12">
                 <h2 class="text-4xl lg:text-5xl font-extrabold mb-4">Lo que dicen nuestros <span class="text-yellow-400">usuarios</span></h2>
@@ -481,7 +491,7 @@
     </section>
 
     <!-- FAQ (Acordeón) -->
-    <section class="py-20 px-6 lg:px-12 bg-gradient-to-b from-transparent to-blue-950/40" id="precios">
+    <section class="py-20 px-6 lg:px-12 bg-gradient-to-b from-blue-950/40 to-blue-950/50 border-t-2 border-blue-700/30" id="precios">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-12">
                 <h2 class="text-4xl lg:text-5xl font-extrabold mb-4">Preguntas <span class="text-yellow-400">frecuentes</span></h2>
@@ -547,7 +557,7 @@
     </section>
 
     <!-- CTA Final -->
-    <section class="py-20 px-6 lg:px-12">
+    <section class="py-20 px-6 lg:px-12 bg-gradient-to-b from-blue-950/50 to-blue-950/30 border-t-2 border-yellow-400/30">
         <div class="max-w-4xl mx-auto text-center bg-gradient-to-br from-yellow-500/20 to-yellow-600/10 rounded-3xl p-12 border-2 border-yellow-400/30">
             <h2 class="text-4xl lg:text-5xl font-extrabold mb-6">
                 ¿Listo para gestionar como un <span class="text-yellow-400">profesional</span>?
