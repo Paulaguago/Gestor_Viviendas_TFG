@@ -35,7 +35,7 @@ CREATE TABLE viviendas (
     superficie_parcela DECIMAL(10,2), -- 'ground_size' para el modelo
 
     amenities TEXT, -- Se puede guardar como JSON string o lista separada por comas
-    imagen_url TEXT,
+    imagen_url VARCHAR(255), -- Ruta relativa de la imagen desde public/ (ej: /images/properties/nombre.jpg)
     estado_legal VARCHAR(50),
     referencia_catastral VARCHAR(100),
     numero_registro_autonomico VARCHAR(100),

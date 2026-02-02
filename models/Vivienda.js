@@ -65,8 +65,9 @@ const Vivienda = sequelize.define('Vivienda', {
         allowNull: true
     },
     imagen_url: {
-        type: DataTypes.TEXT,
-        allowNull: true
+        type: DataTypes.STRING(255),
+        allowNull: true,
+        comment: 'Ruta relativa de la imagen desde public/ (ej: /images/properties/nombre.jpg)'
     },
     estado_legal: {
         type: DataTypes.STRING(50),

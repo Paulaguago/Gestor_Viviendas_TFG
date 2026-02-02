@@ -4,6 +4,7 @@ const { Vivienda, Reserva, Tarea, DocumentoVivienda, Transaccion } = require('..
 const { Op } = require('sequelize');
 const multer = require('multer');
 const path = require('path');
+const uploadImage = require('../config/multer'); // Configuración de multer para imágenes
 
 // Configuración de multer para subir documentos
 const storage = multer.diskStorage({
@@ -20,14 +21,32 @@ const upload = multer({ storage: storage });
 // Listar todas las viviendas
 router.get('/', async (req, res) => {
   try {
+    // Obtener viviendas del usuario actual
+    const userId = req.user ? req.user.id_usuario : 1; // fallback temporal
+    
     const viviendas = await Vivienda.findAll({
-      where: { activo: true },
+      where: { 
+        id_usuario: userId,
+        activa: true  // Cambié de 'activo' a 'activa'
+      },
       order: [['createdAt', 'DESC']]
     });
-    res.render('propiedades/index', { viviendas });
+    
+    console.log('Viviendas encontradas:', viviendas.length); // Debug
+    console.log('Usuario ID:', userId); // Debug
+    
+    res.render('propiedades/index', { 
+      viviendas,
+      title: 'Mis Propiedades - Gestor de Viviendas',
+      user: req.user,
+      isAuthenticated: !!req.user
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Error al cargar las viviendas');
+    console.error('Error al cargar las viviendas:', error);
+    res.status(500).render('error', { 
+      title: 'Error',
+      message: 'Error al cargar las viviendas'
+    });
   }
 });
 
@@ -37,9 +56,13 @@ router.get('/nueva', (req, res) => {
 });
 
 // Crear nueva vivienda
-router.post('/', async (req, res) => {
+router.post('/', uploadImage.single('imagen'), async (req, res) => {
   try {
-    const vivienda = await Vivienda.create({
+    const userId = req.user ? req.user.id_usuario : 1;
+    
+    // Preparar datos de la vivienda
+    const viviendaData = {
+      id_usuario: userId,
       nombre: req.body.nombre,
       direccion: req.body.direccion,
       ciudad: req.body.ciudad,
@@ -59,13 +82,51 @@ router.post('/', async (req, res) => {
       piscina: req.body.piscina === 'true',
       descripcion: req.body.descripcion,
       precio_noche: req.body.precio_noche,
-      activo: true
-    });
+      activa: true
+    };
+
+    // Si se subió una imagen, agregar la ruta
+    if (req.file) {
+      viviendaData.imagen_url = '/images/properties/' + req.file.filename;
+    }
+    
+    const vivienda = await Vivienda.create(viviendaData);
     
     res.redirect('/propiedades');
   } catch (error) {
     console.error(error);
     res.status(500).send('Error al crear la vivienda');
+  }
+});
+
+// Subir/actualizar imagen de vivienda existente
+router.post('/:id/imagen', uploadImage.single('imagen'), async (req, res) => {
+  try {
+    const viviendaId = req.params.id;
+    
+    // Verificar que la vivienda existe
+    const vivienda = await Vivienda.findByPk(viviendaId);
+    if (!vivienda) {
+      return res.status(404).json({ success: false, message: 'Vivienda no encontrada' });
+    }
+
+    // Verificar que se subió un archivo
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'No se proporcionó ninguna imagen' });
+    }
+
+    // Actualizar la ruta de la imagen
+    const nuevaRuta = '/images/properties/' + req.file.filename;
+    await vivienda.update({ imagen_url: nuevaRuta });
+
+    res.json({ 
+      success: true, 
+      message: 'Imagen actualizada correctamente',
+      imagen_url: nuevaRuta 
+    });
+  } catch (error) {
+    console.error('Error al subir imagen:', error);
+    res.status(500).json({ success: false, message: 'Error al subir la imagen' });
   }
 });
 

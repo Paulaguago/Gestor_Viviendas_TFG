@@ -20,7 +20,7 @@
       <h1><i class="fas fa-home"></i> Agregar Nueva Vivienda</h1>
     </div>
 
-    <form action="/propiedades" method="POST" class="form-vivienda">
+    <form action="/propiedades" method="POST" enctype="multipart/form-data" class="form-vivienda">
       <!-- Información Básica -->
       <div class="form-section">
         <h2><i class="fas fa-info-circle"></i> Información Básica</h2>
@@ -34,6 +34,23 @@
             placeholder="Ej: Apartamento céntrico en Madrid"
             required
           >
+        </div>
+
+        <div class="form-group">
+          <label for="imagen">
+            <i class="fas fa-image"></i> Imagen de la propiedad
+            <span style="font-size: 0.875rem; color: #64748b; font-weight: 400;">(opcional, máx. 5MB)</span>
+          </label>
+          <input 
+            type="file" 
+            id="imagen" 
+            name="imagen" 
+            accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+            style="padding: 0.5rem; border: 2px dashed #cbd5e1; border-radius: 0.5rem;"
+          >
+          <small style="color: #64748b; font-size: 0.75rem; display: block; margin-top: 0.5rem;">
+            Formatos permitidos: JPG, PNG, GIF, WEBP
+          </small>
         </div>
 
         <div class="form-group">

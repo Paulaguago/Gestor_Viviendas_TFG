@@ -62,9 +62,9 @@ app.use(checkAuth);
 app.use('/', generalRoutes);
 app.use('/auth', authRoutes);
 
-// Rutas de viviendas
+// Rutas de viviendas (protegidas)
 const viviendasRoutes = require('./routes/viviendas');
-app.use('/propiedades', viviendasRoutes);
+app.use('/propiedades', requireAuth, viviendasRoutes);
 
 // Protected routes
 app.use('/prediccion', requireAuth);
