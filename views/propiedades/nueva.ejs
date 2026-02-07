@@ -1,202 +1,369 @@
-<!-- filepath: views/propiedades/nueva.ejs -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agregar Nueva Vivienda - Gestor de Viviendas</title>
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/propiedades.css">
-  <!-- Font Awesome para iconos -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-  <div class="propiedades-container">
-    <a href="/propiedades" class="btn-back">
-      <i class="fas fa-arrow-left"></i> Volver a mis propiedades
-    </a>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    * {
+      font-family: 'Inter', sans-serif;
+    }
     
-    <div class="propiedades-header">
-      <h1><i class="fas fa-home"></i> Agregar Nueva Vivienda</h1>
+    /* Custom focus styles */
+    .custom-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    /* Custom checkbox styles */
+    .custom-checkbox {
+      appearance: none;
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 2px solid #cbd5e1;
+      border-radius: 0.375rem;
+      background-color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    
+    .custom-checkbox:checked {
+      background-color: #1e3a8a;
+      border-color: #1e3a8a;
+    }
+    
+    .custom-checkbox:checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 0.875rem;
+      font-weight: bold;
+    }
+    
+    .custom-checkbox:hover {
+      border-color: #1e3a8a;
+    }
+    
+    /* File input custom styling */
+    .file-input-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+    }
+    
+    .file-input-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      border: 2px dashed #cbd5e1;
+      border-radius: 0.75rem;
+      background-color: #f8fafc;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .file-input-label:hover {
+      border-color: #1e3a8a;
+      background-color: #eff6ff;
+    }
+    
+    .file-input-wrapper input[type="file"] {
+      position: absolute;
+      left: -9999px;
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.3s ease-out;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen py-8 px-4">
+  <div class="max-w-5xl mx-auto">
+    
+    <!-- Header -->
+    <div class="mb-8 fade-in">
+      <a href="/propiedades" class="inline-flex items-center text-gray-600 hover:text-blue-900 transition-colors mb-4 group">
+        <i data-lucide="arrow-left" class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform"></i>
+        <span class="text-sm font-medium">Volver</span>
+      </a>
+      
+      <div class="flex items-center">
+        <div class="bg-blue-900 p-3 rounded-xl mr-4">
+          <i data-lucide="home" class="w-8 h-8 text-white"></i>
+        </div>
+        <h1 class="text-3xl font-bold text-gray-900">Agregar Nueva Vivienda</h1>
+      </div>
     </div>
 
-    <form action="/propiedades" method="POST" enctype="multipart/form-data" class="form-vivienda">
-      <!-- Información Básica -->
-      <div class="form-section">
-        <h2><i class="fas fa-info-circle"></i> Información Básica</h2>
+    <!-- Formulario Principal -->
+    <form action="/propiedades" method="POST" enctype="multipart/form-data" class="space-y-6">
+      
+      <!-- Sección: Información Básica -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 fade-in">
+        <div class="flex items-center mb-6">
+          <div class="bg-blue-50 p-2 rounded-lg mr-3">
+            <i data-lucide="info" class="w-5 h-5 text-blue-900"></i>
+          </div>
+          <h2 class="text-xl font-semibold text-gray-900">Información Básica</h2>
+        </div>
         
-        <div class="form-group">
-          <label for="nombre">Nombre de la propiedad</label>
-          <input 
-            type="text" 
-            id="nombre" 
-            name="nombre" 
-            placeholder="Ej: Apartamento céntrico en Madrid"
-            required
-          >
-        </div>
-
-        <div class="form-group">
-          <label for="imagen">
-            <i class="fas fa-image"></i> Imagen de la propiedad
-            <span style="font-size: 0.875rem; color: #64748b; font-weight: 400;">(opcional, máx. 5MB)</span>
-          </label>
-          <input 
-            type="file" 
-            id="imagen" 
-            name="imagen" 
-            accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
-            style="padding: 0.5rem; border: 2px dashed #cbd5e1; border-radius: 0.5rem;"
-          >
-          <small style="color: #64748b; font-size: 0.75rem; display: block; margin-top: 0.5rem;">
-            Formatos permitidos: JPG, PNG, GIF, WEBP
-          </small>
-        </div>
-
-        <div class="form-group">
-          <label for="descripcion">Descripción</label>
-          <textarea 
-            id="descripcion" 
-            name="descripcion" 
-            rows="4"
-            placeholder="Describe tu propiedad: características principales, ubicación, servicios cercanos..."
-          ></textarea>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="precio_noche">
-              <i class="fas fa-euro-sign"></i> Precio por noche (€)
+        <div class="space-y-6">
+          <!-- Nombre de propiedad -->
+          <div>
+            <label for="nombre" class="block text-sm font-medium text-gray-700 mb-2">
+              Nombre de la propiedad
             </label>
             <input 
-              type="number" 
-              id="precio_noche" 
-              name="precio_noche" 
-              step="0.01" 
-              min="0"
-              placeholder="50.00"
+              type="text" 
+              id="nombre" 
+              name="nombre" 
+              placeholder="Ej: Apartamento céntrico en Madrid"
               required
+              class="custom-input w-full px-4 py-3 border border-gray-300 rounded-lg transition-all duration-200"
             >
           </div>
 
-          <div class="form-group">
-            <label for="superficie">
-              <i class="fas fa-ruler-combined"></i> Superficie (m²)
+          <!-- Selector de imagen -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Imagen de la propiedad
+              <span class="text-gray-500 font-normal">(opcional, máx. 5MB)</span>
             </label>
-            <input 
-              type="number" 
-              id="superficie" 
-              name="superficie" 
-              min="1"
-              placeholder="75"
-              required
-            >
+            
+            <div class="file-input-wrapper">
+              <label for="imagen" class="file-input-label">
+                <div class="text-center">
+                  <i data-lucide="upload-cloud" class="w-12 h-12 text-gray-400 mx-auto mb-2"></i>
+                  <p class="text-sm text-gray-600 mb-1">
+                    <span class="font-semibold text-blue-900">Haz clic para subir</span> o arrastra una imagen aquí
+                  </p>
+                  <p class="text-xs text-gray-500">JPG, PNG, GIF, WEBP (máx. 5MB)</p>
+                </div>
+              </label>
+              <input 
+                type="file" 
+                id="imagen" 
+                name="imagen" 
+                accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+              >
+            </div>
+            <div id="file-name" class="mt-2 text-sm text-gray-600 hidden"></div>
           </div>
 
-          <div class="form-group">
-            <label for="max_huespedes">
-              <i class="fas fa-users"></i> Máximo de huéspedes
+          <!-- Descripción -->
+          <div>
+            <label for="descripcion" class="block text-sm font-medium text-gray-700 mb-2">
+              Descripción
             </label>
-            <input 
-              type="number" 
-              id="max_huespedes" 
-              name="max_huespedes" 
-              min="1"
-              placeholder="4"
-              required
-            >
+            <textarea 
+              id="descripcion" 
+              name="descripcion" 
+              rows="4"
+              placeholder="Describe tu propiedad: características principales, ubicación, servicios cercanos..."
+              class="custom-input w-full px-4 py-3 border border-gray-300 rounded-lg transition-all duration-200 resize-none"
+            ></textarea>
+          </div>
+
+          <!-- Grid de campos numéricos -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label for="precio_noche" class="block text-sm font-medium text-gray-700 mb-2">
+                <i data-lucide="euro" class="w-4 h-4 inline mr-1"></i>
+                Precio por noche (€)
+              </label>
+              <input 
+                type="number" 
+                id="precio_noche" 
+                name="precio_noche" 
+                step="0.01" 
+                min="0"
+                placeholder="50.00"
+                required
+                class="custom-input w-full px-4 py-3 border border-gray-300 rounded-lg transition-all duration-200"
+              >
+            </div>
+
+            <div>
+              <label for="superficie" class="block text-sm font-medium text-gray-700 mb-2">
+                <i data-lucide="ruler" class="w-4 h-4 inline mr-1"></i>
+                Superficie (m²)
+              </label>
+              <input 
+                type="number" 
+                id="superficie" 
+                name="superficie" 
+                min="1"
+                placeholder="75"
+                required
+                class="custom-input w-full px-4 py-3 border border-gray-300 rounded-lg transition-all duration-200"
+              >
+            </div>
+
+            <div>
+              <label for="max_huespedes" class="block text-sm font-medium text-gray-700 mb-2">
+                <i data-lucide="users" class="w-4 h-4 inline mr-1"></i>
+                Máximo de huéspedes
+              </label>
+              <input 
+                type="number" 
+                id="max_huespedes" 
+                name="max_huespedes" 
+                min="1"
+                placeholder="4"
+                required
+                class="custom-input w-full px-4 py-3 border border-gray-300 rounded-lg transition-all duration-200"
+              >
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Ubicación -->
-      <div class="form-section">
-        <h2><i class="fas fa-map-marker-alt"></i> Ubicación</h2>
+      <!-- Sección: Ubicación -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 fade-in">
+        <div class="flex items-center mb-6">
+          <div class="bg-blue-50 p-2 rounded-lg mr-3">
+            <i data-lucide="map-pin" class="w-5 h-5 text-blue-900"></i>
+          </div>
+          <h2 class="text-xl font-semibold text-gray-900">Ubicación</h2>
+        </div>
         
-        <div class="form-group">
-          <label for="direccion">Dirección completa</label>
-          <input 
-            type="text" 
-            id="direccion" 
-            name="direccion" 
-            placeholder="Calle Mayor, 123"
-            required
-          >
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="ciudad">Ciudad</label>
-            <input 
-              type="text" 
-              id="ciudad" 
-              name="ciudad" 
-              placeholder="Madrid"
-              required
-            >
-          </div>
-
-          <div class="form-group">
-            <label for="pais">País</label>
-            <input 
-              type="text" 
-              id="pais" 
-              name="pais" 
-              placeholder="España"
-              required
-            >
-          </div>
-
-          <div class="form-group">
-            <label for="codigo_postal">Código Postal</label>
-            <input 
-              type="text" 
-              id="codigo_postal" 
-              name="codigo_postal"
-              placeholder="28001"
-            >
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="latitud">
-              <i class="fas fa-map-pin"></i> Latitud
+        <div class="space-y-6">
+          <!-- Dirección completa -->
+          <div>
+            <label for="direccion" class="block text-sm font-medium text-gray-700 mb-2">
+              Dirección completa
             </label>
             <input 
-              type="number" 
-              id="latitud" 
-              name="latitud" 
-              step="0.000001"
-              placeholder="40.416775"
+              type="text" 
+              id="direccion" 
+              name="direccion" 
+              placeholder="Calle Mayor, 123"
+              required
+              class="custom-input w-full px-4 py-3 border border-gray-300 rounded-lg transition-all duration-200"
             >
-            <small class="form-help">Opcional: para mostrar en el mapa</small>
           </div>
 
-          <div class="form-group">
-            <label for="longitud">
-              <i class="fas fa-map-pin"></i> Longitud
-            </label>
-            <input 
-              type="number" 
-              id="longitud" 
-              name="longitud" 
-              step="0.000001"
-              placeholder="-3.703790"
-            >
-            <small class="form-help">Opcional: para mostrar en el mapa</small>
+          <!-- Ciudad, País, Código Postal -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label for="ciudad" class="block text-sm font-medium text-gray-700 mb-2">
+                Ciudad
+              </label>
+              <input 
+                type="text" 
+                id="ciudad" 
+                name="ciudad" 
+                placeholder="Madrid"
+                required
+                class="custom-input w-full px-4 py-3 border border-gray-300 rounded-lg transition-all duration-200"
+              >
+            </div>
+
+            <div>
+              <label for="pais" class="block text-sm font-medium text-gray-700 mb-2">
+                País
+              </label>
+              <input 
+                type="text" 
+                id="pais" 
+                name="pais" 
+                placeholder="España"
+                required
+                class="custom-input w-full px-4 py-3 border border-gray-300 rounded-lg transition-all duration-200"
+              >
+            </div>
+
+            <div>
+              <label for="codigo_postal" class="block text-sm font-medium text-gray-700 mb-2">
+                Código Postal
+              </label>
+              <input 
+                type="text" 
+                id="codigo_postal" 
+                name="codigo_postal"
+                placeholder="28001"
+                class="custom-input w-full px-4 py-3 border border-gray-300 rounded-lg transition-all duration-200"
+              >
+            </div>
+          </div>
+
+          <!-- Coordenadas -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="latitud" class="block text-sm font-medium text-gray-700 mb-2">
+                <i data-lucide="map" class="w-4 h-4 inline mr-1"></i>
+                Latitud
+              </label>
+              <input 
+                type="number" 
+                id="latitud" 
+                name="latitud" 
+                step="0.000001"
+                placeholder="40.416775"
+                class="custom-input w-full px-4 py-3 border border-gray-300 rounded-lg transition-all duration-200"
+              >
+              <p class="mt-1 text-xs text-gray-500">Opcional: para mostrar en el mapa</p>
+            </div>
+
+            <div>
+              <label for="longitud" class="block text-sm font-medium text-gray-700 mb-2">
+                <i data-lucide="map" class="w-4 h-4 inline mr-1"></i>
+                Longitud
+              </label>
+              <input 
+                type="number" 
+                id="longitud" 
+                name="longitud" 
+                step="0.000001"
+                placeholder="-3.703790"
+                class="custom-input w-full px-4 py-3 border border-gray-300 rounded-lg transition-all duration-200"
+              >
+              <p class="mt-1 text-xs text-gray-500">Opcional: para mostrar en el mapa</p>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Características -->
-      <div class="form-section">
-        <h2><i class="fas fa-sliders-h"></i> Características</h2>
+      <!-- Sección: Características -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 fade-in">
+        <div class="flex items-center mb-6">
+          <div class="bg-blue-50 p-2 rounded-lg mr-3">
+            <i data-lucide="sliders" class="w-5 h-5 text-blue-900"></i>
+          </div>
+          <h2 class="text-xl font-semibold text-gray-900">Características</h2>
+        </div>
         
-        <div class="form-row">
-          <div class="form-group">
-            <label for="num_dormitorios">
-              <i class="fas fa-bed"></i> Número de dormitorios
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="num_dormitorios" class="block text-sm font-medium text-gray-700 mb-2">
+              <i data-lucide="bed" class="w-4 h-4 inline mr-1"></i>
+              Número de dormitorios
             </label>
             <input 
               type="number" 
@@ -205,12 +372,14 @@
               min="0"
               placeholder="2"
               required
+              class="custom-input w-full px-4 py-3 border border-gray-300 rounded-lg transition-all duration-200"
             >
           </div>
 
-          <div class="form-group">
-            <label for="num_banos">
-              <i class="fas fa-bath"></i> Número de baños
+          <div>
+            <label for="num_banos" class="block text-sm font-medium text-gray-700 mb-2">
+              <i data-lucide="bath" class="w-4 h-4 inline mr-1"></i>
+              Número de baños
             </label>
             <input 
               type="number" 
@@ -219,78 +388,135 @@
               min="0"
               placeholder="1"
               required
+              class="custom-input w-full px-4 py-3 border border-gray-300 rounded-lg transition-all duration-200"
             >
           </div>
         </div>
       </div>
 
-      <!-- Amenities -->
-      <div class="form-section">
-        <h2><i class="fas fa-star"></i> Comodidades y Servicios</h2>
+      <!-- Sección: Comodidades -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 fade-in">
+        <div class="flex items-center mb-6">
+          <div class="bg-blue-50 p-2 rounded-lg mr-3">
+            <i data-lucide="sparkles" class="w-5 h-5 text-blue-900"></i>
+          </div>
+          <h2 class="text-xl font-semibold text-gray-900">Comodidades</h2>
+        </div>
         
-        <div class="checkbox-group">
-          <label>
-            <input type="checkbox" name="wifi" value="true">
-            <i class="fas fa-wifi"></i> WiFi
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- WiFi -->
+          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-all">
+            <input type="checkbox" name="wifi" value="true" class="custom-checkbox">
+            <i data-lucide="wifi" class="w-5 h-5 text-gray-600 mx-3"></i>
+            <span class="text-sm font-medium text-gray-700">WiFi</span>
           </label>
 
-          <label>
-            <input type="checkbox" name="aire_acondicionado" value="true">
-            <i class="fas fa-snowflake"></i> Aire acondicionado
+          <!-- Aire acondicionado -->
+          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-all">
+            <input type="checkbox" name="aire_acondicionado" value="true" class="custom-checkbox">
+            <i data-lucide="snowflake" class="w-5 h-5 text-gray-600 mx-3"></i>
+            <span class="text-sm font-medium text-gray-700">Aire acondicionado</span>
           </label>
 
-          <label>
-            <input type="checkbox" name="calefaccion" value="true">
-            <i class="fas fa-temperature-high"></i> Calefacción
+          <!-- Calefacción -->
+          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-all">
+            <input type="checkbox" name="calefaccion" value="true" class="custom-checkbox">
+            <i data-lucide="thermometer" class="w-5 h-5 text-gray-600 mx-3"></i>
+            <span class="text-sm font-medium text-gray-700">Calefacción</span>
           </label>
 
-          <label>
-            <input type="checkbox" name="cocina" value="true">
-            <i class="fas fa-utensils"></i> Cocina equipada
+          <!-- Cocina equipada -->
+          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-all">
+            <input type="checkbox" name="cocina" value="true" class="custom-checkbox">
+            <i data-lucide="chef-hat" class="w-5 h-5 text-gray-600 mx-3"></i>
+            <span class="text-sm font-medium text-gray-700">Cocina equipada</span>
           </label>
 
-          <label>
-            <input type="checkbox" name="parking" value="true">
-            <i class="fas fa-parking"></i> Parking
+          <!-- Parking -->
+          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-all">
+            <input type="checkbox" name="parking" value="true" class="custom-checkbox">
+            <i data-lucide="car" class="w-5 h-5 text-gray-600 mx-3"></i>
+            <span class="text-sm font-medium text-gray-700">Parking</span>
           </label>
 
-          <label>
-            <input type="checkbox" name="piscina" value="true">
-            <i class="fas fa-swimming-pool"></i> Piscina
+          <!-- Piscina -->
+          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-all">
+            <input type="checkbox" name="piscina" value="true" class="custom-checkbox">
+            <i data-lucide="waves" class="w-5 h-5 text-gray-600 mx-3"></i>
+            <span class="text-sm font-medium text-gray-700">Piscina</span>
           </label>
         </div>
       </div>
 
-      <div class="form-actions">
-        <a href="/propiedades" class="btn btn-secondary">
-          <i class="fas fa-times"></i> Cancelar
+      <!-- Botones de acción -->
+      <div class="flex flex-col sm:flex-row justify-end gap-4 fade-in">
+        <a 
+          href="/propiedades" 
+          id="cancel-btn"
+          class="px-6 py-3 text-center text-gray-700 font-medium rounded-lg hover:bg-gray-100 transition-colors"
+        >
+          Cancelar
         </a>
-        <button type="submit" class="btn btn-primary">
-          <i class="fas fa-save"></i> Crear Vivienda
+        <button 
+          type="submit" 
+          class="px-8 py-3 bg-blue-900 text-white font-semibold rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 transition-all shadow-lg hover:shadow-xl flex items-center justify-center"
+        >
+          <i data-lucide="check" class="w-5 h-5 mr-2"></i>
+          Crear Vivienda
         </button>
       </div>
     </form>
   </div>
 
   <script>
-    // Validación en tiempo real
-    document.querySelectorAll('input[required], select[required], textarea[required]').forEach(input => {
+    // Inicializar iconos de Lucide
+    lucide.createIcons();
+
+    // Mostrar nombre del archivo seleccionado
+    const fileInput = document.getElementById('imagen');
+    const fileName = document.getElementById('file-name');
+    
+    fileInput.addEventListener('change', function(e) {
+      if (e.target.files.length > 0) {
+        const file = e.target.files[0];
+        fileName.classList.remove('hidden');
+        fileName.innerHTML = `<i data-lucide="file-image" class="w-4 h-4 inline mr-1"></i> <strong>Archivo seleccionado:</strong> ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+        lucide.createIcons();
+      } else {
+        fileName.classList.add('hidden');
+      }
+    });
+
+    // Validación visual en tiempo real
+    const requiredInputs = document.querySelectorAll('input[required], select[required], textarea[required]');
+    
+    requiredInputs.forEach(input => {
       input.addEventListener('blur', function() {
         if (!this.validity.valid) {
-          this.style.borderColor = '#e74c3c';
+          this.classList.remove('border-gray-300');
+          this.classList.add('border-red-400');
         } else {
-          this.style.borderColor = '#27ae60';
+          this.classList.remove('border-red-400');
+          this.classList.add('border-green-400');
+        }
+      });
+      
+      input.addEventListener('input', function() {
+        if (this.classList.contains('border-red-400') && this.validity.valid) {
+          this.classList.remove('border-red-400');
+          this.classList.add('border-green-400');
         }
       });
     });
 
     // Confirmar antes de cancelar si hay datos en el formulario
-    document.querySelector('.btn-secondary').addEventListener('click', function(e) {
-      const formData = new FormData(document.querySelector('.form-vivienda'));
+    document.getElementById('cancel-btn').addEventListener('click', function(e) {
+      const form = document.querySelector('form');
+      const formData = new FormData(form);
       let hasData = false;
       
       for (let [key, value] of formData.entries()) {
-        if (value && value.trim() !== '') {
+        if (value && value.toString().trim() !== '') {
           hasData = true;
           break;
         }
@@ -299,6 +525,12 @@
       if (hasData && !confirm('¿Estás seguro de que quieres cancelar? Se perderán los datos introducidos.')) {
         e.preventDefault();
       }
+    });
+
+    // Animación suave de entrada para las secciones
+    const sections = document.querySelectorAll('.fade-in');
+    sections.forEach((section, index) => {
+      section.style.animationDelay = `${index * 0.1}s`;
     });
   </script>
 </body>

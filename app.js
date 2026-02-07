@@ -26,6 +26,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/modelos_predictivos', express.static(path.join(__dirname, 'modelos_predictivos')));
 
 // Body parsing middleware
 app.use(express.json());
@@ -62,9 +63,9 @@ app.use(checkAuth);
 app.use('/', generalRoutes);
 app.use('/auth', authRoutes);
 
-// Rutas de viviendas (protegidas)
-const viviendasRoutes = require('./routes/viviendas');
-app.use('/propiedades', requireAuth, viviendasRoutes);
+// Rutas de propiedades (protegidas)
+const propiedadesRouter = require('./routes/propiedades');
+app.use('/propiedades', requireAuth, propiedadesRouter);
 
 // Protected routes
 app.use('/prediccion', requireAuth);

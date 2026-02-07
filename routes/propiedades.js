@@ -18,41 +18,51 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Listar todas las viviendas
+// Listar todas las viviendas - GET /propiedades/
 router.get('/', async (req, res) => {
   try {
-    // Obtener viviendas del usuario actual
-    const userId = req.user ? req.user.id_usuario : 1; // fallback temporal
-    
+    // Obtener todas las viviendas del usuario
     const viviendas = await Vivienda.findAll({
-      where: { 
-        id_usuario: userId,
-        activa: true  // Cambié de 'activo' a 'activa'
-      },
-      order: [['createdAt', 'DESC']]
+      where: { id_usuario: req.user.id_usuario },
+      order: [['id_vivienda', 'DESC']]
     });
-    
-    console.log('Viviendas encontradas:', viviendas.length); // Debug
-    console.log('Usuario ID:', userId); // Debug
-    
-    res.render('propiedades/index', { 
-      viviendas,
-      title: 'Mis Propiedades - Gestor de Viviendas',
+
+    // Calcular estadísticas simples
+    const totalPropiedades = viviendas.length;
+    // Por ahora sin cálculo de ocupación hasta configurar las relaciones
+    const viviendasOcupadas = 0;
+    const viviendasLibres = totalPropiedades - viviendasOcupadas;
+
+    res.render('propiedades', {
+      title: 'Mis Propiedades',
       user: req.user,
-      isAuthenticated: !!req.user
+      isAuthenticated: true,
+      viviendas,
+      stats: {
+        total: totalPropiedades,
+        ocupadas: viviendasOcupadas,
+        libres: viviendasLibres
+      }
     });
   } catch (error) {
-    console.error('Error al cargar las viviendas:', error);
-    res.status(500).render('error', { 
-      title: 'Error',
-      message: 'Error al cargar las viviendas'
+    console.error('Error al cargar propiedades:', error);
+    res.render('propiedades', {
+      title: 'Mis Propiedades',
+      user: req.user,
+      isAuthenticated: true,
+      viviendas: [],
+      stats: { total: 0, ocupadas: 0, libres: 0 }
     });
   }
 });
 
-// Mostrar formulario de nueva vivienda
+// Mostrar formulario de nueva vivienda - GET /propiedades/nueva
 router.get('/nueva', (req, res) => {
-  res.render('propiedades/nueva');
+  res.render('propiedades/nueva', {
+    title: 'Nueva Propiedad - Gestor de Viviendas',
+    user: req.user,
+    isAuthenticated: true
+  });
 });
 
 // Crear nueva vivienda
@@ -60,28 +70,68 @@ router.post('/', uploadImage.single('imagen'), async (req, res) => {
   try {
     const userId = req.user ? req.user.id_usuario : 1;
     
+    // Construir dirección completa a partir de componentes (para compatibilidad)
+    const direccionCompleta = [
+      req.body.calle,
+      req.body.bloque_portal ? `Bloque ${req.body.bloque_portal}` : null,
+      req.body.piso ? `Piso ${req.body.piso}` : null,
+      req.body.escalera ? `Escalera ${req.body.escalera}` : null,
+      req.body.letra_numero
+    ].filter(Boolean).join(', ');
+    
     // Preparar datos de la vivienda
     const viviendaData = {
       id_usuario: userId,
+      // Información básica
       nombre: req.body.nombre,
-      direccion: req.body.direccion,
+      descripcion: req.body.descripcion,
+      precio_noche: req.body.precio_noche,
+      
+      // Dirección desglosada
+      calle: req.body.calle,
+      bloque_portal: req.body.bloque_portal,
+      piso: req.body.piso,
+      escalera: req.body.escalera,
+      letra_numero: req.body.letra_numero,
+      barrio: req.body.barrio,
       ciudad: req.body.ciudad,
-      pais: req.body.pais,
+      pais: req.body.pais || 'España',
       codigo_postal: req.body.codigo_postal,
+      direccion: direccionCompleta, // Campo legacy
+      
+      // Coordenadas
       latitud: req.body.latitud,
       longitud: req.body.longitud,
+      
+      // Características
+      tipo_vivienda: req.body.tipo_vivienda,
+      categoria: req.body.categoria,
       superficie: req.body.superficie,
-      max_huespedes: req.body.max_huespedes,
-      num_dormitorios: req.body.num_dormitorios,
+      superficie_parcela: req.body.superficie_parcela || req.body.superficie, // Por defecto = superficie
+      planta: req.body.planta,
+      ano_construccion: req.body.ano_construccion,
+      num_habitaciones: req.body.num_dormitorios,
       num_banos: req.body.num_banos,
+      capacidad_maxima: req.body.max_huespedes,
+      
+      // Información legal
+      estado_legal: req.body.estado_legal,
+      referencia_catastral: req.body.referencia_catastral,
+      numero_registro_autonomico: req.body.numero_registro_autonomico,
+      fecha_registro: req.body.fecha_registro,
+      
+      // URLs de plataformas
+      url_airbnb: req.body.url_airbnb,
+      url_booking: req.body.url_booking,
+      
+      // Comodidades (legacy - checkbox individuales)
       wifi: req.body.wifi === 'true',
       aire_acondicionado: req.body.aire_acondicionado === 'true',
       calefaccion: req.body.calefaccion === 'true',
       cocina: req.body.cocina === 'true',
       parking: req.body.parking === 'true',
       piscina: req.body.piscina === 'true',
-      descripcion: req.body.descripcion,
-      precio_noche: req.body.precio_noche,
+      
       activa: true
     };
 
