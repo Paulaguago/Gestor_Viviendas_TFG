@@ -1,4 +1,4 @@
-body { margin:0; font-family:'Segoe UI', Tahoma, sans-serif; background:#f3f4f6; color:#111827; display:flex; align-items:center; justify-content:center; min-height:100vh; }
+body { margin:0; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f3f4f6; color:#111827; display:flex; align-items:center; justify-content:center; min-height:100vh; }
 .card { width: 620px; background:#fff; border-radius:16px; padding:36px; box-shadow:0 18px 50px rgba(17,24,39,0.08); text-align:center; }
 h1 { margin:0 0 12px; letter-spacing:-0.2px; }
 p { color:#4b5563; margin:0 0 18px; }

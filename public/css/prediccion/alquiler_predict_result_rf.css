@@ -1,4 +1,4 @@
-body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: #eef2f7; color: #111827; }
+body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f7; color: #111827; }
 .grid { width: 100%; max-width: 93.75rem; margin: 1.5rem auto; display: grid; grid-template-columns: 1fr; gap: 1.25rem; padding: 0 1.5rem; }
 @media (min-width: 48rem) {
   .grid { grid-template-columns: 1fr 1fr; }

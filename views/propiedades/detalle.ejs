@@ -4,208 +4,844 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= vivienda.nombre %> - Detalle</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <title><%= vivienda.direccion %> - Dashboard de Propiedad</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <!-- FullCalendar CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" />
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+  
+  <!-- CSS Personalizado -->
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/detalle-dashboard.css">
+  
 </head>
 <body>
-  <div class="container">
-    <a href="/propiedades" class="btn-back">← Volver a propiedades</a>
-    
-    <h1><%= vivienda.nombre %></h1>
 
-    <!-- Información básica -->
-    <section class="info-basica">
-      <h2>Información de la vivienda</h2>
-      <div class="info-grid">
-        <div class="info-item">
-          <strong>Dirección:</strong>
-          <p><%= vivienda.direccion %>, <%= vivienda.ciudad %>, <%= vivienda.pais %> (<%= vivienda.codigo_postal %>)</p>
-        </div>
-        <div class="info-item">
-          <strong>Superficie:</strong> <%= vivienda.superficie %> m²
-        </div>
-        <div class="info-item">
-          <strong>Máximo huéspedes:</strong> <%= vivienda.max_huespedes %>
+  <%- include('../partials/navbar') %>
+
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-background"></div>
+    <div class="hero-overlay">
+      <div class="hero-info">
+        <h1 class="hero-title">
+          <i class="fas fa-home"></i>
+          <%= vivienda.direccion || vivienda.calle %>
+        </h1>
+        <p class="hero-address">
+          <i class="fas fa-map-marker-alt"></i>
+          <%= [vivienda.calle, vivienda.bloque_portal, vivienda.piso, vivienda.letra_numero].filter(Boolean).join(', ') %> - 
+          <%= vivienda.ciudad %>, <%= vivienda.pais || 'España' %>
+        </p>
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">Tipo de Vivienda</span>
+            <span class="hero-meta-value"><%= vivienda.tipo_vivienda || 'Apartamento' %></span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">Categoría</span>
+            <span class="hero-meta-value"><%= vivienda.categoria || 'Vacacional' %></span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">Valor Estimado</span>
+            <span class="hero-meta-value">€ 
+              <%= vivienda.precio_compra ? vivienda.precio_compra.toLocaleString('es-ES') : '---' %>
+            </span>
+          </div>
         </div>
       </div>
-
-      <h3>Amenities</h3>
-      <div class="amenities">
-        <% if (vivienda.wifi) { %><span class="amenity"><i class="icon-wifi"></i> WiFi</span><% } %>
-        <% if (vivienda.aire_acondicionado) { %><span class="amenity"><i class="icon-ac"></i> Aire acondicionado</span><% } %>
-        <% if (vivienda.calefaccion) { %><span class="amenity"><i class="icon-heat"></i> Calefacción</span><% } %>
-        <% if (vivienda.cocina) { %><span class="amenity"><i class="icon-kitchen"></i> Cocina</span><% } %>
-        <% if (vivienda.parking) { %><span class="amenity"><i class="icon-parking"></i> Parking</span><% } %>
-        <% if (vivienda.piscina) { %><span class="amenity"><i class="icon-pool"></i> Piscina</span><% } %>
-        <span class="amenity"><i class="icon-bed"></i> <%= vivienda.num_dormitorios %> Dormitorios</span>
-        <span class="amenity"><i class="icon-bath"></i> <%= vivienda.num_banos %> Baños</span>
-      </div>
-    </section>
-
-    <!-- Mapa -->
-    <section class="mapa-seccion">
-      <h2>Ubicación</h2>
-      <div id="mapa" style="height: 400px;"></div>
-    </section>
-
-    <!-- Documentación legal -->
-    <section class="documentacion">
-      <h2>Documentación Legal</h2>
-      <button class="btn btn-secondary" onclick="toggleDocumentos()">Ver Documentos</button>
-      <div id="documentos-lista" style="display: none;">
-        <% if (vivienda.documentos && vivienda.documentos.length > 0) { %>
-          <ul class="documentos-list">
-            <% vivienda.documentos.forEach(doc => { %>
-              <li>
-                <a href="<%= doc.ruta_archivo %>" target="_blank">
-                  <i class="icon-file"></i> <%= doc.nombre %> (<%= doc.tipo %>)
-                </a>
-                <% if (doc.fecha_expiracion) { %>
-                  <span class="expiracion">Expira: <%= new Date(doc.fecha_expiracion).toLocaleDateString() %></span>
-                <% } %>
-              </li>
-            <% }); %>
-          </ul>
-        <% } else { %>
-          <p>No hay documentos cargados</p>
+      <div class="hero-badges">
+        <span class="status-badge <%= vivienda.activa ? 'activa' : 'inactiva' %>">
+          <i class="fas fa-circle"></i>
+          <%= vivienda.activa ? 'Activa' : 'Inactiva' %>
+        </span>
+        <% if (vivienda.categoria) { %>
+          <span class="type-badge">
+            <i class="fas fa-certificate"></i>
+            <%= vivienda.categoria %>
+          </span>
         <% } %>
-        
-        <form action="/propiedades/<%= vivienda.id %>/documentos" method="POST" enctype="multipart/form-data" class="form-documento">
-          <h3>Subir nuevo documento</h3>
-          <input type="text" name="nombre" placeholder="Nombre del documento" required>
-          <select name="tipo" required>
-            <option value="seguro">Seguro</option>
-            <option value="licencia">Licencia</option>
-            <option value="contrato">Contrato</option>
-            <option value="otro">Otro</option>
-          </select>
-          <input type="date" name="fecha_expiracion" placeholder="Fecha de expiración">
-          <input type="file" name="documento" required>
-          <button type="submit" class="btn btn-primary">Subir</button>
-        </form>
       </div>
-    </section>
-
-    <!-- Tareas pendientes -->
-    <section class="tareas-pendientes">
-      <h2>Tareas Pendientes</h2>
-      <% if (vivienda.tareas && vivienda.tareas.length > 0) { %>
-        <div class="tareas-lista">
-          <% vivienda.tareas.forEach(tarea => { %>
-            <div class="tarea-item">
-              <div class="tarea-info">
-                <strong><%= tarea.titulo %></strong>
-                <p><%= tarea.descripcion %></p>
-                <% if (tarea.fecha_limite) { %>
-                  <span class="fecha-limite">Fecha límite: <%= new Date(tarea.fecha_limite).toLocaleDateString() %></span>
-                <% } %>
-              </div>
-              <span class="prioridad <%= tarea.prioridad %>"><%= tarea.prioridad %></span>
-            </div>
-          <% }); %>
-        </div>
-      <% } else { %>
-        <p>No hay tareas pendientes</p>
-      <% } %>
-    </section>
-
-    <!-- Calendario -->
-    <section class="calendario-seccion">
-      <h2>Calendario de Ocupación</h2>
-      <div id="calendario"></div>
-    </section>
-
-    <!-- Próximas reservas -->
-    <section class="proximas-reservas">
-      <h2>Próximas Reservas</h2>
-      <% if (proximasReservas && proximasReservas.length > 0) { %>
-        <div class="reservas-banner">
-          <% proximasReservas.forEach(reserva => { %>
-            <div class="reserva-card">
-              <div class="reserva-fechas">
-                <%= new Date(reserva.fecha_entrada).toLocaleDateString() %> - 
-                <%= new Date(reserva.fecha_salida).toLocaleDateString() %>
-              </div>
-              <div class="reserva-huespedes">
-                <i class="icon-users"></i> <%= reserva.num_huespedes %> huéspedes
-              </div>
-            </div>
-          <% }); %>
-        </div>
-      <% } else { %>
-        <p>No hay reservas próximas</p>
-      <% } %>
-      
-      <a href="/propiedades/<%= vivienda.id %>/reservas/historico" class="btn btn-secondary">
-        Ver Histórico de Reservas
-      </a>
-    </section>
-
-    <!-- Balance financiero -->
-    <section class="balance-financiero">
-      <h2>Balance Financiero</h2>
-      <div class="balance-cards">
-        <div class="balance-card">
-          <h3>Balance Mensual</h3>
-          <p class="balance-amount <%= balanceMensual >= 0 ? 'positivo' : 'negativo' %>">
-            <%= balanceMensual.toFixed(2) %>€
-          </p>
-        </div>
-        <div class="balance-card">
-          <h3>Balance Anual</h3>
-          <p class="balance-amount <%= balanceAnual >= 0 ? 'positivo' : 'negativo' %>">
-            <%= balanceAnual.toFixed(2) %>€
-          </p>
-        </div>
-        <div class="balance-card">
-          <h3>Ocupación Histórica</h3>
-          <p class="balance-amount"><%= porcentajeOcupacion %>%</p>
-        </div>
-      </div>
-    </section>
+    </div>
   </div>
 
+  <div class="container-dashboard">
+    <!-- Back Button -->
+    <a href="/propiedades" class="btn-back">
+      <i class="fas fa-arrow-left"></i>
+      Volver a mis propiedades
+    </a>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-label">Rentabilidad Anual</span>
+          <div class="kpi-icon green">
+            <i class="fas fa-chart-line"></i>
+          </div>
+        </div>
+        <div class="kpi-value">
+          <% 
+            let rentabilidad = 0;
+            if (typeof balanceAnual !== 'undefined' && vivienda.precio_compra) {
+              rentabilidad = ((balanceAnual / vivienda.precio_compra) * 100).toFixed(1);
+            }
+          %>
+          <%= rentabilidad %>%
+        </div>
+        <div class="kpi-subtitle">ROI estimado</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-label">Ingresos Mes Actual</span>
+          <div class="kpi-icon blue">
+            <i class="fas fa-euro-sign"></i>
+          </div>
+        </div>
+        <div class="kpi-value">
+          <%= typeof balanceMensual !== 'undefined' ? balanceMensual.toFixed(0) : '0' %>€
+        </div>
+        <div class="kpi-subtitle">Febrero 2026</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-label">Incidencias Activas</span>
+          <div class="kpi-icon red">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+        </div>
+        <div class="kpi-value">0</div>
+        <div class="kpi-subtitle">Todo en orden</div>
+      </div>
+
+      <% if (typeof porcentajeOcupacion !== 'undefined') { %>
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-label">Ocupación Histórica</span>
+          <div class="kpi-icon blue">
+            <i class="fas fa-percentage"></i>
+          </div>
+        </div>
+        <div class="kpi-value"><%= porcentajeOcupacion %>%</div>
+        <div class="kpi-subtitle">Últimos 12 meses</div>
+      </div>
+      <% } %>
+
+      <% if (typeof balanceAnual !== 'undefined') { %>
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-label">Balance Anual</span>
+          <div class="kpi-icon green">
+            <i class="fas fa-coins"></i>
+          </div>
+        </div>
+        <div class="kpi-value"><%= balanceAnual.toFixed(0) %>€</div>
+        <div class="kpi-subtitle">2025</div>
+      </div>
+      <% } %>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="main-layout">
+      <!-- Column A: Details and Media -->
+      <div class="column-a">
+        
+        <!-- Gallery -->
+        <div class="card">
+          <div class="card-header">
+            <h3>
+              <div class="card-header-icon">
+                <i class="fas fa-images"></i>
+              </div>
+              Galería Multimedia
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="gallery-container">
+              <div class="gallery-placeholder">
+                <i class="fas fa-image"></i>
+                <p>Vista previa de imágenes de la propiedad</p>
+                <small style="opacity: 0.7;">Carrusel de fotos, planos y videos</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technical Specifications -->
+        <div class="card">
+          <div class="card-header">
+            <h3>
+              <div class="card-header-icon">
+                <i class="fas fa-clipboard-list"></i>
+              </div>
+              Ficha Técnica
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="technical-grid">
+              <div class="technical-item">
+                <div class="technical-icon">
+                  <i class="fas fa-ruler-combined"></i>
+                </div>
+                <div class="technical-info">
+                  <div class="technical-label">Superficie</div>
+                  <div class="technical-value"><%= vivienda.superficie || 0 %> m²</div>
+                </div>
+              </div>
+
+              <div class="technical-item">
+                <div class="technical-icon">
+                  <i class="fas fa-bed"></i>
+                </div>
+                <div class="technical-info">
+                  <div class="technical-label">Dormitorios</div>
+                  <div class="technical-value"><%= vivienda.num_habitaciones || vivienda.num_dormitorios || 0 %></div>
+                </div>
+              </div>
+
+              <div class="technical-item">
+                <div class="technical-icon">
+                  <i class="fas fa-bath"></i>
+                </div>
+                <div class="technical-info">
+                  <div class="technical-label">Baños</div>
+                  <div class="technical-value"><%= vivienda.num_banos || 0 %></div>
+                </div>
+              </div>
+
+              <div class="technical-item">
+                <div class="technical-icon">
+                  <i class="fas fa-users"></i>
+                </div>
+                <div class="technical-info">
+                  <div class="technical-label">Capacidad Máxima</div>
+                  <div class="technical-value"><%= vivienda.capacidad_maxima || vivienda.max_huespedes || 0 %> personas</div>
+                </div>
+              </div>
+
+              <% if (vivienda.planta !== null && vivienda.planta !== undefined) { %>
+              <div class="technical-item">
+                <div class="technical-icon">
+                  <i class="fas fa-layer-group"></i>
+                </div>
+                <div class="technical-info">
+                  <div class="technical-label">Planta</div>
+                  <div class="technical-value">
+                    <%= vivienda.planta === 0 ? 'Bajo' : vivienda.planta === -1 ? 'Sótano' : vivienda.planta %>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+
+              <% if (vivienda.ano_construccion) { %>
+              <div class="technical-item">
+                <div class="technical-icon">
+                  <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="technical-info">
+                  <div class="technical-label">Año Construcción</div>
+                  <div class="technical-value"><%= vivienda.ano_construccion %></div>
+                </div>
+              </div>
+              <% } %>
+
+              <% if (vivienda.superficie_parcela) { %>
+              <div class="technical-item">
+                <div class="technical-icon">
+                  <i class="fas fa-map"></i>
+                </div>
+                <div class="technical-info">
+                  <div class="technical-label">Superficie Parcela</div>
+                  <div class="technical-value"><%= vivienda.superficie_parcela %> m²</div>
+                </div>
+              </div>
+              <% } %>
+            </div>
+
+            <!-- Amenities -->
+            <div style="margin-top: 2rem;">
+              <h4 style="font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-500); font-weight: 700; margin-bottom: 1rem;">
+                Comodidades Destacadas
+              </h4>
+              <div class="amenities-list">
+                <% 
+                let amenitiesList = [];
+                if (vivienda.amenities) {
+                  try {
+                    amenitiesList = JSON.parse(vivienda.amenities);
+                  } catch(e) {}
+                }
+                
+                const legacyAmenities = [];
+                if (vivienda.wifi) legacyAmenities.push({ nombre: 'Wi-Fi', icon: 'wifi' });
+                if (vivienda.aire_acondicionado) legacyAmenities.push({ nombre: 'Aire acondicionado', icon: 'wind' });
+                if (vivienda.calefaccion) legacyAmenities.push({ nombre: 'Calefacción', icon: 'fire' });
+                if (vivienda.cocina) legacyAmenities.push({ nombre: 'Cocina', icon: 'utensils' });
+                if (vivienda.parking) legacyAmenities.push({ nombre: 'Parking', icon: 'parking' });
+                if (vivienda.piscina) legacyAmenities.push({ nombre: 'Piscina', icon: 'swimming-pool' });
+                
+                const allAmenities = amenitiesList.length > 0 ? amenitiesList : legacyAmenities;
+                
+                if (allAmenities.length > 0) {
+                  allAmenities.forEach(amenity => { %>
+                    <div class="amenity-tag">
+                      <i class="fas fa-<%= amenity.icon || 'check-circle' %>"></i>
+                      <span><%= amenity.nombre %></span>
+                    </div>
+                  <% });
+                } else { %>
+                  <p style="color: var(--gray-500); font-size: 0.875rem;">No hay comodidades especificadas</p>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="card">
+          <div class="card-header">
+            <h3>
+              <div class="card-header-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              Ubicación
+            </h3>
+          </div>
+          <div class="card-body">
+            <% if (vivienda.latitud && vivienda.longitud) { %>
+              <div class="map-container" id="mapa"></div>
+            <% } else { %>
+              <div class="map-container" style="display: flex; align-items: center; justify-content: center; background: var(--gray-100);">
+                <div style="text-align: center; color: var(--gray-500);">
+                  <i class="fas fa-map-marked-alt" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                  <p>Mapa no disponible</p>
+                </div>
+              </div>
+            <% } %>
+            
+            <div class="map-info">
+              <% if (vivienda.barrio) { %>
+              <div class="map-info-item">
+                <i class="fas fa-map-signs"></i>
+                <span><strong>Barrio:</strong> <%= vivienda.barrio %></span>
+              </div>
+              <% } %>
+              <% if (vivienda.codigo_postal) { %>
+              <div class="map-info-item">
+                <i class="fas fa-mail-bulk"></i>
+                <span><strong>CP:</strong> <%= vivienda.codigo_postal %></span>
+              </div>
+              <% } %>
+              <% if (vivienda.latitud && vivienda.longitud) { %>
+              <div class="map-info-item" style="grid-column: 1/-1; font-size: 0.75rem;">
+                <i class="fas fa-map-pin"></i>
+                <span><strong>Coordenadas:</strong> <%= parseFloat(vivienda.latitud).toFixed(6) %>, <%= parseFloat(vivienda.longitud).toFixed(6) %></span>
+              </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Legal Documentation -->
+        <div class="card">
+          <div class="card-header">
+            <h3>
+              <div class="card-header-icon">
+                <i class="fas fa-file-contract"></i>
+              </div>
+              Documentación Legal
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="documents-list">
+              <% if (vivienda.referencia_catastral) { %>
+              <div class="document-item">
+                <div class="document-info">
+                  <div class="document-icon">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div>
+                    <div class="document-name">Referencia Catastral</div>
+                    <div class="document-date"><%= vivienda.referencia_catastral %></div>
+                  </div>
+                </div>
+                <button class="btn-download">
+                  <i class="fas fa-download"></i>
+                  Descargar
+                </button>
+              </div>
+              <% } %>
+
+              <% if (vivienda.numero_registro_autonomico) { %>
+              <div class="document-item">
+                <div class="document-info">
+                  <div class="document-icon">
+                    <i class="fas fa-file-signature"></i>
+                  </div>
+                  <div>
+                    <div class="document-name">Nº Registro Autonómico</div>
+                    <div class="document-date"><%= vivienda.numero_registro_autonomico %></div>
+                  </div>
+                </div>
+                <button class="btn-download">
+                  <i class="fas fa-download"></i>
+                  Descargar
+                </button>
+              </div>
+              <% } %>
+
+              <% if (vivienda.fecha_registro) { %>
+              <div class="document-item">
+                <div class="document-info">
+                  <div class="document-icon">
+                    <i class="fas fa-calendar-check"></i>
+                  </div>
+                  <div>
+                    <div class="document-name">Fecha de Registro</div>
+                    <div class="document-date"><%= new Date(vivienda.fecha_registro).toLocaleDateString('es-ES') %></div>
+                  </div>
+                </div>
+                <button class="btn-download">
+                  <i class="fas fa-eye"></i>
+                  Ver
+                </button>
+              </div>
+              <% } %>
+
+              <div class="document-item">
+                <div class="document-info">
+                  <div class="document-icon">
+                    <i class="fas fa-file-pdf"></i>
+                  </div>
+                  <div>
+                    <div class="document-name">Escrituras</div>
+                    <div class="document-date">Documento notarial</div>
+                  </div>
+                </div>
+                <button class="btn-download">
+                  <i class="fas fa-download"></i>
+                  Descargar
+                </button>
+              </div>
+
+              <div class="document-item">
+                <div class="document-info">
+                  <div class="document-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                  </div>
+                  <div>
+                    <div class="document-name">IBI</div>
+                    <div class="document-date">Impuesto anual</div>
+                  </div>
+                </div>
+                <button class="btn-download">
+                  <i class="fas fa-download"></i>
+                  Descargar
+                </button>
+              </div>
+
+              <div class="document-item">
+                <div class="document-info">
+                  <div class="document-icon">
+                    <i class="fas fa-shield-alt"></i>
+                  </div>
+                  <div>
+                    <div class="document-name">Seguro de Hogar</div>
+                    <div class="document-date">Póliza vigente</div>
+                  </div>
+                </div>
+                <button class="btn-download">
+                  <i class="fas fa-download"></i>
+                  Descargar
+                </button>
+              </div>
+
+              <div class="document-item">
+                <div class="document-info">
+                  <div class="document-icon">
+                    <i class="fas fa-leaf"></i>
+                  </div>
+                  <div>
+                    <div class="document-name">Certificado Energético</div>
+                    <div class="document-date">Eficiencia energética</div>
+                  </div>
+                </div>
+                <button class="btn-download">
+                  <i class="fas fa-download"></i>
+                  Descargar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Column B: Management and Finance -->
+      <div class="column-b">
+        
+        <!-- Financial Balance -->
+        <div class="card">
+          <div class="card-header">
+            <h3>
+              <div class="card-header-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              Balance Financiero
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="financialChart"></canvas>
+            </div>
+            <div class="stats-summary">
+              <div class="stat-item">
+                <div class="stat-label">Ingresos Totales</div>
+                <div class="stat-value" style="color: var(--forest-green);">
+                  <%= typeof balanceAnual !== 'undefined' ? (balanceAnual * 1.3).toFixed(0) : '0' %>€
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Gastos Totales</div>
+                <div class="stat-value" style="color: var(--danger-red);">
+                  <%= typeof balanceAnual !== 'undefined' ? (balanceAnual * 0.3).toFixed(0) : '0' %>€
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upcoming Reservations -->
+        <div class="card">
+          <div class="card-header">
+            <h3>
+              <div class="card-header-icon">
+                <i class="fas fa-calendar-check"></i>
+              </div>
+              Próximas Reservas
+            </h3>
+          </div>
+          <div class="card-body">
+            <% if (typeof proximasReservas !== 'undefined' && proximasReservas.length > 0) { %>
+              <div class="reservations-list">
+                <% proximasReservas.slice(0, 5).forEach((reserva, index) => { %>
+                  <div class="reservation-card">
+                    <div class="reservation-header">
+                      <span class="platform-badge airbnb">
+                        <i class="fab fa-airbnb"></i>
+                        Airbnb
+                      </span>
+                      <span class="payment-status paid">
+                        <i class="fas fa-check-circle"></i>
+                        Pagado
+                      </span>
+                    </div>
+                    <div class="reservation-dates">
+                      <i class="fas fa-calendar"></i>
+                      <%= new Date(reserva.fecha_entrada).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) %>
+                      <i class="fas fa-arrow-right" style="font-size: 0.75rem;"></i>
+                      <%= new Date(reserva.fecha_salida).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) %>
+                    </div>
+                    <div class="reservation-guests">
+                      <i class="fas fa-users"></i>
+                      <%= reserva.num_huespedes %> huésped<%= reserva.num_huespedes > 1 ? 'es' : '' %>
+                    </div>
+                  </div>
+                <% }); %>
+              </div>
+            <% } else { %>
+              <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                <i class="fas fa-calendar-times" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                <p style="margin: 0; font-weight: 500;">No hay reservas programadas</p>
+                <small>Las próximas reservas aparecerán aquí</small>
+              </div>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- Calendar -->
+        <% if (typeof reservasMes !== 'undefined') { %>
+        <div class="card">
+          <div class="card-header">
+            <h3>
+              <div class="card-header-icon">
+                <i class="fas fa-calendar"></i>
+              </div>
+              Calendario de Ocupación
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="calendar-wrapper">
+              <div id="calendario"></div>
+            </div>
+          </div>
+        </div>
+        <% } %>
+
+        <!-- Platform Links -->
+        <div class="card">
+          <div class="card-header">
+            <h3>
+              <div class="card-header-icon">
+                <i class="fas fa-globe"></i>
+              </div>
+              Plataformas de Alquiler
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="platform-links">
+              <% if (vivienda.url_airbnb) { %>
+                <a href="<%= vivienda.url_airbnb %>" target="_blank" class="platform-link airbnb">
+                  <div class="platform-link-content">
+                    <i class="fab fa-airbnb" style="font-size: 1.5rem;"></i>
+                    <span>Ver en Airbnb</span>
+                  </div>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              <% } else { %>
+                <a href="#" class="platform-link airbnb">
+                  <div class="platform-link-content">
+                    <i class="fab fa-airbnb" style="font-size: 1.5rem;"></i>
+                    <span>Ver en Airbnb</span>
+                  </div>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              <% } %>
+
+              <% if (vivienda.url_booking) { %>
+                <a href="<%= vivienda.url_booking %>" target="_blank" class="platform-link booking">
+                  <div class="platform-link-content">
+                    <i class="fas fa-bed" style="font-size: 1.25rem;"></i>
+                    <span>Ver en Booking.com</span>
+                  </div>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              <% } else { %>
+                <a href="#" class="platform-link booking">
+                  <div class="platform-link-content">
+                    <i class="fas fa-bed" style="font-size: 1.25rem;"></i>
+                    <span>Ver en Booking.com</span>
+                  </div>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              <% } %>
+            </div>
+
+            <div class="action-buttons">
+              <button class="btn-action primary">
+                <i class="fas fa-headset"></i>
+                Contactar Gestor
+              </button>
+              <button class="btn-action secondary">
+                <i class="fas fa-tools"></i>
+                Reportar Incidencia
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="dashboard-footer">
+      <p>Última actualización de datos: <%= new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' }) %></p>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  
+  <!-- FullCalendar JS -->
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
   <script>
-    // Inicializar mapa
-    const map = L.map('mapa').setView([<%= vivienda.latitud || 40.4168 %>, <%= vivienda.longitud || -3.7038 %>], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-    L.marker([<%= vivienda.latitud || 40.4168 %>, <%= vivienda.longitud || -3.7038 %>]).addTo(map);
-
-    // Inicializar calendario
-    document.addEventListener('DOMContentLoaded', function() {
-      const calendarEl = document.getElementById('calendario');
-      const reservas = <%- JSON.stringify(reservasMes) %>;
-      
-      const events = reservas.map(reserva => ({
-        title: 'Reservado',
-        start: reserva.fecha_entrada,
-        end: reserva.fecha_salida,
-        backgroundColor: '#4CAF50'
-      }));
-
-      const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        locale: 'es',
-        events: events,
-        headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth'
-        }
+    // Inicializar mapa si hay coordenadas
+    <% if (vivienda.latitud && vivienda.longitud) { %>
+      document.addEventListener('DOMContentLoaded', function() {
+        const map = L.map('mapa').setView([<%= vivienda.latitud %>, <%= vivienda.longitud %>], 15);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors',
+          maxZoom: 19
+        }).addTo(map);
+        
+        const marker = L.marker([<%= vivienda.latitud %>, <%= vivienda.longitud %>]).addTo(map);
+        
+        marker.bindPopup(`
+          <div style="text-align: center;">
+            <strong><%= vivienda.direccion || vivienda.calle %></strong><br>
+            <%= vivienda.ciudad %>, <%= vivienda.pais || 'España' %>
+          </div>
+        `).openPopup();
       });
-      calendar.render();
+    <% } %>
+
+    // Inicializar gráfico financiero
+    document.addEventListener('DOMContentLoaded', function() {
+      const ctx = document.getElementById('financialChart');
+      if (ctx) {
+        const balanceAnual = <%= typeof balanceAnual !== 'undefined' ? balanceAnual : 0 %>;
+        
+        // Datos simulados para los últimos 12 meses
+        const months = ['Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic', 'Ene'];
+        const ingresos = months.map((m, i) => {
+          const base = balanceAnual / 12 * 1.3;
+          const variation = (Math.random() - 0.5) * base * 0.3;
+          return (base + variation).toFixed(0);
+        });
+        const gastos = ingresos.map(ing => (ing * (0.2 + Math.random() * 0.2)).toFixed(0));
+
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: months,
+            datasets: [
+              {
+                label: 'Ingresos',
+                data: ingresos,
+                borderColor: '#2f855a',
+                backgroundColor: 'rgba(47, 133, 90, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+              },
+              {
+                label: 'Gastos',
+                data: gastos,
+                borderColor: '#e53e3e',
+                backgroundColor: 'rgba(229, 62, 62, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                  usePointStyle: true,
+                  padding: 15,
+                  font: {
+                    size: 12,
+                    weight: '600'
+                  }
+                }
+              },
+              tooltip: {
+                mode: 'index',
+                intersect: false,
+                backgroundColor: 'rgba(26, 54, 93, 0.95)',
+                padding: 12,
+                titleFont: {
+                  size: 13,
+                  weight: '600'
+                },
+                bodyFont: {
+                  size: 12
+                },
+                callbacks: {
+                  label: function(context) {
+                    return context.dataset.label + ': €' + parseFloat(context.parsed.y).toLocaleString('es-ES');
+                  }
+                }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: {
+                  color: 'rgba(0, 0, 0, 0.05)'
+                },
+                ticks: {
+                  callback: function(value) {
+                    return '€' + value.toLocaleString('es-ES');
+                  },
+                  font: {
+                    size: 11
+                  }
+                }
+              },
+              x: {
+                grid: {
+                  display: false
+                },
+                ticks: {
+                  font: {
+                    size: 11
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
     });
 
-    function toggleDocumentos() {
-      const lista = document.getElementById('documentos-lista');
-      lista.style.display = lista.style.display === 'none' ? 'block' : 'none';
-    }
+    // Inicializar calendario si hay reservas
+    <% if (typeof reservasMes !== 'undefined') { %>
+      document.addEventListener('DOMContentLoaded', function() {
+        const calendarEl = document.getElementById('calendario');
+        if (calendarEl) {
+          const reservas = <%- JSON.stringify(reservasMes) %>;
+          
+          const events = reservas.map(reserva => ({
+            title: 'Reservado',
+            start: reserva.fecha_entrada,
+            end: reserva.fecha_salida,
+            backgroundColor: '#1a365d',
+            borderColor: '#0f2540',
+            textColor: '#ffffff'
+          }));
+
+          const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'es',
+            events: events,
+            headerToolbar: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth'
+            },
+            buttonText: {
+              today: 'Hoy'
+            },
+            height: 'auto',
+            dayMaxEvents: true,
+            eventDisplay: 'block'
+          });
+          
+          calendar.render();
+        }
+      });
+    <% } %>
   </script>
 </body>
 </html>

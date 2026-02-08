@@ -1,4 +1,4 @@
-body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: #f2f4f7; color: #1f2933; }
+body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f2f4f7; color: #1f2933; }
 .shell { max-width: 980px; margin: 60px auto; background: #fff; border-radius: 18px; padding: 48px; box-shadow: 0 20px 70px rgba(23,43,77,0.08); }
 h1 { margin: 0 0 12px; font-weight: 700; letter-spacing: -0.3px; }
 p.lead { margin: 0 0 32px; color: #4b5563; }

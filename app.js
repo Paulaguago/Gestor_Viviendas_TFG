@@ -66,6 +66,7 @@ app.use('/auth', authRoutes);
 // Rutas de propiedades (protegidas)
 const propiedadesRouter = require('./routes/propiedades');
 app.use('/propiedades', requireAuth, propiedadesRouter);
+app.use('/viviendas', requireAuth, propiedadesRouter); // Alias para compatibilidad
 
 // Protected routes
 app.use('/prediccion', requireAuth);

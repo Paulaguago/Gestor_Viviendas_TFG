@@ -21,9 +21,12 @@ const upload = multer({ storage: storage });
 // Listar todas las viviendas - GET /propiedades/
 router.get('/', async (req, res) => {
   try {
-    // Obtener todas las viviendas del usuario
+    // Obtener todas las viviendas activas del usuario
     const viviendas = await Vivienda.findAll({
-      where: { id_usuario: req.user.id_usuario },
+      where: { 
+        id_usuario: req.user.id_usuario,
+        activa: true 
+      },
       order: [['id_vivienda', 'DESC']]
     });
 
@@ -33,7 +36,7 @@ router.get('/', async (req, res) => {
     const viviendasOcupadas = 0;
     const viviendasLibres = totalPropiedades - viviendasOcupadas;
 
-    res.render('propiedades', {
+    res.render('propiedades/mostrarPropiedades', {
       title: 'Mis Propiedades',
       user: req.user,
       isAuthenticated: true,
@@ -42,11 +45,13 @@ router.get('/', async (req, res) => {
         total: totalPropiedades,
         ocupadas: viviendasOcupadas,
         libres: viviendasLibres
-      }
+      },
+      mensaje: req.query.mensaje,
+      error: req.query.error
     });
   } catch (error) {
     console.error('Error al cargar propiedades:', error);
-    res.render('propiedades', {
+    res.render('propiedades/mostrarPropiedades', {
       title: 'Mis Propiedades',
       user: req.user,
       isAuthenticated: true,
@@ -124,7 +129,10 @@ router.post('/', uploadImage.single('imagen'), async (req, res) => {
       url_airbnb: req.body.url_airbnb,
       url_booking: req.body.url_booking,
       
-      // Comodidades (legacy - checkbox individuales)
+      // Comodidades en formato JSON
+      amenities: req.body.amenities || null,
+      
+      // Comodidades (legacy - checkbox individuales para compatibilidad)
       wifi: req.body.wifi === 'true',
       aire_acondicionado: req.body.aire_acondicionado === 'true',
       calefaccion: req.body.calefaccion === 'true',
@@ -183,100 +191,124 @@ router.post('/:id/imagen', uploadImage.single('imagen'), async (req, res) => {
 // Ver detalle completo de vivienda
 router.get('/:id', async (req, res) => {
   try {
-    const vivienda = await Vivienda.findByPk(req.params.id, {
-      include: [
-        { model: DocumentoVivienda, as: 'documentos' },
-        { model: Tarea, as: 'tareas', where: { completada: false }, required: false },
-        { model: Reserva, as: 'reservas' }
-      ]
-    });
+    const vivienda = await Vivienda.findByPk(req.params.id);
 
     if (!vivienda) {
       return res.status(404).send('Vivienda no encontrada');
     }
 
-    // Obtener próximas reservas (próximos 30 días)
+    // Obtener próximas reservas (próximos 30 días) - solo si el modelo existe
     const hoy = new Date();
     const treintaDias = new Date();
     treintaDias.setDate(treintaDias.getDate() + 30);
 
-    const proximasReservas = await Reserva.findAll({
-      where: {
-        vivienda_id: req.params.id,
-        fecha_entrada: {
-          [Op.between]: [hoy, treintaDias]
-        }
-      },
-      order: [['fecha_entrada', 'ASC']],
-      limit: 5
-    });
+    let proximasReservas = [];
+    let balanceMensual = 0;
+    let balanceAnual = 0;
+    let porcentajeOcupacion = 0;
+    let reservasMes = [];
+
+    try {
+      proximasReservas = await Reserva.findAll({
+        where: {
+          vivienda_id: req.params.id,
+          fecha_entrada: {
+            [Op.between]: [hoy, treintaDias]
+          }
+        },
+        order: [['fecha_entrada', 'ASC']],
+        limit: 5
+      });
+    } catch (e) {
+      console.log('No se pudieron cargar las reservas:', e.message);
+    }
 
     // Calcular balance mensual
     const inicioMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
     const finMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0);
 
-    const transaccionesMes = await Transaccion.findAll({
-      where: {
-        vivienda_id: req.params.id,
-        fecha: {
-          [Op.between]: [inicioMes, finMes]
+    try {
+      const transaccionesMes = await Transaccion.findAll({
+        where: {
+          vivienda_id: req.params.id,
+          fecha: {
+            [Op.between]: [inicioMes, finMes]
+          }
         }
-      }
-    });
+      });
 
-    const balanceMensual = transaccionesMes.reduce((acc, t) => {
-      return acc + (t.tipo === 'ingreso' ? parseFloat(t.monto) : -parseFloat(t.monto));
-    }, 0);
+      balanceMensual = transaccionesMes.reduce((acc, t) => {
+        return acc + (t.tipo === 'ingreso' ? parseFloat(t.monto) : -parseFloat(t.monto));
+      }, 0);
+    } catch (e) {
+      console.log('No se pudo calcular balance mensual:', e.message);
+    }
 
     // Calcular balance anual
     const inicioAnio = new Date(hoy.getFullYear(), 0, 1);
-    const transaccionesAnio = await Transaccion.findAll({
-      where: {
-        vivienda_id: req.params.id,
-        fecha: {
-          [Op.gte]: inicioAnio
+    
+    try {
+      const transaccionesAnio = await Transaccion.findAll({
+        where: {
+          vivienda_id: req.params.id,
+          fecha: {
+            [Op.gte]: inicioAnio
+          }
         }
-      }
-    });
+      });
 
-    const balanceAnual = transaccionesAnio.reduce((acc, t) => {
-      return acc + (t.tipo === 'ingreso' ? parseFloat(t.monto) : -parseFloat(t.monto));
-    }, 0);
+      balanceAnual = transaccionesAnio.reduce((acc, t) => {
+        return acc + (t.tipo === 'ingreso' ? parseFloat(t.monto) : -parseFloat(t.monto));
+      }, 0);
+    } catch (e) {
+      console.log('No se pudo calcular balance anual:', e.message);
+    }
 
     // Calcular porcentaje de ocupación histórico
-    const todasReservas = await Reserva.findAll({
-      where: { vivienda_id: req.params.id }
-    });
+    try {
+      const todasReservas = await Reserva.findAll({
+        where: { vivienda_id: req.params.id }
+      });
 
-    let diasOcupados = 0;
-    todasReservas.forEach(reserva => {
-      const diff = new Date(reserva.fecha_salida) - new Date(reserva.fecha_entrada);
-      diasOcupados += Math.ceil(diff / (1000 * 60 * 60 * 24));
-    });
+      let diasOcupados = 0;
+      todasReservas.forEach(reserva => {
+        const diff = new Date(reserva.fecha_salida) - new Date(reserva.fecha_entrada);
+        diasOcupados += Math.ceil(diff / (1000 * 60 * 60 * 24));
+      });
 
-    const diasDesdeCreacion = Math.ceil((hoy - vivienda.createdAt) / (1000 * 60 * 60 * 24));
-    const porcentajeOcupacion = diasDesdeCreacion > 0 ? (diasOcupados / diasDesdeCreacion * 100).toFixed(2) : 0;
+      const diasDesdeCreacion = Math.ceil((hoy - new Date()) / (1000 * 60 * 60 * 24)) || 365;
+      porcentajeOcupacion = diasDesdeCreacion > 0 ? (diasOcupados / diasDesdeCreacion * 100).toFixed(2) : 0;
+    } catch (e) {
+      console.log('No se pudo calcular ocupación:', e.message);
+    }
 
     // Obtener reservas del mes actual para el calendario
-    const reservasMes = await Reserva.findAll({
-      where: {
-        vivienda_id: req.params.id,
-        [Op.or]: [
-          {
-            fecha_entrada: {
-              [Op.between]: [inicioMes, finMes]
+    try {
+      reservasMes = await Reserva.findAll({
+        where: {
+          vivienda_id: req.params.id,
+          [Op.or]: [
+            {
+              fecha_entrada: {
+                [Op.between]: [inicioMes, finMes]
+              }
+            },
+            {
+              fecha_salida: {
+                [Op.between]: [inicioMes, finMes]
+              }
             }
-          },
-          {
-            fecha_salida: {
-              [Op.between]: [inicioMes, finMes]
-            }
-          }
-        ]
-      }
-    });
+          ]
+        }
+      });
+    } catch (e) {
+      console.log('No se pudieron cargar reservas del mes:', e.message);
+    }
 
     res.render('propiedades/detalle', {
+      title: 'Detalle de Propiedad',
+      user: req.user,
+      isAuthenticated: true,
       vivienda,
       proximasReservas,
       balanceMensual,
@@ -285,8 +317,8 @@ router.get('/:id', async (req, res) => {
       reservasMes
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Error al cargar el detalle de la vivienda');
+    console.error('Error al cargar el detalle de la vivienda:', error);
+    res.status(500).send('Error al cargar el detalle de la vivienda: ' + error.message);
   }
 });
 
@@ -358,19 +390,27 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Eliminar vivienda (soft delete)
+// Eliminar vivienda (soft delete - marca activa como false)
 router.delete('/:id', async (req, res) => {
   try {
     const vivienda = await Vivienda.findByPk(req.params.id);
     if (!vivienda) {
-      return res.status(404).send('Vivienda no encontrada');
+      return res.status(404).json({ success: false, error: 'Vivienda no encontrada' });
     }
 
-    await vivienda.update({ activo: false });
-    res.json({ success: true });
+    // Verificar que la vivienda pertenece al usuario
+    if (vivienda.id_usuario !== req.user.id_usuario) {
+      return res.status(403).json({ success: false, error: 'No tienes permiso para eliminar esta vivienda' });
+    }
+
+    // Soft delete: marcar como inactiva
+    await vivienda.update({ activa: false });
+    
+    // Redirigir con mensaje de éxito
+    res.redirect('/propiedades?mensaje=eliminada');
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, error: 'Error al eliminar la vivienda' });
+    console.error('Error al desactivar vivienda:', error);
+    res.redirect('/propiedades?error=eliminacion');
   }
 });
 
