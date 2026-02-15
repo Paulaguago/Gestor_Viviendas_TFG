@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -8,13 +8,26 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Bootstrap CSS (debe ir ANTES de Tailwind) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            corePlugins: {
+                preflight: false, // Desactiva el reset de Tailwind para no conflictuar con Bootstrap
+            }
+        }
+    </script>
+    
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- CSS Personalizado -->
+    <!-- CSS Personalizado (debe ir AL FINAL) -->
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/mostrar-propiedades.css">
 </head>
@@ -38,8 +51,17 @@
         </div>
         <% } %>
         
-        <!-- Micro KPIs -->
-        <section class="kpi-section">
+        <!-- Header: Título + Botón -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1 style="font-size: 2rem; font-weight: 700; color: #1f2937; margin: 0;">Mis Propiedades</h1>
+            <button class="btn-primary" onclick="abrirModalNuevaPropiedad()" style="background: #000080; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600;">
+                <i class="fas fa-plus"></i>
+                <span>Añadir Propiedad</span>
+            </button>
+        </div>
+        
+        <!-- Micro KPIs (ocultos según diseño) -->
+        <section class="kpi-section" style="display: none;">
             <!-- Contenedor con fondo claro -->
             <div class="kpi-wrapper">
                 <div class="kpi-row">
@@ -104,70 +126,68 @@
             </div>
         </section>
 
-        <!-- Barra de Herramientas -->
-        <section class="toolbar">
-            <div class="toolbar-search">
-                <i class="fas fa-search"></i>
-                <input 
-                    type="text" 
-                    id="searchInput" 
-                    class="toolbar-input" 
-                    placeholder="Buscar por nombre, dirección o ciudad..."
-                >
+        <!-- Barra de Búsqueda y Filtros -->
+        <div style="background: white; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 0.0625rem 0.1875rem rgba(0,0,0,0.1); margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                <!-- Barra de Búsqueda -->
+                <div style="flex: 1; min-width: 15.625rem; position: relative;">
+                    <i class="fas fa-search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #9ca3af; z-index: 2; pointer-events: none;"></i>
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.75rem; border: 0.0625rem solid #e5e7eb; border-radius: 0.5rem; font-size: 0.875rem;"
+                        placeholder="Buscar propiedad..."
+                    >
+                </div>
+                
+                <!-- Filtros -->
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="filter-pill filter-pill--active" data-filter="todas" style="padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500; border: none; cursor: pointer;">Todas</button>
+                    <button class="filter-pill" data-filter="libre" style="padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500; border: none; cursor: pointer;">Libres</button>
+                    <button class="filter-pill" data-filter="ocupada" style="padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500; border: none; cursor: pointer;">Ocupadas</button>
+                </div>
+                
+                <!-- Botón Filters -->
+                <button style="padding: 0.5rem 1rem; background: #f3f4f6; color: #4b5563; border: none; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-sliders-h"></i>
+                    Filters
+                </button>
             </div>
-
-            <div class="toolbar-filters">
-                <button class="filter-pill filter-pill--active" data-filter="todas">Todas</button>
-                <button class="filter-pill" data-filter="libre">Libres</button>
-                <button class="filter-pill" data-filter="ocupada">Ocupadas</button>
-            </div>
-
-            <button class="btn-primary" onclick="abrirModalNuevaPropiedad()">
-                <i class="fas fa-plus"></i>
-                <span>Añadir Propiedad</span>
-            </button>
-        </section>
+        </div>
 
         <!-- Layout Principal: Grid + Sidebar -->
         <div class="content-layout">
-            
             <!-- Grid de Propiedades (75%) -->
             <div class="properties-container">
-                <!-- Contenedor con fondo claro -->
-                <div class="properties-wrapper">
+                <!-- Contenedor con fondo grisáceo -->
+                <div style="background: #f3f4f6; padding: 1.5rem; border-radius: 1rem; min-height: 25rem;">
                     <div id="propiedadesGrid" class="properties-grid">
                     
                     <% if (viviendas && viviendas.length > 0) { %>
                         <% viviendas.forEach(vivienda => { %>
-                            <article class="property-card" data-estado="<%= vivienda.estado_actual %>">
+                            <article class="property-card" data-estado="<%= vivienda.estado_actual %>" style="display: flex; flex-direction: row; background: white; border-radius: 1rem; overflow: hidden; box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.08); margin-bottom: 1.5rem; transition: all 0.3s ease;">
                                 
-                                <!-- Imagen -->
-                                <div class="property-image">
+                                <!-- Imagen (izquierda) - MÁS GRANDE -->
+                                <div class="property-image" style="width: 25rem; height: 17.5rem; flex-shrink: 0; position: relative;">
                                     <% if (vivienda.imagen_url) { %>
-                                        <img src="<%= vivienda.imagen_url %>" alt="<%= vivienda.nombre %>">
+                                        <img src="<%= vivienda.imagen_url %>" alt="<%= vivienda.nombre %>" style="width: 100%; height: 100%; object-fit: cover;">
                                     <% } else { %>
-                                        <div class="image-placeholder" onclick="document.getElementById('file-<%= vivienda.id_vivienda %>').click()">
-                                            <i class="fas fa-camera"></i>
-                                            <span class="fa-plus"><i class="fas fa-plus"></i></span>
+                                        <div class="image-placeholder" onclick="document.getElementById('file-<%= vivienda.id_vivienda %>').click()" style="width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                                            <i class="fas fa-camera" style="font-size: 3rem; color: rgba(255,255,255,0.5);"></i>
                                         </div>
                                     <% } %>
                                     
-                                    <!-- Badge Estado -->
-                                    <div class="status-badge status-badge--<%= vivienda.estado_actual || 'default' %>">
-                                        <i class="fas fa-circle"></i>
+                                    <!-- Badge Estado (esquina superior derecha) -->
+                                    <div class="status-badge status-badge--<%= vivienda.estado_actual || 'default' %>" style="position: absolute; top: 0.75rem; right: 0.75rem; padding: 0.375rem 1rem; border-radius: 2rem; font-size: 0.875rem; font-weight: 600; display: flex; align-items: center; gap: 0.375rem; backdrop-filter: blur(10);">
+                                        <i class="fas fa-circle" style="font-size: 0.5rem;"></i>
                                         <%= vivienda.estado_actual === 'libre' ? 'Libre' : vivienda.estado_actual === 'ocupada' ? 'Ocupada' : 'Sin estado' %>
                                     </div>
 
-                                    <!-- Botón Cámara (hover) -->
-                                    <% if (vivienda.imagen_url) { %>
-                                        <button 
-                                            type="button" 
-                                            class="camera-overlay" 
-                                            onclick="document.getElementById('file-<%= vivienda.id_vivienda %>').click()"
-                                        >
-                                            <i class="fas fa-camera"></i>
-                                        </button>
-                                    <% } %>
+                                    <!-- Botón Cambiar Imagen (sobre la imagen) -->
+                                    <button onclick="document.getElementById('file-<%= vivienda.id_vivienda %>').click()" style="position: absolute; bottom: 1rem; right: 1rem; width: 3rem; height: 3rem; background: rgba(0, 0, 128, 0.95); border: none; border-radius: 0.75rem; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 128, 0.4); transition: all 0.2s ease; backdrop-filter: blur(10);" onmouseover="this.style.transform='scale(1.1)'; this.style.background='rgba(0, 0, 96, 0.95)'" onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(0, 0, 128, 0.95)'">
+                                        <i class="fas fa-camera" style="font-size: 1.25rem;"></i>
+                                        <i class="fas fa-plus" style="font-size: 0.75rem; position: absolute; top: 0.5rem; right: 0.5rem; background: white; color: #000080; border-radius: 50%; width: 1rem; height: 1rem; display: flex; align-items: center; justify-content: center;"></i>
+                                    </button>
 
                                     <!-- Input File Oculto -->
                                     <input 
@@ -175,45 +195,64 @@
                                         id="file-<%= vivienda.id_vivienda %>" 
                                         accept="image/*" 
                                         style="display: none;"
-                                        onchange="subirImagenVivienda(<%= vivienda.id_vivienda %>)"
+                                        onchange="subirImagenVivienda('<%= vivienda.id_vivienda %>')"
                                     >
                                 </div>
 
-                                <!-- Cuerpo de Card -->
-                                <div class="property-body">
-                                    <h3 class="property-title"><%= vivienda.nombre %></h3>
-                                    <p class="property-address">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        <%= vivienda.direccion %>, <%= vivienda.ciudad %>
-                                    </p>
+                                <!-- Cuerpo de Card (derecha) -->
+                                <div class="property-body" style="flex: 1; padding: 1.75rem; display: flex; flex-direction: column; justify-content: space-between;">
+                                    <div>
+                                        <!-- Título -->
+                                        <h3 class="property-title" style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin: 0 0 0.5rem 0; line-height: 1.2;"><%= vivienda.nombre %></h3>
+                                        
+                                        <!-- Dirección -->
+                                        <p class="property-address" style="font-size: 0.95rem; color: #6b7280; margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                                            <i class="fas fa-map-marker-alt" style="color: #000080;"></i>
+                                            <%= vivienda.direccion %>, <%= vivienda.ciudad %>
+                                        </p>
+                                        
+                                        <!-- Habitaciones y Baños -->
+                                        <div style="display: flex; gap: 2rem; margin-bottom: 1rem; padding: 1rem 0; border-top: 0.0625rem solid #e5e7eb; border-bottom: 0.0625rem solid #e5e7eb;">
+                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                <div style="width: 2.5rem; height: 2.5rem; background: #eff6ff; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-bed" style="font-size: 1.25rem; color: #000080;"></i>
+                                                </div>
+                                                <div>
+                                                    <div style="font-size: 1.125rem; font-weight: 700; color: #1f2937;"><%= vivienda.num_habitaciones || '-' %></div>
+                                                    <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em;">Habitaciones</div>
+                                                </div>
+                                            </div>
+                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                <div style="width: 2.5rem; height: 2.5rem; background: #eff6ff; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-bath" style="font-size: 1.25rem; color: #000080;"></i>
+                                                </div>
+                                                <div>
+                                                    <div style="font-size: 1.125rem; font-weight: 700; color: #1f2937;"><%= vivienda.num_banos || '-' %></div>
+                                                    <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em;">Baños</div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                    <!-- Especificaciones -->
-                                    <div class="property-specs">
-                                        <span class="spec">
-                                            <i class="fas fa-ruler-combined"></i>
-                                            <%= vivienda.metros_cuadrados || 85 %>m²
-                                        </span>
-                                        <span class="spec">
-                                            <i class="fas fa-bed"></i>
-                                            <%= vivienda.num_dormitorios || 2 %>
-                                        </span>
-                                        <span class="spec">
-                                            <i class="fas fa-bath"></i>
-                                            <%= vivienda.num_banos || 1 %>
-                                        </span>
+                                        <!-- PRECIO DESTACADO -->
+                                        <div style="margin-bottom: 1rem;">
+                                            <div style="display: flex; align-items: baseline; gap: 0.5rem;">
+                                                <span style="font-size: 2rem; font-weight: 800; color: #000080; line-height: 1;">€<%= vivienda.precio_base || '850' %></span>
+                                                <span style="font-size: 1rem; color: #6b7280; font-weight: 500;">/noche</span>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!-- Acciones -->
-                                    <div class="property-actions">
-                                        <a href="/viviendas/<%= vivienda.id_vivienda %>" class="btn-action btn-action--primary">
+                                    <div class="property-actions" style="display: flex; gap: 0.75rem; margin-top: auto;">
+                                        <a href="/viviendas/<%= vivienda.id_vivienda %>" class="btn-action btn-action--primary" style="flex: 1; padding: 0.875rem 1.5rem; background: #000080; color: white; border-radius: 0.75rem; text-decoration: none; font-size: 0.95rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.2s ease;" onmouseover="this.style.background='#000060'; this.style.transform='translateY(-0.125rem)'; this.style.boxShadow='0 0.25rem 0.75rem rgba(0,0,128,0.3)'" onmouseout="this.style.background='#000080'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
                                             <i class="fas fa-eye"></i>
-                                            Ver
+                                            Ver Propiedad
                                         </a>
-                                        <a href="/viviendas/<%= vivienda.id_vivienda %>/editar" class="btn-action btn-action--secondary">
-                                            <i class="fas fa-pen"></i>
+                                        <a href="/viviendas/<%= vivienda.id_vivienda %>/editar" class="btn-action btn-action--secondary" style="padding: 0.875rem 1rem; background: #f3f4f6; color: #4b5563; border-radius: 0.75rem; text-decoration: none; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;" onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='#f3f4f6'" title="Editar">
+                                            <i class="fas fa-pen" style="font-size: 1rem;"></i>
                                         </a>
-                                        <button onclick="eliminarVivienda(<%= vivienda.id_vivienda %>)" class="btn-action btn-action--danger">
-                                            <i class="fas fa-trash-alt"></i>
+                                        <button onclick="eliminarVivienda('<%= vivienda.id_vivienda %>')" class="btn-action btn-action--danger" style="padding: 0.875rem 1rem; background: #fef2f2; color: #ef4444; border: none; border-radius: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fef2f2'" title="Eliminar">
+                                            <i class="fas fa-trash-alt" style="font-size: 1rem;"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -221,26 +260,26 @@
                         <% }) %>
                     <% } else { %>
                         <!-- Empty State -->
-                        <div class="empty-state">
-                            <div class="empty-icon">
-                                <i class="fas fa-home"></i>
+                        <div class="empty-state" style="background: white; padding: 3rem; border-radius: 1rem; text-align: center;">
+                            <div class="empty-icon" style="margin-bottom: 1rem;">
+                                <i class="fas fa-home" style="font-size: 3rem; color: #9ca3af;"></i>
                             </div>
-                            <h3 class="empty-title">No hay propiedades registradas</h3>
-                            <p class="empty-text">Comienza agregando tu primera propiedad al sistema</p>
-                            <button class="btn-primary" onclick="abrirModalNuevaPropiedad()">
+                            <h3 class="empty-title" style="font-size: 1.25rem; font-weight: 700; color: #1f2937; margin-bottom: 0.5rem;">No hay propiedades registradas</h3>
+                            <p class="empty-text" style="color: #6b7280; margin-bottom: 1.5rem;">Comienza agregando tu primera propiedad al sistema</p>
+                            <button class="btn-primary" onclick="abrirModalNuevaPropiedad()" style="background: #000080; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem;">
                                 <i class="fas fa-plus"></i>
                                 Agregar Primera Propiedad
                             </button>
                         </div>
                     <% } %>
-                </div>
-                </div>
-
-                <!-- Mensaje No Resultados (dinámico JS) -->
-                <div id="noResultsMessage" class="no-results" style="display: none;">
-                    <i class="fas fa-search"></i>
-                    <h3>No se encontraron propiedades</h3>
-                    <p>Intenta ajustar los filtros o términos de búsqueda</p>
+                    </div>
+                    
+                    <!-- Mensaje No Resultados (dinámico JS) -->
+                    <div id="noResultsMessage" class="no-results-message" style="display: none; background: white; padding: 3rem; border-radius: 1rem; text-align: center;">
+                        <i class="fas fa-search" style="font-size: 3rem; color: #9ca3af; margin-bottom: 1rem;"></i>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: #1f2937; margin-bottom: 0.5rem;">No se encontraron propiedades</h3>
+                        <p style="color: #6b7280;">Intenta ajustar los filtros o términos de Búsqueda</p>
+                    </div>
                 </div>
             </div>
 
@@ -324,308 +363,7 @@
         </div>
     </main>
 
-    <!-- Modal: Nueva Propiedad -->
-    <div id="modalNuevaPropiedad" class="modal-overlay">
-        <div class="custom-modal-dialog">
-            
-            <!-- Header -->
-            <div class="custom-modal-header">
-                <h2 class="custom-modal-title">Nueva Propiedad</h2>
-                <button type="button" class="custom-modal-close" onclick="cerrarModalNuevaPropiedad()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <!-- Body -->
-            <div class="custom-modal-body">
-                <form id="formNuevaPropiedad">
-                    
-                    <!-- Bloque: Información Básica -->
-                    <div class="form-block">
-                        <div class="form-block-header">
-                            <i class="fas fa-info-circle"></i>
-                            <h3>Información Básica</h3>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-field">
-                                <label>Nombre de la propiedad *</label>
-                                <input type="text" name="nombre" placeholder="Ej: Apartamento céntrico en Madrid" required class="form-input">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-field">
-                                <label>Imagen de la Propiedad</label>
-                                <input type="file" name="imagen" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" class="form-input">
-                                <span class="form-hint">JPG, PNG, GIF, WEBP (máx. 5MB)</span>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-field">
-                                <label>Descripción</label>
-                                <textarea name="descripcion" rows="4" placeholder="Describe tu propiedad: características principales, ubicación, servicios cercanos..." class="form-input"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-row form-row--3">
-                            <div class="form-field">
-                                <label><i class="fas fa-euro-sign"></i> Precio por noche (€) *</label>
-                                <input type="number" name="precio_alquiler" step="0.01" min="0" placeholder="50.00" required class="form-input">
-                            </div>
-                            <div class="form-field">
-                                <label><i class="fas fa-ruler"></i> Superficie (m²) *</label>
-                                <input type="number" name="superficie" min="1" placeholder="75" required class="form-input">
-                            </div>
-                            <div class="form-field">
-                                <label><i class="fas fa-users"></i> Máximo de huéspedes *</label>
-                                <input type="number" name="capacidad_maxima" min="1" placeholder="4" required class="form-input">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bloque: Ubicación -->
-                    <div class="form-block">
-                        <div class="form-block-header">
-                            <i class="fas fa-map-pin"></i>
-                            <h3>Ubicación</h3>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-field">
-                                <label>Calle *</label>
-                                <input type="text" name="calle" placeholder="Calle Mayor" required class="form-input">
-                            </div>
-                        </div>
-                        <div class="form-row form-row--4">
-                            <div class="form-field">
-                                <label>Bloque/Portal</label>
-                                <input type="text" name="bloque_portal" placeholder="Portal B" class="form-input">
-                            </div>
-                            <div class="form-field">
-                                <label>Escalera</label>
-                                <input type="text" name="escalera" placeholder="Escalera 2" class="form-input">
-                            </div>
-                            <div class="form-field">
-                                <label>Piso</label>
-                                <input type="text" name="piso" placeholder="3º" class="form-input">
-                            </div>
-                            <div class="form-field">
-                                <label>Letra/Número</label>
-                                <input type="text" name="letra_numero" placeholder="A" class="form-input">
-                            </div>
-                        </div>
-                        <!-- Campo oculto para dirección completa generada automáticamente -->
-                        <input type="hidden" name="direccion" value="">
-                        <div class="form-row form-row--3">
-                            <div class="form-field">
-                                <label>Ciudad *</label>
-                                <input type="text" name="ciudad" placeholder="Madrid" required class="form-input">
-                            </div>
-                            <div class="form-field">
-                                <label>País *</label>
-                                <input type="text" name="pais" value="España" placeholder="España" required class="form-input">
-                            </div>
-                            <div class="form-field">
-                                <label>Código Postal</label>
-                                <input type="text" name="codigo_postal" placeholder="28001" class="form-input">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-field">
-                                <label>Barrio</label>
-                                <input type="text" name="barrio" placeholder="Centro" class="form-input">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-field">
-                                <label>Buscar ubicación en el mapa</label>
-                                <div class="map-search">
-                                    <input type="text" id="buscarDireccion" placeholder="Busca la dirección..." class="form-input">
-                                    <button type="button" onclick="buscarUbicacion()" class="btn-secondary">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                                <span class="form-hint">Haz clic en el mapa para marcar la ubicación exacta</span>
-                            </div>
-                        </div>
-                        <div id="mapa-nuevo" class="map-container"></div>
-                        <div class="form-row">
-                            <div class="form-field">
-                                <label><i class="fas fa-map"></i> Latitud</label>
-                                <input type="number" name="latitud" id="latitudInput" step="0.00000001" placeholder="40.41677500" readonly class="form-input">
-                                <span class="form-hint">Se obtiene automáticamente del mapa</span>
-                            </div>
-                            <div class="form-field">
-                                <label><i class="fas fa-map"></i> Longitud</label>
-                                <input type="number" name="longitud" id="longitudInput" step="0.00000001" placeholder="-3.70379000" readonly class="form-input">
-                                <span class="form-hint">Se obtiene automáticamente del mapa</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bloque: Características -->
-                    <div class="form-block">
-                        <div class="form-block-header">
-                            <i class="fas fa-sliders-h"></i>
-                            <h3>Características</h3>
-                        </div>
-                        <div class="form-row form-row--3">
-                            <div class="form-field">
-                                <label>Categoría de Vivienda *</label>
-                                <select name="tipo_vivienda" required class="form-select">
-                                    <option value="">Seleccionar</option>
-                                    <option value="Vivienda de Uso Turístico">Vivienda de Uso Turístico</option>
-                                    <option value="Apartamento Turístico">Apartamento Turístico</option>
-                                    <option value="Casa Rural">Casa Rural</option>
-                                    <option value="Vivienda Turística">Vivienda Turística</option>
-                                </select>
-                            </div>
-                            <div class="form-field">
-                                <label>Planta</label>
-                                <input type="number" name="planta" min="0" placeholder="3" class="form-input">
-                            </div>
-                            <div class="form-field">
-                                <label>Año de construcción</label>
-                                <input type="number" name="ano_construccion" min="1800" max="2030" placeholder="2005" class="form-input">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-field">
-                                <label><i class="fas fa-bed"></i> Número de dormitorios *</label>
-                                <input type="number" name="num_habitaciones" min="0" placeholder="2" required class="form-input">
-                            </div>
-                            <div class="form-field">
-                                <label><i class="fas fa-bath"></i> Número de baños *</label>
-                                <input type="number" name="num_banos" min="0" placeholder="1" required class="form-input">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-field">
-                                <label>Superficie de la parcela (m²)</label>
-                                <input type="number" name="superficie_parcela" min="0" placeholder="Se usa la superficie de la vivienda por defecto" class="form-input">
-                                <span class="form-hint">Deja vacío para usar la misma superficie que la vivienda</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bloque: Comodidades -->
-                    <div class="form-block">
-                        <div class="form-block-header">
-                            <i class="fas fa-sparkles"></i>
-                            <h3>Comodidades</h3>
-                        </div>
-                        <button type="button" class="btn-amenities" onclick="abrirModalComodidades()">
-                            <i class="fas fa-cog"></i>
-                            Gestionar Comodidades
-                        </button>
-                        <div id="selectedAmenitiesDisplay" class="selected-amenities-display">
-                            <span class="text-muted">No se han seleccionado comodidades</span>
-                        </div>
-                        <!-- Inputs hidden para enviar al backend -->
-                        <div id="hiddenAmenitiesInputs"></div>
-                    </div>
-
-                    <!-- Bloque: Datos Legales -->
-                    <div class="form-block">
-                        <div class="form-block-header">
-                            <i class="fas fa-file-contract"></i>
-                            <h3>Datos Legales</h3>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-field">
-                                <label>Estado Legal</label>
-                                <select name="estado_legal" class="form-select">
-                                    <option value="">Seleccionar</option>
-                                    <option value="Activa">Activa</option>
-                                    <option value="En trámite">En trámite</option>
-                                    <option value="No aplica">No aplica</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-field">
-                                <label>Referencia Catastral</label>
-                                <input type="text" name="referencia_catastral" placeholder="1234567VK1234S0001AA" class="form-input">
-                            </div>
-                            <div class="form-field">
-                                <label>Nº Registro Autonómico</label>
-                                <input type="text" name="numero_registro_autonomico" placeholder="VUT-12345" class="form-input">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-field">
-                                <label>Fecha de Registro</label>
-                                <input type="date" name="fecha_registro" class="form-input">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bloque: Plataformas -->
-                    <div class="form-block">
-                        <div class="form-block-header">
-                            <i class="fas fa-link"></i>
-                            <h3>Conexión con Plataformas</h3>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-field">
-                                <label><i class="fab fa-airbnb"></i> URL de Airbnb</label>
-                                <input type="url" name="url_airbnb" placeholder="https://airbnb.com/rooms/..." class="form-input">
-                            </div>
-                            <div class="form-field">
-                                <label><i class="fas fa-bed"></i> URL de Booking</label>
-                                <input type="url" name="url_booking" placeholder="https://booking.com/hotel/..." class="form-input">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-field">
-                                <label><i class="fas fa-calendar-alt"></i> URL iCal Airbnb</label>
-                                <input type="url" name="url_ical_airbnb" placeholder="https://airbnb.com/calendar/ical/..." class="form-input">
-                                <span class="form-hint">Para sincronizar el calendario de Airbnb</span>
-                            </div>
-                            <div class="form-field">
-                                <label><i class="fas fa-calendar-alt"></i> URL iCal Booking</label>
-                                <input type="url" name="url_ical_booking" placeholder="https://booking.com/calendar/ical/..." class="form-input">
-                                <span class="form-hint">Para sincronizar el calendario de Booking</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bloque: Estado -->
-                    <div class="form-block">
-                        <div class="form-block-header">
-                            <i class="fas fa-toggle-on"></i>
-                            <h3>Estado de la Propiedad</h3>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-field">
-                                <label>Categoría</label>
-                                <select name="categoria" class="form-select">
-                                    <option value="Vacacional">Vacacional</option>
-                                    <option value="Residencial">Residencial</option>
-                                    <option value="Comercial">Comercial</option>
-                                </select>
-                            </div>
-                            <div class="form-field">
-                                <label>
-                                    <input type="checkbox" name="activa" value="1" checked style="width: auto; margin-right: 0.5rem;">
-                                    Propiedad activa
-                                </label>
-                                <span class="form-hint">Desmarca si la propiedad no está disponible para alquiler</span>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Footer -->
-            <div class="custom-modal-footer">
-                <button type="button" class="btn-secondary" onclick="cerrarModalNuevaPropiedad()">
-                    Cancelar
-                </button>
-                <button type="button" class="btn-primary" onclick="submitNuevaPropiedad()">
-                    <i class="fas fa-save"></i>
-                    Guardar Propiedad
-                </button>
-            </div>
-        </div>
-    </div>
+    <%- include('../partials/modal-nueva-propiedad') %>
 
     <!-- Modal: Confirmar Eliminación -->
     <div id="modalConfirmarEliminar" class="modal-overlay">
@@ -642,181 +380,7 @@
         </div>
     </div>
 
-    <!-- Modal: Gestionar Comodidades -->
-    <div id="modalComodidades" class="modal-overlay modal-overlay-comodidades">
-        <div class="modal-amenities">
-            <!-- Header -->
-            <div class="modal-amenities-header">
-                <div class="modal-amenities-title">
-                    <i class="fas fa-star"></i>
-                    <h2>Comodidades disponibles</h2>
-                </div>
-                <button type="button" class="modal-amenities-close" onclick="cerrarModalComodidades()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <!-- Buscador -->
-            <div class="modal-amenities-search">
-                <i class="fas fa-search"></i>
-                <input type="text" id="amenitiesSearchInput" placeholder="Buscar comodidad..." onkeyup="filtrarComodidades()">
-            </div>
-
-            <!-- Contenido: Sidebar + Grid -->
-            <div class="modal-amenities-content">
-                <!-- Sidebar Categorías -->
-                <div class="modal-amenities-sidebar">
-                    <button class="amenities-category amenities-category--active" data-category="todos" onclick="filtrarPorCategoria('todos')">
-                        <i class="fas fa-th"></i> Todos
-                    </button>
-                    <button class="amenities-category" data-category="basicos" onclick="filtrarPorCategoria('basicos')">
-                        <i class="fas fa-home"></i> Básicos
-                    </button>
-                    <button class="amenities-category" data-category="cocina" onclick="filtrarPorCategoria('cocina')">
-                        <i class="fas fa-utensils"></i> Cocina
-                    </button>
-                    <button class="amenities-category" data-category="exterior" onclick="filtrarPorCategoria('exterior')">
-                        <i class="fas fa-tree"></i> Exterior
-                    </button>
-                    <button class="amenities-category" data-category="seguridad" onclick="filtrarPorCategoria('seguridad')">
-                        <i class="fas fa-shield-alt"></i> Seguridad
-                    </button>
-                </div>
-
-                <!-- Grid de Comodidades -->
-                <div class="modal-amenities-grid" id="amenitiesGrid">
-                    <!-- Básicos -->
-                    <label class="amenity-item" data-category="basicos" data-name="wifi">
-                        <input type="checkbox" name="amenity_wifi" value="WiFi">
-                        <div class="amenity-content">
-                            <i class="fas fa-wifi"></i>
-                            <span>WiFi</span>
-                        </div>
-                    </label>
-                    <label class="amenity-item" data-category="basicos" data-name="aire acondicionado">
-                        <input type="checkbox" name="amenity_aire" value="Aire acondicionado">
-                        <div class="amenity-content">
-                            <i class="fas fa-snowflake"></i>
-                            <span>Aire acondicionado</span>
-                        </div>
-                    </label>
-                    <label class="amenity-item" data-category="basicos" data-name="calefaccion">
-                        <input type="checkbox" name="amenity_calefaccion" value="Calefacción">
-                        <div class="amenity-content">
-                            <i class="fas fa-thermometer-half"></i>
-                            <span>Calefacción</span>
-                        </div>
-                    </label>
-                    <label class="amenity-item" data-category="basicos" data-name="tv">
-                        <input type="checkbox" name="amenity_tv" value="TV">
-                        <div class="amenity-content">
-                            <i class="fas fa-tv"></i>
-                            <span>TV</span>
-                        </div>
-                    </label>
-                    <label class="amenity-item" data-category="basicos" data-name="lavadora">
-                        <input type="checkbox" name="amenity_lavadora" value="Lavadora">
-                        <div class="amenity-content">
-                            <i class="fas fa-tshirt"></i>
-                            <span>Lavadora</span>
-                        </div>
-                    </label>
-                    <label class="amenity-item" data-category="basicos" data-name="zona de trabajo">
-                        <input type="checkbox" name="amenity_trabajo" value="Zona de trabajo">
-                        <div class="amenity-content">
-                            <i class="fas fa-laptop"></i>
-                            <span>Zona de trabajo</span>
-                        </div>
-                    </label>
-
-                    <!-- Cocina -->
-                    <label class="amenity-item" data-category="cocina" data-name="cocina equipada">
-                        <input type="checkbox" name="amenity_cocina" value="Cocina equipada">
-                        <div class="amenity-content">
-                            <i class="fas fa-utensils"></i>
-                            <span>Cocina equipada</span>
-                        </div>
-                    </label>
-                    <label class="amenity-item" data-category="cocina" data-name="microondas">
-                        <input type="checkbox" name="amenity_microondas" value="Microondas">
-                        <div class="amenity-content">
-                            <i class="fas fa-fire"></i>
-                            <span>Microondas</span>
-                        </div>
-                    </label>
-                    <label class="amenity-item" data-category="cocina" data-name="cafetera">
-                        <input type="checkbox" name="amenity_cafetera" value="Cafetera">
-                        <div class="amenity-content">
-                            <i class="fas fa-coffee"></i>
-                            <span>Cafetera</span>
-                        </div>
-                    </label>
-
-                    <!-- Exterior -->
-                    <label class="amenity-item" data-category="exterior" data-name="piscina">
-                        <input type="checkbox" name="amenity_piscina" value="Piscina">
-                        <div class="amenity-content">
-                            <i class="fas fa-swimming-pool"></i>
-                            <span>Piscina</span>
-                        </div>
-                    </label>
-                    <label class="amenity-item" data-category="exterior" data-name="parking">
-                        <input type="checkbox" name="amenity_parking" value="Parking">
-                        <div class="amenity-content">
-                            <i class="fas fa-car"></i>
-                            <span>Parking</span>
-                        </div>
-                    </label>
-                    <label class="amenity-item" data-category="exterior" data-name="gimnasio">
-                        <input type="checkbox" name="amenity_gimnasio" value="Gimnasio">
-                        <div class="amenity-content">
-                            <i class="fas fa-dumbbell"></i>
-                            <span>Gimnasio</span>
-                        </div>
-                    </label>
-                    <label class="amenity-item" data-category="exterior" data-name="jardin">
-                        <input type="checkbox" name="amenity_jardin" value="Jardín">
-                        <div class="amenity-content">
-                            <i class="fas fa-leaf"></i>
-                            <span>Jardín</span>
-                        </div>
-                    </label>
-
-                    <!-- Seguridad -->
-                    <label class="amenity-item" data-category="seguridad" data-name="alarma">
-                        <input type="checkbox" name="amenity_alarma" value="Alarma">
-                        <div class="amenity-content">
-                            <i class="fas fa-bell"></i>
-                            <span>Alarma</span>
-                        </div>
-                    </label>
-                    <label class="amenity-item" data-category="seguridad" data-name="camaras">
-                        <input type="checkbox" name="amenity_camaras" value="Cámaras de seguridad">
-                        <div class="amenity-content">
-                            <i class="fas fa-video"></i>
-                            <span>Cámaras</span>
-                        </div>
-                    </label>
-                    <label class="amenity-item" data-category="seguridad" data-name="caja fuerte">
-                        <input type="checkbox" name="amenity_caja" value="Caja fuerte">
-                        <div class="amenity-content">
-                            <i class="fas fa-lock"></i>
-                            <span>Caja fuerte</span>
-                        </div>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <div class="modal-amenities-footer">
-                <button type="button" class="btn-modal-cancel" onclick="cerrarModalComodidades()">Cancelar</button>
-                <button type="button" class="btn-modal-save" onclick="guardarComodidades()">
-                    <i class="fas fa-check"></i>
-                    Guardar Selección
-                </button>
-            </div>
-        </div>
-    </div>
+    <%- include('../partials/modal-comodidades') %>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -824,358 +388,220 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <!-- JavaScript -->
+    <!-- JavaScript Principal - Refactorizado-->
+    <script src="/js/propiedades.js"></script>
+    
+    <!-- Scripts adicionales inline para funciones del modal (temporalmente hasta completar refactorización) -->
     <script>
-        // Variable global para almacenar el ID de la vivienda a eliminar
-        let viviendaIdEliminar = null;
+        // Funciones adicionales que necesitan estar en el ámbito global
+        // TODO: Mover todas las funciones restantes a propiedades.js
+        
+        // Actualizar Sidebar con nuevo diseño
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar) {
+                sidebar.innerHTML = `
+                    <!-- Widget: Tareas Pendientes -->
+                    <div class="widget" style="background: white; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 0.0625rem 0.1875rem rgba(0,0,0,0.1); margin-bottom: 1.5rem;">
+                        <div class="widget-header" style="margin-bottom: 1rem;">
+                            <h3 class="widget-title" style="font-size: 1rem; font-weight: 700; color: #1f2937; margin: 0;">Tareas Pendientes</h3>
+                        </div>
 
-        // Auto-ocultar alertas después de 3 segundos
-        const alertMessage = document.getElementById('alertMessage');
-        if (alertMessage) {
-            setTimeout(() => {
-                alertMessage.style.animation = 'slideOutUp 0.3s ease-out';
-                setTimeout(() => {
-                    alertMessage.style.display = 'none';
-                }, 300);
-            }, 3000);
-        }
+                        <div class="task-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer;">
+                                <input type="checkbox" checked style="margin-top: 0.25rem; width: 1rem; height: 1rem; border-radius: 0.25rem; border: 0.125rem solid #d1d5db; accent-color: #10b981;">
+                                <div style="flex: 1;">
+                                    <div style="font-size: 0.875rem; color: #1f2937; font-weight: 500; line-height: 1.4;">Revisar reserva - Villa Paraíso</div>
+                                </div>
+                            </label>
+                            
+                            <label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer;">
+                                <input type="checkbox" checked style="margin-top: 0.25rem; width: 1rem; height: 1rem; border-radius: 0.25rem; border: 0.125rem solid #d1d5db; accent-color: #10b981;">
+                                <div style="flex: 1;">
+                                    <div style="font-size: 0.875rem; color: #1f2937; font-weight: 500; line-height: 1.4;">Sibir fetos - Loft Urbano</div>
+                                </div>
+                            </label>
+                            
+                            <label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer;">
+                                <input type="checkbox" style="margin-top: 0.25rem; width: 1rem; height: 1rem; border-radius: 0.25rem; border: 0.125rem solid #d1d5db; accent-color: #10b981;">
+                                <div style="flex: 1;">
+                                    <div style="font-size: 0.875rem; color: #1f2937; font-weight: 500; line-height: 1.4;">Pagar a provedr - Villa Serna</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
 
-        // Filtros
-        const filterPills = document.querySelectorAll('.filter-pill');
-        const propertyCards = document.querySelectorAll('.property-card');
-        const propertiesGrid = document.getElementById('propiedadesGrid');
-        const noResultsMsg = document.getElementById('noResultsMessage');
-
-        filterPills.forEach(pill => {
-            pill.addEventListener('click', () => {
-                filterPills.forEach(p => p.classList.remove('filter-pill--active'));
-                pill.classList.add('filter-pill--active');
-
-                const filter = pill.dataset.filter;
-                let visibleCount = 0;
-
-                propertyCards.forEach(card => {
-                    const estado = card.dataset.estado;
-                    const shouldShow = (filter === 'todas' || estado === filter);
-                    card.style.display = shouldShow ? 'block' : 'none';
-                    if (shouldShow) visibleCount++;
-                });
-
-                toggleNoResults(visibleCount);
-            });
-        });
-
-        // Buscador
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            let visibleCount = 0;
-
-            propertyCards.forEach(card => {
-                const text = card.textContent.toLowerCase();
-                const shouldShow = text.includes(searchTerm);
-                card.style.display = shouldShow ? 'block' : 'none';
-                if (shouldShow) visibleCount++;
-            });
-
-            toggleNoResults(visibleCount);
-        });
-
-        function toggleNoResults(count) {
-            if (count === 0 && propertyCards.length > 0) {
-                propertiesGrid.style.display = 'none';
-                noResultsMsg.style.display = 'flex';
-            } else {
-                propertiesGrid.style.display = 'grid';
-                noResultsMsg.style.display = 'none';
-            }
-        }
-
-        // Modal
-        function abrirModalNuevaPropiedad() {
-            console.log('Abriendo modal...');
-            const modal = document.getElementById('modalNuevaPropiedad');
-            console.log('Modal encontrado:', modal);
-            if (modal) {
-                modal.classList.add('modal-overlay--active');
-                console.log('Clase añadida');
-                setTimeout(() => { 
-                    if (!window.leafletMap) inicializarMapa(); 
-                    inicializarAutocompletadoDireccion();
-                }, 100);
-            } else {
-                console.error('Modal no encontrado!');
-            }
-        }
-
-        function cerrarModalNuevaPropiedad() {
-            const modal = document.getElementById('modalNuevaPropiedad');
-            if (modal) {
-                modal.classList.remove('modal-overlay--active');
-            }
-        }
-
-        // Autocompletar dirección completa
-        function inicializarAutocompletadoDireccion() {
-            const campos = ['calle', 'bloque_portal', 'escalera', 'piso', 'letra_numero'];
-            campos.forEach(campo => {
-                const input = document.querySelector(`input[name="${campo}"]`);
-                if (input) {
-                    input.removeEventListener('input', generarDireccionCompleta);
-                    input.addEventListener('input', generarDireccionCompleta);
-                }
-            });
-        }
-
-        function generarDireccionCompleta() {
-            const calle = document.querySelector('input[name="calle"]')?.value || '';
-            const bloque = document.querySelector('input[name="bloque_portal"]')?.value || '';
-            const escalera = document.querySelector('input[name="escalera"]')?.value || '';
-            const piso = document.querySelector('input[name="piso"]')?.value || '';
-            const letra = document.querySelector('input[name="letra_numero"]')?.value || '';
-
-            const partes = [calle];
-            if (bloque) partes.push(bloque);
-            if (escalera) partes.push(escalera);
-            if (piso) partes.push(piso);
-            if (letra) partes.push(letra);
-
-            const direccionCompleta = partes.filter(p => p.trim()).join(', ');
-            document.querySelector('input[name="direccion"]').value = direccionCompleta;
-        }
-
-        // Leaflet
-        let leafletMap = null;
-        let currentMarker = null;
-
-        function inicializarMapa() {
-            if (leafletMap) return;
-            leafletMap = L.map('mapa-nuevo').setView([40.4168, -3.7038], 6);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap'
-            }).addTo(leafletMap);
-
-            leafletMap.on('click', function(e) {
-                colocarMarcador(e.latlng.lat, e.latlng.lng);
-            });
-        }
-
-        function colocarMarcador(lat, lng) {
-            if (currentMarker) leafletMap.removeLayer(currentMarker);
-            currentMarker = L.marker([lat, lng]).addTo(leafletMap);
-            document.getElementById('latitudInput').value = lat.toFixed(6);
-            document.getElementById('longitudInput').value = lng.toFixed(6);
-        }
-
-        async function buscarUbicacion() {
-            const direccion = document.getElementById('buscarDireccion').value;
-            if (!direccion) return;
-
-            try {
-                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(direccion)}`);
-                const data = await response.json();
-
-                if (data && data.length > 0) {
-                    const lat = parseFloat(data[0].lat);
-                    const lng = parseFloat(data[0].lon);
-                    leafletMap.setView([lat, lng], 15);
-                    colocarMarcador(lat, lng);
-                } else {
-                    alert('No se encontró la dirección');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error al buscar la ubicación');
-            }
-        }
-
-        // Submit
-        async function submitNuevaPropiedad() {
-            const form = document.getElementById('formNuevaPropiedad');
-            const formData = new FormData(form);
-
-            try {
-                const response = await fetch('/propiedades/crear', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (response.ok) {
-                    alert('Propiedad creada exitosamente');
-                    location.reload();
-                } else {
-                    alert('Error al crear la propiedad');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error al enviar el formulario');
-            }
-        }
-
-        // Eliminar
-        function eliminarVivienda(id) {
-            viviendaIdEliminar = id;
-            document.getElementById('modalConfirmarEliminar').classList.add('modal-overlay--active');
-        }
-
-        function cerrarModalEliminar() {
-            document.getElementById('modalConfirmarEliminar').classList.remove('modal-overlay--active');
-            viviendaIdEliminar = null;
-        }
-
-        async function confirmarEliminarVivienda() {
-            if (!viviendaIdEliminar) return;
-
-            try {
-                const response = await fetch(`/propiedades/${viviendaIdEliminar}`, { 
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
+                    <!-- Widget: Estadísticas Rápidas -->
+                    <div class="widget" style="background: white; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 0.0625rem 0.1875rem rgba(0,0,0,0.1);">
+                        <h3 class="widget-title" style="font-size: 1rem; font-weight: 700; color: #1f2937; margin: 0 0 1rem 0;">Estadísticas Rápidas</h3>
+                        
+                        <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem;">
+                            <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.5rem;">Ingresos del Mes:</div>
+                            <div style="display: flex; align-items: baseline; justify-content: space-between;">
+                                <div style="font-size: 1.5rem; font-weight: 700; color: #1f2937;">+$5,000</div>
+                                <div style="font-size: 1.25rem; font-weight: 700; color: #10b981;">85%</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
                 
-                // El servidor redirige, así que simplemente recargamos
-                window.location.href = '/propiedades?mensaje=eliminada';
-            } catch (error) {
-                console.error('Error:', error);
-                window.location.href = '/propiedades?error=eliminacion';
+                // Aplicar estilos al sidebar
+                sidebar.style.position = 'sticky';
+                sidebar.style.top = '2rem';
+                sidebar.style.alignSelf = 'flex-start';
             }
-        }
+        });
 
-        // ========================================
-        // MODAL DE COMODIDADES
-        // ========================================
-        let selectedAmenities = [];
-
-        function abrirModalComodidades() {
-            document.getElementById('modalComodidades').classList.add('modal-overlay--active');
-            // Restaurar checkboxes según selección previa
-            selectedAmenities.forEach(amenity => {
-                const checkbox = document.querySelector(`input[value="${amenity}"]`);
-                if (checkbox) checkbox.checked = true;
-            });
-        }
-
-        function cerrarModalComodidades() {
-            document.getElementById('modalComodidades').classList.remove('modal-overlay--active');
-            document.getElementById('amenitiesSearchInput').value = '';
-            filtrarPorCategoria('todos');
-        }
-
-        function filtrarPorCategoria(categoria) {
-            const items = document.querySelectorAll('.amenity-item');
-            const buttons = document.querySelectorAll('.amenities-category');
-            
-            // Actualizar botones activos
-            buttons.forEach(btn => {
-                if (btn.dataset.category === categoria) {
-                    btn.classList.add('amenities-category--active');
-                } else {
-                    btn.classList.remove('amenities-category--active');
-                }
-            });
-
-            // Filtrar items
-            items.forEach(item => {
-                if (categoria === 'todos' || item.dataset.category === categoria) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-
-        function filtrarComodidades() {
-            const searchTerm = document.getElementById('amenitiesSearchInput').value.toLowerCase();
-            const items = document.querySelectorAll('.amenity-item');
-            
-            items.forEach(item => {
-                const name = item.dataset.name.toLowerCase();
-                if (name.includes(searchTerm)) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-
-            // Si hay búsqueda, desactivar filtro de categorías
-            if (searchTerm) {
-                document.querySelectorAll('.amenities-category').forEach(btn => {
-                    btn.classList.remove('amenities-category--active');
-                });
-            }
-        }
-
-        function guardarComodidades() {
-            // Recopilar todas las comodidades seleccionadas
-            selectedAmenities = [];
-            const checkboxes = document.querySelectorAll('#amenitiesGrid input[type="checkbox"]:checked');
-            
-            checkboxes.forEach(checkbox => {
-                selectedAmenities.push(checkbox.value);
-            });
-
-            // Actualizar display
-            const displayDiv = document.getElementById('selectedAmenitiesDisplay');
-            if (selectedAmenities.length > 0) {
-                displayDiv.innerHTML = selectedAmenities.map(a => `
-                    <span class="amenity-badge">
-                        <i class="fas fa-check-circle"></i> ${a}
-                    </span>
-                `).join('');
-            } else {
-                displayDiv.innerHTML = '<span class="text-muted">No se han seleccionado comodidades</span>';
-            }
-
-            // Actualizar inputs hidden para enviar al backend
-            const hiddenDiv = document.getElementById('hiddenAmenitiesInputs');
-            hiddenDiv.innerHTML = '';
-            selectedAmenities.forEach(amenity => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'amenities[]';
-                input.value = amenity;
-                hiddenDiv.appendChild(input);
-            });
-
-            cerrarModalComodidades();
-        }
-
-        // Subir Imagen
-        async function subirImagenVivienda(viviendaId) {
-            const fileInput = document.getElementById(`file-${viviendaId}`);
+        // Función para subir imagen de vivienda
+        async function subirImagenVivienda(idVivienda) {
+            const fileInput = document.getElementById(`file-${idVivienda}`);
             const file = fileInput.files[0];
-            if (!file) return;
+            
+            if (!file) {
+                return;
+            }
+
+            // Validar tipo de archivo
+            if (!file.type.startsWith('image/')) {
+                alert('Por favor selecciona un archivo de imagen válido');
+                return;
+            }
+
+            // Validar tamaño (máximo 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('La imagen no debe superar los 5MB');
+                return;
+            }
 
             const formData = new FormData();
             formData.append('imagen', file);
 
             try {
-                const response = await fetch(`/propiedades/${viviendaId}/imagen`, {
+                // Mostrar indicador de carga
+                const card = document.querySelector(`article[data-estado] input#file-${idVivienda}`).closest('.property-card');
+                const imageContainer = card.querySelector('.property-image');
+                imageContainer.style.opacity = '0.5';
+                imageContainer.style.pointerEvents = 'none';
+
+                const response = await fetch(`/viviendas/${idVivienda}/imagen`, {
                     method: 'POST',
                     body: formData
                 });
 
+                const result = await response.json();
+
                 if (response.ok) {
-                    alert('Imagen subida exitosamente');
+                    // Recargar la página para mostrar la nueva imagen
                     location.reload();
                 } else {
-                    alert('Error al subir la imagen');
+                    alert(result.error || 'Error al subir la imagen');
+                    imageContainer.style.opacity = '1';
+                    imageContainer.style.pointerEvents = 'auto';
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error al subir la imagen');
+                alert('Error al subir la imagen. Por favor intenta de nuevo.');
+                imageContainer.style.opacity = '1';
+                imageContainer.style.pointerEvents = 'auto';
             }
         }
 
-        // Placeholder
-        function abrirModalComodidades() {
-            alert('Modal de comodidades - Por implementar');
-        }
+        // ========== ESTILOS UNIFORMES PARA EL FORMULARIO ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualizar todos los inputs, selects y textareas del formulario
+            const formInputs = document.querySelectorAll('#formNuevaPropiedad input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), #formNuevaPropiedad select, #formNuevaPropiedad textarea');
+            
+            formInputs.forEach(input => {
+                // Solo actualizar si NO tienen estilos inline ya definidos completamente
+                const hasFullStyles = input.hasAttribute('style') && input.getAttribute('style').includes('outline');
+                
+                if (!hasFullStyles) {
+                    input.style.width = '100%';
+                    input.style.padding = '0.625rem 0.875rem';
+                    input.style.fontSize = '0.875rem';
+                    input.style.background = 'white';
+                    input.style.border = '0.125rem solid #e5e7eb';
+                    input.style.borderRadius = '0.5rem';
+                    input.style.transition = 'all 0.2s';
+                    input.style.outline = 'none'; // CRÁtico: quitar outline negro
 
-        // Cerrar modal con ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') cerrarModalNuevaPropiedad();
+                    // Eventos focus/blur
+                    input.addEventListener('focus', function() {
+                        this.style.borderColor = '#000080';
+                        this.style.boxShadow = '0 0 0 0.1875rem rgba(0, 0, 128, 0.1)';
+                    });
+
+                    input.addEventListener('blur', function() {
+                        this.style.borderColor = '#e5e7eb';
+                        this.style.boxShadow = 'none';
+                    });
+                }
+            });
+
+            // Actualizar todos los labels
+            const formLabels = document.querySelectorAll('#formNuevaPropiedad label');
+            formLabels.forEach(label => {
+                // Solo actualizar los que tienen clases de Tailwind
+                if (label.classList.contains('block') || label.classList.contains('text-sm')) {
+                    label.style.display = 'flex';
+                    label.style.alignItems = 'center';
+                    label.style.gap = '0.5rem';
+                    label.style.fontSize = '0.875rem';
+                    label.style.fontWeight = '600';
+                    label.style.color = '#374151';
+                    label.style.marginBottom = '0.5rem';
+
+                    // Actualizar iconos dentro de labels
+                    const icon = label.querySelector('i');
+                    if (icon && (icon.classList.contains('text-blue-600') || icon.classList.contains('text-blue-500'))) {
+                        icon.style.color = '#000080';
+                        icon.style.fontSize = '0.875rem';
+                    }
+                }
+            });
+
+            // Actualizar secciones de Título
+            const sectionHeadings = document.querySelectorAll('#formNuevaPropiedad .bg-blue-50, #formNuevaPropiedad [class*="bg-blue"]');
+            sectionHeadings.forEach(section => {
+                if (section.classList.contains('bg-blue-50')) {
+                    section.style.background = '#eff6ff';
+                    section.style.borderLeft = '0.1875rem solid #000080';
+                    section.style.padding = '1rem';
+                    section.style.borderRadius = '0.5rem';
+                    section.style.marginBottom = '1rem';
+
+                    const h3 = section.querySelector('h3');
+                    if (h3) {
+                        h3.style.fontSize = '1rem';
+                        h3.style.fontWeight = '700';
+                        h3.style.color = '#1e3a8a';
+                        h3.style.margin = '0';
+                        h3.style.display = 'flex';
+                        h3.style.alignItems = 'center';
+                        h3.style.gap = '0.5rem';
+                    }
+
+                    const p = section.querySelector('p');
+                    if (p) {
+                        p.style.fontSize = '0.875rem';
+                        p.style.color = '#1e40af';
+                        p.style.margin = '0.25rem 0 0 0';
+                    }
+                }
+            });
+
+            // Reducir gap de todos los step-content
+            const stepContents = document.querySelectorAll('.step-content');
+            stepContents.forEach(step => {
+                if (step.classList.contains('space-y-5')) {
+                    step.classList.remove('space-y-5');
+                    step.style.display = 'flex';
+                    step.style.flexDirection = 'column';
+                    step.style.gap = '1rem';
+                }
+            });
         });
     </script>
 </body>
 </html>
+

@@ -1,5 +1,5 @@
 body { margin:0; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f3f4f6; color:#111827; display:flex; align-items:center; justify-content:center; min-height:100vh; }
-.card { width: 620px; background:#fff; border-radius:16px; padding:36px; box-shadow:0 18px 50px rgba(17,24,39,0.08); text-align:center; }
-h1 { margin:0 0 12px; letter-spacing:-0.2px; }
-p { color:#4b5563; margin:0 0 18px; }
-a.btn { display:inline-block; margin-top:8px; padding:12px 18px; border-radius:12px; background:#0f172a; color:#fff; text-decoration:none; font-weight:700; letter-spacing:0.2px; }
+.card { width: 38.75rem; background:#fff; border-radius:1rem; padding:2.25rem; box-shadow:0 1.125rem 3.125rem rgba(17,24,39,0.08); text-align:center; }
+h1 { margin:0 0 0.75rem; letter-spacing:-0.0125rem; }
+p { color:#4b5563; margin:0 0 1.125rem; }
+a.btn { display:inline-block; margin-top:0.5rem; padding:0.75rem 1.125rem; border-radius:0.75rem; background:#0f172a; color:#fff; text-decoration:none; font-weight:700; letter-spacing:0.0125rem; }

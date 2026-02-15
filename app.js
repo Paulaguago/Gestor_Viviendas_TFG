@@ -4,11 +4,11 @@ const session = require('express-session');
 const passport = require('./utils/passport');
 const flash = require('connect-flash');
 
-// Import database
+// Importa base de datos
 const { sequelize, testConnection, syncDatabase } = require('./config/database');
 const models = require('./models');
 
-// Import routes
+// Importa rutas
 const generalRoutes = require('./routes/generalRoutes');
 const authRoutes = require('./routes/authRoutes');
 const alquilerRoutes = require('./routes/alquilerRoutes');

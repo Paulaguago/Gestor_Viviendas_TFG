@@ -1,119 +1,131 @@
 <!-- Navbar Principal -->
-<link rel="stylesheet" href="/css/navbar.css">
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
-    <div class="container-fluid">
-        <!-- Logo y Nombre de la Empresa -->
-        <a class="navbar-brand d-flex align-items-center" href="<% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>/dashboard<% } else { %>/<% } %>">
-            <img src="/images/logo.png" alt="Logo" class="me-2" style="height: 5rem;">
-            <span class="fw-bold">Gestor Viviendas</span>
+<nav style="background-color: #ffffff; border-bottom: 2px solid #e5e7eb; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 100001; min-height: 70px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    
+    <!-- Logo y Marca -->
+    <div style="display: flex; align-items: center; gap: 1rem;">
+        <img src="/images/logo.png" alt="Logo" style="height: 2.5rem; width: auto; display: block;">
+        <span style="font-weight: 700; font-size: 1.25rem; color: #111827; display: block;">Gestor Viviendas</span>
+    </div>
+    
+    <!-- Menú de navegación -->
+    <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+    <div style="display: flex; align-items: center; gap: 2rem; flex: 1; margin: 0 2rem;">
+        <a href="/dashboard" style="color: #374151; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+            <i class="bi bi-speedometer2" style="font-size: 1rem;"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="/propiedades" style="color: #000080; text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+            <i class="bi bi-building" style="font-size: 1rem;"></i>
+            <span>Propiedades</span>
+        </a>
+        <a href="/calendario" style="color: #374151; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+            <i class="bi bi-calendar3" style="font-size: 1rem;"></i>
+            <span>Calendario</span>
+        </a>
+        <a href="/reservas" style="color: #374151; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+            <i class="bi bi-calendar-check" style="font-size: 1rem;"></i>
+            <span>Reservas</span>
+        </a>
+        <a href="/finanzas" style="color: #374151; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+            <i class="bi bi-cash-stack" style="font-size: 1rem;"></i>
+            <span>Finanzas</span>
         </a>
         
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <!-- Menú Principal -->
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
-                    <!-- Dashboard -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/dashboard">
-                            <i class="bi bi-speedometer2 me-1"></i>Dashboard
-                        </a>
-                    </li>
-                    
-                    <!-- Propiedades -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/propiedades">
-                            <i class="bi bi-building me-1"></i>Propiedades
-                        </a>
-                    </li>
-                    
-                    <!-- Calendario -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/calendario">
-                            <i class="bi bi-calendar3 me-1"></i>Calendario
-                        </a>
-                    </li>
-                    
-                    <!-- Reservas -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/reservas">
-                            <i class="bi bi-calendar-check me-1"></i>Reservas
-                        </a>
-                    </li>
-                    
-                    <!-- Finanzas -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/finanzas">
-                            <i class="bi bi-cash-stack me-1"></i>Finanzas
-                        </a>
-                    </li>
-                    
-                    <!-- Análisis -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/analisis">
-                            <i class="bi bi-graph-up me-1"></i>Análisis
-                        </a>
-                    </li>
-                    
-                    <!-- Predicciones IA -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarPredicciones" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-lightbulb me-1"></i>Predicciones IA
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarPredicciones">
-                            <li><a class="dropdown-item" href="/predicciones"><i class="bi bi-house me-2"></i>Panel Principal</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/alquiler"><i class="bi bi-key me-2"></i>Predicción Alquiler</a></li>
-                            <li><a class="dropdown-item" href="/venta"><i class="bi bi-cash-coin me-2"></i>Predicción Venta</a></li>
-                        </ul>
-                    </li>
-                <% } %>
-            </ul>
-            
-            <!-- Menú derecho (Perfil/Ajustes) -->
-            <ul class="navbar-nav ms-auto">
-                <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarPerfil" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle me-1 navbar-profile-icon"></i>
-                            <span class="d-none d-lg-inline"><%= user ? user.username : 'Mi Perfil' %></span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarPerfil">
-                            <li class="dropdown-header">
-                                <strong><%= user ? user.username : 'Usuario' %></strong>
-                                <br><small class="text-muted"><%= user ? user.email : '' %></small>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/perfil"><i class="bi bi-person me-2"></i>Ver perfil</a></li>
-                            <li><a class="dropdown-item" href="/ajustes"><i class="bi bi-gear me-2"></i>Ajustes</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form action="/auth/logout" method="POST" class="m-0">
-                                    <button type="submit" class="dropdown-item text-danger">
-                                        <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                <% } else { %>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/auth/login">
-                            <i class="bi bi-box-arrow-in-right me-1"></i>
-                            <span class="d-none d-lg-inline">Iniciar Sesión</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/auth/register">
-                            <i class="bi bi-person-plus me-1"></i>
-                            <span class="d-none d-lg-inline">Registrarse</span>
-                        </a>
-                    </li>
-                <% } %>
-            </ul>
+        <!-- Dropdown AI -->
+        <div style="position: relative; display: inline-block;">
+            <a href="#" onclick="toggleDropdown('aiDropdown', event)" style="color: #374151; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+                <i class="bi bi-cpu" style="font-size: 1rem;"></i>
+                <span>AI</span>
+                <i class="bi bi-chevron-down" style="font-size: 0.75rem; margin-left: 0.25rem;"></i>
+            </a>
+            <div id="aiDropdown" style="display: none; position: absolute; top: 100%; left: 0; background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 200px; margin-top: 0.5rem; z-index: 100002;">
+                <a href="/alquiler" style="color: #374151; text-decoration: none; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid #f3f4f6;">
+                    <i class="bi bi-key" style="font-size: 1rem;"></i>
+                    <span>Predecir precio alquiler</span>
+                </a>
+                <a href="/venta" style="color: #374151; text-decoration: none; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="bi bi-cash-coin" style="font-size: 1rem;"></i>
+                    <span>Predecir precio venta</span>
+                </a>
+            </div>
         </div>
     </div>
+    
+    <!-- Dropdown Usuario -->
+    <div style="position: relative; display: inline-block;">
+        <a href="#" onclick="toggleDropdown('userDropdown', event)" style="color: #374151; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem; background-color: #f9fafb; border-radius: 0.5rem;">
+            <i class="bi bi-person-circle" style="font-size: 1.25rem;"></i>
+            <span><%= user ? user.username : 'Usuario' %></span>
+            <i class="bi bi-chevron-down" style="font-size: 0.75rem;"></i>
+        </a>
+        <div id="userDropdown" style="display: none; position: absolute; top: 100%; right: 0; background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 200px; margin-top: 0.5rem; z-index: 100002;">
+            <div style="padding: 0.75rem 1rem; border-bottom: 1px solid #f3f4f6;">
+                <div style="font-weight: 600; color: #111827;"><%= user ? user.username : 'Usuario' %></div>
+                <div style="font-size: 0.875rem; color: #6b7280;"><%= user ? user.email : '' %></div>
+            </div>
+            <a href="/perfil" style="color: #374151; text-decoration: none; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid #f3f4f6;">
+                <i class="bi bi-person" style="font-size: 1rem;"></i>
+                <span>Ver perfil</span>
+            </a>
+            <a href="/ajustes" style="color: #374151; text-decoration: none; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid #f3f4f6;">
+                <i class="bi bi-gear" style="font-size: 1rem;"></i>
+                <span>Ajustes</span>
+            </a>
+            <a href="/auth/logout" style="color: #ef4444; text-decoration: none; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="bi bi-box-arrow-right" style="font-size: 1rem;"></i>
+                <span>Cerrar sesión</span>
+            </a>
+        </div>
+    </div>
+    <% } else { %>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+        <a href="/auth/login" style="color: #374151; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; display: inline-block;">
+            Iniciar Sesión
+        </a>
+        <a href="/auth/register" style="background-color: #000080; color: #ffffff; text-decoration: none; font-weight: 600; padding: 0.5rem 1.5rem; border-radius: 0.5rem; display: inline-block;">
+            Registrarse
+        </a>
+    </div>
+    <% } %>
 </nav>
+
+<script>
+function toggleDropdown(dropdownId, event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const dropdown = document.getElementById(dropdownId);
+    const allDropdowns = document.querySelectorAll('[id$="Dropdown"]');
+    
+    // Cerrar todos los otros dropdowns
+    allDropdowns.forEach(d => {
+        if (d.id !== dropdownId) {
+            d.style.display = 'none';
+        }
+    });
+    
+    // Toggle el dropdown actual
+    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+}
+
+// Cerrar dropdowns al hacer clic fuera
+document.addEventListener('click', function(event) {
+    const allDropdowns = document.querySelectorAll('[id$="Dropdown"]');
+    allDropdowns.forEach(dropdown => {
+        dropdown.style.display = 'none';
+    });
+});
+
+// Agregar hover effects a los items del dropdown
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownLinks = document.querySelectorAll('[id$="Dropdown"] a');
+    dropdownLinks.forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            this.style.backgroundColor = '#f3f4f6';
+        });
+        link.addEventListener('mouseleave', function() {
+            this.style.backgroundColor = 'transparent';
+        });
+    });
+});
+</script>

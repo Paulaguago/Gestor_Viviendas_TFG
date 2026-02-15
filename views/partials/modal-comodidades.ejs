@@ -1,0 +1,56 @@
+<!-- Modal: Gestionar Comodidades -->
+<div id="modalComodidades" class="modal-overlay">
+    <div class="modal-amenities-modern">
+        <div class="amenities-header-modern">
+            <div class="title-group">
+                <h2 class="amenities-title-text">Amenidades & Servicios</h2>
+                <p class="amenities-subtitle">Configura el equipamiento de tu propiedad</p>
+            </div>
+            <button class="amenities-close-modern" onclick="cerrarModalComodidades()">&times;</button>
+        </div>
+
+        <div class="amenities-toolbar">
+            <div class="search-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="amenitiesSearchInput" placeholder="Buscar..." onkeyup="filtrarComodidades()">
+            </div>
+            
+            <div class="categories-pills">
+                <button class="pill active" onclick="filtrarPorCategoria('todos')">Todos <span>63</span></button>
+                <button class="pill" onclick="filtrarPorCategoria('basicos')">Básicos</button>
+                <button class="pill" onclick="filtrarPorCategoria('cocina')">Cocina</button>
+                <button class="pill" onclick="filtrarPorCategoria('exterior')">Exterior</button>
+            </div>
+        </div>
+
+        <div class="modal-content-layout">
+            <div class="amenities-grid-wrapper">
+                <div class="amenities-grid-modern" id="amenitiesGrid">
+                </div>
+            </div>
+
+            <aside class="side-panel">
+                <div class="custom-add-card">
+                    <h4>¿Falta algo?</h4>
+                    <p>Agrega un servicio personalizado</p>
+                    <div class="input-mini-group">
+                        <input type="text" id="customAmenityInput" placeholder="Ej: Jacuzzi">
+                        <button onclick="anadirComodidadPersonalizada()">+</button>
+                    </div>
+                    <div id="customAmenitiesContainer" class="mini-tags-container">
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <div class="amenities-footer-modern">
+            <div class="selected-status">
+                <span id="selectedAmenitiesCount">0</span> seleccionadas
+            </div>
+            <div class="footer-actions">
+                <button class="btn-cancel" onclick="cerrarModalComodidades()">Cancelar</button>
+                <button class="btn-save" onclick="guardarComodidades()">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>

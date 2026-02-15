@@ -146,7 +146,7 @@ html, body {
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
     .auth-card {
         max-width: 100%;
     }

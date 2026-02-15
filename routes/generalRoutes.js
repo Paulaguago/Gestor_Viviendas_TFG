@@ -178,4 +178,55 @@ router.get('/rf/distribution', requireAuth, (req, res) => {
   return res.json(data);
 });
 
+// ================= API GEOCODING =================
+// GET /api/geocoding -> proxy para Nominatim (evitar CORS)
+router.get('/api/geocoding', requireAuth, async (req, res) => {
+  try {
+    const { q } = req.query;
+    if (!q) {
+      return res.status(400).json({ error: 'Query parameter "q" is required' });
+    }
+
+    const https = require('https');
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&limit=5`;
+    
+    // Usar https nativo de Node.js
+    const request = https.get(url, {
+      headers: {
+        'User-Agent': 'GestorViviendas/1.0 (gestor@viviendas.com)', // Nominatim requiere User-Agent
+      }
+    }, (response) => {
+      let data = '';
+      
+      response.on('data', (chunk) => {
+        data += chunk;
+      });
+      
+      response.on('end', () => {
+        try {
+          const jsonData = JSON.parse(data);
+          res.json(jsonData);
+        } catch (parseError) {
+          console.error('JSON parse error:', parseError);
+          res.status(500).json({ error: 'Error parsing geocoding response' });
+        }
+      });
+    });
+
+    request.on('error', (error) => {
+      console.error('Geocoding request error:', error);
+      res.status(500).json({ error: 'Error al buscar la ubicación' });
+    });
+
+    request.setTimeout(5000, () => {
+      request.destroy();
+      res.status(504).json({ error: 'Timeout al buscar la ubicación' });
+    });
+
+  } catch (error) {
+    console.error('Geocoding error:', error);
+    res.status(500).json({ error: 'Error al buscar la ubicación' });
+  }
+});
+
 module.exports = router;

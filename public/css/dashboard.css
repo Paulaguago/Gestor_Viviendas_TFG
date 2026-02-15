@@ -3,9 +3,9 @@
 /* Sidebar */
 .sidebar-dashboard {
     background-color: #f8f9fa;
-    min-height: calc(100vh - 120px);
+    min-height: calc(100vh - 7.5rem);
     padding: 1.5rem 1rem;
-    border-right: 1px solid #dee2e6;
+    border-right: 0.0625rem solid #dee2e6;
 }
 
 .sidebar-content {
@@ -19,7 +19,7 @@
     color: #495057;
     margin-bottom: 1rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.03125rem;
 }
 
 .sidebar-subtitle {
@@ -39,13 +39,13 @@
 
 .list-group-item:hover {
     background-color: #e9ecef;
-    transform: translateX(5px);
+    transform: translateX(0.3125rem);
 }
 
 .summary-card {
     border: none;
     background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.05);
 }
 
 .summary-item {
@@ -53,7 +53,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 0;
-    border-bottom: 1px solid #f1f3f5;
+    border-bottom: 0.0625rem solid #f1f3f5;
 }
 
 .summary-item:last-child {
@@ -93,13 +93,13 @@
 .stat-card {
     border: none;
     border-radius: 1rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.08);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    transform: translateY(-0.3125rem);
+    box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,0.12);
 }
 
 .stat-card .card-body {
@@ -139,13 +139,13 @@
 /* Sección de Reservas */
 .reservas-card {
     border: none;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.08);
     border-radius: 1rem;
 }
 
 .reservas-card .card-header {
     background-color: #fff;
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 0.0625rem solid #e9ecef;
     padding: 1.25rem 1.5rem;
 }
 
@@ -180,14 +180,14 @@
     padding: 1.25rem;
     margin-bottom: 1rem;
     background-color: #fff;
-    border: 1px solid #e9ecef;
+    border: 0.0625rem solid #e9ecef;
     border-radius: 0.75rem;
     transition: all 0.2s ease;
 }
 
 .reserva-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transform: translateY(-2px);
+    box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,0.1);
+    transform: translateY(-0.125rem);
 }
 
 .reserva-fecha .fecha-badge {
@@ -246,7 +246,7 @@
     align-items: flex-start;
     gap: 0.75rem;
     padding: 0.75rem 0;
-    border-bottom: 1px solid #f1f3f5;
+    border-bottom: 0.0625rem solid #f1f3f5;
 }
 
 .notification-item:last-child {
@@ -275,7 +275,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.75rem 0;
-    border-bottom: 1px solid #f1f3f5;
+    border-bottom: 0.0625rem solid #f1f3f5;
 }
 
 .performance-item:last-child {
@@ -290,13 +290,13 @@
 /* Calendario */
 .calendar-card {
     border: none;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.08);
     border-radius: 1rem;
 }
 
 .calendar-card .card-header {
     background-color: #fff;
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 0.0625rem solid #e9ecef;
     padding: 1.25rem 1.5rem;
 }
 
@@ -318,7 +318,7 @@
     font-size: 0.875rem;
     color: #6c757d;
     padding: 0.75rem 0;
-    border-bottom: 2px solid #e9ecef;
+    border-bottom: 0.125rem solid #e9ecef;
 }
 
 .calendar-day {
@@ -353,7 +353,7 @@
 
 .calendar-day.has-reservation {
     background-color: #e7f3ff;
-    border: 2px solid #0d6efd;
+    border: 0.125rem solid #0d6efd;
     font-weight: 600;
 }
 
@@ -370,7 +370,7 @@
     display: flex;
     gap: 1.5rem;
     padding-top: 1rem;
-    border-top: 1px solid #e9ecef;
+    border-top: 0.0625rem solid #e9ecef;
 }
 
 .legend-item {
@@ -396,11 +396,11 @@
 }
 
 /* Responsive */
-@media (max-width: 991px) {
+@media (max-width: 61.9375rem) {
     .sidebar-dashboard {
         min-height: auto;
         border-right: none;
-        border-bottom: 1px solid #dee2e6;
+        border-bottom: 0.0625rem solid #dee2e6;
     }
     
     .main-content {
@@ -408,7 +408,7 @@
     }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 47.9375rem) {
     .reserva-card {
         flex-direction: column;
         align-items: flex-start;
@@ -486,7 +486,7 @@
 }
 
 .mini-day.has-reservation {
-    border: 2px solid #0d6efd;
+    border: 0.125rem solid #0d6efd;
     font-weight: 600;
     color: #0d6efd;
 }
@@ -494,5 +494,5 @@
 .mini-day.today.has-reservation {
     background-color: #0d6efd;
     color: white;
-    border: 2px solid #d7bfa6;
+    border: 0.125rem solid #d7bfa6;
 }

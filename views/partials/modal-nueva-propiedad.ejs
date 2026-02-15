@@ -1,0 +1,560 @@
+<!-- Modal: Nueva Propiedad - diseño Simple y Moderno -->
+<div id="modalNuevaPropiedad" class="modal-overlay">
+    <div class="flex flex-col md:flex-row w-full md:max-w-4xl bg-white md:rounded-2xl shadow-2xl overflow-hidden mx-auto" style="height: 65vh;">
+        
+        <!-- Sidebar: Navegación Vertical - Azul Sólido -->
+        <div class="w-full md:w-56 p-5 border-b md:border-b-0 md:border-r border-white/10 flex flex-col gap-5 overflow-y-auto" style="background: #000080;">
+
+    <!-- Header Simple -->
+    <div>
+        <div class="flex items-center gap-3 mb-4">
+            <div style="height: 4rem; width: 4rem !important; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-home" style="color: white; font-size: 1.25rem;"></i>
+            </div>
+            <div>
+                <h2 style="font-size: 1.125rem; font-weight: 700; color: white; margin: 0; line-height: 1.2;">Nueva Propiedad</h2>
+            </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="height: 0.25rem; flex: 1; background: rgba(255,255,255,0.2); border-radius: 9990.5625rem; overflow: hidden;">
+                <div id="progressBar" style="height: 100%; width: 25%; background: white; border-radius: 9990.5625rem; transition: width 0.3s ease;"></div>
+            </div>
+            <span id="progressText" style="font-size: 0.75rem; font-weight: 600; color: white; white-space: nowrap;">Paso 1/4</span>
+        </div>
+    </div>
+
+<!-- Navegación Desktop Simple -->
+    <div class="hidden md:flex flex-col gap-4 relative">
+        <!-- Línea de conexión simple -->
+        <div class="absolute left-[17px] top-10 bottom-10 w-[0.125rem]" style="background: rgba(255,255,255,0.2);"></div>
+        
+        <!-- Progreso actual --> 
+        <div id="progressLine" class="absolute left-[17px] top-10 w-[0.125rem]" style="height: 0; transition: height 0.3s ease;"></div>
+
+        <!-- Step 1 -->
+        <button type="button" class="step-nav flex items-center gap-3 w-full text-left outline-none" data-step="1" onclick="goToStep(1)" style="transition: opacity 0.2s; background: transparent; border: none;">
+            <div class="step-circle flex items-center justify-center" style="width: 2.25rem; height: 2.25rem; border-radius: 0.5rem; background: transparent; color: white; position: relative; z-index: 1;">
+                <i class="fas fa-house" style="font-size: 0.875rem;"></i>
+                <i class="fas fa-check" style="font-size: 0.875rem; display: none;"></i>
+            </div>
+            <div class="flex-1">
+                <p class="step-title" style="font-size: 0.875rem; font-weight: 600; color: white; margin: 0;">Datos Básicos</p>
+                <p style="font-size: 0.75rem; color: rgba(255,255,255,0.7); margin: 0; line-height: 1.3;">Información de la propiedad</p>
+            </div>
+        </button>
+
+        <!-- Step 2 -->
+        <button type="button" class="step-nav flex items-center gap-3 w-full text-left disabled:cursor-not-allowed" data-step="2" disabled onclick="goToStep(2)" style="opacity: 0.5; transition: opacity 0.2s; background: transparent; border: none;">
+            <div class="step-circle flex items-center justify-center" style="width: 2.25rem; height: 2.25rem; border-radius: 0.5rem; background: transparent; color: white; position: relative; z-index: 1;">
+                <i class="fas fa-map-location-dot" style="font-size: 0.875rem;"></i>
+                <i class="fas fa-check" style="font-size: 0.875rem; display: none;"></i>
+            </div>
+            <div class="flex-1">
+                <p class="step-title" style="font-size: 0.875rem; font-weight: 600; color: rgba(255,255,255,0.6); margin: 0;">Ubicación</p>
+                <p style="font-size: 0.75rem; color: rgba(255,255,255,0.4); margin: 0; line-height: 1.3;">Dirección y coordenadas</p>
+            </div>
+        </button>
+
+        <!-- Step 3 -->
+        <button type="button" class="step-nav flex items-center gap-3 w-full text-left disabled:cursor-not-allowed" data-step="3" disabled onclick="goToStep(3)" style="opacity: 0.5; transition: opacity 0.2s; background: transparent; border: none;">
+            <div class="step-circle flex items-center justify-center" style="width: 2.25rem; height: 2.25rem; border-radius: 0.5rem; background: transparent; color: white; position: relative; z-index: 1;">
+                <i class="fas fa-tag" style="font-size: 0.875rem;"></i>
+                <i class="fas fa-check" style="font-size: 0.875rem; display: none;"></i>
+            </div>
+            <div class="flex-1">
+                <p class="step-title" style="font-size: 0.875rem; font-weight: 600; color: rgba(255,255,255,0.6); margin: 0;">Marketing</p>
+                <p style="font-size: 0.75rem; color: rgba(255,255,255,0.4); margin: 0; line-height: 1.3;">Precios y promoción</p>
+            </div>
+        </button>
+
+        <!-- Step 4 -->
+        <button type="button" class="step-nav flex items-center gap-3 w-full text-left disabled:cursor-not-allowed" data-step="4" disabled onclick="goToStep(4)" style="opacity: 0.5; transition: opacity 0.2s; background: transparent; border: none;">
+            <div class="step-circle flex items-center justify-center" style="width: 2.25rem; height: 2.25rem; border-radius: 0.5rem; background: transparent; color: white; position: relative; z-index: 1;">
+                <i class="fas fa-scale-balanced" style="font-size: 0.875rem;"></i>
+                <i class="fas fa-check" style="font-size: 0.875rem; display: none;"></i>
+            </div>
+            <div class="flex-1">
+                <p class="step-title" style="font-size: 0.875rem; font-weight: 600; color: rgba(255,255,255,0.6); margin: 0;">Documentación</p>
+                <p style="font-size: 0.75rem; color: rgba(255,255,255,0.4); margin: 0; line-height: 1.3;">Aspectos legales</p>
+            </div>
+        </button>
+    </div>
+
+    <!-- Navegación Mobile Simple -->
+    <div class="md:hidden flex gap-4 overflow-x-auto pb-4 snap-x no-scrollbar">
+        <button type="button" class="step-nav-mobile snap-center shrink-0 w-24 flex flex-col items-center gap-2" data-step="1" onclick="goToStep(1)" style="background: transparent; border: none;">
+            <div class="step-circle-mobile flex items-center justify-center" style="width: 2.5rem; height: 2.5rem; border-radius: 0.5rem; background: transparent; color: white;">
+                <i class="fas fa-house" style="font-size: 0.75rem;"></i>
+                <i class="fas fa-check" style="font-size: 0.75rem; display: none;"></i>
+            </div>
+            <span style="font-size: 0.5625rem; font-weight: 800; text-transform: uppercase; color: white; letter-spacing: -0.025em;">Propiedad</span>
+        </button>
+        <button type="button" class="step-nav-mobile snap-center shrink-0 w-24 flex flex-col items-center gap-2" data-step="2" disabled onclick="goToStep(2)" style="opacity: 0.4; background: transparent; border: none;">
+            <div class="step-circle-mobile flex items-center justify-center" style="width: 2.5rem; height: 2.5rem; border-radius: 0.5rem; background: transparent; color: white; border: 0.0625rem solid rgba(255,255,255,0.3);">
+                <i class="fas fa-map-location-dot" style="font-size: 0.75rem;"></i>
+                <i class="fas fa-check" style="font-size: 0.75rem; display: none;"></i>
+            </div>
+            <span style="font-size: 0.5625rem; font-weight: 800; text-transform: uppercase; color: rgba(255,255,255,0.5); letter-spacing: -0.025em;">Ubicación</span>
+        </button>
+        <button type="button" class="step-nav-mobile snap-center shrink-0 w-24 flex flex-col items-center gap-2" data-step="3" disabled onclick="goToStep(3)" style="opacity: 0.4; background: transparent; border: none;">
+            <div class="step-circle-mobile flex items-center justify-center" style="width: 2.5rem; height: 2.5rem; border-radius: 0.5rem; background: transparent; color: white; border: 0.0625rem solid rgba(255,255,255,0.3);">
+                <i class="fas fa-tag" style="font-size: 0.75rem;"></i>
+                <i class="fas fa-check" style="font-size: 0.75rem; display: none;"></i>
+            </div>
+            <span style="font-size: 0.5625rem; font-weight: 800; text-transform: uppercase; color: rgba(255,255,255,0.5); letter-spacing: -0.025em;">Marketing</span>
+        </button>
+        <button type="button" class="step-nav-mobile snap-center shrink-0 w-24 flex flex-col items-center gap-2" data-step="4" disabled onclick="goToStep(4)" style="opacity: 0.4; background: transparent; border: none;">
+            <div class="step-circle-mobile flex items-center justify-center" style="width: 2.5rem; height: 2.5rem; border-radius: 0.5rem; background: transparent; color: white; border: 0.0625rem solid rgba(255,255,255,0.3);">
+                <i class="fas fa-scale-balanced" style="font-size: 0.75rem;"></i>
+                <i class="fas fa-check" style="font-size: 0.75rem; display: none;"></i>
+            </div>
+            <span style="font-size: 0.5625rem; font-weight: 800; text-transform: uppercase; color: rgba(255,255,255,0.5); letter-spacing: -0.025em;">Legal</span>
+        </button>
+    </div>
+</div>
+
+        <!-- Contenido del Formulario -->
+        <div class="flex-1 flex flex-col overflow-hidden" style="background: white;">
+            <!-- Header Simple -->
+            <div style="padding: 1.5rem 2rem; border-bottom: 0.0625rem solid #e5e7eb; display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <h3 id="stepTitle" style="font-size: 1.25rem; font-weight: 700; color: #1e3a8a; margin: 0; line-height: 1.2;">Información Básica de la Propiedad</h3>
+                    <p id="stepSubtitle" style="font-size: 0.875rem; color: #6b7280; margin: 0.25rem 0 0 0;">Complete los datos principales de su propiedad</p>
+                </div>
+                <button type="button" onclick="cerrarModalNuevaPropiedad()" style="width: 2.5rem; height: 2.5rem; border-radius: 0.5rem; background: #f3f4f6; border: none; display: flex; align-items: center; justify-content: center; color: #6b7280; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='#f3f4f6'">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Form Container Blanco -->
+            <div class="flex-1 overflow-y-auto" style="padding: 1.5rem 2rem; background: white;">
+                <form id="formNuevaPropiedad" action="/propiedades/" method="POST" enctype="multipart/form-data">
+                    
+                    <!-- PASO 1: La Propiedad -->
+                    <div id="step-1" class="step-content" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <!-- Nombre (Ancho completo) -->
+                        <div class="group">
+                            <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #374151; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-signature" style="color: #000080; font-size: 0.875rem;"></i>
+                                Nombre de la Propiedad *
+                            </label>
+                            <input type="text" name="nombre" required 
+                                style="width: 100%; padding: 0.625rem 0.875rem; font-size: 0.875rem; background: white; border: 0.125rem solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s;" 
+                                onfocus="this.style.borderColor='#000080'; this.style.boxShadow='0 0 0 0.1875rem rgba(0, 0, 128, 0.1)'"
+                                onblur="this.style.borderColor='#e5e7eb'; this.style.boxShadow='none'"
+                                placeholder="Ej: Apartamento céntrico en Madrid">
+                        </div>
+
+                        <!-- Grid 2 columnas -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="group">
+                                <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #374151; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-tag" style="color: #000080; font-size: 0.875rem;"></i>
+                                    Categoría *
+                                </label>
+                                <select name="categoria" required 
+                                    style="width: 100%; padding: 0.625rem 0.875rem; font-size: 0.875rem; background: white; border: 0.125rem solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s; outline: none;"
+                                    onfocus="this.style.borderColor='#000080'; this.style.boxShadow='0 0 0 0.1875rem rgba(0, 0, 128, 0.1)'"
+                                    onblur="this.style.borderColor='#e5e7eb'; this.style.boxShadow='none'">
+                                    <option value="">Seleccionar Categoría</option>
+                                    <option value="Apartamento Turístico">Apartamento Turístico</option>
+                                    <option value="Vivienda Turística">Vivienda Turística</option>
+                                    <option value="Vivienda de Uso Turístico">Vivienda de Uso Turístico</option>
+                                    <option value="Casa Rural">Casa Rural</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #374151; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-building" style="color: #000080; font-size: 0.875rem;"></i>
+                                    Tipo de Vivienda *
+                                </label>
+                                <select name="tipo_vivienda" required 
+                                    style="width: 100%; padding: 0.625rem 0.875rem; font-size: 0.875rem; background: white; border: 0.125rem solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s; outline: none;"
+                                    onfocus="this.style.borderColor='#000080'; this.style.boxShadow='0 0 0 0.1875rem rgba(0, 0, 128, 0.1)'"
+                                    onblur="this.style.borderColor='#e5e7eb'; this.style.boxShadow='none'">
+                                    <option value="">Seleccionar</option>
+                                    <option value="Apartamento">Apartamento</option>
+                                    <option value="Chalet">Chalet</option>
+                                    <option value="Adosado">Adosado</option>
+                                    <option value="Pareado">Pareado</option>
+                                    <option value="Loft">Loft</option>
+                                    <option value="Estudio">Estudio</option>
+                                    <option value="Ático">Ático</option>
+                                    <option value="Dúplex">Dúplex</option>
+                                    <option value="Casa">Casa</option>
+                                    <option value="Villa">Villa</option>
+                                    <option value="Bungalow">Bungalow</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Grid 3 columnas -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fas fa-users text-blue-600"></i>
+                                    Capacidad *
+                                </label>
+                                <input type="number" name="capacidad_maxima" required min="1" 
+                                    class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                    placeholder="4">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fas fa-bed text-blue-600"></i>
+                                    Dormitorios *
+                                </label>
+                                <input type="number" name="num_habitaciones" required min="0" 
+                                    class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                    placeholder="2">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fas fa-bath text-blue-600"></i>
+                                    Baños *
+                                </label>
+                                <input type="number" name="num_banos" required min="0" 
+                                    class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                    placeholder="1">
+                            </div>
+                        </div>
+
+                        <!-- Grid 3 columnas -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fas fa-ruler-combined text-blue-600"></i>
+                                    Superficie (m²) *
+                                </label>
+                                <input type="number" name="superficie" required min="1" 
+                                    class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                    placeholder="75">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fas fa-tree text-blue-600"></i>
+                                    Parcela (m²)
+                                </label>
+                                <input type="number" name="superficie_parcela" min="0" 
+                                    class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                    placeholder="Opcional">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fas fa-calendar text-blue-600"></i>
+                                    año
+                                </label>
+                                <input type="number" name="ano_construccion" min="1800" max="2030" 
+                                    class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                    placeholder="2005">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PASO 2: Ubicación -->
+                    <div id="step2" class="step-content hidden" style="display: none; flex-direction: column; gap: 1rem;">
+                        <!-- Dirección -->
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                <i class="fas fa-road text-blue-600"></i>
+                                Calle *
+                            </label>
+                            <input type="text" name="calle" required 
+                                class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                placeholder="Calle Mayor">
+                        </div>
+
+                        <!-- Grid 4 columnas -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1.5"><i class="fas fa-door-open text-blue-600 mr-1"></i> Bloque</label>
+                                <input type="text" name="bloque_portal" 
+                                    class="w-full px-3 py-2 text-sm border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
+                                    placeholder="B">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1.5"><i class="fas fa-stairs text-blue-600 mr-1"></i> Escalera</label>
+                                <input type="text" name="escalera" 
+                                    class="w-full px-3 py-2 text-sm border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
+                                    placeholder="2">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1.5"><i class="fas fa-layer-group text-blue-600 mr-1"></i> Piso</label>
+                                <input type="text" name="piso" 
+                                    class="w-full px-3 py-2 text-sm border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
+                                    placeholder="3º">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1.5"><i class="fas fa-hashtag text-blue-600 mr-1"></i> Puerta</label>
+                                <input type="text" name="letra_numero" 
+                                    class="w-full px-3 py-2 text-sm border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
+                                    placeholder="A">
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="direccion" value="">
+
+                        <!-- Grid 3 columnas -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fas fa-city text-blue-600"></i>
+                                    Ciudad *
+                                </label>
+                                <input type="text" name="ciudad" required 
+                                    class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                    placeholder="Madrid">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fas fa-envelope text-blue-600"></i>
+                                    C.P.
+                                </label>
+                                <input type="text" name="codigo_postal" 
+                                    class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                    placeholder="28001">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fas fa-globe text-blue-600"></i>
+                                    País *
+                                </label>
+                                <input type="text" name="pais" value="España" required 
+                                    class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                                    placeholder="España">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                <i class="fas fa-map-pin text-blue-600"></i>
+                                Barrio
+                            </label>
+                            <input type="text" name="barrio" 
+                                class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                placeholder="Centro">
+                        </div>
+
+                        <!-- Buscador -->
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                <i class="fas fa-search-location text-blue-600"></i>
+                                Buscar Ubicación
+                            </label>
+                            <div class="flex gap-2">
+                                <input type="text" id="buscarDireccion" 
+                                    class="flex-1 px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                    placeholder="Busca una Dirección...">
+                                <button type="button" onclick="buscarUbicacion()" 
+                                    class="px-6 py-2.5 bg-blue-600 text-white text-sm font-bold rounded-lg hover:bg-blue-700 transition-all flex items-center gap-2">
+                                    <i class="fas fa-search"></i>
+                                    Buscar
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Mapa -->
+                        <div id="mapa-nuevo" class="w-full h-64 rounded-lg shadow-md border-2 border-slate-200"></div>
+
+                        <!-- Coordenadas -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fas fa-location-arrow text-blue-600"></i>
+                                    Latitud
+                                </label>
+                                <input type="number" name="latitud" id="latitudInput" step="0.00000001" readonly 
+                                    class="w-full px-4 py-2.5 text-sm bg-slate-50 border-2 border-slate-200 rounded-lg" 
+                                    placeholder="AutomÁtico">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fas fa-location-crosshairs text-blue-600"></i>
+                                    Longitud
+                                </label>
+                                <input type="number" name="longitud" id="longitudInput" step="0.00000001" readonly 
+                                    class="w-full px-4 py-2.5 text-sm bg-slate-50 border-2 border-slate-200 rounded-lg" 
+                                    placeholder="AutomÁtico">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PASO 3: Marketing & Precio -->
+                    <div id="step-3" class="step-content hidden" style="display: none; flex-direction: column; gap: 1rem;">
+                        <!-- Precio destacado -->
+                        <div class="bg-blue-50 p-4 rounded-lg border-2 border-blue-200">
+                            <label class="block text-sm font-bold text-blue-900 mb-2 flex items-center gap-2">
+                                <i class="fas fa-euro-sign text-blue-600"></i>
+                                Precio por Noche *
+                            </label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xl font-bold text-blue-600">€</span>
+                                <input type="number" name="precio_alquiler" required step="0.01" min="0" 
+                                    class="w-full pl-12 pr-4 py-3 text-xl font-bold bg-white border-2 border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                    placeholder="50.00">
+                            </div>
+                        </div>
+
+                        <!-- descripción -->
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                <i class="fas fa-align-left text-blue-600"></i>
+                                descripción
+                            </label>
+                            <textarea name="descripcion" rows="4" 
+                                class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none" 
+                                placeholder="Describe tu propiedad..."></textarea>
+                        </div>
+
+                        <!-- Imagen -->
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2 flex items-center gap-2">
+                                <i class="fas fa-image text-blue-600"></i>
+                                Imagen Principal
+                            </label>
+                            <div class="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-blue-400 transition-all cursor-pointer bg-slate-50">
+                                <i class="fas fa-cloud-upload-alt text-3xl text-slate-400 mb-3"></i>
+                                <input type="file" name="imagen" accept="image/*" class="hidden" id="fileInput">
+                                <label for="fileInput" class="block cursor-pointer">
+                                    <span class="text-sm font-bold text-slate-700">Arrastra o haz clic</span>
+                                    <span class="block text-xs text-slate-500 mt-1">JPG, PNG, GIF, WEBP</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!--Comodidades -->
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                <i class="fas fa-sparkles text-blue-600"></i>
+                                Comodidades
+                            </label>
+                            <button type="button" onclick="abrirModalComodidades()" 
+                                class="w-full px-4 py-2.5 text-sm border-2 border-blue-600 text-blue-600 font-bold rounded-lg hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center gap-2">
+                                <i class="fas fa-sparkles"></i>
+                                Seleccionar
+                            </button>
+                            <div id="selectedAmenitiesDisplay" class="mt-3 flex flex-wrap gap-2">
+                                <span class="text-xs text-slate-500">No se han seleccionado</span>
+                            </div>
+                            <div id="hiddenAmenitiesInputs"></div>
+                        </div>
+
+                        <!-- URLs Plataformas -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fab fa-airbnb text-blue-600"></i>
+                                    URL Airbnb
+                                </label>
+                                <input type="url" name="url_airbnb" 
+                                    class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                    placeholder="https://airbnb.com/...">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fas fa-bed text-blue-600"></i>
+                                    URL Booking
+                                </label>
+                                <input type="url" name="url_booking" 
+                                    class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                    placeholder="https://booking.com/...">
+                            </div>
+                        </div>
+
+                        <!-- URLs iCal -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fas fa-calendar-alt text-blue-600"></i>
+                                    iCal Airbnb
+                                </label>
+                                <input type="url" name="url_ical_airbnb" 
+                                    class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                    placeholder="https://airbnb.com/calendar/ical/...">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fas fa-calendar-alt text-blue-600"></i>
+                                    iCal Booking
+                                </label>
+                                <input type="url" name="url_ical_booking" 
+                                    class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                    placeholder="https://booking.com/calendar/ical/...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PASO 4: Legal & Estado -->
+                    <div id="step-4" class="step-content hidden" style="display: none; flex-direction: column; gap: 1rem;">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                <i class="fas fa-gavel text-blue-600"></i>
+                                Estado Legal
+                            </label>
+                            <select name="estado_legal" class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
+                                <option value="">Seleccionar</option>
+                                <option value="Activa">Activa</option>
+                                <option value="En trámite">En trámite</option>
+                                <option value="No aplica">No aplica</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fas fa-map-marker-alt text-blue-600"></i>
+                                    Ref. Catastral
+                                </label>
+                                <input type="text" name="referencia_catastral" 
+                                    class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                    placeholder="1234567VK1234S0001AA">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                    <i class="fas fa-clipboard-check text-blue-600"></i>
+                                    Nº Registro
+                                </label>
+                                <input type="text" name="numero_registro_autonomico" 
+                                    class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                    placeholder="VUT-12345">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                                <i class="fas fa-calendar-check text-blue-600"></i>
+                                Fecha de Registro
+                            </label>
+                            <input type="date" name="fecha_registro" 
+                                class="w-full px-4 py-2.5 text-sm bg-white border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
+                        </div> 
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Footer Premium -->
+            <div class="px-8 py-5 border-t border-slate-200/30 bg-white/80 backdrop-blur-xl flex items-center justify-between gap-4">
+                <button type="button" id="btnPrev" onclick="previousStep()" 
+                    class="group relative px-6 py-2.5 bg-white/60 backdrop-blur-sm border border-slate-200 text-slate-600 font-semibold rounded-2xl hover:bg-white/80 hover:border-slate-300 transform hover:scale-105 transition-all duration-300 shadow-lg hidden">
+                    <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
+                    <span class="hidden sm:inline">Anterior</span><span class="sm:hidden">Atrás</span>
+                </button>
+                
+                <div class="flex-1"></div>
+                
+                <button type="button" id="btnNext" onclick="nextStep()" 
+                    class="group relative px-8 py-2.5 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-blue-500/25 backdrop-blur-sm">
+                    <span class="hidden sm:inline">Siguiente</span><span class="sm:hidden">Siguiente</span>
+                    <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+                
+                <button type="button" id="btnSave" onclick="submitNuevaPropiedad()" 
+                    class="group relative px-8 py-2.5 bg-emerald-600 text-white font-bold rounded-2xl hover:bg-emerald-700 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-emerald-500/25 hidden">
+                    <i class="fas fa-check mr-2 group-hover:scale-110 transition-transform"></i>
+                    <span class="hidden sm:inline">Crear Propiedad</span><span class="sm:hidden">Crear</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
