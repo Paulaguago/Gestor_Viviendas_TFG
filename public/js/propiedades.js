@@ -307,9 +307,15 @@ function showStep(stepNumber) {
         btnSave.classList.add('hidden');
     }
 
-    // Invalidar mapa en paso 2
-    if (stepNumber === 2 && window.leafletMap) {
-        setTimeout(() => { window.leafletMap.invalidateSize(); }, 100);
+    // Inicializar o invalidar mapa en paso 2
+    if (stepNumber === 2) {
+        setTimeout(() => {
+            if (!window.leafletMap) {
+                inicializarMapa();
+            } else {
+                window.leafletMap.invalidateSize();
+            }
+        }, 200);
     }
 
     currentStep = stepNumber;
@@ -469,6 +475,16 @@ async function submitNuevaPropiedad() {
     const form = document.getElementById('formNuevaPropiedad');
     const formData = new FormData(form);
 
+    // Agregar amenities seleccionadas al FormData
+    if (selectedAmenities && selectedAmenities.length > 0) {
+        // Remover amenities anteriores si existen
+        formData.delete('amenity[]');
+        // Agregar las amenities seleccionadas
+        selectedAmenities.forEach(amenity => {
+            formData.append('amenity[]', amenity);
+        });
+    }
+
     try {
         const response = await fetch('/propiedades/', {
             method: 'POST',
@@ -477,13 +493,15 @@ async function submitNuevaPropiedad() {
 
         if (response.ok) {
             alert('Propiedad creada exitosamente');
+            cerrarModalNuevaPropiedad();
             location.reload();
         } else {
-            alert('Error al crear la propiedad');
+            const errorData = await response.json().catch(() => ({}));
+            alert('Error al crear la propiedad: ' + (errorData.message || 'Error desconocido'));
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Error al enviar el formulario');
+        alert('Error al enviar el formulario: ' + error.message);
     }
 }
 
@@ -655,7 +673,7 @@ function renderizarComodidades() {
                 <div class="amenity-icon-modern">
                     <i class="${icon}"></i>
                 </div>
-                <div class="amenity-name-modern">${amenity}</div>
+                <span class="amenity-name-modern">${amenity}</span>
             `;
             
             categoryCounts.todos++;
@@ -982,4 +1000,3 @@ function guardarComodidades() {
     showModernAlert('Amenidades guardadas correctamente', 'success');
     cerrarModalComodidades();
 }
-
