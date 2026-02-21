@@ -1,17 +1,22 @@
-function requireAuth(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    req.flash('error', 'Debes iniciar sesión para acceder a esta página');
-    res.redirect('/auth/login');
-}
+const requireAuth = (req, res, next) => {
+    // Headers para evitar caché del navegador en páginas protegidas
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
 
-function requireGuest(req, res, next) {
     if (!req.isAuthenticated()) {
-        return next();
+        req.flash('error', 'Debes iniciar sesión para acceder');
+        return res.redirect('/auth/login');
     }
-    res.redirect('/dashboard');
-}
+    next();
+};
+
+const requireGuest = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return res.redirect('/dashboard');
+    }
+    next();
+};
 
 function checkAuth(req, res, next) {
     res.locals.user = req.user || null;

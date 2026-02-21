@@ -97,6 +97,10 @@ router.get('/logout', (req, res, next) => {
                 console.error('Error al destruir sesión:', err);
             }
             res.clearCookie('connect.sid');
+            // Headers para evitar que el navegador cachee páginas protegidas
+            res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+            res.setHeader('Pragma', 'no-cache');
+            res.setHeader('Expires', '0');
             res.redirect('/auth/login?logout=true');
         });
     });
