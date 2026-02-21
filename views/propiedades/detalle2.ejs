@@ -99,6 +99,9 @@
     .sidebar-header {
       padding: 2rem 1.5rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .sidebar-logo {
@@ -242,6 +245,18 @@
     .btn-back:hover {
       background: #e2e8f0;
       color: #1a2332;
+    }
+
+    .sidebar-header .btn-back {
+      padding: 0.4rem 0.6rem;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border-radius: 0.375rem;
+      font-size: 0.85rem;
+    }
+    .sidebar-header .btn-back:hover {
+      background: rgba(255,255,255,0.22);
+      color: white;
     }
 
     /* Content Area */
@@ -1125,6 +1140,9 @@
           <i class="fas fa-building"></i>
           <span>Mi Gestor</span>
         </div>
+        <a href="/propiedades" class="btn-back" title="Volver a mis propiedades">
+          <i class="fas fa-arrow-left"></i>
+        </a>
       </div>
       
       <nav class="sidebar-nav">
@@ -1171,10 +1189,6 @@
             <i class="fas fa-circle"></i>
             <%= vivienda.activa ? 'Activa' : 'Inactiva' %>
           </span>
-          <a href="/propiedades" class="btn-back">
-            <i class="fas fa-arrow-left"></i>
-            Volver
-          </a>
         </div>
       </header>
 
