@@ -97,6 +97,8 @@
 </head>
 <body class="min-h-screen text-white">
     
+    <%- include('../partials/spinner') %>
+    
     <!-- Fondo de partículas -->
     <div id="particles-js"></div>
     
@@ -189,7 +191,7 @@
                         <% } %>
 
                         <!-- Formulario -->
-                        <form action="/auth/register" method="POST" class="space-y-5">
+                        <form action="/auth/register" method="POST" class="space-y-5" onsubmit="showSpinner('Creando cuenta...', 'Configurando tu perfil', 'fa-user-plus')">
                             <!-- Nombre de usuario -->
                             <div>
                                 <label for="username" class="block text-sm font-semibold text-gray-200 mb-2">

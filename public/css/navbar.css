@@ -56,11 +56,11 @@
 }
 
 .navbar-nav .nav-link:hover {
-    color: #000080 !important;
+    color: #1a2332 !important;
 }
 
 .navbar-nav .nav-link.active {
-    color: #000080 !important;
+    color: #1a2332 !important;
     font-weight: 600;
 }
 
@@ -77,7 +77,7 @@
 
 .dropdown-item:hover {
     background-color: #f3f4f6 !important;
-    color: #000080 !important;
+    color: #1a2332 !important;
 }
 
 /* Navbar toggler */
@@ -94,7 +94,7 @@
 }
 
 .navbar-toggler:focus {
-    box-shadow: 0 0 0 0.2rem rgba(0, 0, 128, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(26, 35, 50, 0.25);
 }
 
 /* Logo y Brand */
@@ -132,6 +132,59 @@
 .navbar-airbnb-avatar {
     width: 2.1875rem;
     height: 2.1875rem;
+}
+
+/* ========================================
+   RESPONSIVE - Menú Hamburguesa Simple
+   ======================================== */
+
+@media (max-width: 768px) {
+    /* Mostrar botón hamburguesa */
+    #menuToggle {
+        display: block !important;
+    }
+    
+    /* Ocultar menú por defecto en móvil */
+    #navMenu {
+        display: none !important;
+    }
+    
+    /* Ocultar sección de usuario por defecto en móvil */
+    #userSection {
+        display: none !important;
+    }
+    
+    /* Ocultar texto del logo en móvil */
+    nav > div:first-child span {
+        display: none;
+    }
+    
+    /* Los enlaces en el menú cuando está abierto */
+    #navMenu a {
+        width: 100%;
+        padding: 1rem !important;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    
+    /* Ajustar dropdowns en móvil */
+    #navMenu > div {
+        width: 100%;
+    }
+    
+    #aiDropdown {
+        position: static !important;
+        box-shadow: none !important;
+        border: none !important;
+        margin-top: 0 !important;
+        padding-left: 1rem;
+        background: #f9fafb !important;
+    }
+}
+
+@media (max-width: 480px) {
+    nav > div:first-child img {
+        height: 2rem !important;
+    }
 }
 
 

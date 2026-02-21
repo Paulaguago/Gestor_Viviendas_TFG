@@ -33,6 +33,7 @@
 </head>
 <body>
     <%- include('../partials/navbar') %>
+    <%- include('../partials/spinner') %>
 
     <!-- Contenedor Principal Dashboard -->
     <main class="dashboard-main">
@@ -54,7 +55,7 @@
         <!-- Header: Título + Botón -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
             <h1 style="font-size: 2rem; font-weight: 700; color: #1f2937; margin: 0;">Mis Propiedades</h1>
-            <button class="btn-primary" onclick="abrirModalNuevaPropiedad()" style="background: #000080; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600;">
+            <button class="btn-primary" onclick="abrirModalNuevaPropiedad()" style="background: #1a2332; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600;">
                 <i class="fas fa-plus"></i>
                 <span>Añadir Propiedad</span>
             </button>
@@ -164,96 +165,143 @@
                     <div id="propiedadesGrid" class="properties-grid">
                     
                     <% if (viviendas && viviendas.length > 0) { %>
-                        <% viviendas.forEach(vivienda => { %>
-                            <article class="property-card" data-estado="<%= vivienda.estado_actual %>" style="display: flex; flex-direction: row; background: white; border-radius: 1rem; overflow: hidden; box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.08); margin-bottom: 1.5rem; transition: all 0.3s ease;">
+                        <% viviendas.forEach(vivienda => { 
+                            // Parsear amenities si existen
+                            let amenities = [];
+                            try {
+                                if (vivienda.amenities) {
+                                    amenities = typeof vivienda.amenities === 'string' ? JSON.parse(vivienda.amenities) : vivienda.amenities;
+                                }
+                            } catch(e) {}
+                        %>
+                            <article class="property-card" data-estado="<%= vivienda.estado_actual %>" style="display: flex; flex-direction: row; background: white; border-radius: 1rem; overflow: visible; box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.1); margin-bottom: 1rem; transition: all 0.3s ease; position: relative;">
                                 
-                                <!-- Imagen (izquierda) - MÁS GRANDE -->
-                                <div class="property-image" style="width: 25rem; height: 17.5rem; flex-shrink: 0; position: relative;">
-                                    <% if (vivienda.imagen_url) { %>
-                                        <img src="<%= vivienda.imagen_url %>" alt="<%= vivienda.nombre %>" style="width: 100%; height: 100%; object-fit: cover;">
-                                    <% } else { %>
-                                        <div class="image-placeholder" onclick="document.getElementById('file-<%= vivienda.id_vivienda %>').click()" style="width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                                            <i class="fas fa-camera" style="font-size: 3rem; color: rgba(255,255,255,0.5);"></i>
-                                        </div>
-                                    <% } %>
-                                    
-                                    <!-- Badge Estado (esquina superior derecha) -->
-                                    <div class="status-badge status-badge--<%= vivienda.estado_actual || 'default' %>" style="position: absolute; top: 0.75rem; right: 0.75rem; padding: 0.375rem 1rem; border-radius: 2rem; font-size: 0.875rem; font-weight: 600; display: flex; align-items: center; gap: 0.375rem; backdrop-filter: blur(10);">
-                                        <i class="fas fa-circle" style="font-size: 0.5rem;"></i>
-                                        <%= vivienda.estado_actual === 'libre' ? 'Libre' : vivienda.estado_actual === 'ocupada' ? 'Ocupada' : 'Sin estado' %>
+                                <!-- Columna Izquierda: Imagen y Precio -->
+                                <div style="width: 20rem; flex-shrink: 0; display: flex; flex-direction: column;">
+                                    <!-- Imagen -->
+                                    <div class="property-image" style="width: 100%; height: 15rem; position: relative; border-radius: 1rem 0 0 0;">
+                                        <% if (vivienda.imagen_url) { %>
+                                            <img src="<%= vivienda.imagen_url %>" alt="<%= vivienda.nombre %>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 1rem 0 0 0;">
+                                        <% } else { %>
+                                            <div class="image-placeholder" onclick="document.getElementById('file-<%= vivienda.id_vivienda %>').click()" style="width: 100%; height: 100%; background: linear-gradient(135deg, #354488 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 1rem 0 0 0;">
+                                                <i class="fas fa-camera" style="font-size: 3.5rem; color: rgba(255,255,255,0.5);"></i>
+                                            </div>
+                                        <% } %>
+
+                                        <!-- Botón Cambiar Imagen -->
+                                        <button onclick="document.getElementById('file-<%= vivienda.id_vivienda %>').click()" style="position: absolute; bottom: 1rem; right: 1rem; width: 3rem; height: 3rem; background: rgba(26, 35, 50, 0.95); border: none; border-radius: 0.75rem; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0.25rem 0.75rem rgba(26, 35, 50, 0.4); transition: all 0.2s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                                            <i class="fas fa-camera" style="font-size: 1.25rem;"></i>
+                                        </button>
+
+                                        <input 
+                                            type="file" 
+                                            id="file-<%= vivienda.id_vivienda %>" 
+                                            accept="image/*" 
+                                            style="display: none;"
+                                        >
                                     </div>
 
-                                    <!-- Botón Cambiar Imagen (sobre la imagen) -->
-                                    <button onclick="document.getElementById('file-<%= vivienda.id_vivienda %>').click()" style="position: absolute; bottom: 1rem; right: 1rem; width: 3rem; height: 3rem; background: rgba(0, 0, 128, 0.95); border: none; border-radius: 0.75rem; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 128, 0.4); transition: all 0.2s ease; backdrop-filter: blur(10);" onmouseover="this.style.transform='scale(1.1)'; this.style.background='rgba(0, 0, 96, 0.95)'" onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(0, 0, 128, 0.95)'">
-                                        <i class="fas fa-camera" style="font-size: 1.25rem;"></i>
-                                        <i class="fas fa-plus" style="font-size: 0.75rem; position: absolute; top: 0.5rem; right: 0.5rem; background: white; color: #000080; border-radius: 50%; width: 1rem; height: 1rem; display: flex; align-items: center; justify-content: center;"></i>
-                                    </button>
-
-                                    <!-- Input File Oculto -->
-                                    <input 
-                                        type="file" 
-                                        id="file-<%= vivienda.id_vivienda %>" 
-                                        accept="image/*" 
-                                        style="display: none;"
-                                        onchange="subirImagenVivienda('<%= vivienda.id_vivienda %>')"
-                                    >
+                                    <!-- Precio -->
+                                    <div style="padding: 1rem 1.5rem; background: white; border-radius: 0 0 0 1rem;">
+                                        <div style="display: flex; align-items: baseline; gap: 0.25rem;">
+                                            <span style="font-size: 2.5rem; font-weight: 800; color: #1a2332; line-height: 1;">850</span>
+                                            <span style="font-size: 1rem; color: #6b7280; font-weight: 500;">/noche</span>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <!-- Cuerpo de Card (derecha) -->
-                                <div class="property-body" style="flex: 1; padding: 1.75rem; display: flex; flex-direction: column; justify-content: space-between;">
-                                    <div>
-                                        <!-- Título -->
-                                        <h3 class="property-title" style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin: 0 0 0.5rem 0; line-height: 1.2;"><%= vivienda.nombre %></h3>
-                                        
-                                        <!-- Dirección -->
-                                        <p class="property-address" style="font-size: 0.95rem; color: #6b7280; margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
-                                            <i class="fas fa-map-marker-alt" style="color: #000080;"></i>
-                                            <%= vivienda.direccion %>, <%= vivienda.ciudad %>
-                                        </p>
-                                        
-                                        <!-- Habitaciones y Baños -->
-                                        <div style="display: flex; gap: 2rem; margin-bottom: 1rem; padding: 1rem 0; border-top: 0.0625rem solid #e5e7eb; border-bottom: 0.0625rem solid #e5e7eb;">
-                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                                <div style="width: 2.5rem; height: 2.5rem; background: #eff6ff; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
-                                                    <i class="fas fa-bed" style="font-size: 1.25rem; color: #000080;"></i>
-                                                </div>
-                                                <div>
-                                                    <div style="font-size: 1.125rem; font-weight: 700; color: #1f2937;"><%= vivienda.num_habitaciones || '-' %></div>
-                                                    <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em;">Habitaciones</div>
-                                                </div>
-                                            </div>
-                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                                <div style="width: 2.5rem; height: 2.5rem; background: #eff6ff; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
-                                                    <i class="fas fa-bath" style="font-size: 1.25rem; color: #000080;"></i>
-                                                </div>
-                                                <div>
-                                                    <div style="font-size: 1.125rem; font-weight: 700; color: #1f2937;"><%= vivienda.num_banos || '-' %></div>
-                                                    <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em;">Baños</div>
-                                                </div>
-                                            </div>
+                                <!-- Columna Derecha: Contenido -->
+                                <div style="flex: 1; padding: 1.5rem; display: flex; flex-direction: column; position: relative;">
+                                    <!-- Botones de acción arriba derecha -->
+                                    <div style="position: absolute; top: 1rem; right: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                                        <!-- Indicador de Estado -->
+                                        <div style="min-width: 5rem; height: 2.5rem; padding: 0 1rem; background: <%= vivienda.estado_actual === 'libre' ? '#d1fae5' : '#fee2e2' %>; color: <%= vivienda.estado_actual === 'libre' ? '#065f46' : '#991b1b' %>; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; font-weight: 600; gap: 0.375rem;" title="<%= vivienda.estado_actual === 'libre' ? 'Libre' : vivienda.estado_actual === 'ocupada' ? 'Ocupada' : 'Sin estado' %>">
+                                            <i class="fas <%= vivienda.estado_actual === 'libre' ? 'fa-circle-check' : 'fa-circle-xmark' %>" style="font-size: 1rem;"></i>
+                                            <span><%= vivienda.estado_actual === 'libre' ? 'Libre' : 'Ocupada' %></span>
                                         </div>
-
-                                        <!-- PRECIO DESTACADO -->
-                                        <div style="margin-bottom: 1rem;">
-                                            <div style="display: flex; align-items: baseline; gap: 0.5rem;">
-                                                <span style="font-size: 2rem; font-weight: 800; color: #000080; line-height: 1;">€<%= vivienda.precio_base || '850' %></span>
-                                                <span style="font-size: 1rem; color: #6b7280; font-weight: 500;">/noche</span>
-                                            </div>
-                                        </div>
+                                        <a href="/viviendas/<%= vivienda.id_vivienda %>/editar" style="width: 2.5rem; height: 2.5rem; background: #f3f4f6; color: #4b5563; border-radius: 0.5rem; text-decoration: none; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;" onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='#f3f4f6'" title="Editar">
+                                            <i class="fas fa-pen" style="font-size: 0.875rem;"></i>
+                                        </a>
+                                        <button onclick="eliminarVivienda('<%= vivienda.id_vivienda %>')" style="width: 2.5rem; height: 2.5rem; background: #fef2f2; color: #ef4444; border: none; border-radius: 0.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fef2f2'" title="Eliminar">
+                                            <i class="fas fa-trash-alt" style="font-size: 0.875rem;"></i>
+                                        </button>
                                     </div>
 
-                                    <!-- Acciones -->
-                                    <div class="property-actions" style="display: flex; gap: 0.75rem; margin-top: auto;">
-                                        <a href="/viviendas/<%= vivienda.id_vivienda %>" class="btn-action btn-action--primary" style="flex: 1; padding: 0.875rem 1.5rem; background: #000080; color: white; border-radius: 0.75rem; text-decoration: none; font-size: 0.95rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.2s ease;" onmouseover="this.style.background='#000060'; this.style.transform='translateY(-0.125rem)'; this.style.boxShadow='0 0.25rem 0.75rem rgba(0,0,128,0.3)'" onmouseout="this.style.background='#000080'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                                    <!-- Título -->
+                                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin: 0 0 0.5rem 0; padding-right: 6rem;"><%= vivienda.nombre %></h3>
+                                    
+                                    <!-- Dirección -->
+                                    <p style="font-size: 1rem; color: #6b7280; margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                                        <i class="fas fa-map-marker-alt" style="color: #1a2332;"></i>
+                                        <%= vivienda.direccion %>, <%= vivienda.ciudad %>
+                                    </p>
+                                    
+                                    <!-- Estadísticas en línea -->
+                                    <div style="display: flex; gap: 2.5rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 0.0625rem solid #e5e7eb;">
+                                        <!-- Habitaciones -->
+                                        <div style="display: flex; flex-direction: column; align-items: center;">
+                                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                                                <i class="fas fa-bed" style="font-size: 1.25rem; color: #1a2332;"></i>
+                                                <span style="font-size: 1.5rem; font-weight: 700; color: #1f2937;"><%= vivienda.num_habitaciones || '-' %></span>
+                                            </div>
+                                            <span style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase;">HABITACIONES</span>
+                                        </div>
+
+                                        <!-- Baños -->
+                                        <div style="display: flex; flex-direction: column; align-items: center;">
+                                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                                                <i class="fas fa-bath" style="font-size: 1.25rem; color: #1a2332;"></i>
+                                                <span style="font-size: 1.5rem; font-weight: 700; color: #1f2937;"><%= vivienda.num_banos || '-' %></span>
+                                            </div>
+                                            <span style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase;">BAÑOS</span>
+                                        </div>
+
+                                        <!-- Superficie -->
+                                        <% if (vivienda.superficie) { %>
+                                        <div style="display: flex; flex-direction: column; align-items: center;">
+                                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                                                <i class="fas fa-users" style="font-size: 1.25rem; color: #1a2332;"></i>
+                                                <span style="font-size: 1.5rem; font-weight: 700; color: #1f2937;"><%= Math.round(vivienda.superficie) %> m²</span>
+                                            </div>
+                                            <span style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase;">SUPERFICIE</span>
+                                        </div>
+                                        <% } %>
+                                    </div>
+
+                                    <!-- Amenities -->
+                                    <% if (amenities && amenities.length > 0) { %>
+                                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;">
+                                        <% amenities.slice(0, 4).forEach(amenity => { 
+                                            const amenityLabels = {
+                                                'wifi': 'WiFi',
+                                                'aire_acondicionado': 'Acico',
+                                                'cocina_equipada': 'Cocina',
+                                                'terraza': 'Terraza',
+                                                'piscina': 'Piscina',
+                                                'jardin': 'Jardín',
+                                                'parking': 'Parking',
+                                                'calefaccion': 'Calefacción'
+                                            };
+                                            const label = amenityLabels[amenity] || amenity;
+                                        %>
+                                            <span style="padding: 0.375rem 0.875rem; background: #f3f4f6; color: #4b5563; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500; display: flex; align-items: center; gap: 0.375rem;">
+                                                <i class="fas <%= amenity === 'wifi' ? 'fa-wifi' : amenity === 'aire_acondicionado' ? 'fa-snowflake' : amenity === 'cocina_equipada' ? 'fa-utensils' : amenity === 'terraza' ? 'fa-tree' : 'fa-check' %>" style="font-size: 0.875rem; color: #1a2332;"></i>
+                                                <%= label %>
+                                            </span>
+                                        <% }) %>
+                                    </div>
+                                    <% } %>
+
+                                    <!-- Botones de acción -->
+                                    <div style="display: flex; gap: 0.75rem; margin-top: auto;">
+                                        <a href="/viviendas/<%= vivienda.id_vivienda %>" style="flex: 1; padding: 1rem; background: #1a2332; color: white; border-radius: 0.75rem; text-decoration: none; font-size: 1rem; font-weight: 600; text-align: center; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem;" onmouseover="this.style.background='#141d28'" onmouseout="this.style.background='#1a2332'">
                                             <i class="fas fa-eye"></i>
-                                            Ver Propiedad
+                                            Ver
                                         </a>
-                                        <a href="/viviendas/<%= vivienda.id_vivienda %>/editar" class="btn-action btn-action--secondary" style="padding: 0.875rem 1rem; background: #f3f4f6; color: #4b5563; border-radius: 0.75rem; text-decoration: none; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;" onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='#f3f4f6'" title="Editar">
-                                            <i class="fas fa-pen" style="font-size: 1rem;"></i>
+                                        <a href="/reservas/nueva?vivienda=<%= vivienda.id_vivienda %>" style="flex: 1; padding: 1rem; background: #10b981; color: white; border-radius: 0.75rem; text-decoration: none; font-size: 1rem; font-weight: 600; text-align: center; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem;" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">
+                                            <i class="fas fa-calendar-plus"></i>
+                                            Añadir Reserva
                                         </a>
-                                        <button onclick="eliminarVivienda('<%= vivienda.id_vivienda %>')" class="btn-action btn-action--danger" style="padding: 0.875rem 1rem; background: #fef2f2; color: #ef4444; border: none; border-radius: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fef2f2'" title="Eliminar">
-                                            <i class="fas fa-trash-alt" style="font-size: 1rem;"></i>
-                                        </button>
                                     </div>
                                 </div>
                             </article>
@@ -266,7 +314,7 @@
                             </div>
                             <h3 class="empty-title" style="font-size: 1.25rem; font-weight: 700; color: #1f2937; margin-bottom: 0.5rem;">No hay propiedades registradas</h3>
                             <p class="empty-text" style="color: #6b7280; margin-bottom: 1.5rem;">Comienza agregando tu primera propiedad al sistema</p>
-                            <button class="btn-primary" onclick="abrirModalNuevaPropiedad()" style="background: #000080; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem;">
+                            <button class="btn-primary" onclick="abrirModalNuevaPropiedad()" style="background: #1a2332; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem;">
                                 <i class="fas fa-plus"></i>
                                 Agregar Primera Propiedad
                             </button>
@@ -452,60 +500,6 @@
             }
         });
 
-        // Función para subir imagen de vivienda
-        async function subirImagenVivienda(idVivienda) {
-            const fileInput = document.getElementById(`file-${idVivienda}`);
-            const file = fileInput.files[0];
-            
-            if (!file) {
-                return;
-            }
-
-            // Validar tipo de archivo
-            if (!file.type.startsWith('image/')) {
-                alert('Por favor selecciona un archivo de imagen válido');
-                return;
-            }
-
-            // Validar tamaño (máximo 5MB)
-            if (file.size > 5 * 1024 * 1024) {
-                alert('La imagen no debe superar los 5MB');
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append('imagen', file);
-
-            try {
-                // Mostrar indicador de carga
-                const card = document.querySelector(`article[data-estado] input#file-${idVivienda}`).closest('.property-card');
-                const imageContainer = card.querySelector('.property-image');
-                imageContainer.style.opacity = '0.5';
-                imageContainer.style.pointerEvents = 'none';
-
-                const response = await fetch(`/viviendas/${idVivienda}/imagen`, {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    // Recargar la página para mostrar la nueva imagen
-                    location.reload();
-                } else {
-                    alert(result.error || 'Error al subir la imagen');
-                    imageContainer.style.opacity = '1';
-                    imageContainer.style.pointerEvents = 'auto';
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error al subir la imagen. Por favor intenta de nuevo.');
-                imageContainer.style.opacity = '1';
-                imageContainer.style.pointerEvents = 'auto';
-            }
-        }
-
         // ========== ESTILOS UNIFORMES PARA EL FORMULARIO ==========
         document.addEventListener('DOMContentLoaded', function() {
             // Actualizar todos los inputs, selects y textareas del formulario
@@ -527,8 +521,8 @@
 
                     // Eventos focus/blur
                     input.addEventListener('focus', function() {
-                        this.style.borderColor = '#000080';
-                        this.style.boxShadow = '0 0 0 0.1875rem rgba(0, 0, 128, 0.1)';
+                        this.style.borderColor = '#1a2332';
+                        this.style.boxShadow = '0 0 0 0.1875rem rgba(26, 35, 50, 0.1)';
                     });
 
                     input.addEventListener('blur', function() {
@@ -554,7 +548,7 @@
                     // Actualizar iconos dentro de labels
                     const icon = label.querySelector('i');
                     if (icon && (icon.classList.contains('text-blue-600') || icon.classList.contains('text-blue-500'))) {
-                        icon.style.color = '#000080';
+                        icon.style.color = '#1a2332';
                         icon.style.fontSize = '0.875rem';
                     }
                 }
@@ -565,7 +559,7 @@
             sectionHeadings.forEach(section => {
                 if (section.classList.contains('bg-blue-50')) {
                     section.style.background = '#eff6ff';
-                    section.style.borderLeft = '0.1875rem solid #000080';
+                    section.style.borderLeft = '0.1875rem solid #1a2332';
                     section.style.padding = '1rem';
                     section.style.borderRadius = '0.5rem';
                     section.style.marginBottom = '1rem';
@@ -574,7 +568,7 @@
                     if (h3) {
                         h3.style.fontSize = '1rem';
                         h3.style.fontWeight = '700';
-                        h3.style.color = '#1e3a8a';
+                        h3.style.color = '#1a2332';
                         h3.style.margin = '0';
                         h3.style.display = 'flex';
                         h3.style.alignItems = 'center';
@@ -584,7 +578,7 @@
                     const p = section.querySelector('p');
                     if (p) {
                         p.style.fontSize = '0.875rem';
-                        p.style.color = '#1e40af';
+                        p.style.color = '#1a2332';
                         p.style.margin = '0.25rem 0 0 0';
                     }
                 }

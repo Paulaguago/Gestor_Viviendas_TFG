@@ -52,12 +52,14 @@ Reserva.belongsToMany(Huesped, {
     through: 'reserva_huesped', 
     foreignKey: 'id_reserva',
     otherKey: 'id_huesped',
+    as: 'Huespedes',
     onDelete: 'CASCADE'
 });
 Huesped.belongsToMany(Reserva, { 
     through: 'reserva_huesped', 
     foreignKey: 'id_huesped',
     otherKey: 'id_reserva',
+    as: 'Reservas',
     onDelete: 'CASCADE'
 });
 

@@ -42,7 +42,8 @@ const syncDatabase = async (force = false) => {
     try {
         // force: true borra y recrea las tablas (solo para desarrollo)
         // force: false solo crea las tablas si no existen
-        await sequelize.sync({ force });
+        // alter: true añade columnas nuevas sin borrar datos (recomendado en desarrollo)
+        await sequelize.sync({ force, alter: !force });
         
         console.log('\n🎉 ═══════════════════════════════════════════════════════════');
         console.log('✅ TABLAS CREADAS CORRECTAMENTE CON SEQUELIZE');

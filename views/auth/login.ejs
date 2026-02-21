@@ -97,6 +97,8 @@
 </head>
 <body class="min-h-screen text-white">
     
+    <%- include('../partials/spinner') %>
+    
     <!-- Fondo de partículas -->
     <div id="particles-js"></div>
     
@@ -158,7 +160,7 @@
                         <% } %>
 
                         <!-- Formulario -->
-                        <form action="/auth/login" method="POST" class="space-y-5">
+                        <form action="/auth/login" method="POST" class="space-y-5" onsubmit="showSpinner('Iniciando sesión...', 'Validando tus credenciales', 'fa-right-to-bracket')">
                             <!-- Email -->
                             <div>
                                 <label for="email" class="block text-sm font-semibold text-gray-200 mb-2">

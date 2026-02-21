@@ -7,14 +7,20 @@
         <span style="font-weight: 700; font-size: 1.25rem; color: #111827; display: block;">Gestor Viviendas</span>
     </div>
     
-    <!-- Menú de navegación -->
     <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
-    <div style="display: flex; align-items: center; gap: 2rem; flex: 1; margin: 0 2rem;">
+    
+    <!-- Botón Hamburguesa -->
+    <button id="menuToggle" style="display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #374151;">
+        <i class="bi bi-list"></i>
+    </button>
+    
+    <!-- Menú de navegación -->
+    <div id="navMenu" style="display: flex; align-items: center; gap: 2rem; flex: 1; margin: 0 2rem;">
         <a href="/dashboard" style="color: #374151; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
             <i class="bi bi-speedometer2" style="font-size: 1rem;"></i>
             <span>Dashboard</span>
         </a>
-        <a href="/propiedades" style="color: #000080; text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+        <a href="/propiedades" style="color: #1a2332; text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
             <i class="bi bi-building" style="font-size: 1rem;"></i>
             <span>Propiedades</span>
         </a>
@@ -52,7 +58,7 @@
     </div>
     
     <!-- Dropdown Usuario -->
-    <div style="position: relative; display: inline-block;">
+    <div id="userSection" style="position: relative; display: inline-block;">
         <a href="#" onclick="toggleDropdown('userDropdown', event)" style="color: #374151; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem; background-color: #f9fafb; border-radius: 0.5rem;">
             <i class="bi bi-person-circle" style="font-size: 1.25rem;"></i>
             <span><%= user ? user.username : 'Usuario' %></span>
@@ -82,7 +88,7 @@
         <a href="/auth/login" style="color: #374151; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; display: inline-block;">
             Iniciar Sesión
         </a>
-        <a href="/auth/register" style="background-color: #000080; color: #ffffff; text-decoration: none; font-weight: 600; padding: 0.5rem 1.5rem; border-radius: 0.5rem; display: inline-block;">
+        <a href="/auth/register" style="background-color: #1a2332; color: #ffffff; text-decoration: none; font-weight: 600; padding: 0.5rem 1.5rem; border-radius: 0.5rem; display: inline-block;">
             Registrarse
         </a>
     </div>
@@ -90,6 +96,52 @@
 </nav>
 
 <script>
+// Toggle menú hamburguesa simple
+document.getElementById('menuToggle')?.addEventListener('click', function() {
+    const menu = document.getElementById('navMenu');
+    const userSection = document.getElementById('userSection');
+    
+    if (menu.style.display === 'none' || menu.style.display === '') {
+        menu.style.display = 'flex';
+        menu.style.position = 'absolute';
+        menu.style.top = '70px';
+        menu.style.left = '0';
+        menu.style.right = '0';
+        menu.style.background = 'white';
+        menu.style.flexDirection = 'column';
+        menu.style.padding = '1rem';
+        menu.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+        menu.style.borderBottom = '2px solid #e5e7eb';
+        menu.style.margin = '0';
+        
+        if (userSection) {
+            userSection.style.display = 'block';
+            userSection.style.marginTop = '1rem';
+        }
+        
+        this.innerHTML = '<i class="bi bi-x-lg"></i>';
+    } else {
+        menu.style.display = '';
+        menu.style.position = '';
+        menu.style.top = '';
+        menu.style.left = '';
+        menu.style.right = '';
+        menu.style.background = '';
+        menu.style.flexDirection = '';
+        menu.style.padding = '';
+        menu.style.boxShadow = '';
+        menu.style.borderBottom = '';
+        menu.style.margin = '';
+        
+        if (userSection) {
+            userSection.style.display = '';
+            userSection.style.marginTop = '';
+        }
+        
+        this.innerHTML = '<i class="bi bi-list"></i>';
+    }
+});
+
 function toggleDropdown(dropdownId, event) {
     event.preventDefault();
     event.stopPropagation();

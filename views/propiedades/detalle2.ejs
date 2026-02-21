@@ -1,0 +1,3881 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= vivienda.direccion %> - Dashboard</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <!-- FullCalendar CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" />
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <!-- FullCalendar CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" />
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+  
+  <!-- CSS Personalizado -->
+  
+  <link rel="stylesheet" href="/css/detalle-dashboard.css">
+  <!-- CSS Personalizado -->
+  <link rel="stylesheet" href="/css/navbar.css">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      min-height: 100%;
+      overflow-y: auto;
+    }
+
+    .dashboard-wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      padding-top: 70px;
+    }
+
+    .dashboard-layout {
+      display: flex;
+      flex: 1;
+      width: 100%;
+      margin-top: 0;
+      min-height: calc(100vh - 70px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 20%;
+      min-width: 240px;
+      background: #1a2332;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      left: 0;
+      top: 70px;
+      bottom: 0;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      padding: 2rem 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .sidebar-logo i {
+      font-size: 2rem;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 1.5rem 0;
+    }
+
+    .nav-item {
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+    }
+
+    .nav-item.active {
+      background: rgba(255, 255, 255, 0.1);
+      border-left-color: white;
+      color: white;
+    }
+
+    .nav-item i {
+      font-size: 1.25rem;
+      width: 1.5rem;
+      text-align: center;
+    }
+
+    .nav-label {
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 20%;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow-y: auto;
+    }
+
+    /* Header */
+    .header {
+      background: white;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-info {
+      flex: 1;
+    }
+
+    .header-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a2332;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .header-subtitle {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin: 0.25rem 0 0 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .header-badges {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .status-badge {
+      padding: 0.5rem 1rem;
+      border-radius: 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .status-badge.activa {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .status-badge.inactiva {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .btn-back {
+      padding: 0.75rem 1.5rem;
+      background: #f1f5f9;
+      color: #1a2332;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .btn-back:hover {
+      background: #e2e8f0;
+      color: #1a2332;
+    }
+
+    /* Content Area */
+    .content-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+      height: 100%;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Navbar fijo al hacer scroll */
+    body > nav:first-of-type {
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      z-index: 100005 !important;
+    }
+
+    .card-header-custom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* Always make icon+title inline in card headers */
+    .card-header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* Toast notification */
+    .toast-notify {
+      position: fixed;
+      top: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(-0.75rem);
+      background: #1a2332;
+      color: white;
+      padding: 0.8rem 1.75rem;
+      border-radius: 0.6rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      z-index: 999999;
+      opacity: 0;
+      transition: all 0.25s ease;
+      pointer-events: none;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.28);
+      white-space: nowrap;
+    }
+    .toast-notify.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .toast-notify.success { background: #065f46; }
+    .toast-notify.error   { background: #991b1b; }
+
+    /* Ficha técnica list */
+    .ficha-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .ficha-section-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-weight: 700;
+      color: #94a3b8;
+      padding: 0.75rem 0 0.25rem;
+      margin-top: 0.25rem;
+      border-top: 1px solid #f1f5f9;
+    }
+    .ficha-section-title:first-child { border-top: none; margin-top: 0; padding-top: 0; }
+    .ficha-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid #f8fafc;
+    }
+    .ficha-item:last-child { border-bottom: none; }
+    .ficha-item:hover .btn-edit-field { opacity: 1; }
+    .ficha-icon-sm {
+      width: 1.5rem;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+    .ficha-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      min-width: 0;
+    }
+    .ficha-label {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .ficha-label::after { content: ':'; }
+    .ficha-value {
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: #1a2332;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+    .ficha-value.url-val {
+      font-weight: 400;
+      color: #3b82f6;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .btn-edit-field {
+      opacity: 0;
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.25rem;
+      transition: all 0.15s;
+      font-size: 0.7rem;
+      line-height: 1;
+    }
+    .btn-edit-field:hover { color: #1a2332; background: #f1f5f9; }
+
+    .card-header-custom h3 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: #1a2332;
+      margin: 0;
+    }
+
+    .card-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      background: #eff6ff;
+      color: #1a2332;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .kpi-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .kpi-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .kpi-label {
+      font-size: 0.875rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .kpi-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .kpi-icon.green { background: #d1fae5; color: #065f46; }
+    .kpi-icon.blue { background: #dbeafe; color: #1e40af; }
+    .kpi-icon.red { background: #fee2e2; color: #991b1b; }
+
+    .kpi-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #1a2332;
+      margin-bottom: 0.25rem;
+    }
+
+    .kpi-subtitle {
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+
+    /* Technical Grid */
+    .technical-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .technical-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .technical-icon {
+      width: 3rem;
+      height: 3rem;
+      background: #f8fafc;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1a2332;
+      font-size: 1.25rem;
+    }
+
+    .technical-info {
+      flex: 1;
+    }
+
+    .technical-label {
+      font-size: 0.75rem;
+      color: #64748b;
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+
+    .technical-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a2332;
+    }
+
+    /* Amenities */
+    .amenities-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .amenity-tag {
+      padding: 0.5rem 1rem;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #475569;
+    }
+
+    /* Map */
+    .map-container {
+      height: 360px;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      position: relative;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+      border: 1px solid #e8eaf0;
+    }
+
+    .map-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .map-info-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+
+    .map-info-item i {
+      color: #1a2332;
+    }
+
+    /* Documents */
+    .documents-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .document-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: #f8fafc;
+      border-radius: 0.75rem;
+      transition: all 0.2s;
+    }
+
+    .document-item:hover {
+      background: #f1f5f9;
+    }
+
+    .document-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .document-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      background: white;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1a2332;
+    }
+
+    .document-name {
+      font-weight: 600;
+      color: #1a2332;
+      font-size: 0.9rem;
+    }
+
+    .document-date {
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+
+    .btn-download {
+      padding: 0.5rem 1rem;
+      background: #1a2332;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-download:hover {
+      background: #141d28;
+    }
+
+    /* Chart Container */
+    .chart-container {
+      height: 300px;
+      margin-bottom: 1.5rem;
+    }
+
+    .stats-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    /* Reservations */
+    .reservations-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .reservation-card {
+      padding: 1rem;
+      background: #f8fafc;
+      border-radius: 0.75rem;
+      border-left: 3px solid #1a2332;
+    }
+
+    .reservation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .platform-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .platform-badge.airbnb {
+      background: #FF5A5F;
+      color: white;
+    }
+
+    .payment-status {
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .payment-status.paid {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .reservation-dates {
+      font-size: 0.875rem;
+      color: #475569;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .reservation-guests {
+      font-size: 0.875rem;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Calendar */
+    .calendar-wrapper {
+      background: white;
+      border-radius: 0.75rem;
+      padding: 1rem;
+    }
+
+    /* Override FullCalendar styles */
+    .fc {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .fc-theme-standard td, 
+    .fc-theme-standard th {
+      border-color: #e2e8f0;
+    }
+
+    .fc-theme-standard .fc-scrollgrid {
+      border-color: #e2e8f0;
+    }
+
+    .fc .fc-button-primary {
+      background-color: #1a2332;
+      border-color: #1a2332;
+    }
+
+    .fc .fc-button-primary:hover {
+      background-color: #141d28;
+      border-color: #141d28;
+    }
+
+    .fc .fc-button-primary:not(:disabled).fc-button-active {
+      background-color: #0f1419;
+      border-color: #0f1419;
+    }
+
+    .fc-event {
+      border-radius: 0.25rem;
+      border: none;
+    }
+
+    .fc-daygrid-day-number {
+      padding: 0.5rem;
+    }
+
+    /* Platform Links */
+    .platform-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .platform-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .platform-link.airbnb {
+      background: #FF5A5F;
+      color: white;
+    }
+
+    .platform-link.booking {
+      background: #003580;
+      color: white;
+    }
+
+    .platform-link:hover {
+      transform: translateX(5px);
+      color: white;
+    }
+
+    .platform-link-content {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .action-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .btn-action {
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-action.primary {
+      background: #1a2332;
+      color: white;
+    }
+
+    .btn-action.primary:hover {
+      background: #141d28;
+    }
+
+    .btn-action.secondary {
+      background: #f1f5f9;
+      color: #1a2332;
+    }
+
+    .btn-action.secondary:hover {
+      background: #e2e8f0;
+    }
+
+    /* Gallery Placeholder */
+    .gallery-container {
+      height: 300px;
+      background: #f8fafc;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #64748b;
+    }
+
+    .gallery-placeholder i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.3;
+    }
+
+    /* Two Column Layout for Gallery + Technical */
+    .two-column-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+    }
+
+    .modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 1rem;
+      width: 90%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: modalSlideIn 0.3s ease;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1a2332;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #64748b;
+      cursor: pointer;
+      padding: 0;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: #f1f5f9;
+      color: #1a2332;
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+
+    .form-group label .req {
+      color: #ef4444;
+      font-weight: 700;
+      margin-left: 0.1rem;
+    }
+
+    .form-group input.input-error,
+    .form-group textarea.input-error,
+    .form-group select.input-error {
+      border-color: #ef4444 !important;
+      background: #fef2f2 !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #1a2332;
+      box-shadow: 0 0 0 3px rgba(26, 35, 50, 0.1);
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .modal-footer {
+      padding: 1.5rem;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+
+    .btn-cancel {
+      padding: 0.75rem 1.5rem;
+      background: #f1f5f9;
+      color: #475569;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-cancel:hover {
+      background: #e2e8f0;
+    }
+
+    .btn-primary {
+      padding: 0.75rem 1.5rem;
+      background: #1a2332;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary:hover {
+      background: #141d28;
+    }
+
+    .btn-add {
+      padding: 0.5rem 1rem;
+      background: #1a2332;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-add:hover {
+      background: #141d28;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .two-column-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        min-width: auto;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .dashboard-layout {
+        flex-direction: column;
+        margin-top: 0;
+      }
+
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .action-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <%- include('../partials/navbar') %>
+
+  <div class="dashboard-wrapper">
+    <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="fas fa-building"></i>
+          <span>Mi Gestor</span>
+        </div>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <div class="nav-item active" data-tab="general">
+          <i class="fas fa-home"></i>
+          <span class="nav-label">Panel General</span>
+        </div>
+        <div class="nav-item" data-tab="calendar">
+          <i class="fas fa-chart-line"></i>
+          <span class="nav-label">Análisis Financiero</span>
+        </div>
+        <div class="nav-item" data-tab="property">
+          <i class="fas fa-info-circle"></i>
+          <span class="nav-label">Información</span>
+        </div>
+        <div class="nav-item" data-tab="documents">
+          <i class="fas fa-file-contract"></i>
+          <span class="nav-label">Documentos</span>
+        </div>
+        <div class="nav-item" data-tab="channels">
+          <i class="fas fa-calendar-check"></i>
+          <span class="nav-label">Gestión de Reservas</span>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-info">
+          <h1 class="header-title">
+            <i class="fas fa-home"></i>
+            <%= vivienda.nombre%>
+          </h1>
+          <p class="header-subtitle">
+            <i class="fas fa-map-marker-alt"></i>
+            <%= [vivienda.calle, vivienda.bloque_portal, vivienda.piso, vivienda.letra_numero].filter(Boolean).join(', ') %> - 
+            <%= vivienda.ciudad %>, <%= vivienda.pais || 'España' %>
+          </p>
+        </div>
+        <div class="header-badges">
+          <span class="status-badge <%= vivienda.activa ? 'activa' : 'inactiva' %>">
+            <i class="fas fa-circle"></i>
+            <%= vivienda.activa ? 'Activa' : 'Inactiva' %>
+          </span>
+          <a href="/propiedades" class="btn-back">
+            <i class="fas fa-arrow-left"></i>
+            Volver
+          </a>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        
+        <!-- TAB 1: Panel General -->
+        <div class="tab-content active" id="tab-general">
+
+          <!-- Próximas Reservas + Calendario -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start;">
+
+            <!-- Próximas Reservas -->
+            <div class="card" style="margin-bottom: 0;">
+              <div class="card-header-custom">
+                <div class="card-header-left">
+                  <div class="card-icon"><i class="fas fa-calendar-check"></i></div>
+                  <h3>Próximas Reservas</h3>
+                </div>
+                
+              </div>
+              <% if (typeof proximasReservas !== 'undefined' && proximasReservas.length > 0) { %>
+                <div class="reservations-list">
+                  <% proximasReservas.slice(0, 10).forEach(function(reserva) {
+                    var plat = (reserva.plataforma || 'directo').toLowerCase();
+                    var platLabel = reserva.plataforma ? reserva.plataforma.charAt(0).toUpperCase() + reserva.plataforma.slice(1) : 'Directo';
+                    var platIcon, platClass;
+                    if (plat === 'airbnb') { platIcon = 'fab fa-airbnb'; platClass = 'airbnb'; }
+                    else if (plat === 'booking') { platIcon = 'fas fa-bed'; platClass = 'booking'; }
+                    else if (plat === 'directo' || plat === 'boca a boca' || plat === 'directo/personal') { platIcon = 'fas fa-handshake'; platClass = 'direct'; platLabel = platLabel; }
+                    else { platIcon = 'fas fa-globe'; platClass = 'direct'; }
+                  %>
+                    <div class="reservation-card">
+                      <div class="reservation-header">
+                        <span class="platform-badge <%= platClass %>" style="<%= platClass==='booking' ? 'background:#003580;color:white;' : platClass==='direct' ? 'background:#1e40af;color:white;' : '' %>">
+                          <i class="<%= platIcon %>"></i> <%= platLabel %>
+                        </span>
+                        <% if (reserva.pagado) { %>
+                          <span class="payment-status paid"><i class="fas fa-check-circle"></i> Pagado</span>
+                        <% } else { %>
+                          <span class="payment-status" style="background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;padding:.2rem .65rem;border-radius:9999px;font-size:.72rem;font-weight:600;display:inline-flex;align-items:center;gap:.3rem;">
+                            <i class="fas fa-clock"></i> Pendiente
+                          </span>
+                        <% } %>
+                      </div>
+                      <div class="reservation-dates">
+                        <i class="fas fa-calendar"></i>
+                        <%= new Date(reserva.fecha_inicio).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) %>
+                        <i class="fas fa-arrow-right" style="font-size: 0.75rem;"></i>
+                        <%= new Date(reserva.fecha_fin).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) %>
+                      </div>
+                      <div class="reservation-guests">
+                        <i class="fas fa-users"></i>
+                        <%= reserva.num_huespedes %> huésped<%= reserva.num_huespedes > 1 ? 'es' : '' %>
+                      </div>
+                    </div>
+                  <% }); %>
+                </div>
+              <% } else { %>
+                <div style="text-align: center; padding: 3rem; color: #64748b;">
+                  <i class="fas fa-calendar-times" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                  <p style="margin: 0; font-weight: 500;">No hay reservas programadas</p>
+                  <small>Las próximas reservas aparecerán aquí</small>
+                </div>
+              <% } %>
+            </div>
+
+            <!-- Calendario de Ocupación -->
+            <div class="card" style="margin-bottom: 0;">
+              <div class="card-header-custom">
+                <div class="card-header-left">
+                  <div class="card-icon"><i class="fas fa-calendar"></i></div>
+                  <h3>Calendario de Ocupación</h3>
+                </div>
+              </div>
+              <div class="calendar-wrapper">
+                <div id="calendario"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Tareas Pendientes -->
+          <div class="card">
+            <div class="card-header-custom" style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
+              <div class="card-header-left" style="display: flex; align-items: center; gap: 0.75rem;">
+                <div class="card-icon"><i class="fas fa-tasks"></i></div>
+                <h3>Tareas Pendientes</h3>
+              </div>
+              <button class="btn-add" onclick="openTaskModal()">
+                <i class="fas fa-plus"></i> Añadir Tarea
+              </button>
+            </div>
+            <div id="tareasContainer" style="max-height:420px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#cbd5e1 transparent;">
+              <div style="text-align:center;padding:2rem;color:#64748b;">
+                <i class="fas fa-circle-notch fa-spin" style="font-size:2rem;opacity:0.4;"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TAB 2: Análisis Financiero -->
+        <div class="tab-content" id="tab-calendar">
+
+          <!-- KPI Cards -->
+          <div class="kpi-grid">
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Ingresos Año <%= new Date().getFullYear() %></span>
+                <div class="kpi-icon green"><i class="fas fa-euro-sign"></i></div>
+              </div>
+              <div class="kpi-value" id="kpiIngresosAnuales">0€</div>
+              <div class="kpi-subtitle" id="kpiIngresosAnualesLabel">Enero — Diciembre <%= new Date().getFullYear() %></div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Gastos Año <%= new Date().getFullYear() %></span>
+                <div class="kpi-icon red"><i class="fas fa-receipt"></i></div>
+              </div>
+              <div class="kpi-value" id="kpiGastosAnuales" style="color:#991b1b;">0€</div>
+              <div class="kpi-subtitle">Enero — Diciembre <%= new Date().getFullYear() %></div>
+            </div>
+
+            <% if (typeof balanceAnual !== 'undefined') { %>
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Balance Anual</span>
+                <div class="kpi-icon" id="kpiBalanceAnualIcon" style="background:#d1fae5;"><i class="fas fa-coins" style="color:#065f46;"></i></div>
+              </div>
+              <div class="kpi-value" id="kpiBalanceAnual" style="color:#065f46;"><%= !isNaN(balanceAnual) ? parseFloat(balanceAnual).toFixed(2) + '€' : '0€' %></div>
+              <div class="kpi-subtitle">Ingresos − Gastos <%= new Date().getFullYear() %></div>
+            </div>
+            <% } %>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Pendientes Año</span>
+                <div class="kpi-icon blue"><i class="fas fa-hourglass-half"></i></div>
+              </div>
+              <div class="kpi-value" id="kpiIngresosEsperados">—</div>
+              <div class="kpi-subtitle">Reservas sin cobrar <%= new Date().getFullYear() %></div>
+            </div>
+
+            <% if (typeof porcentajeOcupacion !== 'undefined') { %>
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Ocupación Anual</span>
+                <div class="kpi-icon blue"><i class="fas fa-percentage"></i></div>
+              </div>
+              <div class="kpi-value"><%= porcentajeOcupacion %>%</div>
+              <div class="kpi-subtitle">Año <%= new Date().getFullYear() %></div>
+            </div>
+            <% } %>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Reservas Año <%= new Date().getFullYear() %></span>
+                <div class="kpi-icon" style="background:#f5f3ff;"><i class="fas fa-calendar-check" style="color:#7c3aed;"></i></div>
+              </div>
+              <div class="kpi-value" id="kpiReservasAnuales" style="color:#7c3aed;">0</div>
+              <div class="kpi-subtitle">Reservas activas <%= new Date().getFullYear() %></div>
+            </div>
+          </div>
+
+          <!-- Balance Financiero -->
+          <div class="card">
+            <div class="card-header-custom" style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap;">
+              <div class="card-header-left" style="display: flex; align-items: center; gap: 0.75rem;">
+                <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Balance Financiero</h3>
+              </div>
+              <!-- Navegador de mes -->
+              <div style="display:flex;align-items:center;gap:.4rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:.625rem;padding:.3rem .5rem;">
+                <button onclick="navMonth(-1)" title="Mes anterior" style="border:none;background:none;cursor:pointer;color:#1a2332;padding:.2rem .5rem;border-radius:.375rem;font-size:.95rem;line-height:1;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='none'"><i class="fas fa-chevron-left"></i></button>
+                <span id="monthNavLabel" style="min-width:130px;text-align:center;font-size:.82rem;font-weight:700;color:#1a2332;letter-spacing:.01em;">Todo el historial</span>
+                <button onclick="navMonth(1)" title="Mes siguiente" style="border:none;background:none;cursor:pointer;color:#1a2332;padding:.2rem .5rem;border-radius:.375rem;font-size:.95rem;line-height:1;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='none'"><i class="fas fa-chevron-right"></i></button>
+                <button id="btnResetMonth" onclick="resetMonthView()" title="Ver todo el historial" style="display:none;border:none;background:#1a2332;color:white;cursor:pointer;padding:.2rem .6rem;border-radius:.375rem;font-size:.72rem;font-weight:600;margin-left:.2rem;">Ver todo</button>
+              </div>
+              <div style="display: flex; gap: 0.75rem;">
+                <button class="btn-add" onclick="openExpenseModal()" style="background: #991b1b;">
+                  <i class="fas fa-minus-circle"></i> Añadir Gasto
+                </button>
+                <button class="btn-add" onclick="openIncomeModal()" style="background: #065f46;">
+                  <i class="fas fa-plus-circle"></i> Añadir Ingreso
+                </button>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:3fr 1fr;gap:1.5rem;align-items:stretch;">
+              <!-- Gráfica 3/4 -->
+              <div class="chart-container" style="min-height:260px;">
+                <canvas id="financialChart"></canvas>
+              </div>
+              <!-- Stats 1/4 en columna -->
+              <div style="display:flex;flex-direction:column;justify-content:center;gap:1rem;padding:.5rem 0;">
+                <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:.75rem;padding:1rem 1.25rem;">
+                  <div class="stat-label" id="labelIngresosTotal" style="font-size:.72rem;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.35rem;">Ingresos Totales</div>
+                  <div class="stat-value" style="color:#065f46;font-size:1.35rem;font-weight:800;line-height:1;" id="statIngresosTotal">0€</div>
+                </div>
+                <div style="background:#fff5f5;border:1px solid #fecaca;border-radius:.75rem;padding:1rem 1.25rem;">
+                  <div class="stat-label" id="labelGastosTotal" style="font-size:.72rem;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.35rem;">Gastos Totales</div>
+                  <div class="stat-value" style="color:#991b1b;font-size:1.35rem;font-weight:800;line-height:1;" id="statGastosTotal">0€</div>
+                </div>
+                <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:.75rem;padding:1rem 1.25rem;">
+                  <div class="stat-label" id="labelIngresosEsperados" style="font-size:.72rem;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.35rem;">Ingresos Pendientes</div>
+                  <div class="stat-value" style="color:#1d4ed8;font-size:1.35rem;font-weight:800;line-height:1;" id="statIngresosEsperados">0€</div>
+                </div>
+                <div style="background:#f5f3ff;border:1px solid #ddd6fe;border-radius:.75rem;padding:1rem 1.25rem;">
+                  <div class="stat-label" id="labelReservasMes" style="font-size:.72rem;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.35rem;">Reservas</div>
+                  <div class="stat-value" style="color:#7c3aed;font-size:1.35rem;font-weight:800;line-height:1;" id="statReservasMes">0</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Últimos Ingresos + Últimos Gastos -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start;">
+
+            <!-- Últimos Ingresos -->
+            <div class="card" style="margin-bottom: 0;">
+              <div class="card-header-custom">
+                <div class="card-header-left">
+                  <div class="card-icon" style="background: #d1fae5;"><i class="fas fa-arrow-down" style="color: #065f46;"></i></div>
+                  <h3 id="tituloTablaIngresos">Últimos Ingresos</h3>
+                </div>
+              </div>
+              <div id="tablaIngresos"></div>
+            </div>
+
+            <!-- Últimos Gastos -->
+            <div class="card" style="margin-bottom: 0;">
+              <div class="card-header-custom">
+                <div class="card-header-left">
+                  <div class="card-icon" style="background: #fee2e2;"><i class="fas fa-arrow-up" style="color: #991b1b;"></i></div>
+                  <h3 id="tituloTablaGastos">Últimos Gastos</h3>
+                </div>
+              </div>
+              <div id="tablaGastos"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB 3: Información de la Propiedad -->
+        <div class="tab-content" id="tab-property">
+          <div class="two-column-layout">
+
+            <!-- Ficha Técnica -->
+            <div class="card" style="margin-bottom: 0;">
+              <div class="card-header-custom">
+                <div class="card-header-left">
+                  <div class="card-icon">
+                    <i class="fas fa-clipboard-list"></i>
+                  </div>
+                  <h3>Ficha Técnica</h3>
+                </div>
+              </div>
+
+              <div class="ficha-list">
+
+                <%# ——— Identificación ——— %>
+                <div class="ficha-section-title">Identificación</div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-tag"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Nombre</span>
+                    <span class="ficha-value"><%= vivienda.nombre || '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="nombre" data-value="<%= vivienda.nombre || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-home"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Tipo</span>
+                    <span class="ficha-value"><%= vivienda.tipo_vivienda || '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="tipo_vivienda" data-value="<%= vivienda.tipo_vivienda || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-star"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Categoría</span>
+                    <span class="ficha-value"><%= vivienda.categoria || '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="categoria" data-value="<%= vivienda.categoria || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <%# ——— Dirección ——— %>
+                <div class="ficha-section-title">Dirección</div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-road"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Calle</span>
+                    <span class="ficha-value"><%= vivienda.calle || '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="calle" data-value="<%= (vivienda.calle || '').replace(/'/g, '&#39;') %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-building"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Bloque/Portal</span>
+                    <span class="ficha-value"><%= vivienda.bloque_portal || '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="bloque_portal" data-value="<%= vivienda.bloque_portal || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-sort-numeric-up"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Escalera</span>
+                    <span class="ficha-value"><%= vivienda.escalera || '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="escalera" data-value="<%= vivienda.escalera || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-layer-group"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Piso</span>
+                    <span class="ficha-value"><%= vivienda.piso || '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="piso" data-value="<%= vivienda.piso || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-door-open"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Letra / Nº</span>
+                    <span class="ficha-value"><%= vivienda.letra_numero || '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="letra_numero" data-value="<%= vivienda.letra_numero || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-map-signs"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Barrio</span>
+                    <span class="ficha-value"><%= vivienda.barrio || '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="barrio" data-value="<%= vivienda.barrio || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-city"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Ciudad</span>
+                    <span class="ficha-value"><%= vivienda.ciudad || '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="ciudad" data-value="<%= vivienda.ciudad || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-flag"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">País</span>
+                    <span class="ficha-value"><%= vivienda.pais || '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="pais" data-value="<%= vivienda.pais || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-mail-bulk"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Código Postal</span>
+                    <span class="ficha-value"><%= vivienda.codigo_postal || '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="codigo_postal" data-value="<%= vivienda.codigo_postal || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <%# ——— Características ——— %>
+                <div class="ficha-section-title">Características</div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-ruler-combined"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Superficie</span>
+                    <span class="ficha-value"><%= vivienda.superficie ? vivienda.superficie + ' m²' : '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="superficie" data-value="<%= vivienda.superficie || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-expand"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Sup. Parcela</span>
+                    <span class="ficha-value"><%= vivienda.superficie_parcela ? vivienda.superficie_parcela + ' m²' : '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="superficie_parcela" data-value="<%= vivienda.superficie_parcela || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-bed"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Dormitorios</span>
+                    <span class="ficha-value"><%= vivienda.num_habitaciones != null ? vivienda.num_habitaciones : '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="num_habitaciones" data-value="<%= vivienda.num_habitaciones != null ? vivienda.num_habitaciones : '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-bath"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Baños</span>
+                    <span class="ficha-value"><%= vivienda.num_banos != null ? vivienda.num_banos : '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="num_banos" data-value="<%= vivienda.num_banos != null ? vivienda.num_banos : '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-users"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Capacidad</span>
+                    <span class="ficha-value"><%= vivienda.capacidad_maxima != null ? vivienda.capacidad_maxima + ' personas' : '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="capacidad_maxima" data-value="<%= vivienda.capacidad_maxima != null ? vivienda.capacidad_maxima : '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-level-up-alt"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Planta</span>
+                    <span class="ficha-value"><%
+                      if (vivienda.planta === 0) { %> Bajo <% }
+                      else if (vivienda.planta === -1) { %> Sótano <% }
+                      else if (vivienda.planta != null) { %> <%= vivienda.planta %> <% }
+                      else { %> — <% } %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="planta" data-value="<%= vivienda.planta != null ? vivienda.planta : '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-calendar-alt"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Año Constr.</span>
+                    <span class="ficha-value"><%= vivienda.ano_construccion || '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="ano_construccion" data-value="<%= vivienda.ano_construccion || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <%# ——— Legal ——— %>
+                <div class="ficha-section-title">Información Legal</div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-balance-scale"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Estado legal</span>
+                    <span class="ficha-value"><%= vivienda.estado_legal || '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="estado_legal" data-value="<%= vivienda.estado_legal || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-file-alt"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Ref. Catastral</span>
+                    <span class="ficha-value"><%= vivienda.referencia_catastral || '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="referencia_catastral" data-value="<%= vivienda.referencia_catastral || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-registered"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Reg. Autonómico</span>
+                    <span class="ficha-value"><%= vivienda.numero_registro_autonomico || '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="numero_registro_autonomico" data-value="<%= vivienda.numero_registro_autonomico || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-calendar-check"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">Fecha registro</span>
+                    <span class="ficha-value"><%= vivienda.fecha_registro ? new Date(vivienda.fecha_registro).toLocaleDateString('es-ES') : '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="fecha_registro" data-value="<%= vivienda.fecha_registro ? new Date(vivienda.fecha_registro).toISOString().split('T')[0] : '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <%# ——— Plataformas ——— %>
+                <div class="ficha-section-title">Plataformas</div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fab fa-airbnb"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">URL Airbnb</span>
+                    <span class="ficha-value url-val" title="<%= vivienda.url_airbnb || '' %>"><%= vivienda.url_airbnb ? 'Ver enlace' : '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="url_airbnb" data-value="<%= (vivienda.url_airbnb || '').replace(/'/g,'&#39;') %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-bed"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">URL Booking</span>
+                    <span class="ficha-value url-val" title="<%= vivienda.url_booking || '' %>"><%= vivienda.url_booking ? 'Ver enlace' : '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="url_booking" data-value="<%= (vivienda.url_booking || '').replace(/'/g,'&#39;') %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-sync-alt"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">iCal Airbnb</span>
+                    <span class="ficha-value url-val" title="<%= vivienda.url_ical_airbnb || '' %>"><%= vivienda.url_ical_airbnb ? 'Ver enlace' : '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="url_ical_airbnb" data-value="<%= (vivienda.url_ical_airbnb || '').replace(/'/g,'&#39;') %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+                <div class="ficha-item">
+                  <div class="ficha-icon-sm"><i class="fas fa-sync"></i></div>
+                  <div class="ficha-content">
+                    <span class="ficha-label">iCal Booking</span>
+                    <span class="ficha-value url-val" title="<%= vivienda.url_ical_booking || '' %>"><%= vivienda.url_ical_booking ? 'Ver enlace' : '—' %></span>
+                  </div>
+                  <button class="btn-edit-field" data-field="url_ical_booking" data-value="<%= (vivienda.url_ical_booking || '').replace(/'/g,'&#39;') %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                </div>
+
+              </div><!-- /.ficha-list -->
+
+              <!-- Comodidades -->
+              <div class="amenities-section" style="margin-top: 1.25rem; border-top: 1px solid #f1f5f9; padding-top: 1.25rem;">
+                <h4 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: #94a3b8; font-weight: 700; margin-bottom: 0.75rem;">
+                  <i class="fas fa-star" style="margin-right: 0.4rem;"></i>Comodidades
+                </h4>
+                <div class="amenities-list">
+                  <%
+                  let amenitiesList = [];
+                  if (vivienda.amenities) {
+                    try {
+                      const parsed = JSON.parse(vivienda.amenities);
+                      amenitiesList = Array.isArray(parsed) ? parsed : [];
+                    } catch(e) {}
+                  }
+                  if (amenitiesList.length > 0) {
+                    amenitiesList.forEach(function(amenity) {
+                      const nombre = (typeof amenity === 'string') ? amenity : (amenity.nombre || amenity.name || String(amenity));
+                      const icon = (typeof amenity === 'object' && amenity.icon) ? amenity.icon : 'check-circle';
+                  %>
+                      <div class="amenity-tag">
+                        <i class="fas fa-<%= icon %>"></i>
+                        <span><%= nombre %></span>
+                      </div>
+                  <%  });
+                  } else { %>
+                    <p style="color: #94a3b8; font-size: 0.8rem;">No hay comodidades especificadas</p>
+                  <% } %>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Columna derecha: Ubicación + Plataformas -->
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+
+            <!-- Ubicación -->
+            <div class="card" style="margin-bottom: 0;">
+              <div class="card-header-custom">
+                <div class="card-header-left">
+                  <div class="card-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                  </div>
+                  <h3>Ubicación</h3>
+                </div>
+              </div>
+              <% if (vivienda.latitud && vivienda.longitud) { %>
+                <div class="map-container" id="mapa"></div>
+              <% } else { %>
+                <div class="map-container" style="display: flex; align-items: center; justify-content: center; background: #f8fafc;">
+                  <div style="text-align: center; color: #64748b;">
+                    <i class="fas fa-map-marked-alt" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                    <p>Mapa no disponible</p>
+                  </div>
+                </div>
+              <% } %>
+              <div class="map-info">
+                <% if (vivienda.barrio) { %>
+                <div class="map-info-item">
+                  <i class="fas fa-map-signs"></i>
+                  <span><strong>Barrio:</strong> <%= vivienda.barrio %></span>
+                </div>
+                <% } %>
+                <% if (vivienda.codigo_postal) { %>
+                <div class="map-info-item">
+                  <i class="fas fa-mail-bulk"></i>
+                  <span><strong>CP:</strong> <%= vivienda.codigo_postal %></span>
+                </div>
+                <% } %>
+                <% if (vivienda.latitud && vivienda.longitud) { %>
+                <div class="map-info-item" style="grid-column: 1/-1; font-size: 0.75rem;">
+                  <i class="fas fa-map-pin"></i>
+                  <span><strong>Coordenadas:</strong> <%= parseFloat(vivienda.latitud).toFixed(6) %>, <%= parseFloat(vivienda.longitud).toFixed(6) %></span>
+                </div>
+                <% } %>
+              </div>
+            </div>
+
+            <!-- Plataformas de Alquiler -->
+            <div class="card" style="margin-bottom: 0;">
+              <div class="card-header-custom">
+                <div class="card-header-left">
+                  <div class="card-icon"><i class="fas fa-globe"></i></div>
+                  <h3>Plataformas de Alquiler</h3>
+                </div>
+              </div>
+              <div class="platform-links">
+                <a href="<%= vivienda.url_airbnb || '#' %>" <%= vivienda.url_airbnb ? 'target="_blank"' : '' %> class="platform-link airbnb">
+                  <div class="platform-link-content">
+                    <i class="fab fa-airbnb" style="font-size: 1.5rem;"></i>
+                    <span>Ver en Airbnb</span>
+                  </div>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+                <a href="<%= vivienda.url_booking || '#' %>" <%= vivienda.url_booking ? 'target="_blank"' : '' %> class="platform-link booking">
+                  <div class="platform-link-content">
+                    <i class="fas fa-bed" style="font-size: 1.25rem;"></i>
+                    <span>Ver en Booking.com</span>
+                  </div>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+              <div class="action-buttons">
+                <button class="btn-action primary">
+                  <i class="fas fa-headset"></i> Contactar Gestor
+                </button>
+                <button class="btn-action secondary">
+                  <i class="fas fa-tools"></i> Reportar Incidencia
+                </button>
+              </div>
+            </div>
+
+            </div><!-- /columna derecha -->
+
+          </div>
+        </div>
+
+        <!-- TAB 4: Documentos Legales -->
+        <div class="tab-content" id="tab-documents">
+          <div class="card">
+            <div class="card-header-custom">
+              <div class="card-header-left">
+                <div class="card-icon">
+                  <i class="fas fa-file-contract"></i>
+                </div>
+                <h3>Documentación Legal</h3>
+              </div>
+              <button class="btn-add" onclick="openDocumentModal()">
+                <i class="fas fa-plus"></i>
+                Añadir Documento
+              </button>
+            </div>
+            <div class="documents-list">
+              <% if (vivienda.referencia_catastral) { %>
+              <div class="document-item">
+                <div class="document-info">
+                  <div class="document-icon">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div>
+                    <div class="document-name">Referencia Catastral</div>
+                    <div class="document-date"><%= vivienda.referencia_catastral %></div>
+                  </div>
+                </div>
+                <button class="btn-download">
+                  <i class="fas fa-download"></i>
+                  Descargar
+                </button>
+              </div>
+              <% } %>
+
+              <% if (vivienda.numero_registro_autonomico) { %>
+              <div class="document-item">
+                <div class="document-info">
+                  <div class="document-icon">
+                    <i class="fas fa-file-signature"></i>
+                  </div>
+                  <div>
+                    <div class="document-name">Nº Registro Autonómico</div>
+                    <div class="document-date"><%= vivienda.numero_registro_autonomico %></div>
+                  </div>
+                </div>
+                <button class="btn-download">
+                  <i class="fas fa-download"></i>
+                  Descargar
+                </button>
+              </div>
+              <% } %>
+
+              <% if (vivienda.fecha_registro) { %>
+              <div class="document-item">
+                <div class="document-info">
+                  <div class="document-icon">
+                    <i class="fas fa-calendar-check"></i>
+                  </div>
+                  <div>
+                    <div class="document-name">Fecha de Registro</div>
+                    <div class="document-date"><%= new Date(vivienda.fecha_registro).toLocaleDateString('es-ES') %></div>
+                  </div>
+                </div>
+                <button class="btn-download">
+                  <i class="fas fa-eye"></i>
+                  Ver
+                </button>
+              </div>
+              <% } %>
+
+              <div class="document-item">
+                <div class="document-info">
+                  <div class="document-icon">
+                    <i class="fas fa-file-pdf"></i>
+                  </div>
+                  <div>
+                    <div class="document-name">Escrituras</div>
+                    <div class="document-date">Documento notarial</div>
+                  </div>
+                </div>
+                <button class="btn-download">
+                  <i class="fas fa-download"></i>
+                  Descargar
+                </button>
+              </div>
+
+              <div class="document-item">
+                <div class="document-info">
+                  <div class="document-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                  </div>
+                  <div>
+                    <div class="document-name">IBI</div>
+                    <div class="document-date">Impuesto anual</div>
+                  </div>
+                </div>
+                <button class="btn-download">
+                  <i class="fas fa-download"></i>
+                  Descargar
+                </button>
+              </div>
+
+              <div class="document-item">
+                <div class="document-info">
+                  <div class="document-icon">
+                    <i class="fas fa-shield-alt"></i>
+                  </div>
+                  <div>
+                    <div class="document-name">Seguro de Hogar</div>
+                    <div class="document-date">Póliza vigente</div>
+                  </div>
+                </div>
+                <button class="btn-download">
+                  <i class="fas fa-download"></i>
+                  Descargar
+                </button>
+              </div>
+
+              <div class="document-item">
+                <div class="document-info">
+                  <div class="document-icon">
+                    <i class="fas fa-leaf"></i>
+                  </div>
+                  <div>
+                    <div class="document-name">Certificado Energético</div>
+                    <div class="document-date">Eficiencia energética</div>
+                  </div>
+                </div>
+                <button class="btn-download">
+                  <i class="fas fa-download"></i>
+                  Descargar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: Reservas -->
+        <div class="tab-content" id="tab-channels">
+          <div class="card">
+            <div class="card-header-custom">
+              <div class="card-header-left" style="display: flex; align-items: center; gap: 0.75rem;">
+                <div class="card-icon"><i class="fas fa-calendar-check"></i></div>
+                <h3>Gestión de Reservas</h3>
+              </div>
+              <button class="btn-add" onclick="openNewReservationModal()">
+                <i class="fas fa-plus"></i>
+                Nueva Reserva
+              </button>
+            </div>
+
+            <!-- Búsqueda -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center;">
+              <div style="flex: 1; min-width: 220px; position: relative;">
+                <i class="fas fa-hashtag" style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none;"></i>
+                <input type="text" id="searchReservaNumero" placeholder="Buscar por nº de reserva o referencia..."
+                  style="width: 100%; padding: 0.6rem 0.75rem 0.6rem 2.25rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.875rem; outline: none;"
+                  oninput="filtrarReservas()">
+              </div>
+              <div style="flex: 1; min-width: 220px; position: relative;">
+                <i class="fas fa-id-card" style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none;"></i>
+                <input type="text" id="searchDNI" placeholder="Buscar por DNI del titular..."
+                  style="width: 100%; padding: 0.6rem 0.75rem 0.6rem 2.25rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.875rem; outline: none;"
+                  oninput="filtrarReservas()">
+              </div>
+              <select id="searchEstado" onchange="filtrarReservas()" style="padding:.6rem .75rem;border:1px solid #e2e8f0;border-radius:.5rem;font-size:.8rem;color:#1a2332;background:#fff;cursor:pointer;min-width:150px;outline:none;">
+                <option value="">Todos los estados</option>
+                <option value="confirmada">Confirmada</option>
+                <option value="pendiente">Pendiente</option>
+                <option value="cancelada">Cancelada</option>
+              </select>
+              <select id="searchPagado" onchange="filtrarReservas()" style="padding:.6rem .75rem;border:1px solid #e2e8f0;border-radius:.5rem;font-size:.8rem;color:#1a2332;background:#fff;cursor:pointer;min-width:150px;outline:none;">
+                <option value="">Pago: todos</option>
+                <option value="pagado">Pagado</option>
+                <option value="pendiente">Pendiente pago</option>
+              </select>
+              <button id="btnToggleInactivas" onclick="toggleInactivas()" style="white-space:nowrap;padding:.6rem 1rem;border:1.5px solid #e2e8f0;background:#fff;border-radius:.5rem;font-size:.8rem;font-weight:600;color:#64748b;cursor:pointer;display:flex;align-items:center;gap:.4rem;">
+                <i class="fas fa-eye-slash"></i> Ver inactivas
+              </button>
+            </div>
+
+            <!-- Tabla -->
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+                <thead>
+                  <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                    <th style="padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: #64748b; white-space: nowrap;">Nº Reserva</th>
+                    <th style="padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: #64748b;">Huésped</th>
+                    <th style="padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: #64748b;">DNI</th>
+                    <th style="padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: #64748b; white-space: nowrap;">Entrada</th>
+                    <th style="padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: #64748b; white-space: nowrap;">Salida</th>
+                    <th style="padding: 0.75rem 1rem; text-align: center; font-weight: 600; color: #64748b;">Pers.</th>
+                    <th style="padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: #64748b;">Importe</th>
+                    <th style="padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: #64748b;">Pago</th>
+                    <th style="padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: #64748b;">Estado</th>
+                    <th style="padding: 0.75rem 1rem; text-align: center; font-weight: 600; color: #64748b;">Activa</th>
+                    <th style="padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: #64748b;">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="reservasTableBody">
+                  <!-- Rendered by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+  </div>
+
+  <!-- Footer -->
+  <%- include('../partials/footer') %>
+
+  <!-- ============================================ -->
+  <!-- MODAL: Nueva Reserva (Reserva + Huésped)    -->
+  <!-- ============================================ -->
+  <div id="newReservationModal" class="modal" style="align-items: center; overflow-y: auto;">
+    <div class="modal-content" style="max-width: 820px; width: 95%; margin: auto; display: flex; flex-direction: column; height: 640px; max-height: 92vh;">
+      <div class="modal-header">
+        <h3><i class="fas fa-calendar-plus"></i> Nueva Reserva</h3>
+        <button class="modal-close" onclick="closeNewReservationModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div style="display: flex; border-bottom: 2px solid #e2e8f0; padding: 0 1.5rem; margin-bottom: 0;">
+        <button id="nrTabReservaBtn" onclick="switchNrTab('reserva')"
+          style="padding: 0.75rem 1.5rem; border: none; border-bottom: 3px solid #1a2332; background: none; font-weight: 700; color: #1a2332; cursor: pointer; font-size: 0.875rem; margin-bottom: -2px;">
+          <i class="fas fa-calendar-alt"></i> Datos de la Reserva
+        </button>
+        <button id="nrTabHuespedBtn" onclick="switchNrTab('huesped')"
+          style="padding: 0.75rem 1.5rem; border: none; border-bottom: 3px solid transparent; background: none; font-weight: 500; color: #94a3b8; cursor: pointer; font-size: 0.875rem; margin-bottom: -2px;">
+          <i class="fas fa-user"></i> Datos del Huésped
+        </button>
+      </div>
+      <div class="modal-body" style="flex: 1; overflow-y: auto; min-height: 0;">
+        <!-- Reserva panel -->
+        <div id="nrPanelReserva">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Fecha de entrada <span class="req">*</span></label>
+              <input type="date" id="nrFechaInicio" required>
+            </div>
+            <div class="form-group">
+              <label>Hora de llegada</label>
+              <input type="time" id="nrHoraLlegada" value="15:00">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Fecha de salida <span class="req">*</span></label>
+              <input type="date" id="nrFechaFin" required>
+            </div>
+            <div class="form-group">
+              <label>Hora de salida</label>
+              <input type="time" id="nrHoraSalida" value="11:00">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nº de personas <span class="req">*</span></label>
+              <input type="number" id="nrNumHuespedes" min="1" required placeholder="1">
+            </div>
+            <div class="form-group">
+              <label>Importe total (€)</label>
+              <input type="number" id="nrImporte" min="0" step="0.01" placeholder="0.00">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Plataforma</label>
+              <select id="nrPlataforma">
+                <option value="airbnb">Airbnb</option>
+                <option value="booking">Booking.com</option>
+                <option value="bocaboca">Boca a boca</option>
+                <option value="otros">Otros</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>ID externo / Referencia</label>
+              <input type="text" id="nrIdExterno" placeholder="Ref. de la plataforma">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Estado</label>
+              <select id="nrEstado">
+                <option value="confirmada">Confirmada</option>
+                <option value="pendiente">Pendiente</option>
+                <option value="cancelada">Cancelada</option>
+              </select>
+            </div>
+            <div class="form-group" style="display: flex; gap: 1.5rem; align-items: center; padding-top: 1.5rem; flex-wrap: wrap;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-weight: 500;">
+                <input type="checkbox" id="nrCheckinRealizado"> Check-in realizado
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-weight: 500;">
+                <input type="checkbox" id="nrCheckoutRealizado"> Check-out realizado
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-weight: 500; color: #065f46;">
+                <input type="checkbox" id="nrPagado"> <i class="fas fa-euro-sign" style="font-size:.8rem;"></i> Pagado
+              </label>
+            </div>
+          </div>
+        </div>
+        <!-- Huésped panel -->
+        <div id="nrPanelHuesped" style="display: none;">
+          <div id="nrHuespedesContainer"></div>
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+        <button type="button" class="btn-cancel" onclick="closeNewReservationModal()">Cancelar</button>
+        <div style="display: flex; gap: 0.75rem;">
+          <button type="button" id="nrBtnSiguiente" class="btn-primary" onclick="nrGoToHuesped()" style="background: #1a2332;">
+            Siguiente: Datos del Huésped <i class="fas fa-arrow-right"></i>
+          </button>
+          <button type="button" id="nrBtnGuardar" class="btn-primary" onclick="guardarNuevaReserva()" style="display: none; background: #065f46;">
+            <i class="fas fa-save"></i> Guardar Reserva
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- MODAL: Parte de Entrada de Viajeros          -->
+  <!-- ============================================ -->
+  <div id="parteViajerosModal" class="modal" style="align-items: flex-start; padding: 2rem 0; overflow-y: auto;">
+    <div class="modal-content" style="max-width: 820px; width: 95%; margin: auto;">
+      <div class="modal-header">
+        <h3><i class="fas fa-file-alt"></i> Parte de Entrada de Viajeros</h3>
+        <div style="display: flex; gap: 0.5rem;">
+          <button onclick="imprimirParte()" style="padding: 0.5rem 1rem; background: #1a2332; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;">
+            <i class="fas fa-print"></i> Imprimir
+          </button>
+          <button class="modal-close" onclick="closeParte()"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
+      <div class="modal-body" id="parteViajerosContent" style="max-height: 75vh; overflow-y: auto; font-size: 0.875rem; line-height: 1.7;">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Editar Reserva -->
+  <div id="editReservaModal" class="modal" style="align-items:center;overflow-y:auto;">
+    <div class="modal-content" style="max-width:700px;width:95%;margin:auto;">
+      <div class="modal-header">
+        <h3><i class="fas fa-edit"></i> Editar Reserva <span id="editReservaTitle" style="font-size:.85rem;color:#94a3b8;font-weight:400;"></span></h3>
+        <button class="modal-close" onclick="closeEditReservaModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="editReservaId">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Fecha de entrada <span class="req">*</span></label>
+            <input type="date" id="erFechaInicio">
+          </div>
+          <div class="form-group">
+            <label>Fecha de salida <span class="req">*</span></label>
+            <input type="date" id="erFechaFin">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Hora de llegada</label>
+            <input type="time" id="erHoraLlegada" value="15:00">
+          </div>
+          <div class="form-group">
+            <label>Hora de salida</label>
+            <input type="time" id="erHoraSalida" value="11:00">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nº de personas</label>
+            <input type="number" id="erNumHuespedes" min="1" placeholder="1">
+          </div>
+          <div class="form-group">
+            <label>Plataforma</label>
+            <select id="erPlataforma">
+              <option value="airbnb">Airbnb</option>
+              <option value="booking">Booking.com</option>
+              <option value="bocaboca">Boca a boca</option>
+              <option value="otros">Otros</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Estado</label>
+            <select id="erEstado">
+              <option value="confirmada">Confirmada</option>
+              <option value="pendiente">Pendiente</option>
+              <option value="cancelada">Cancelada</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>ID externo / Referencia</label>
+            <input type="text" id="erIdExterno" placeholder="Ref. de la plataforma">
+          </div>
+        </div>
+        <div class="form-group" style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;padding-top:.25rem;">
+          <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;font-weight:500;">
+            <input type="checkbox" id="erCheckinRealizado"> Check-in realizado
+          </label>
+          <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;font-weight:500;">
+            <input type="checkbox" id="erCheckoutRealizado"> Check-out realizado
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" onclick="closeEditReservaModal()">Cancelar</button>
+        <button type="button" id="erBtnGuardar" class="btn-primary" onclick="guardarEdicionReserva()" style="background:#1e40af;">
+          <i class="fas fa-save"></i> Guardar cambios
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Añadir Tarea -->
+  <div id="taskModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-tasks"></i> Añadir Nueva Tarea</h3>
+        <button class="modal-close" onclick="closeTaskModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="taskForm">
+          <div class="form-group">
+            <label for="taskDescription">Descripción <span class="req">*</span></label>
+            <textarea id="taskDescription" name="taskDescription" required rows="3" placeholder="Ej: Revisar el aire acondicionado de la habitación principal..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="taskDate">Fecha Límite</label>
+              <input type="date" id="taskDate" name="taskDate">
+            </div>
+            <div class="form-group">
+              <label for="taskEstado">Estado</label>
+              <select id="taskEstado" name="taskEstado">
+                <option value="Pendiente">Pendiente</option>
+                <option value="En progreso">En progreso</option>
+                <option value="Completada">Completada</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="display:flex;align-items:center;gap:0.5rem;margin-top:0.25rem;">
+            <input type="checkbox" id="taskVinculadaCalendario" style="width:auto;margin:0;">
+            <label for="taskVinculadaCalendario" style="margin:0;cursor:pointer;font-weight:500;"><i class="fas fa-calendar-check" style="color:#6366f1;margin-right:4px;"></i>Vincular al calendario</label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" onclick="closeTaskModal()">Cancelar</button>
+        <button type="button" id="taskBtnGuardar" class="btn-primary" onclick="saveTask()">
+          <i class="fas fa-save"></i> Guardar Tarea
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Añadir Reserva -->
+  <div id="reservationModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-calendar-plus"></i> Añadir Nueva Reserva</h3>
+        <button class="modal-close" onclick="closeReservationModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="reservationForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="checkIn">Fecha de Inicio *</label>
+              <input type="date" id="checkIn" name="checkIn" required>
+            </div>
+            <div class="form-group">
+              <label for="checkOut">Fecha de Fin *</label>
+              <input type="date" id="checkOut" name="checkOut" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="guests">Número de Huéspedes *</label>
+              <input type="number" id="guests" name="guests" min="1" required placeholder="1">
+            </div>
+            <div class="form-group">
+              <label for="pricePerNight">Importe por Noche *</label>
+              <input type="number" id="pricePerNight" name="pricePerNight" min="0" step="0.01" required placeholder="0.00">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="platform">Plataforma</label>
+            <select id="platform" name="platform">
+              <option value="airbnb">Airbnb</option>
+              <option value="booking">Booking</option>
+              <option value="bocaboca">Recomendaciones</option>
+              <option value="otros">Otros</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" onclick="closeReservationModal()">Cancelar</button>
+        <button type="button" class="btn-primary" onclick="saveReservation()">
+          <i class="fas fa-save"></i>
+          Guardar Reserva
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Añadir Documento -->
+  <div id="documentModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-file-upload"></i> Añadir Nuevo Documento</h3>
+        <button class="modal-close" onclick="closeDocumentModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="documentForm">
+          <div class="form-group">
+            <label for="documentName">Nombre del Documento *</label>
+            <input type="text" id="documentName" name="documentName" required placeholder="Ej: Contrato de limpieza">
+          </div>
+          <div class="form-group">
+            <label for="documentType">Tipo de Documento</label>
+            <select id="documentType" name="documentType">
+              <option value="legal">Legal</option>
+              <option value="financiero">Financiero</option>
+              <option value="mantenimiento">Mantenimiento</option>
+              <option value="seguro">Seguro</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="documentFile">Archivo *</label>
+            <input type="file" id="documentFile" name="documentFile" required accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" onclick="closeDocumentModal()">Cancelar</button>
+        <button type="button" class="btn-primary" onclick="saveDocument()">
+          <i class="fas fa-upload"></i>
+          Subir Documento
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Añadir Gasto -->
+  <div id="expenseModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-minus-circle"></i> Añadir Nuevo Gasto</h3>
+        <button class="modal-close" onclick="closeExpenseModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="expenseForm">
+          <div class="form-group">
+            <label for="expenseCategory">Categoría *</label>
+            <select id="expenseCategory" name="expenseCategory" required>
+              <option value="">Selecciona una categoría</option>
+              <option value="mantenimiento">Mantenimiento</option>
+              <option value="servicios">Servicios (agua, luz, gas)</option>
+              <option value="impuestos">Impuestos</option>
+              <option value="seguros">Seguros</option>
+              <option value="limpieza">Limpieza</option>
+              <option value="reparaciones">Reparaciones</option>
+              <option value="marketing">Marketing</option>
+              <option value="gestion">Gestión</option>
+              <option value="otros">Otros</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="expenseAmount">Importe (€) *</label>
+            <input type="number" id="expenseAmount" name="expenseAmount" min="0" step="0.01" required placeholder="0.00">
+          </div>
+          <div class="form-group">
+            <label for="expenseDescription">Descripción</label>
+            <textarea id="expenseDescription" name="expenseDescription" placeholder="Detalles del gasto (opcional)"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="expenseDate">Fecha del Gasto</label>
+            <input type="date" id="expenseDate" name="expenseDate" value="<%= new Date().toISOString().split('T')[0] %>">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" onclick="closeExpenseModal()">Cancelar</button>
+        <button type="button" class="btn-primary" onclick="saveExpense()" style="background: #991b1b;">
+          <i class="fas fa-save"></i>
+          Registrar Gasto
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Añadir Ingreso -->
+  <div id="incomeModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-plus-circle"></i> Añadir Nuevo Ingreso</h3>
+        <button class="modal-close" onclick="closeIncomeModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="incomeForm">
+          <div class="form-group">
+            <label for="incomeCategory">Categoría *</label>
+            <select id="incomeCategory" name="incomeCategory" required>
+              <option value="">Selecciona una categoría</option>
+              <option value="alquiler">Alquiler</option>
+              <option value="servicios_adicionales">Servicios Adicionales</option>
+              <option value="deposito">Depósito/Fianza</option>
+              <option value="limpieza_extra">Limpieza Extra</option>
+              <option value="parking">Parking</option>
+              <option value="otros">Otros</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="incomeAmount">Importe (€) *</label>
+            <input type="number" id="incomeAmount" name="incomeAmount" min="0" step="0.01" required placeholder="0.00">
+          </div>
+          <div class="form-group">
+            <label for="incomeDescription">Descripción</label>
+            <textarea id="incomeDescription" name="incomeDescription" placeholder="Detalles del ingreso (opcional)"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="incomeDate">Fecha del Ingreso</label>
+            <input type="date" id="incomeDate" name="incomeDate" value="<%= new Date().toISOString().split('T')[0] %>">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" onclick="closeIncomeModal()">Cancelar</button>
+        <button type="button" class="btn-primary" onclick="saveIncome()" style="background: #065f46;">
+          <i class="fas fa-save"></i>
+          Registrar Ingreso
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Delete Modal -->
+  <div id="confirmDeleteModal" class="modal">
+    <div class="modal-content" style="max-width:380px;">
+      <div class="modal-header">
+        <h3><i class="fas fa-exclamation-triangle" style="color:#991b1b;margin-right:0.5rem;"></i>Confirmar eliminación</h3>
+      </div>
+      <div class="modal-body" style="padding:1.25rem 1.5rem;">
+        <p id="confirmDeleteMsg" style="margin:0;color:#374151;font-size:0.95rem;"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="document.getElementById('confirmDeleteModal').classList.remove('show')">Cancelar</button>
+        <button class="btn-primary" onclick="_doDeleteTransaccion()" style="background:#991b1b;"><i class="fas fa-trash"></i> Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  
+  <!-- FullCalendar JS -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // ── Gasto / Ingreso modals ───────────────────────────────────────
+    function openExpenseModal() {
+      document.getElementById('expenseModal').classList.add('show');
+    }
+    function closeExpenseModal() {
+      document.getElementById('expenseModal').classList.remove('show');
+      document.getElementById('expenseForm').reset();
+    }
+    function openIncomeModal() {
+      document.getElementById('incomeModal').classList.add('show');
+    }
+    function closeIncomeModal() {
+      document.getElementById('incomeModal').classList.remove('show');
+      document.getElementById('incomeForm').reset();
+    }
+
+    function _saveTransaccion(tipo, formId, closeFn) {
+      const form = document.getElementById(formId);
+      const prefix = tipo === 'gasto' ? 'expense' : 'income';
+      const importe = document.getElementById(prefix + 'Amount').value;
+      const descripcion = document.getElementById(prefix + 'Description').value;
+      const fecha = document.getElementById(prefix + 'Date').value;
+      if (!importe || !fecha) { showToast('Completa el importe y la fecha.', 'error'); return; }
+
+      const btn = form.closest('.modal-content').querySelector('.btn-primary');
+      const originText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Guardando…';
+
+      fetch('/propiedades/' + viviendaIdGlobal + '/transacciones', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tipo, importe, descripcion, fecha })
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(d) {
+        btn.disabled = false; btn.innerHTML = originText;
+        if (d.success) {
+          if (d.transaccion) { window._transacciones.unshift(d.transaccion); }
+          renderTransacciones();
+          updateFinancialSummary();
+          showToast((tipo === 'gasto' ? 'Gasto' : 'Ingreso') + ' registrado correctamente', 'success');
+          closeFn();
+        } else {
+          showToast(d.error || 'Error al guardar', 'error');
+        }
+      })
+      .catch(function() { btn.disabled = false; btn.innerHTML = originText; showToast('Error de conexión', 'error'); });
+    }
+
+    function saveExpense() { _saveTransaccion('gasto', 'expenseForm', closeExpenseModal); }
+    function saveIncome()  { _saveTransaccion('ingreso', 'incomeForm', closeIncomeModal); }
+
+    // Tab Navigation
+    document.addEventListener('DOMContentLoaded', function() {
+      const navItems = document.querySelectorAll('.nav-item');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      navItems.forEach(item => {
+        item.addEventListener('click', function() {
+          const tabId = this.getAttribute('data-tab');
+          
+          navItems.forEach(nav => nav.classList.remove('active'));
+          tabContents.forEach(tab => tab.classList.remove('active'));
+          
+          this.classList.add('active');
+          document.getElementById('tab-' + tabId).classList.add('active');
+
+          // Re-render FullCalendar when its tab becomes visible
+          if (tabId === 'general' && window._calInstance) {
+            setTimeout(() => window._calInstance.updateSize(), 80);
+          }
+          // Re-render Leaflet map when Información tab becomes visible
+          if (tabId === 'property' && window._mapInstance) {
+            setTimeout(function() { window._mapInstance.invalidateSize(); }, 80);
+          }
+        });
+      });
+    });
+
+    // ---- EDITAR RESERVA ----
+    function openEditReservaModal(id) {
+      var r = reservasGestion.find(function(x){ return x.id === id; });
+      if (!r) return;
+      document.getElementById('editReservaId').value = id;
+      document.getElementById('editReservaTitle').textContent = '#' + id;
+      document.getElementById('erFechaInicio').value          = r.fecha_inicio ? r.fecha_inicio.split('T')[0] : '';
+      document.getElementById('erFechaFin').value             = r.fecha_fin    ? r.fecha_fin.split('T')[0]    : '';
+      document.getElementById('erNumHuespedes').value         = r.num_huespedes || '';
+      document.getElementById('erPlataforma').value           = r.plataforma || 'otros';
+      document.getElementById('erEstado').value               = r.estado || 'confirmada';
+      document.getElementById('erIdExterno').value            = r.id_reserva_externo || '';
+      document.getElementById('erCheckinRealizado').checked   = !!r.checkin_realizado;
+      document.getElementById('erCheckoutRealizado').checked  = !!r.checkout_realizado;
+      // Clear previous errors
+      ['erFechaInicio','erFechaFin'].forEach(function(i){ document.getElementById(i).classList.remove('input-error'); });
+      document.getElementById('editReservaModal').style.display = 'flex';
+    }
+
+    function closeEditReservaModal() {
+      document.getElementById('editReservaModal').style.display = 'none';
+    }
+
+    function guardarEdicionReserva() {
+      var fi = document.getElementById('erFechaInicio').value;
+      var ff = document.getElementById('erFechaFin').value;
+      if (!fi) { document.getElementById('erFechaInicio').classList.add('input-error'); showToast('Indica la fecha de entrada.', 'error'); return; }
+      if (!ff) { document.getElementById('erFechaFin').classList.add('input-error');    showToast('Indica la fecha de salida.', 'error'); return; }
+      if (new Date(fi) >= new Date(ff)) {
+        document.getElementById('erFechaFin').classList.add('input-error');
+        showToast('La fecha de entrada debe ser anterior a la de salida.', 'error'); return;
+      }
+      var id  = document.getElementById('editReservaId').value;
+      var btn = document.getElementById('erBtnGuardar');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Guardando\u2026';
+      fetch('/propiedades/' + viviendaIdGlobal + '/reservas/' + id, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fecha_inicio:         fi,
+          fecha_fin:            ff,
+          num_huespedes:        parseInt(document.getElementById('erNumHuespedes').value) || null,
+          plataforma:           document.getElementById('erPlataforma').value,
+          estado:               document.getElementById('erEstado').value,
+          id_reserva_externo:   document.getElementById('erIdExterno').value || null,
+          checkin_realizado:    document.getElementById('erCheckinRealizado').checked,
+          checkout_realizado:   document.getElementById('erCheckoutRealizado').checked,
+          hora_llegada:         document.getElementById('erHoraLlegada').value || '15:00',
+          hora_salida:          document.getElementById('erHoraSalida').value  || '11:00'
+        })
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(d) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> Guardar cambios';
+        if (d.success) {
+          closeEditReservaModal();
+          Promise.all([recargarReservas(), recargarTransacciones()]).then(function() {
+            showToast('Reserva actualizada correctamente', 'success');
+          });
+        } else {
+          showToast(d.error || 'Error al guardar los cambios', 'error');
+        }
+      })
+      .catch(function() {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> Guardar cambios';
+        showToast('Error de conexi\u00f3n', 'error');
+      });
+    }
+
+    // ---- TAREAS ----
+    function openTaskModal() {
+      document.getElementById('taskForm').reset();
+      document.getElementById('taskModal').classList.add('show');
+    }
+
+    function closeTaskModal() {
+      document.getElementById('taskModal').classList.remove('show');
+      document.getElementById('taskForm').reset();
+    }
+
+    function saveTask() {
+      const descEl = document.getElementById('taskDescription');
+      const desc = descEl.value.trim();
+      if (!desc) {
+        descEl.classList.add('input-error');
+        descEl.addEventListener('input', function h(){ descEl.classList.remove('input-error'); descEl.removeEventListener('input', h); });
+        showToast('La descripción de la tarea es obligatoria.', 'error');
+        return;
+      }
+      const btn = document.getElementById('taskBtnGuardar');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Guardando…';
+      fetch('/propiedades/' + viviendaIdGlobal + '/tareas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          descripcion: desc,
+          fecha_limite: document.getElementById('taskDate').value || null,
+          estado: document.getElementById('taskEstado').value,
+          vinculada_calendario: document.getElementById('taskVinculadaCalendario').checked
+        })
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(d) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> Guardar Tarea';
+        if (d.success) {
+          closeTaskModal();
+          recargarTareas();
+          showToast('Tarea creada correctamente', 'success');
+        } else {
+          showToast(d.error || 'Error al guardar la tarea', 'error');
+        }
+      })
+      .catch(function() {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> Guardar Tarea';
+        showToast('Error de conexión al guardar la tarea', 'error');
+      });
+    }
+
+    function recargarTareas() {
+      return fetch('/propiedades/' + viviendaIdGlobal + '/tareas')
+        .then(function(r){ return r.json(); })
+        .then(function(d) { if (d.success) renderTareas(d.tareas); })
+        .catch(function(){ renderTareas([]); });
+    }
+
+    function renderTareas(tareas) {
+      const container = document.getElementById('tareasContainer');
+      if (!container) return;
+      if (!tareas || tareas.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:2rem;color:#64748b;">'
+          + '<i class="fas fa-clipboard-list" style="font-size:3rem;margin-bottom:1rem;opacity:0.3;"></i>'
+          + '<p style="margin:0;font-weight:500;">No hay tareas pendientes</p>'
+          + '<small>Las tareas aparecerán aquí</small></div>';
+        return;
+      }
+      var estadoColor = { 'Pendiente': '#f59e0b', 'En progreso': '#3b82f6', 'Completada': '#10b981' };
+      var estadoBg    = { 'Pendiente': '#fef3c7', 'En progreso': '#dbeafe', 'Completada': '#d1fae5' };
+      var html = '<div style="display:flex;flex-direction:column;gap:0.5rem;padding:0.5rem;">';
+      tareas.forEach(function(t) {
+        var color   = estadoColor[t.estado] || '#64748b';
+        var bg      = estadoBg[t.estado]    || '#f1f5f9';
+        var fechaStr = '';
+        var vencida  = false;
+        if (t.fecha_limite) {
+          var fl = new Date(t.fecha_limite + 'T00:00:00');
+          fechaStr = fl.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+          var hoyT = new Date(); hoyT.setHours(0,0,0,0);
+          vencida = fl < hoyT && t.estado !== 'Completada';
+        }
+        var cal = t.vinculada_calendario ? '<i class="fas fa-calendar-check" title="Vinculada al calendario" style="color:#6366f1;margin-left:5px;font-size:0.72rem;"></i>' : '';
+        html += '<div style="display:flex;align-items:center;gap:0.75rem;padding:0.65rem 0.75rem;background:#f8fafc;border-radius:0.5rem;border:1px solid #e2e8f0;">'
+          + '<div style="flex:1;min-width:0;">'
+          + '<div style="font-size:0.85rem;font-weight:600;color:#1a2332;">' + escapeHtml(t.descripcion) + cal + '</div>'
+          + (fechaStr ? '<div style="font-size:0.75rem;color:' + (vencida ? '#ef4444' : '#64748b') + ';margin-top:2px;"><i class="fas fa-clock" style="margin-right:3px;"></i>' + fechaStr + (vencida ? '&nbsp;⚠ Vencida' : '') + '</div>' : '')
+          + '</div>'
+          + '<span style="font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:20px;white-space:nowrap;color:' + color + ';background:' + bg + ';border:1px solid ' + color + '40;">' + escapeHtml(t.estado) + '</span>'
+          + '<button onclick="deleteTask(' + t.id_tarea + ')" title="Eliminar tarea" style="width:28px;height:28px;border:none;background:#fee2e2;color:#dc2626;border-radius:50%;cursor:pointer;font-size:0.72rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">'
+          + '<i class="fas fa-trash"></i></button>'
+          + '</div>';
+      });
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    function deleteTask(id) {
+      if (!confirm('¿Eliminar esta tarea?')) return;
+      fetch('/propiedades/' + viviendaIdGlobal + '/tareas/' + id, { method: 'DELETE' })
+        .then(function(r){ return r.json(); })
+        .then(function(d) {
+          if (d.success) { recargarTareas(); showToast('Tarea eliminada', 'success'); }
+          else { showToast(d.error || 'Error al eliminar la tarea', 'error'); }
+        })
+        .catch(function(){ showToast('Error de conexión', 'error'); });
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // Modal Functions - Reservation
+    function openReservationModal() {
+      document.getElementById('reservationModal').classList.add('show');
+    }
+
+    function closeReservationModal() {
+      document.getElementById('reservationModal').classList.remove('show');
+      document.getElementById('reservationForm').reset();
+    }
+
+    function saveReservation() {
+      const form = document.getElementById('reservationForm');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      
+      // Aquí implementar la lógica de guardado
+      showToast('Reserva guardada correctamente', 'success');
+      closeReservationModal();
+    }
+
+    // Modal Functions - Document
+    function openDocumentModal() {
+      document.getElementById('documentModal').classList.add('show');
+    }
+
+    function closeDocumentModal() {
+      document.getElementById('documentModal').classList.remove('show');
+      document.getElementById('documentForm').reset();
+    }
+
+    function saveDocument() {
+      const form = document.getElementById('documentForm');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      
+      // Aquí implementar la lógica de guardado
+      showToast('Documento subido correctamente', 'success');
+      closeDocumentModal();
+    }
+
+    // Close modals on outside click
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.classList.remove('show');
+        event.target.style.display = 'none';
+      }
+    }
+
+    // Initialize map if coordinates exist
+    <% if (vivienda.latitud && vivienda.longitud) { %>
+      document.addEventListener('DOMContentLoaded', function() {
+        const _lat = <%= vivienda.latitud %>;
+        const _lng = <%= vivienda.longitud %>;
+
+        window._mapInstance = L.map('mapa', {
+          zoomControl: true,
+          scrollWheelZoom: false
+        }).setView([_lat, _lng], 15);
+
+        // CartoDB Positron — clean modern tile layer
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+          subdomains: 'abcd',
+          maxZoom: 19
+        }).addTo(window._mapInstance);
+
+        // Custom styled pin marker
+        const _pinIcon = L.divIcon({
+          className: '',
+          html: '<div style="width:16px;height:16px;background:#1a2332;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.35);"></div>',
+          iconSize: [16, 16],
+          iconAnchor: [8, 8]
+        });
+
+        L.marker([_lat, _lng], { icon: _pinIcon })
+          .addTo(window._mapInstance)
+          .bindPopup(
+            '<div style="font-size:0.85rem;line-height:1.5;">'
+            + '<strong><%= (vivienda.nombre || vivienda.direccion || vivienda.calle || '').replace(/'/g, "&#39;") %></strong><br>'
+            + '<%= (vivienda.ciudad || '') %><%= vivienda.pais ? ", " + vivienda.pais : "" %>'
+            + '</div>'
+          ).openPopup();
+      });
+    <% } %>
+
+    // ── Transacciones (global) ────────────────────────────────────────────────────────────────────────
+    window._transacciones = <%- JSON.stringify(typeof ultimasTransacciones !== 'undefined' ? ultimasTransacciones : []) %>;
+
+    // ── Navegación mensual ────────────────────────────────────────────────────────────────────────────
+    window._viewYear = null;
+    window._viewMonth = null; // 0-11, null = todo el historial
+
+    function navMonth(dir) {
+      if (window._viewYear === null) {
+        var now = new Date();
+        window._viewYear = now.getFullYear();
+        window._viewMonth = now.getMonth();
+      } else {
+        window._viewMonth += dir;
+        if (window._viewMonth > 11) { window._viewMonth = 0; window._viewYear++; }
+        if (window._viewMonth < 0)  { window._viewMonth = 11; window._viewYear--; }
+      }
+      _updateMonthNavUI();
+      updateFinancialSummary();
+      renderTransacciones();
+    }
+
+    function resetMonthView() {
+      window._viewYear = null;
+      window._viewMonth = null;
+      _updateMonthNavUI();
+      updateFinancialSummary();
+      renderTransacciones();
+    }
+
+    function _updateMonthNavUI() {
+      var lbl = document.getElementById('monthNavLabel');
+      var btn = document.getElementById('btnResetMonth');
+      var lI  = document.getElementById('labelIngresosTotal');
+      var lG  = document.getElementById('labelGastosTotal');
+      var lP  = document.getElementById('labelIngresosEsperados');
+      var lR  = document.getElementById('labelReservasMes');
+      var tI  = document.getElementById('tituloTablaIngresos');
+      var tG  = document.getElementById('tituloTablaGastos');
+      if (window._viewYear === null) {
+        if (lbl) lbl.textContent = 'Todo el historial';
+        if (btn) btn.style.display = 'none';
+        if (lI) lI.textContent = 'Ingresos Totales';
+        if (lG) lG.textContent = 'Gastos Totales';
+        if (lP) lP.textContent = 'Ingresos Pendientes';
+        if (lR) lR.textContent = 'Reservas (año)';
+        if (tI) tI.textContent = 'Últimos Ingresos';
+        if (tG) tG.textContent = 'Últimos Gastos';
+      } else {
+        var d = new Date(window._viewYear, window._viewMonth, 1);
+        var mesStr = d.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+        var mesCorto = d.toLocaleDateString('es-ES', { month: 'long' });
+        if (lbl) lbl.textContent = mesStr.charAt(0).toUpperCase() + mesStr.slice(1);
+        if (btn) btn.style.display = '';
+        if (lI) lI.textContent = 'Ingresos ' + mesCorto.charAt(0).toUpperCase() + mesCorto.slice(1);
+        if (lG) lG.textContent = 'Gastos ' + mesCorto.charAt(0).toUpperCase() + mesCorto.slice(1);
+        if (lP) lP.textContent = 'Pendientes ' + mesCorto.charAt(0).toUpperCase() + mesCorto.slice(1);
+        if (lR) lR.textContent = 'Reservas ' + mesCorto.charAt(0).toUpperCase() + mesCorto.slice(1);
+        if (tI) tI.textContent = 'Ingresos — ' + mesStr.charAt(0).toUpperCase() + mesStr.slice(1);
+        if (tG) tG.textContent = 'Gastos — ' + mesStr.charAt(0).toUpperCase() + mesStr.slice(1);
+      }
+    }
+
+    function _filterTransByMonth(trans) {
+      if (window._viewYear === null) return trans;
+      return trans.filter(function(t) {
+        var d = new Date(t.fecha);
+        return d.getFullYear() === window._viewYear && d.getMonth() === window._viewMonth;
+      });
+    }
+
+    function _getDailyData(trans, year, month) {
+      var daysInMonth = new Date(year, month + 1, 0).getDate();
+      var labels = [], ingr = [], gast = [];
+      for (var day = 1; day <= daysInMonth; day++) {
+        labels.push(day + '');
+        ingr.push(0); gast.push(0);
+      }
+      trans.forEach(function(t) {
+        var d = new Date(t.fecha);
+        if (d.getFullYear() === year && d.getMonth() === month) {
+          var idx = d.getDate() - 1;
+          if (t.tipo === 'ingreso') ingr[idx] += parseFloat(t.importe || 0);
+          else gast[idx] += parseFloat(t.importe || 0);
+        }
+      });
+      return { labels: labels, ingresos: ingr, gastos: gast };
+    }
+
+    function _getMonthlyData(trans) {
+      var now = new Date();
+      var labels = [], mkeys = [];
+      for (var i = 11; i >= 0; i--) {
+        var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        labels.push(d.toLocaleDateString('es-ES', { month: 'short', year: '2-digit' }));
+        mkeys.push(d.getFullYear() + '-' + d.getMonth());
+      }
+      var byKey = {};
+      trans.forEach(function(t) {
+        var d2 = new Date(t.fecha);
+        var k = d2.getFullYear() + '-' + d2.getMonth();
+        if (!byKey[k]) byKey[k] = { ingreso: 0, gasto: 0 };
+        byKey[k][t.tipo] = (byKey[k][t.tipo] || 0) + parseFloat(t.importe || 0);
+      });
+      return {
+        labels: labels,
+        ingresos: mkeys.map(function(k){ return byKey[k] ? byKey[k].ingreso : 0; }),
+        gastos:   mkeys.map(function(k){ return byKey[k] ? byKey[k].gasto   : 0; })
+      };
+    }
+
+    function _buildChart() {
+      var ctx = document.getElementById('financialChart');
+      if (!ctx) return;
+      if (window._chartInstance) { window._chartInstance.destroy(); window._chartInstance = null; }
+
+      var isMonthView = window._viewYear !== null;
+      var md, chartType;
+      if (isMonthView) {
+        md = _getDailyData(window._transacciones, window._viewYear, window._viewMonth);
+        chartType = 'bar';
+      } else {
+        md = _getMonthlyData(window._transacciones);
+        chartType = 'line';
+      }
+
+      var commonTooltip = { mode: 'index', intersect: false, backgroundColor: 'rgba(26,35,50,0.95)', padding: 12,
+        callbacks: { label: function(c){ return c.dataset.label + ': €' + parseFloat(c.parsed.y).toLocaleString('es-ES', {minimumFractionDigits:2,maximumFractionDigits:2}); } } };
+
+      window._chartInstance = new Chart(ctx, {
+        type: chartType,
+        data: {
+          labels: md.labels,
+          datasets: isMonthView
+            ? [
+                { label: 'Ingresos', data: md.ingresos, backgroundColor: 'rgba(6,95,70,0.75)', borderColor: '#065f46', borderWidth: 1.5, borderRadius: 4 },
+                { label: 'Gastos',   data: md.gastos,   backgroundColor: 'rgba(153,27,27,0.75)', borderColor: '#991b1b', borderWidth: 1.5, borderRadius: 4 }
+              ]
+            : [
+                { label: 'Ingresos', data: md.ingresos, borderColor: '#065f46', backgroundColor: 'rgba(6,95,70,0.08)', borderWidth: 2.5, fill: true, tension: 0.4, pointBackgroundColor: '#065f46', pointRadius: 4 },
+                { label: 'Gastos',   data: md.gastos,   borderColor: '#991b1b', backgroundColor: 'rgba(153,27,27,0.08)', borderWidth: 2.5, fill: true, tension: 0.4, pointBackgroundColor: '#991b1b', pointRadius: 4 }
+              ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { display: true, position: 'top', labels: { usePointStyle: true, padding: 15, font: { size: 12, weight: '600' } } },
+            tooltip: commonTooltip
+          },
+          scales: {
+            y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { callback: function(v){ return '€' + v.toLocaleString('es-ES'); } } },
+            x: { grid: { display: false }, ticks: isMonthView ? { maxTicksLimit: 10 } : {} }
+          }
+        }
+      });
+    }
+
+    function renderTransacciones() {
+      var fmt = function(d) { return d ? new Date(d).toLocaleDateString('es-ES', {day:'2-digit',month:'short',year:'numeric'}) : '—'; };
+      var emptyHtml = function(msg) { return '<div style="text-align:center;padding:2.5rem;color:#94a3b8;"><i class="fas fa-receipt" style="font-size:2.5rem;margin-bottom:0.75rem;opacity:0.3;display:block;"></i><p style="margin:0;font-size:0.85rem;">' + msg + '</p></div>'; };
+      function makeTable(rows, color, sign, tipo) {
+        if (!rows.length) return emptyHtml(tipo === 'ingreso' ? 'No hay ingresos registrados' : 'No hay gastos registrados');
+        return '<table style="width:100%;border-collapse:collapse;font-size:0.82rem;">'
+          + '<thead><tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;">'
+          + '<th style="padding:.5rem .75rem;text-align:left;color:#64748b;font-weight:600;">Fecha</th>'
+          + '<th style="padding:.5rem .75rem;text-align:left;color:#64748b;font-weight:600;">Descripción</th>'
+          + '<th style="padding:.5rem .75rem;text-align:right;color:#64748b;font-weight:600;">Importe</th>'
+          + '<th style="padding:.5rem .75rem;width:2rem;"></th>'
+          + '</tr></thead><tbody>'
+          + rows.map(function(t) {
+            return '<tr style="border-bottom:1px solid #f1f5f9;" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'\'">'
+              + '<td style="padding:.5rem .75rem;color:#64748b;white-space:nowrap;">' + fmt(t.fecha) + '</td>'
+              + '<td style="padding:.5rem .75rem;color:#1a2332;">' + (t.descripcion || '—') + '</td>'
+              + '<td style="padding:.5rem .75rem;text-align:right;font-weight:700;color:' + color + ';">' + sign + parseFloat(t.importe).toFixed(2) + ' €</td>'
+              + '<td style="padding:.5rem .75rem;text-align:center;"><button onclick="deleteTransaccion(' + t.id_transaccion + ',\'' + tipo + '\')" title="Eliminar" style="border:none;background:none;color:#cbd5e1;cursor:pointer;font-size:.8rem;padding:.2rem .4rem;border-radius:.25rem;" onmouseover="this.style.color=\'#991b1b\'" onmouseout="this.style.color=\'#cbd5e1\'"><i class="fas fa-trash"></i></button></td>'
+              + '</tr>';
+          }).join('')
+          + '</tbody></table>';
+      }
+      var ti = document.getElementById('tablaIngresos');
+      var tg = document.getElementById('tablaGastos');
+      var transFiltradas = _filterTransByMonth(window._transacciones);
+      if (ti) ti.innerHTML = makeTable(transFiltradas.filter(function(t){ return t.tipo==='ingreso'; }), '#065f46', '+', 'ingreso');
+      if (tg) tg.innerHTML = makeTable(transFiltradas.filter(function(t){ return t.tipo==='gasto'; }), '#991b1b', '-', 'gasto');
+    }
+
+    function updateFinancialSummary() {
+      var transFiltradas = _filterTransByMonth(window._transacciones);
+      var ingresoTotal = transFiltradas.filter(function(t){ return t.tipo==='ingreso'; }).reduce(function(s,t){ return s+parseFloat(t.importe||0); }, 0);
+      var gastoTotal   = transFiltradas.filter(function(t){ return t.tipo==='gasto';   }).reduce(function(s,t){ return s+parseFloat(t.importe||0); }, 0);
+      var si = document.getElementById('statIngresosTotal'); if (si) si.textContent = ingresoTotal.toFixed(2) + '€';
+      var sg = document.getElementById('statGastosTotal');   if (sg) sg.textContent = gastoTotal.toFixed(2) + '€';
+      // KPI anuales (enero—diciembre año actual) — independientes del navegador de mes
+      var anioActual = new Date().getFullYear();
+      var ingresosAnuales = window._transacciones
+        .filter(function(t) { var d = new Date(t.fecha); return t.tipo === 'ingreso' && d.getFullYear() === anioActual; })
+        .reduce(function(s,t){ return s + parseFloat(t.importe||0); }, 0);
+      var gastosAnuales = window._transacciones
+        .filter(function(t) { var d = new Date(t.fecha); return t.tipo === 'gasto' && d.getFullYear() === anioActual; })
+        .reduce(function(s,t){ return s + parseFloat(t.importe||0); }, 0);
+      var kia = document.getElementById('kpiIngresosAnuales'); if (kia) kia.textContent = ingresosAnuales.toFixed(2) + '€';
+      var kga = document.getElementById('kpiGastosAnuales');   if (kga) kga.textContent = gastosAnuales.toFixed(2) + '€';
+      // Balance anual = ingresos - gastos del año
+      var balanceAnualDin = ingresosAnuales - gastosAnuales;
+      var kba = document.getElementById('kpiBalanceAnual');
+      if (kba) {
+        kba.textContent = (balanceAnualDin >= 0 ? '+' : '') + balanceAnualDin.toFixed(2) + '€';
+        kba.style.color  = balanceAnualDin >= 0 ? '#065f46' : '#991b1b';
+      }
+      var kbaIcon = document.getElementById('kpiBalanceAnualIcon');
+      if (kbaIcon) {
+        kbaIcon.style.background = balanceAnualDin >= 0 ? '#d1fae5' : '#fee2e2';
+        kbaIcon.innerHTML = balanceAnualDin >= 0
+          ? '<i class="fas fa-coins" style="color:#065f46;"></i>'
+          : '<i class="fas fa-coins" style="color:#991b1b;"></i>';
+      }
+
+      // KPI pendientes del año actual
+      var pendientesAnio = (typeof reservasGestion !== 'undefined' ? reservasGestion : [])
+        .filter(function(r) {
+          if (!r.activa || r.pagado || !r.importe_total) return false;
+          return new Date(r.fecha_fin).getFullYear() === anioActual;
+        })
+        .reduce(function(s,r){ return s + parseFloat(r.importe_total||0); }, 0);
+      var ke = document.getElementById('kpiIngresosEsperados'); if (ke) ke.textContent = pendientesAnio.toFixed(2) + '€';
+      // Pendientes mensuales para el stat de la derecha del gráfico
+      var pendientes = (typeof reservasGestion !== 'undefined' ? reservasGestion : [])
+        .filter(function(r) {
+          if (!r.activa || r.pagado || !r.importe_total) return false;
+          if (window._viewYear === null) return true;
+          var df = new Date(r.fecha_fin);
+          return df.getFullYear() === window._viewYear && df.getMonth() === window._viewMonth;
+        })
+        .reduce(function(s,r){ return s+parseFloat(r.importe_total||0); }, 0);
+      var se = document.getElementById('statIngresosEsperados'); if (se) se.textContent = pendientes.toFixed(2) + '€';
+      // KPI reservas anuales
+      var reservasAnuales = (typeof reservasGestion !== 'undefined' ? reservasGestion : [])
+        .filter(function(r) { return r.activa && new Date(r.fecha_fin).getFullYear() === anioActual; })
+        .length;
+      var kra = document.getElementById('kpiReservasAnuales'); if (kra) kra.textContent = reservasAnuales;
+      // Reservas mensuales para el stat lateral
+      var reservasMes = (typeof reservasGestion !== 'undefined' ? reservasGestion : [])
+        .filter(function(r) {
+          if (!r.activa) return false;
+          if (window._viewYear === null) { return new Date(r.fecha_fin).getFullYear() === anioActual; }
+          var df = new Date(r.fecha_fin);
+          return df.getFullYear() === window._viewYear && df.getMonth() === window._viewMonth;
+        })
+        .length;
+      var srm = document.getElementById('statReservasMes'); if (srm) srm.textContent = reservasMes;
+      _buildChart();
+    }
+
+    function updateReservaEstado(id, nuevoEstado) {
+      var r = reservasGestion.find(function(x){ return x.id === id; });
+      if (!r) return;
+      r.estado = nuevoEstado;
+      fetch('/propiedades/' + viviendaIdGlobal + '/reservas/' + id, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ estado: nuevoEstado })
+      })
+      .then(function(res){ return res.json(); })
+      .then(function(d){
+        if (d.success) {
+          filtrarReservas();
+          showToast('Estado actualizado: ' + nuevoEstado, 'success');
+        } else { showToast(d.error || 'Error al actualizar estado', 'error'); }
+      })
+      .catch(function(){ showToast('Error de conexión', 'error'); });
+    }
+
+    function updateReservaPagado(id) {
+      var r = reservasGestion.find(function(x){ return x.id === id; });
+      if (!r) return;
+      var nuevoPagado = !r.pagado;
+      r.pagado = nuevoPagado; // optimista
+      filtrarReservas(); // actualizar badge inmediatamente
+      fetch('/propiedades/' + viviendaIdGlobal + '/reservas/' + id, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pagado: nuevoPagado })
+      })
+      .then(function(res){ return res.json(); })
+      .then(function(d){
+        if (d.success) {
+          // Recargar transacciones desde BD (se creó o eliminó una automática)
+          recargarTransacciones();
+          showToast(nuevoPagado ? 'Reserva marcada como pagada' : 'Reserva marcada como pendiente', 'success');
+        } else {
+          r.pagado = !nuevoPagado; // revertir
+          filtrarReservas();
+          showToast(d.error || 'Error al actualizar pago', 'error');
+        }
+      })
+      .catch(function(){ r.pagado = !nuevoPagado; filtrarReservas(); showToast('Error de conexión', 'error'); });
+    }
+
+    var _pendingDeleteId = null, _pendingDeleteTipo = null;
+    var _pendingDeleteReservaId = null;
+    function deleteReserva(id) {
+      _pendingDeleteReservaId = id;
+      document.getElementById('confirmDeleteMsg').textContent = '¿Eliminar la reserva #' + id + '? Esta acción no se puede deshacer.';
+      document.getElementById('confirmDeleteModal').classList.add('show');
+      // Override confirm button for this context
+      document.querySelector('#confirmDeleteModal .btn-primary').onclick = _doDeleteReserva;
+    }
+    function _doDeleteReserva() {
+      var id = _pendingDeleteReservaId;
+      document.getElementById('confirmDeleteModal').classList.remove('show');
+      document.querySelector('#confirmDeleteModal .btn-primary').onclick = _doDeleteTransaccion;
+      _pendingDeleteReservaId = null;
+      fetch('/propiedades/' + viviendaIdGlobal + '/reservas/' + id, { method: 'DELETE' })
+        .then(function(r){ return r.json(); })
+        .then(function(d) {
+          if (d.success) {
+            var r = reservasGestion.find(function(x){ return x.id === id; });
+            if (r) r.activa = false;
+            filtrarReservas();
+            // Si tenía transacción vinculada, recargar para actualizar ingresos totales
+            if (d.eraPagada) {
+              recargarTransacciones().then(function() {
+                showToast('Reserva desactivada e ingreso eliminado del análisis financiero', 'success');
+              });
+            } else {
+              updateFinancialSummary(); // actualiza ingresos pendientes
+              showToast('Reserva desactivada correctamente', 'success');
+            }
+          } else { showToast(d.error || 'Error al desactivar la reserva', 'error'); }
+        })
+        .catch(function(){ showToast('Error de conexión', 'error'); });
+    }
+    function deleteTransaccion(id, tipo) {
+      _pendingDeleteId = id; _pendingDeleteTipo = tipo;
+      document.getElementById('confirmDeleteMsg').textContent = '¿Eliminar este ' + tipo + '?';
+      document.getElementById('confirmDeleteModal').classList.add('show');
+    }
+    function _doDeleteTransaccion() {
+      var id = _pendingDeleteId, tipo = _pendingDeleteTipo;
+      document.getElementById('confirmDeleteModal').classList.remove('show');
+      _pendingDeleteId = null; _pendingDeleteTipo = null;
+      fetch('/propiedades/' + viviendaIdGlobal + '/transacciones/' + id, { method: 'DELETE' })
+        .then(function(r){ return r.json(); })
+        .then(function(d) {
+          if (d.success) {
+            window._transacciones = window._transacciones.filter(function(t){ return t.id_transaccion !== id; });
+            renderTransacciones();
+            updateFinancialSummary();
+            showToast((tipo === 'gasto' ? 'Gasto' : 'Ingreso') + ' eliminado', 'success');
+          } else { showToast(d.error || 'Error al eliminar', 'error'); }
+        })
+        .catch(function(){ showToast('Error de conexión', 'error'); });
+    }
+
+    // Initialize financial data and reservas on load
+    document.addEventListener('DOMContentLoaded', function() {
+      renderTransacciones();
+      updateFinancialSummary();
+      filtrarReservas();
+    });
+
+    // Initialize calendar if reservations exist
+    <% if (typeof reservasMes !== 'undefined') { %>
+      document.addEventListener('DOMContentLoaded', function() {
+        const calendarEl = document.getElementById('calendario');
+        if (calendarEl) {
+          const reservas = <%- JSON.stringify(reservasMes) %>;
+          
+          const events = reservas.map(reserva => ({
+            title: 'Reservado',
+            start: reserva.fecha_inicio,
+            end: reserva.fecha_fin,
+            backgroundColor: '#1a2332',
+            borderColor: '#141d28',
+            textColor: '#ffffff'
+          }));
+
+          const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'es',
+            events: events,
+            headerToolbar: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek'
+            },
+            buttonText: {
+              today: 'Hoy',
+              month: 'Mes',
+              week: 'Semana'
+            },
+            height: 'auto',
+            dayMaxEvents: true,
+            eventDisplay: 'block',
+            fixedWeekCount: false,
+            firstDay: 1,
+            eventTimeFormat: {
+              hour: '2-digit',
+              minute: '2-digit',
+              meridiem: false
+            }
+          });
+          
+          window._calInstance = calendar;
+          calendar.render();
+        }
+      });
+    <% } %>
+
+    // ===== RESERVAS =====
+
+    // Recarga reservas desde servidor vía AJAX y actualiza reservasGestion
+    function recargarReservas() {
+      return fetch('/propiedades/' + viviendaIdGlobal + '/reservas')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (!data.success) return;
+          reservasGestion = data.reservas.map(function(r) {
+            var h0 = (r.Huespedes && r.Huespedes[0]) || {};
+            return {
+              id: r.id_reserva,
+              nombre_huesped: h0.nombre || '',
+              apellidos_huesped: h0.apellidos || '',
+              dni: h0.dni || '',
+              tipo_documento: h0.tipo_documento || 'DNI',
+              fecha_expedicion: h0.fecha_expedicion_documento || '',
+              email: h0.email || '',
+              telefono: h0.telefono || '',
+              nacionalidad: h0.nacionalidad || '',
+              sexo: h0.sexo || '',
+              fecha_nacimiento: h0.fecha_nacimiento || '',
+              fecha_inicio: r.fecha_inicio,
+              fecha_fin: r.fecha_fin,
+              hora_llegada: r.hora_llegada || '15:00',
+              hora_salida_str: r.hora_salida || '11:00',
+              num_huespedes: r.num_huespedes,
+              importe_total: r.importe_total || null,
+              plataforma: r.plataforma || 'airbnb',
+              id_reserva_externo: r.id_reserva_externo || '',
+              estado: r.estado || 'confirmada',
+              checkin_realizado: !!r.checkin_realizado,
+              checkout_realizado: !!r.checkout_realizado,
+              activa: !!r.activa,
+              pagado: !!r.pagado
+            };
+          });
+          filtrarReservas();
+        })
+        .catch(function(e) { console.error('Error al recargar reservas:', e); });
+    }
+
+    // Recarga transacciones desde servidor vía AJAX
+    function recargarTransacciones() {
+      return fetch('/propiedades/' + viviendaIdGlobal + '/transacciones')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (!data.success) return;
+          window._transacciones = data.transacciones;
+          renderTransacciones();
+          updateFinancialSummary();
+        })
+        .catch(function(e) { console.error('Error al recargar transacciones:', e); });
+    }
+
+    const reservasData = <%- JSON.stringify(typeof todasReservas !== 'undefined' ? todasReservas : (typeof proximasReservas !== 'undefined' ? proximasReservas : [])) %>;
+    let reservasGestion = reservasData.map((r, i) => {
+      const h0 = (r.Huespedes && r.Huespedes[0]) || {};
+      return {
+        id: r.id_reserva,
+        nombre_huesped: h0.nombre || r.nombre_huesped || '',
+        apellidos_huesped: h0.apellidos || r.apellidos_huesped || '',
+        dni: h0.dni || r.dni || '',
+        tipo_documento: h0.tipo_documento || r.tipo_documento || 'DNI',
+        fecha_expedicion: h0.fecha_expedicion_documento || r.fecha_expedicion_documento || '',
+        email: h0.email || r.email || '',
+        telefono: h0.telefono || r.telefono || '',
+        nacionalidad: h0.nacionalidad || r.nacionalidad || '',
+        sexo: h0.sexo || r.sexo || '',
+        fecha_nacimiento: h0.fecha_nacimiento || r.fecha_nacimiento || '',
+        fecha_inicio: r.fecha_inicio,
+        fecha_fin: r.fecha_fin,
+        hora_llegada: r.hora_llegada || '15:00',
+        hora_salida_str: r.hora_salida || '11:00',
+        num_huespedes: r.num_huespedes,
+        importe_total: r.importe_total || null,
+        plataforma: r.plataforma || 'airbnb',
+        id_reserva_externo: r.id_reserva_externo || '',
+        estado: r.estado || 'confirmada',
+        checkin_realizado: r.checkin_realizado || false,
+        checkout_realizado: r.checkout_realizado || false,
+        activa: !!r.activa,
+        pagado: !!r.pagado
+      };
+    });
+
+    function renderTablaReservas(data) {
+      const tbody = document.getElementById('reservasTableBody');
+      if (!tbody) return;
+      if (!data || data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="11" style="text-align:center;padding:3rem 1rem;color:#64748b;">
+          <i class="fas fa-calendar-times" style="font-size:2.5rem;opacity:0.3;margin-bottom:0.75rem;display:block;"></i>
+          No hay reservas registradas</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = data.map(r => {
+        const confirmada = r.estado === 'confirmada';
+        const estadoBg    = confirmada ? '#d1fae5' : '#fee2e2';
+        const estadoColor = confirmada ? '#065f46' : '#991b1b';
+        const realIdx = reservasGestion.indexOf(r);
+        const fmt = d => d ? new Date(d).toLocaleDateString('es-ES') : '—';
+        const pagadoBadge = r.pagado
+          ? `<span onclick="updateReservaPagado(${r.id})" title="Marcar como pendiente" style="display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .65rem;border-radius:9999px;font-size:.72rem;font-weight:600;background:#d1fae5;color:#065f46;cursor:pointer;border:1px solid #a7f3d0;"><i class="fas fa-check-circle"></i> Pagado</span>`
+          : `<span onclick="updateReservaPagado(${r.id})" title="Marcar como pagado" style="display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .65rem;border-radius:9999px;font-size:.72rem;font-weight:600;background:#fff7ed;color:#c2410c;cursor:pointer;border:1px solid #fed7aa;"><i class="fas fa-clock"></i> Pendiente</span>`;
+        const estadoSelect = `<select onchange="updateReservaEstado(${r.id}, this.value)" style="padding:.25rem .5rem;border-radius:.375rem;border:1.5px solid ${estadoBg};background:${estadoBg};color:${estadoColor};font-size:.75rem;font-weight:600;cursor:pointer;outline:none;">
+          <option value="confirmada" ${r.estado==='confirmada'?'selected':''}>confirmada</option>
+          <option value="pendiente" ${r.estado==='pendiente'?'selected':''}>pendiente</option>
+          <option value="cancelada" ${r.estado==='cancelada'?'selected':''}>cancelada</option>
+        </select>`;
+        const activaBadge = r.activa
+          ? '<span style="display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .6rem;border-radius:9999px;font-size:.72rem;font-weight:600;background:#d1fae5;color:#065f46;"><i class=\"fas fa-check\"></i> Activa</span>'
+          : '<span style="display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .6rem;border-radius:9999px;font-size:.72rem;font-weight:600;background:#f1f5f9;color:#94a3b8;"><i class=\"fas fa-ban\"></i> Inactiva</span>';
+        return `<tr style="border-bottom:1px solid #f1f5f9;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='white'">
+          <td style="padding:.75rem 1rem;font-weight:600;color:#1a2332;">#${r.id}</td>
+          <td style="padding:.75rem 1rem;color:#1a2332;">${r.nombre_huesped ? r.nombre_huesped + ' ' + (r.apellidos_huesped || '') : '—'}</td>
+          <td style="padding:.75rem 1rem;color:#64748b;font-size:.8rem;">${r.dni || '—'}</td>
+          <td style="padding:.75rem 1rem;white-space:nowrap;">${fmt(r.fecha_inicio)}</td>
+          <td style="padding:.75rem 1rem;white-space:nowrap;">${fmt(r.fecha_fin)}</td>
+          <td style="padding:.75rem 1rem;text-align:center;">${r.num_huespedes || '—'}</td>
+          <td style="padding:.75rem 1rem;font-weight:600;color:#065f46;">${r.importe_total ? parseFloat(r.importe_total).toFixed(2) + ' €' : '—'}</td>
+          <td style="padding:.75rem 1rem;">${pagadoBadge}</td>
+          <td style="padding:.75rem 1rem;">${estadoSelect}</td>
+          <td style="padding:.75rem 1rem;text-align:center;">${activaBadge}</td>
+          <td style="padding:.75rem 1rem;white-space:nowrap;">
+            <button onclick="openEditReservaModal(${r.id})" title="Editar reserva" style="padding:.35rem .65rem;background:#1e40af;color:white;border:none;border-radius:.375rem;font-size:.75rem;cursor:pointer;">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button onclick="exportarParteViajeros(${realIdx})" style="padding:.35rem .65rem;background:#1a2332;color:white;border:none;border-radius:.375rem;font-size:.75rem;cursor:pointer;margin-left:.35rem;">
+              <i class="fas fa-file-export"></i> Parte
+            </button>
+            ${r.activa
+              ? `<button onclick="deleteReserva(${r.id})" style="padding:.35rem .65rem;background:#991b1b;color:white;border:none;border-radius:.375rem;font-size:.75rem;cursor:pointer;margin-left:.35rem;" title="Desactivar reserva"><i class="fas fa-ban"></i></button>`
+              : ''}
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
+    var _mostrarInactivas = false;
+    function toggleInactivas() {
+      _mostrarInactivas = !_mostrarInactivas;
+      var btn = document.getElementById('btnToggleInactivas');
+      btn.innerHTML = _mostrarInactivas
+        ? '<i class="fas fa-eye"></i> Ver solo activas'
+        : '<i class="fas fa-eye-slash"></i> Ver inactivas';
+      btn.style.borderColor = _mostrarInactivas ? '#1a2332' : '#e2e8f0';
+      btn.style.color = _mostrarInactivas ? '#1a2332' : '#64748b';
+      filtrarReservas();
+    }
+
+    function filtrarReservas() {
+      const q1     = (document.getElementById('searchReservaNumero')?.value || '').toLowerCase();
+      const q2     = (document.getElementById('searchDNI')?.value || '').toLowerCase();
+      const qEst   = (document.getElementById('searchEstado')?.value || '').toLowerCase();
+      const qPago  = (document.getElementById('searchPagado')?.value || '');
+      const filtered = reservasGestion.filter(r =>
+        (_mostrarInactivas || r.activa) &&
+        (!q1    || String(r.id).toLowerCase().includes(q1) || String(r.id_reserva_externo||'').toLowerCase().includes(q1)) &&
+        (!q2    || String(r.dni||'').toLowerCase().includes(q2)) &&
+        (!qEst  || (r.estado||'').toLowerCase() === qEst) &&
+        (!qPago || (qPago === 'pagado' ? r.pagado : !r.pagado))
+      );
+      renderTablaReservas(filtered);
+    }
+
+    function openNewReservationModal() {
+      switchNrTab('reserva');
+      document.getElementById('newReservationModal').style.display = 'flex';
+    }
+    function closeNewReservationModal() {
+      document.getElementById('newReservationModal').style.display = 'none';
+    }
+
+    function _clearNrErrors() {
+      ['nrFechaInicio','nrFechaFin','nrNumHuespedes'].forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('input-error');
+      });
+    }
+
+    function _validateReservaTab() {
+      let ok = true;
+      ['nrFechaInicio','nrFechaFin','nrNumHuespedes'].forEach(function(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (!el.value || el.value === '') {
+          el.classList.add('input-error');
+          el.addEventListener('input', function h() { el.classList.remove('input-error'); el.removeEventListener('input', h); });
+          ok = false;
+        } else {
+          el.classList.remove('input-error');
+        }
+      });
+      return ok;
+    }
+
+    function _validateHuespedTab() {
+      const container = document.getElementById('nrHuespedesContainer');
+      if (!container) return true;
+      const item = container.querySelector('.nh-accordion-item[data-idx="1"]');
+      if (!item) return true;
+      let ok = true;
+      ['Nombre','Apellidos','Dni'].forEach(function(field) {
+        const inp = item.querySelector('[data-field="'+field+'"]');
+        if (!inp) return;
+        if (!inp.value.trim()) {
+          inp.classList.add('input-error');
+          inp.addEventListener('input', function h() { inp.classList.remove('input-error'); inp.removeEventListener('input', h); });
+          // Open the accordion if closed
+          const body = item.querySelector('.nh-accordion-body');
+          if (body && body.style.display === 'none') item.querySelector('div').click();
+          ok = false;
+        } else {
+          inp.classList.remove('input-error');
+        }
+      });
+      return ok;
+    }
+
+    function nrGoToHuesped() {
+      if (!_validateReservaTab()) {
+        showToast('Rellena los campos obligatorios marcados con *', 'error');
+        return;
+      }
+      if (new Date(document.getElementById('nrFechaInicio').value) >= new Date(document.getElementById('nrFechaFin').value)) {
+        document.getElementById('nrFechaFin').classList.add('input-error');
+        showToast('La fecha de entrada debe ser anterior a la de salida.', 'error');
+        return;
+      }
+      switchNrTab('huesped');
+    }
+    function switchNrTab(tab) {
+      const isR = tab === 'reserva';
+      document.getElementById('nrPanelReserva').style.display = isR ? 'block' : 'none';
+      document.getElementById('nrPanelHuesped').style.display = isR ? 'none' : 'block';
+      document.getElementById('nrBtnSiguiente').style.display = isR ? '' : 'none';
+      document.getElementById('nrBtnGuardar').style.display = isR ? 'none' : '';
+      ['nrTabReservaBtn','nrTabHuespedBtn'].forEach((id, i) => {
+        const active = isR ? i === 0 : i === 1;
+        const btn = document.getElementById(id);
+        btn.style.borderBottomColor = active ? '#1a2332' : 'transparent';
+        btn.style.fontWeight = active ? '700' : '500';
+        btn.style.color = active ? '#1a2332' : '#94a3b8';
+      });
+      if (!isR) buildHuespedesAccordion();
+    }
+
+    function buildHuespedesAccordion() {
+      const n = parseInt(document.getElementById('nrNumHuespedes').value) || 1;
+      const container = document.getElementById('nrHuespedesContainer');
+      // Preserve existing values if already rendered
+      const existing = {};
+      container.querySelectorAll('.nh-accordion-item').forEach(function(el) {
+        const idx = el.dataset.idx;
+        ['Nombre','Apellidos','Dni','TipoDocumento','FechaExpedicion','FechaNacimiento','Sexo','Nacionalidad','Email','Telefono'].forEach(function(f) {
+          const inp = el.querySelector('[data-field="' + f + '"]');
+          if (inp) { existing[idx + '_' + f] = inp.value; }
+        });
+      });
+
+      container.innerHTML = '';
+      for (var i = 1; i <= n; i++) {
+        const idx = i;
+        const item = document.createElement('div');
+        item.className = 'nh-accordion-item';
+        item.dataset.idx = idx;
+        item.style.cssText = 'border:1.5px solid #e2e8f0;border-radius:0.5rem;margin-bottom:0.5rem;overflow:hidden;';
+
+        const header = document.createElement('div');
+        header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:0.6rem 1rem;background:#f8fafc;cursor:pointer;user-select:none;';
+        const responsableBadge = idx === 1
+          ? ' <span style="font-size:0.7rem;font-weight:600;background:#eef2ff;color:#4f46e5;border:1px solid #c7d2fe;border-radius:20px;padding:1px 8px;margin-left:6px;vertical-align:middle;">Responsable de reserva</span>'
+          : '';
+        header.innerHTML = '<span style="font-weight:600;font-size:0.85rem;color:#1a2332;display:flex;align-items:center;gap:0.4rem;"><i class="fas fa-user" style="color:#64748b;font-size:0.8rem;"></i>Huésped ' + idx + responsableBadge + '</span>'
+          + '<button type="button" class="nh-toggle-btn" style="width:26px;height:26px;border-radius:50%;border:1.5px solid #1a2332;background:#fff;color:#1a2332;font-size:1rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;"><i class="fas fa-plus" style="font-size:0.65rem;"></i></button>';
+
+        const body = document.createElement('div');
+        body.className = 'nh-accordion-body';
+        body.style.cssText = 'display:none;padding:1rem;border-top:1px solid #e2e8f0;background:#fff;';
+        body.innerHTML = nhFormHTML(idx, existing);
+
+        header.addEventListener('click', function(item, body, header) {
+          return function() {
+            const open = body.style.display !== 'none';
+            body.style.display = open ? 'none' : 'block';
+            const ico = header.querySelector('.nh-toggle-btn i');
+            const btn = header.querySelector('.nh-toggle-btn');
+            if (open) {
+              ico.className = 'fas fa-plus'; ico.style.fontSize = '0.65rem';
+              btn.style.background = '#fff'; btn.style.color = '#1a2332';
+            } else {
+              ico.className = 'fas fa-check'; ico.style.fontSize = '0.7rem';
+              btn.style.background = '#1a2332'; btn.style.color = '#fff';
+            }
+          };
+        }(item, body, header));
+
+        item.appendChild(header);
+        item.appendChild(body);
+        container.appendChild(item);
+      }
+    }
+
+    function nhFormHTML(idx, existing) {
+      function val(f) { return (existing && existing[idx+'_'+f]) ? ('value="'+existing[idx+'_'+f]+'"') : ''; }
+      return '<div class="form-row">'
+        +'<div class="form-group"><label>Nombre <span class="req">*</span></label><input type="text" data-field="Nombre" '+val('Nombre')+' placeholder="Nombre"></div>'
+        +'<div class="form-group"><label>Apellidos <span class="req">*</span></label><input type="text" data-field="Apellidos" '+val('Apellidos')+' placeholder="Primer y segundo apellido"></div>'
+        +'</div>'
+        +'<div class="form-row">'
+        +'<div class="form-group"><label>Tipo de documento</label><select data-field="TipoDocumento"><option value="DNI">DNI</option><option value="NIE">NIE</option><option value="Pasaporte">Pasaporte</option><option value="Otro">Otro</option></select></div>'
+        +'<div class="form-group"><label>Nº de documento <span class="req">*</span></label><input type="text" data-field="Dni" '+val('Dni')+' placeholder="Ej: 12345678A"></div>'
+        +'</div>'
+        +'<div class="form-row">'
+        +'<div class="form-group"><label>Fecha expedición doc.</label><input type="date" data-field="FechaExpedicion" '+val('FechaExpedicion')+'></div>'
+        +'<div class="form-group"><label>Fecha de nacimiento</label><input type="date" data-field="FechaNacimiento" '+val('FechaNacimiento')+'></div>'
+        +'</div>'
+        +'<div class="form-row">'
+        +'<div class="form-group"><label>Sexo</label><select data-field="Sexo"><option value="M">Masculino</option><option value="F">Femenino</option><option value="O">Otro</option></select></div>'
+        +'<div class="form-group"><label>Nacionalidad</label><input type="text" data-field="Nacionalidad" '+val('Nacionalidad')+' placeholder="Ej: Española"></div>'
+        +'</div>'
+        +'<div class="form-row">'
+        +'<div class="form-group"><label>Email</label><input type="email" data-field="Email" '+val('Email')+' placeholder="correo@ejemplo.com"></div>'
+        +'<div class="form-group"><label>Teléfono</label><input type="tel" data-field="Telefono" '+val('Telefono')+' placeholder="+34 600 000 000"></div>'
+        +'</div>';
+    }
+
+    function getHuespedField(idx, field) {
+      const container = document.getElementById('nrHuespedesContainer');
+      if (!container) return '';
+      const item = container.querySelector('.nh-accordion-item[data-idx="'+idx+'"]');
+      if (!item) return '';
+      const inp = item.querySelector('[data-field="'+field+'"]');
+      return inp ? inp.value : '';
+    }
+
+    function guardarNuevaReserva() {
+      // Validate reserva tab fields
+      if (!_validateReservaTab()) {
+        showToast('Rellena los campos obligatorios marcados con * en la pestaña de reserva.', 'error');
+        switchNrTab('reserva'); return;
+      }
+      const fi = document.getElementById('nrFechaInicio').value;
+      const ff = document.getElementById('nrFechaFin').value;
+      const nh = document.getElementById('nrNumHuespedes').value;
+      if (new Date(fi) >= new Date(ff)) {
+        document.getElementById('nrFechaFin').classList.add('input-error');
+        showToast('La fecha de entrada debe ser anterior a la fecha de salida.', 'error');
+        switchNrTab('reserva'); return;
+      }
+      // Validate required huésped fields (responsable)
+      if (!_validateHuespedTab()) {
+        showToast('Rellena los campos obligatorios del huésped: nombre, apellidos y nº de documento.', 'error');
+        return;
+      }
+
+      const payload = {
+        fecha_inicio: fi,
+        fecha_fin: ff,
+        num_huespedes: parseInt(nh),
+        importe_total: parseFloat(document.getElementById('nrImporte').value) || null,
+        plataforma: document.getElementById('nrPlataforma').value,
+        id_reserva_externo: document.getElementById('nrIdExterno').value,
+        estado: document.getElementById('nrEstado').value,
+        checkin_realizado: document.getElementById('nrCheckinRealizado').checked,
+        checkout_realizado: document.getElementById('nrCheckoutRealizado').checked,
+        pagado: document.getElementById('nrPagado').checked,
+        hora_llegada: document.getElementById('nrHoraLlegada').value || '15:00',
+        hora_salida:  document.getElementById('nrHoraSalida').value  || '11:00',
+        nombre_huesped: getHuespedField(1,'Nombre'),
+        apellidos_huesped: getHuespedField(1,'Apellidos'),
+        dni: getHuespedField(1,'Dni'),
+        tipo_documento: getHuespedField(1,'TipoDocumento'),
+        fecha_expedicion: getHuespedField(1,'FechaExpedicion'),
+        email: getHuespedField(1,'Email'),
+        telefono: getHuespedField(1,'Telefono'),
+        nacionalidad: getHuespedField(1,'Nacionalidad'),
+        sexo: getHuespedField(1,'Sexo'),
+        fecha_nacimiento: getHuespedField(1,'FechaNacimiento')
+      };
+
+      const saveBtn = document.getElementById('nrBtnGuardar');
+      const origText = saveBtn.innerHTML;
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Guardando…';
+
+      fetch('/propiedades/' + viviendaIdGlobal + '/reservas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(d) {
+        saveBtn.disabled = false; saveBtn.innerHTML = origText;
+        if (d.success) {
+          closeNewReservationModal();
+          // Reset form fields
+          ['nrFechaInicio','nrFechaFin','nrImporte','nrIdExterno'].forEach(function(id) {
+            const el = document.getElementById(id); if (el) el.value = '';
+          });
+          document.getElementById('nrHoraLlegada').value = '15:00';
+          document.getElementById('nrHoraSalida').value = '11:00';
+          document.getElementById('nrCheckinRealizado').checked = false;
+          document.getElementById('nrCheckoutRealizado').checked = false;
+          document.getElementById('nrPagado').checked = false;
+          document.getElementById('nrHuespedesContainer').innerHTML = '';
+          // Recargar reservas Y transacciones desde BD para consistencia total
+          Promise.all([recargarReservas(), recargarTransacciones()]).then(function() {
+            showToast('Reserva creada correctamente', 'success');
+            if (d.transaccionAutoCreada) {
+              var mesStr = new Date(d.transaccionAutoCreada.fecha).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+              setTimeout(function() {
+                showToast('💰 Ingreso de ' + parseFloat(d.transaccionAutoCreada.importe).toFixed(2) + ' € registrado en ' + mesStr, 'success');
+              }, 1500);
+            }
+          });
+        } else {
+          showToast(d.error || 'Error al guardar la reserva', 'error');
+        }
+      })
+      .catch(function() {
+        saveBtn.disabled = false; saveBtn.innerHTML = origText;
+        showToast('Error de conexión', 'error');
+      });
+    }
+
+    function parteSection(title, rows) {
+      return `<div style="margin-bottom:1.25rem;border:1px solid #e2e8f0;border-radius:.5rem;overflow:hidden;">${
+        `<div style="background:#f8fafc;padding:0.5rem 1rem;font-weight:700;font-size:.8rem;border-bottom:1px solid #e2e8f0;">${title}</div>`
+      }<table style="width:100%;border-collapse:collapse;font-size:.8rem;">${
+        rows.map(([k,v]) => `<tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:.4rem 1rem;color:#64748b;width:45%;font-weight:500;">${k}</td><td style="padding:.4rem 1rem;color:#1a2332;">${v}</td></tr>`).join('')
+      }</table></div>`;
+    }
+
+    function exportarParteViajeros(idx) {
+      const r = reservasGestion[idx]; if (!r) return;
+      const fmt = d => d ? new Date(d).toLocaleDateString('es-ES') : '—';
+      const sexoMap = { M: 'Masculino', F: 'Femenino', O: 'Otro' };
+      document.getElementById('parteViajerosContent').innerHTML = `
+        <div style="font-family:'Inter',sans-serif;color:#1a2332;">
+          <h2 style="text-align:center;font-size:1.1rem;font-weight:700;border-bottom:2px solid #1a2332;padding-bottom:.75rem;margin-bottom:1.5rem;">PARTE DE ENTRADA DE VIAJEROS</h2>
+          ${parteSection('1. Datos del Establecimiento',[
+            ['Nombre comercial','<%= vivienda.nombre || "" %>'],
+            ['Tipo de alojamiento','Vivienda turística'],
+            ['Dirección completa','<%= [vivienda.calle,vivienda.bloque_portal,vivienda.piso,vivienda.letra_numero].filter(Boolean).join(", ") %>'],
+            ['Código postal','<%= vivienda.codigo_postal || "" %>'],
+            ['Localidad y provincia','<%= vivienda.ciudad || "" %>'],
+            ['Nº registro turístico','<%= vivienda.numero_registro_autonomico || "" %>']
+          ])}
+          ${parteSection('2. Datos del Titular o Empresa Arrendadora',[
+            ['Nombre o razón social',''],['NIF/CIF',''],['Teléfono',''],
+            ['Correo electrónico',''],['Web',''],['URL del anuncio','']
+          ])}
+          ${parteSection('3. Datos del Viajero',[
+            ['Nombre completo', r.nombre_huesped || '—'],
+            ['Apellidos', r.apellidos_huesped || '—'],
+            ['Sexo', sexoMap[r.sexo] || '—'],
+            ['Fecha de nacimiento', fmt(r.fecha_nacimiento)],
+            ['Nacionalidad', r.nacionalidad || '—'],
+            ['Tipo de documento', r.tipo_documento || '—'],
+            ['Número de documento', r.dni || '—'],
+            ['Fecha de expedición', fmt(r.fecha_expedicion)],
+            ['Dirección habitual','—'],['Localidad','—'],['País','—'],
+            ['Teléfono móvil', r.telefono || '—'],
+            ['Correo electrónico', r.email || '—']
+          ])}
+          ${parteSection('4. Datos de la Estancia',[
+            ['Fecha y hora de entrada', r.fecha_inicio ? fmt(r.fecha_inicio)+' '+(r.hora_llegada||'') : '—'],
+            ['Fecha y hora de salida', r.fecha_fin ? fmt(r.fecha_fin)+' '+(r.hora_salida_str||'') : '—'],
+            ['Nº reserva / referencia', r.id_reserva_externo || r.id || '—'],
+            ['Número de personas', r.num_huespedes || '—'],
+            ['Relación de parentesco (menores)','—']
+          ])}
+          ${parteSection('5. Datos del Pago',[
+            ['Tipo de pago','—'],['Medio de pago','—'],['Titular del medio de pago','—'],
+            ['Fecha de caducidad','—'],['Fecha del pago','—'],
+            ['Importe total', r.importe_total ? r.importe_total+' €' : '—']
+          ])}
+          <div style="border:1px solid #e2e8f0;border-radius:.5rem;padding:1rem;margin-top:1rem;">
+            <strong>6. Firma del Viajero</strong>
+            <div style="margin-top:1.5rem;padding-top:2.5rem;border-top:1px dashed #94a3b8;color:#64748b;font-size:.8rem;text-align:center;">Firma manuscrita o digital</div>
+          </div>
+        </div>`;
+      document.getElementById('parteViajerosModal').style.display = 'flex';
+    }
+    function closeParte() { document.getElementById('parteViajerosModal').style.display = 'none'; }
+    function imprimirParte() {
+      const content = document.getElementById('parteViajerosContent').innerHTML;
+      const win = window.open('', '_blank', 'width=900,height=700');
+      win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Parte de Viajeros</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <style>body{font-family:'Inter',sans-serif;padding:2rem;color:#1a2332;font-size:13px;}</style>
+      </head><body>${content}</body></html>`);
+      win.document.close(); win.focus();
+      setTimeout(() => win.print(), 500);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => filtrarReservas());
+    document.addEventListener('DOMContentLoaded', () => recargarTareas());
+
+  // ── Field-edit modal ──────────────────────────────────────────────
+  const viviendaIdGlobal = '<%= vivienda.id_vivienda %>';
+  let _editBtn = null;
+
+  function showToast(msg, type) {
+    type = type || 'success';
+    let t = document.getElementById('toastNotify');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'toastNotify';
+      t.className = 'toast-notify';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.className = 'toast-notify ' + type;
+    setTimeout(function(){ t.classList.add('show'); }, 10);
+    setTimeout(function(){ t.classList.remove('show'); }, 3000);
+  }
+
+  function startEditField(btn) {
+    _editBtn = btn;
+    const field = btn.dataset.field;
+    const value = btn.dataset.value || '';
+    const label = btn.closest('.ficha-item').querySelector('.ficha-label').textContent.trim();
+    document.getElementById('editFieldLabel').textContent = label;
+    document.getElementById('editFieldName').value = field;
+    const textarea = document.getElementById('editFieldInput');
+    textarea.rows = (field.indexOf('url') === 0) ? 3 : 1;
+    textarea.value = value;
+    const modal = new bootstrap.Modal(document.getElementById('modalEditField'));
+    modal.show();
+    setTimeout(function(){ textarea.focus(); }, 300);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('btnSaveField').addEventListener('click', function() {
+      const field = document.getElementById('editFieldName').value;
+      const newValue = document.getElementById('editFieldInput').value.trim();
+      const saveBtn = document.getElementById('btnSaveField');
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Guardando\u2026';
+
+      fetch('/propiedades/' + viviendaIdGlobal + '/campo', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ field: field, value: newValue })
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(d) {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '<i class="fas fa-check me-1"></i>Guardar';
+        if (d.success) {
+          if (_editBtn) {
+            const item = _editBtn.closest('.ficha-item');
+            const valueEl = item.querySelector('.ficha-value');
+            if (field === 'superficie' || field === 'superficie_parcela') {
+              valueEl.textContent = newValue ? newValue + ' m\u00b2' : '\u2014';
+            } else if (field === 'capacidad_maxima') {
+              valueEl.textContent = newValue ? newValue + ' personas' : '\u2014';
+            } else if (field.indexOf('url') === 0) {
+              valueEl.textContent = newValue ? 'Ver enlace' : '\u2014';
+              valueEl.title = newValue;
+            } else {
+              valueEl.textContent = newValue || '\u2014';
+            }
+            _editBtn.dataset.value = newValue;
+          }
+          bootstrap.Modal.getInstance(document.getElementById('modalEditField')).hide();
+          showToast('Campo guardado correctamente', 'success');
+        } else {
+          showToast(d.error || 'Error al guardar', 'error');
+        }
+      })
+      .catch(function() {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '<i class="fas fa-check me-1"></i>Guardar';
+        showToast('Error de conexi\u00f3n', 'error');
+      });
+    });
+  });
+
+  </script>
+    
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Modal: editar campo ficha técnica -->
+  <div class="modal fade" id="modalEditField" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:420px">
+      <div class="modal-content" style="border:none;border-radius:0.75rem;overflow:hidden;">
+        <div class="modal-header" style="background:#1a2332;border:none;padding:1rem 1.25rem;">
+          <h6 class="modal-title" style="color:#fff;font-weight:600;font-size:0.9rem;margin:0;">
+            <i class="fas fa-pen me-2" style="color:#38bdf8;"></i>Editar:&nbsp;<span id="editFieldLabel" style="color:#38bdf8;"></span>
+          </h6>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" style="padding:1.25rem;">
+          <label style="font-size:0.75rem;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.4rem;">Nuevo valor</label>
+          <textarea id="editFieldInput"
+            rows="1"
+            style="width:100%;border:1.5px solid #e2e8f0;border-radius:.4rem;padding:.5rem .75rem;font-size:0.875rem;color:#1a2332;outline:none;resize:vertical;transition:border .2s;font-family:inherit;"
+            onfocus="this.style.borderColor='#1a2332'"
+            onblur="this.style.borderColor='#e2e8f0'"></textarea>
+          <input type="hidden" id="editFieldName">
+        </div>
+        <div class="modal-footer" style="border:none;padding:.75rem 1.25rem;gap:.5rem;justify-content:flex-end;">
+          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal"
+            style="font-size:.8rem;border-radius:.4rem;">Cancelar</button>
+          <button type="button" id="btnSaveField" class="btn btn-sm"
+            style="background:#1a2332;color:#fff;border:none;border-radius:.4rem;font-size:.8rem;padding:.35rem .9rem;">
+            <i class="fas fa-check me-1"></i>Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

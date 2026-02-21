@@ -47,6 +47,26 @@ const Reserva = sequelize.define('Reserva', {
     checkout_realizado: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+    },
+    activa: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+        allowNull: false
+    },
+    pagado: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+    },
+    hora_llegada: {
+        type: DataTypes.STRING(5),
+        allowNull: true,
+        defaultValue: '15:00'
+    },
+    hora_salida: {
+        type: DataTypes.STRING(5),
+        allowNull: true,
+        defaultValue: '11:00'
     }
 }, {
     tableName: 'reservas',

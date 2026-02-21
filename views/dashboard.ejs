@@ -12,6 +12,7 @@
 <body>
     
     <%- include('partials/navbar') %>
+    <%- include('partials/spinner') %>
 
     <div class="container-fluid">
         <div class="row">
@@ -48,12 +49,12 @@
                     <!-- Mockup decorativo -->
                     <div class="mt-4">
                         <h6 class="sidebar-subtitle">Vista Previa</h6>
-                        <div class="bg-blue-900/30 rounded-2xl p-3 space-y-2 border border-blue-700/30">
+                        <div class="rounded-2xl p-3 space-y-2 border" style="background: rgba(26, 35, 50, 0.3); border-color: rgba(26, 35, 50, 0.3);">
                             <div class="h-6 bg-gradient-to-r from-yellow-400/30 to-green-400/30 rounded"></div>
-                            <div class="h-16 bg-blue-800/40 rounded"></div>
+                            <div class="h-16 rounded" style="background: rgba(26, 35, 50, 0.4);"></div>
                             <div class="grid grid-cols-2 gap-2">
-                                <div class="h-12 bg-blue-800/40 rounded"></div>
-                                <div class="h-12 bg-blue-800/40 rounded"></div>
+                                <div class="h-12 rounded" style="background: rgba(26, 35, 50, 0.4);"></div>
+                                <div class="h-12 rounded" style="background: rgba(26, 35, 50, 0.4);"></div>
                             </div>
                         </div>
                     </div>

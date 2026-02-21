@@ -76,6 +76,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') cerrarModalNuevaPropiedad();
     });
+
+    // Event listener delegado para los inputs de archivo
+    document.addEventListener('change', function(e) {
+        if (e.target && e.target.type === 'file' && e.target.id.startsWith('file-')) {
+            e.preventDefault();
+            e.stopPropagation();
+            const viviendaId = e.target.id.replace('file-', '');
+            subirImagenVivienda(viviendaId, e.target);
+        }
+    });
 });
 
 // ========================================
@@ -254,9 +264,9 @@ function showStep(stepNumber) {
             nav.removeAttribute('disabled');
             
         } else if (navStep < stepNumber) {
-            // PASO COMPLETADO - círculo blanco con check azul
+            // PASO COMPLETADO - círculo blanco con check verde
             circle.style.background = 'white';
-            circle.style.color = '#000080';
+            circle.style.color = '#10b981';
             circle.style.border = 'none';
             
             if (label) label.style.color = 'rgba(255,255,255,0.8)';
@@ -330,7 +340,7 @@ function goToStep(stepNumber) {
     for (let i = currentStep; i < stepNumber; i++) {
         if (!validateStep(i)) {
             isValid = false;
-            alert(`Por favor, completa todos los campos obligatorios del paso ${i} antes de continuar.`);
+            showModernAlert(`Por favor, completa todos los campos obligatorios del paso ${i} antes de continuar.`, 'warning');
             break;
         }
     }
@@ -367,7 +377,7 @@ function validateStep(stepNumber) {
     });
 
     if (!isValid) {
-        alert('Por favor, completa todos los campos obligatorios (*) antes de continuar.');
+        showModernAlert('Por favor, completa todos los campos obligatorios (*) antes de continuar.', 'warning');
     }
 
     return isValid;
@@ -409,24 +419,23 @@ function generarDireccionCompleta() {
 // LEAFLET - MAPA
 // ========================================
 
-let leafletMap = null;
 let currentMarker = null;
 
 function inicializarMapa() {
-    if (leafletMap) return;
-    leafletMap = L.map('mapa-nuevo').setView([40.4168, -3.7038], 6);
+    if (window.leafletMap) return;
+    window.leafletMap = L.map('mapa-nuevo').setView([40.4168, -3.7038], 6);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap'
-    }).addTo(leafletMap);
+    }).addTo(window.leafletMap);
 
-    leafletMap.on('click', function(e) {
+    window.leafletMap.on('click', function(e) {
         colocarMarcador(e.latlng.lat, e.latlng.lng);
     });
 }
 
 function colocarMarcador(lat, lng) {
-    if (currentMarker) leafletMap.removeLayer(currentMarker);
-    currentMarker = L.marker([lat, lng]).addTo(leafletMap);
+    if (currentMarker) window.leafletMap.removeLayer(currentMarker);
+    currentMarker = L.marker([lat, lng]).addTo(window.leafletMap);
     document.getElementById('latitudInput').value = lat.toFixed(6);
     document.getElementById('longitudInput').value = lng.toFixed(6);
 }
@@ -434,6 +443,8 @@ function colocarMarcador(lat, lng) {
 async function buscarUbicacion() {
     const direccion = document.getElementById('buscarDireccion').value;
     if (!direccion) return;
+
+    showSpinner('Buscando ubicación...', 'Consultando mapa', 'fa-map-marker-alt');
 
     try {
         const response = await fetch(`/api/geocoding?q=${encodeURIComponent(direccion)}`, {
@@ -450,14 +461,18 @@ async function buscarUbicacion() {
         if (data && data.length > 0) {
             const lat = parseFloat(data[0].lat);
             const lng = parseFloat(data[0].lon);
-            leafletMap.setView([lat, lng], 15);
+            window.leafletMap.setView([lat, lng], 15);
             colocarMarcador(lat, lng);
+            hideSpinner();
+            showModernAlert('¡Ubicación encontrada!', 'success');
         } else {
-            alert('No se encontró la Dirección');
+            hideSpinner();
+            showModernAlert('No se encontró la Dirección', 'warning');
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Error al buscar la Ubicación. Intenta colocar el marcador manualmente.');
+        hideSpinner();
+        showModernAlert('Error al buscar la Ubicación. Intenta colocar el marcador manualmente.', 'error');
     }
 }
 
@@ -469,21 +484,38 @@ async function submitNuevaPropiedad() {
     const form = document.getElementById('formNuevaPropiedad');
     const formData = new FormData(form);
 
+    console.log('Enviando formulario...');
+    // Mostrar los datos que se están enviando para debugging
+    for (let [key, value] of formData.entries()) {
+        console.log(key, ':', value);
+    }
+
+    // Mostrar spinner
+    showSpinner('Creando propiedad...', 'Guardando la información', 'fa-home');
+
     try {
         const response = await fetch('/propiedades/', {
             method: 'POST',
             body: formData
         });
 
-        if (response.ok) {
-            alert('Propiedad creada exitosamente');
-            location.reload();
+        const data = await response.json();
+        console.log('Respuesta del servidor:', data);
+
+        if (response.ok && data.success) {
+            // Mantener el spinner con "Creando propiedad..." hasta redirigir
+            showModernAlert('Propiedad creada exitosamente', 'success');
+            setTimeout(() => window.location.href = '/propiedades', 1000);
         } else {
-            alert('Error al crear la propiedad');
+            hideSpinner();
+            const errorMsg = data.error || 'Error al crear la propiedad';
+            showModernAlert(errorMsg, 'error');
+            console.error('Error del servidor:', data);
         }
     } catch (error) {
-        console.error('Error:', error);
-        alert('Error al enviar el formulario');
+        hideSpinner();
+        console.error('Error en la solicitud:', error);
+        showModernAlert('Error al enviar el formulario. Revisa la consola para más detalles.', 'error');
     }
 }
 
@@ -504,16 +536,27 @@ function cerrarModalEliminar() {
 async function confirmarEliminarVivienda() {
     if (!viviendaIdEliminar) return;
 
+    // Cerrar modal y mostrar spinner
+    cerrarModalEliminar();
+    showSpinner('Eliminando propiedad...', 'Esta acción no se puede deshacer', 'fa-trash-alt');
+
     try {
         const response = await fetch(`/propiedades/${viviendaIdEliminar}`, { 
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }
         });
         
-        window.location.href = '/propiedades?mensaje=eliminada';
+        // Mantener el spinner con "Eliminando propiedad..." hasta redirigir
+        setTimeout(() => {
+            window.location.href = '/propiedades?mensaje=eliminada';
+        }, 1000);
     } catch (error) {
         console.error('Error:', error);
-        window.location.href = '/propiedades?error=eliminacion';
+        hideSpinner();
+        showModernAlert('Error al eliminar la propiedad', 'error');
+        setTimeout(() => {
+            window.location.href = '/propiedades?error=eliminacion';
+        }, 2000);
     }
 }
 
@@ -521,13 +564,36 @@ async function confirmarEliminarVivienda() {
 // SUBIR IMAGEN
 // ========================================
 
-async function subirImagenVivienda(viviendaId) {
-    const fileInput = document.getElementById(`file-${viviendaId}`);
+async function subirImagenVivienda(viviendaId, fileInput) {
     const file = fileInput.files[0];
     if (!file) return;
 
+    // Validar tipo de archivo
+    if (!file.type.startsWith('image/')) {
+        showModernAlert('Por favor selecciona un archivo de imagen válido', 'warning');
+        fileInput.value = '';
+        return;
+    }
+
+    // Validar tamaño (máximo 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+        showModernAlert('La imagen no debe superar los 5MB', 'warning');
+        fileInput.value = '';
+        return;
+    }
+
     const formData = new FormData();
     formData.append('imagen', file);
+
+    // Obtener elementos
+    const propertyCard = fileInput.closest('.property-card');
+    const imageContainer = propertyCard.querySelector('.property-image');
+    
+    // Agregar transición suave - fade out
+    if (imageContainer) {
+        imageContainer.style.transition = 'opacity 0.3s ease';
+        imageContainer.style.opacity = '0.4';
+    }
 
     try {
         const response = await fetch(`/propiedades/${viviendaId}/imagen`, {
@@ -536,16 +602,66 @@ async function subirImagenVivienda(viviendaId) {
         });
 
         if (response.ok) {
-            alert('Imagen subida exitosamente');
-            location.reload();
+            const data = await response.json();
+            
+            if (imageContainer && data.imagen_url) {
+                // Actualizar solo el src de la imagen o crear nueva imagen
+                let imgElement = imageContainer.querySelector('img');
+                if (imgElement) {
+                    // Fade out completo antes de cambiar
+                    imageContainer.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        // Cambiar la imagen
+                        imgElement.src = data.imagen_url + '?t=' + new Date().getTime();
+                        
+                        // Fade in suave
+                        setTimeout(() => {
+                            imageContainer.style.opacity = '1';
+                        }, 50);
+                    }, 300);
+                } else {
+                    // Si no hay imagen, crear una nueva
+                    const placeholder = imageContainer.querySelector('.image-placeholder');
+                    if (placeholder) {
+                        imageContainer.style.opacity = '0';
+                        
+                        setTimeout(() => {
+                            const newImg = document.createElement('img');
+                            newImg.src = data.imagen_url + '?t=' + new Date().getTime();
+                            newImg.alt = 'Imagen de propiedad';
+                            newImg.style.cssText = 'width: 100%; height: 100%; object-fit: cover; border-radius: 1rem 0 0 0;';
+                            placeholder.replaceWith(newImg);
+                            
+                            setTimeout(() => {
+                                imageContainer.style.opacity = '1';
+                            }, 50);
+                        }, 300);
+                    }
+                }
+                
+                // Limpiar el input file para permitir subir la misma imagen de nuevo
+                fileInput.value = '';
+                
+                showModernAlert('Imagen subida exitosamente', 'success');
+            }
         } else {
-            alert('Error al subir la imagen');
+            // Restaurar opacidad en caso de error
+            if (imageContainer) {
+                imageContainer.style.opacity = '1';
+            }
+            showModernAlert('Error al subir la imagen', 'error');
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Error al subir la imagen');
+        // Restaurar opacidad en caso de error
+        if (imageContainer) {
+            imageContainer.style.opacity = '1';
+        }
+        showModernAlert('Error al subir la imagen', 'error');
     }
 }
+
 // ========================================
 // MODAL DE COMODIDADES
 // ========================================
@@ -792,7 +908,8 @@ function updateSelectedCount() {
 
 function showModernAlert(message, type = 'info') {
     const alert = document.createElement('div');
-    alert.className = `fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full`;
+    alert.className = `fixed top-4 right-4 px-4 py-3 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full`;
+    alert.style.zIndex = '100002';
     
     const colors = {
         'success': 'bg-green-500 text-white',
@@ -938,7 +1055,10 @@ function restaurarSeleccionComodidades() {
         const checkbox = document.querySelector(`input[value="${amenity}"]`);
         if (checkbox) {
             checkbox.checked = true;
-            checkbox.closest('.amenity-item-modern').classList.add('selected');
+            const parentItem = checkbox.closest('.amenity-item-modern');
+            if (parentItem) {
+                parentItem.classList.add('selected');
+            }
         }
     });
     updateSelectedCount();
@@ -961,8 +1081,8 @@ function guardarComodidades() {
     const displayDiv = document.getElementById('selectedAmenitiesDisplay');
     if (selectedAmenities.length > 0) {
         displayDiv.innerHTML = selectedAmenities.map(a => `
-            <span class="inline-flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 text-indigo-700 rounded-lg text-sm font-medium border border-indigo-200">
-                <i class="fas fa-check-circle text-indigo-600"></i> ${a}
+            <span style="display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.5rem 0.75rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500; box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3); position: relative; z-index: 1;">
+                <i class="fas fa-check-circle"></i> ${a}
             </span>
         `).join('');
     } else {

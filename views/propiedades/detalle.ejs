@@ -30,6 +30,41 @@
   <!-- CSS Personalizado -->
   <link rel="stylesheet" href="/css/navbar.css">
   <link rel="stylesheet" href="/css/detalle-dashboard.css">
+  <style>
+    .kpi-card.kpi-small {
+      min-width: 120px;
+      max-width: 140px;
+      min-height: 80px;
+      padding: 0.75rem 0.75rem 0.5rem 0.75rem;
+      font-size: 0.92rem;
+    }
+    .kpi-card.kpi-small .kpi-value {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .kpi-card.kpi-small .kpi-label {
+      font-size: 0.85rem;
+    }
+    .kpi-card.kpi-small .kpi-subtitle {
+      font-size: 0.75rem;
+    }
+    .kpi-card.kpi-platform {
+      min-width: 120px;
+      max-width: 160px;
+      min-height: 80px;
+      padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    }
+    /* Modal para tareas */
+    .modal-task-bg {
+      display: none; position: fixed; z-index: 1050; left: 0; top: 0; width: 100vw; height: 100vh; background: rgba(30,41,59,0.25); align-items: center; justify-content: center;
+    }
+    .modal-task {
+      background: #fff; border-radius: 10px; box-shadow: 0 2px 16px rgba(0,0,0,0.12); padding: 2rem 1.5rem 1.5rem 1.5rem; min-width: 320px; max-width: 95vw;
+    }
+    .modal-task-header { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .modal-task-footer { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.5rem; }
+    .modal-task input, .modal-task textarea { width: 100%; margin-bottom: 0.75rem; }
+  </style>
   
 </head>
 <body>
@@ -89,9 +124,9 @@
       Volver a mis propiedades
     </a>
 
-    <!-- KPI Cards -->
-    <div class="kpi-grid">
-      <div class="kpi-card">
+    <!-- KPI Cards (smaller) + Platform Buttons -->
+    <div class="kpi-grid" style="gap: 1rem; margin-bottom: 1.5rem;">
+      <div class="kpi-card kpi-small">
         <div class="kpi-header">
           <span class="kpi-label">Rentabilidad Anual</span>
           <div class="kpi-icon green">
@@ -110,7 +145,7 @@
         <div class="kpi-subtitle">ROI estimado</div>
       </div>
 
-      <div class="kpi-card">
+      <div class="kpi-card kpi-small">
         <div class="kpi-header">
           <span class="kpi-label">Ingresos Mes Actual</span>
           <div class="kpi-icon blue">
@@ -122,7 +157,7 @@
         </div>
         <div class="kpi-subtitle">Febrero 2026</div>
       </div>
-      <div class="kpi-card">
+      <div class="kpi-card kpi-small">
         <div class="kpi-header">
           <span class="kpi-label">Incidencias Activas</span>
           <div class="kpi-icon red">
@@ -134,7 +169,7 @@
       </div>
 
       <% if (typeof porcentajeOcupacion !== 'undefined') { %>
-      <div class="kpi-card">
+      <div class="kpi-card kpi-small">
         <div class="kpi-header">
           <span class="kpi-label">Ocupación Histórica</span>
           <div class="kpi-icon blue">
@@ -147,7 +182,7 @@
       <% } %>
 
       <% if (typeof balanceAnual !== 'undefined') { %>
-      <div class="kpi-card">
+      <div class="kpi-card kpi-small">
         <div class="kpi-header">
           <span class="kpi-label">Balance Anual</span>
           <div class="kpi-icon green">
@@ -158,6 +193,18 @@
         <div class="kpi-subtitle">2025</div>
       </div>
       <% } %>
+
+      <!-- Platform Buttons -->
+      <div class="kpi-card kpi-platform" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 160px; min-height: 90px; background: #f8fafc; border: 1px solid #e5e7eb; box-shadow: 0 1px 4px rgba(0,0,0,0.03);">
+        <div style="display: flex; gap: 0.75rem;">
+          <a href="<%= vivienda.url_airbnb || '#' %>" target="_blank" class="btn btn-sm btn-airbnb" style="background: #ff5a5f; color: #fff; font-weight: 600; border-radius: 6px; padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fab fa-airbnb"></i> Airbnb
+          </a>
+          <a href="<%= vivienda.url_booking || '#' %>" target="_blank" class="btn btn-sm btn-booking" style="background: #003580; color: #fff; font-weight: 600; border-radius: 6px; padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fas fa-bed"></i> Booking
+          </a>
+        </div>
+      </div>
     </div>
 
     <!-- Main Layout -->
@@ -597,64 +644,44 @@
         </div>
         <% } %>
 
-        <!-- Platform Links -->
+        <!-- Tareas Card -->
         <div class="card">
           <div class="card-header">
             <h3>
               <div class="card-header-icon">
-                <i class="fas fa-globe"></i>
+                <i class="fas fa-tasks"></i>
               </div>
-              Plataformas de Alquiler
+              Tareas
             </h3>
           </div>
           <div class="card-body">
-            <div class="platform-links">
-              <% if (vivienda.url_airbnb) { %>
-                <a href="<%= vivienda.url_airbnb %>" target="_blank" class="platform-link airbnb">
-                  <div class="platform-link-content">
-                    <i class="fab fa-airbnb" style="font-size: 1.5rem;"></i>
-                    <span>Ver en Airbnb</span>
-                  </div>
-                  <i class="fas fa-external-link-alt"></i>
-                </a>
-              <% } else { %>
-                <a href="#" class="platform-link airbnb">
-                  <div class="platform-link-content">
-                    <i class="fab fa-airbnb" style="font-size: 1.5rem;"></i>
-                    <span>Ver en Airbnb</span>
-                  </div>
-                  <i class="fas fa-external-link-alt"></i>
-                </a>
-              <% } %>
-
-              <% if (vivienda.url_booking) { %>
-                <a href="<%= vivienda.url_booking %>" target="_blank" class="platform-link booking">
-                  <div class="platform-link-content">
-                    <i class="fas fa-bed" style="font-size: 1.25rem;"></i>
-                    <span>Ver en Booking.com</span>
-                  </div>
-                  <i class="fas fa-external-link-alt"></i>
-                </a>
-              <% } else { %>
-                <a href="#" class="platform-link booking">
-                  <div class="platform-link-content">
-                    <i class="fas fa-bed" style="font-size: 1.25rem;"></i>
-                    <span>Ver en Booking.com</span>
-                  </div>
-                  <i class="fas fa-external-link-alt"></i>
-                </a>
-              <% } %>
+            <div id="task-list" style="margin-bottom: 1rem;">
+              <!-- Aquí se mostrarán las tareas existentes -->
+              <div class="task-item" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                <input type="checkbox" />
+                <span>Tarea de ejemplo: Revisar contador de agua</span>
+                <span class="badge bg-secondary" style="font-size: 0.7rem; margin-left: auto;">Pendiente</span>
+              </div>
+              <div class="task-item" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                <input type="checkbox" checked />
+                <span>Llamar a la empresa de limpieza</span>
+                <span class="badge bg-success" style="font-size: 0.7rem; margin-left: auto;">Completada</span>
+              </div>
             </div>
-
-            <div class="action-buttons">
-              <button class="btn-action primary">
-                <i class="fas fa-headset"></i>
-                Contactar Gestor
-              </button>
-              <button class="btn-action secondary">
-                <i class="fas fa-tools"></i>
-                Reportar Incidencia
-              </button>
+            <button class="btn btn-primary btn-sm" onclick="openTaskModal()">
+              <i class="fas fa-plus"></i> Añadir Tarea
+            </button>
+            <!-- Modal para añadir tarea -->
+            <div id="modalTaskBg" class="modal-task-bg">
+              <div class="modal-task">
+                <div class="modal-task-header"><i class="fas fa-tasks"></i> Añadir Nueva Tarea</div>
+                <input id="taskTitle" type="text" placeholder="Título de la tarea" maxlength="60" required />
+                <textarea id="taskDesc" rows="2" placeholder="Descripción (opcional)"></textarea>
+                <div class="modal-task-footer">
+                  <button class="btn btn-secondary btn-sm" onclick="closeTaskModal()">Cancelar</button>
+                  <button class="btn btn-primary btn-sm" onclick="saveTask()">Guardar</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -678,6 +705,42 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   
   <script>
+        // Modal lógica para tareas
+        function openTaskModal() {
+          document.getElementById('modalTaskBg').style.display = 'flex';
+          setTimeout(() => {
+            document.getElementById('taskTitle').focus();
+          }, 100);
+        }
+        function closeTaskModal() {
+          document.getElementById('modalTaskBg').style.display = 'none';
+          document.getElementById('taskTitle').value = '';
+          document.getElementById('taskDesc').value = '';
+        }
+        function saveTask() {
+          const title = document.getElementById('taskTitle').value.trim();
+          const desc = document.getElementById('taskDesc').value.trim();
+          if (!title) {
+            document.getElementById('taskTitle').focus();
+            return;
+          }
+          // Añadir tarea a la lista (solo frontend demo)
+          const taskList = document.getElementById('task-list');
+          const div = document.createElement('div');
+          div.className = 'task-item';
+          div.style.display = 'flex';
+          div.style.alignItems = 'center';
+          div.style.gap = '0.5rem';
+          div.style.marginBottom = '0.5rem';
+          div.innerHTML = `<input type='checkbox' /> <span>${title}${desc ? ': ' + desc : ''}</span> <span class='badge bg-secondary' style='font-size:0.7rem;margin-left:auto;'>Pendiente</span>`;
+          taskList.prepend(div);
+          closeTaskModal();
+        }
+        // Cerrar modal al hacer click fuera
+        window.addEventListener('click', function(e) {
+          const modalBg = document.getElementById('modalTaskBg');
+          if (modalBg && e.target === modalBg) closeTaskModal();
+        });
     // Inicializar mapa si hay coordenadas
     <% if (vivienda.latitud && vivienda.longitud) { %>
       document.addEventListener('DOMContentLoaded', function() {

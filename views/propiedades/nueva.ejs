@@ -24,8 +24,8 @@
     /* Custom focus styles */
     .custom-input:focus {
       outline: none;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      border-color: #1a2332;
+      box-shadow: 0 0 0 3px rgba(26, 35, 50, 0.1);
     }
     
     /* Custom checkbox styles */
@@ -42,8 +42,8 @@
     }
     
     .custom-checkbox:checked {
-      background-color: #1e3a8a;
-      border-color: #1e3a8a;
+      background-color: #1a2332;
+      border-color: #1a2332;
     }
     
     .custom-checkbox:checked::after {
@@ -58,7 +58,7 @@
     }
     
     .custom-checkbox:hover {
-      border-color: #1e3a8a;
+      border-color: #1a2332;
     }
     
     /* File input custom styling */
@@ -82,7 +82,7 @@
     }
     
     .file-input-label:hover {
-      border-color: #1e3a8a;
+      border-color: #1a2332;
       background-color: #eff6ff;
     }
     
@@ -108,13 +108,13 @@
     
     <!-- Header -->
     <div class="mb-8 fade-in">
-      <a href="/propiedades" class="inline-flex items-center text-gray-600 hover:text-blue-900 transition-colors mb-4 group">
+      <a href="/propiedades" class="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors mb-4 group">
         <i data-lucide="arrow-left" class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform"></i>
         <span class="text-sm font-medium">Volver</span>
       </a>
       
       <div class="flex items-center">
-        <div class="bg-blue-900 p-3 rounded-xl mr-4">
+        <div class="p-3 rounded-xl mr-4" style="background: #1a2332;">
           <i data-lucide="home" class="w-8 h-8 text-white"></i>
         </div>
         <h1 class="text-3xl font-bold text-gray-900">Agregar Nueva Vivienda</h1>
@@ -127,8 +127,8 @@
       <!-- Sección: Información Básica -->
       <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 fade-in">
         <div class="flex items-center mb-6">
-          <div class="bg-blue-50 p-2 rounded-lg mr-3">
-            <i data-lucide="info" class="w-5 h-5 text-blue-900"></i>
+          <div class="p-2 rounded-lg mr-3" style="background: #e0f2fe;">
+            <i data-lucide="info" class="w-5 h-5" style="color: #1a2332;"></i>
           </div>
           <h2 class="text-xl font-semibold text-gray-900">Información Básica</h2>
         </div>
@@ -161,7 +161,7 @@
                 <div class="text-center">
                   <i data-lucide="upload-cloud" class="w-12 h-12 text-gray-400 mx-auto mb-2"></i>
                   <p class="text-sm text-gray-600 mb-1">
-                    <span class="font-semibold text-blue-900">Haz clic para subir</span> o arrastra una imagen aquí
+                    <span class="font-semibold" style="color: #1a2332;">Haz clic para subir</span> o arrastra una imagen aquí
                   </p>
                   <p class="text-xs text-gray-500">JPG, PNG, GIF, WEBP (máx. 5MB)</p>
                 </div>
@@ -247,8 +247,8 @@
       <!-- Sección: Ubicación -->
       <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 fade-in">
         <div class="flex items-center mb-6">
-          <div class="bg-blue-50 p-2 rounded-lg mr-3">
-            <i data-lucide="map-pin" class="w-5 h-5 text-blue-900"></i>
+          <div class="p-2 rounded-lg mr-3" style="background: #e0f2fe;">
+            <i data-lucide="map-pin" class="w-5 h-5" style="color: #1a2332;"></i>
           </div>
           <h2 class="text-xl font-semibold text-gray-900">Ubicación</h2>
         </div>
@@ -353,8 +353,8 @@
       <!-- Sección: Características -->
       <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 fade-in">
         <div class="flex items-center mb-6">
-          <div class="bg-blue-50 p-2 rounded-lg mr-3">
-            <i data-lucide="sliders" class="w-5 h-5 text-blue-900"></i>
+          <div class="p-2 rounded-lg mr-3" style="background: #e0f2fe;">
+            <i data-lucide="sliders" class="w-5 h-5" style="color: #1a2332;"></i>
           </div>
           <h2 class="text-xl font-semibold text-gray-900">Características</h2>
         </div>
@@ -397,50 +397,50 @@
       <!-- Sección: Comodidades -->
       <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 fade-in">
         <div class="flex items-center mb-6">
-          <div class="bg-blue-50 p-2 rounded-lg mr-3">
-            <i data-lucide="sparkles" class="w-5 h-5 text-blue-900"></i>
+          <div class="p-2 rounded-lg mr-3" style="background: #e0f2fe;">
+            <i data-lucide="sparkles" class="w-5 h-5" style="color: #1a2332;"></i>
           </div>
           <h2 class="text-xl font-semibold text-gray-900">Comodidades</h2>
         </div>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <!-- WiFi -->
-          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-all">
+          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
             <input type="checkbox" name="wifi" value="true" class="custom-checkbox">
             <i data-lucide="wifi" class="w-5 h-5 text-gray-600 mx-3"></i>
             <span class="text-sm font-medium text-gray-700">WiFi</span>
           </label>
 
           <!-- Aire acondicionado -->
-          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-all">
+          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
             <input type="checkbox" name="aire_acondicionado" value="true" class="custom-checkbox">
             <i data-lucide="snowflake" class="w-5 h-5 text-gray-600 mx-3"></i>
             <span class="text-sm font-medium text-gray-700">Aire acondicionado</span>
           </label>
 
           <!-- Calefacción -->
-          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-all">
+          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
             <input type="checkbox" name="calefaccion" value="true" class="custom-checkbox">
             <i data-lucide="thermometer" class="w-5 h-5 text-gray-600 mx-3"></i>
             <span class="text-sm font-medium text-gray-700">Calefacción</span>
           </label>
 
           <!-- Cocina equipada -->
-          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-all">
+          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
             <input type="checkbox" name="cocina" value="true" class="custom-checkbox">
             <i data-lucide="chef-hat" class="w-5 h-5 text-gray-600 mx-3"></i>
             <span class="text-sm font-medium text-gray-700">Cocina equipada</span>
           </label>
 
           <!-- Parking -->
-          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-all">
+          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
             <input type="checkbox" name="parking" value="true" class="custom-checkbox">
             <i data-lucide="car" class="w-5 h-5 text-gray-600 mx-3"></i>
             <span class="text-sm font-medium text-gray-700">Parking</span>
           </label>
 
           <!-- Piscina -->
-          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-all">
+          <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
             <input type="checkbox" name="piscina" value="true" class="custom-checkbox">
             <i data-lucide="waves" class="w-5 h-5 text-gray-600 mx-3"></i>
             <span class="text-sm font-medium text-gray-700">Piscina</span>
@@ -459,8 +459,10 @@
         </a>
         <button 
           type="submit" 
-          class="px-8 py-3 bg-blue-900 text-white font-semibold rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 transition-all shadow-lg hover:shadow-xl flex items-center justify-center"
-        >
+          class="px-8 py-3 text-white font-semibold rounded-lg focus:ring-4 transition-all shadow-lg hover:shadow-xl flex items-center justify-center"
+          style="background: #1a2332;"
+          onmouseover="this.style.background='#141d28'"
+          onmouseout="this.style.background='#1a2332'">
           <i data-lucide="check" class="w-5 h-5 mr-2"></i>
           Crear Vivienda
         </button>
@@ -532,6 +534,17 @@
     sections.forEach((section, index) => {
       section.style.animationDelay = `${index * 0.1}s`;
     });
+
+    // Spinner al enviar el formulario
+    const formElement = document.querySelector('form');
+    if (formElement) {
+      formElement.addEventListener('submit', function(e) {
+        showSpinner('Creando propiedad...', 'Guardando la información', 'fa-home');
+      });
+    }
   </script>
+
+  <%- include('../partials/spinner') %>
+
 </body>
 </html>

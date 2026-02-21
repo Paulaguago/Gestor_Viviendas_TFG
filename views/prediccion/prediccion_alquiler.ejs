@@ -108,16 +108,13 @@
   </script>
   <script src="/js/prediccion/prediccion_alquiler.js"></script>
 
-  <div class="overlay" id="loading-overlay">
-    <div class="spinner"></div>
-    <div class="overlay-text">Se está prediciendo el precio para la vivienda, espere unos segundos...</div>
-  </div>
+  <%- include('../partials/spinner') %>
+
   <script>
     const formEl = document.querySelector('form');
-    const overlay = document.getElementById('loading-overlay');
-    if (formEl && overlay) {
+    if (formEl) {
       formEl.addEventListener('submit', () => {
-        overlay.classList.add('show');
+        showSpinner('Prediciendo precio...', 'Analizando datos de la vivienda', 'fa-calculator');
       });
     }
   </script>

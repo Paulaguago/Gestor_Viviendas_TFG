@@ -12,6 +12,11 @@ const Vivienda = sequelize.define('Vivienda', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
+    nombre: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+        comment: 'Nombre descriptivo de la vivienda'
+    },
     // Dirección separada en componentes
     calle: {
         type: DataTypes.STRING(255),

@@ -2,8 +2,8 @@
 /* Paleta de colores y variables CSS */
 
 :root {
-  --navy-blue: #1a365d;
-  --navy-blue-dark: #0f2540;
+  --navy-blue: #1a2332;
+  --navy-blue-dark: #1a2332;
   --forest-green: #2f855a;
   --success-green: #38a169;
   --danger-red: #e53e3e;
@@ -32,7 +32,7 @@ body {
   min-height: 100vh;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: var(--gray-800);
-  padding-top: 3.75rem;
+
 }
 
 /* Asegurar que el navbar esté sobre todo el contenido */
