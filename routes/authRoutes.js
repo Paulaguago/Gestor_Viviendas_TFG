@@ -9,7 +9,7 @@ router.get('/login', requireGuest, (req, res) => {
     res.render('auth/login', { 
         title: 'Iniciar Sesión',
         error: req.flash('error'),
-        success: req.flash('success')
+        success: req.query.logout ? ['Sesión cerrada exitosamente'] : req.flash('success')
     });
 });
 
@@ -83,14 +83,35 @@ router.post('/register', requireGuest, async (req, res) => {
     }
 });
 
-// Handle logout
+// Handle logout - GET (desde navbar)
+router.get('/logout', (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        req.session.destroy((err) => {
+            if (err) {
+                console.error('Error al destruir sesión:', err);
+            }
+            res.clearCookie('connect.sid');
+            res.redirect('/auth/login?logout=true');
+        });
+    });
+});
+
+// Handle logout - POST (por si se usa en algún formulario)
 router.post('/logout', (req, res, next) => {
     req.logout((err) => {
         if (err) {
             return next(err);
         }
-        req.flash('success', 'Sesión cerrada exitosamente');
-        res.redirect('/');
+        req.session.destroy((err) => {
+            if (err) {
+                console.error('Error al destruir sesión:', err);
+            }
+            res.clearCookie('connect.sid');
+            res.redirect('/auth/login');
+        });
     });
 });
 
