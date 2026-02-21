@@ -1180,7 +1180,7 @@
           <span>Mi Gestor</span>
         </div>
         <a href="/propiedades" class="btn-back" title="Volver a mis propiedades">
-          <i class="fas fa-arrow-left"></i>
+          <i class="fas fa-arrow-left"></i>Volver
         </a>
       </div>
       
@@ -2898,6 +2898,13 @@
           }
         });
       });
+
+      // Auto-activate tab from URL ?tab= param (e.g. ?tab=channels from Reserva button)
+      const urlTab = new URLSearchParams(window.location.search).get('tab');
+      if (urlTab) {
+        const targetNav = document.querySelector('.nav-item[data-tab="' + urlTab + '"]');
+        if (targetNav) targetNav.click();
+      }
     });
 
     // ---- EDITAR RESERVA ----

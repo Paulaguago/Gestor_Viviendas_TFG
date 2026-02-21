@@ -132,6 +132,46 @@ app.get('/dashboard', requireAuth, async (req, res) => {
                 where: { id_usuario: userId }
             }]
         }) || 0;
+
+        const gastosMes = await models.Transaccion.sum('importe', {
+            where: {
+                tipo: 'gasto',
+                fecha: {
+                    [require('sequelize').Op.between]: [inicioMes, finMes]
+                }
+            },
+            include: [{
+                model: models.Vivienda,
+                where: { id_usuario: userId }
+            }]
+        }) || 0;
+
+        const balanceMes = parseFloat(ingresosMes) - parseFloat(gastosMes);
+
+        // Cobros pendientes: reservas activas no pagadas
+        const cobrosPendientes = await models.Reserva.count({
+            where: { pagado: false, activa: true },
+            include: [{ model: models.Vivienda, where: { id_usuario: userId } }]
+        });
+
+        // Chart data: últimos 6 meses (ingresos y gastos)
+        const chartData = { labels: [], ingresos: [], gastos: [] };
+        for (let i = 5; i >= 0; i--) {
+            const d      = new Date(fechaHoy.getFullYear(), fechaHoy.getMonth() - i, 1);
+            const cStart = new Date(d.getFullYear(), d.getMonth(), 1);
+            const cEnd   = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+            chartData.labels.push(d.toLocaleDateString('es-ES', { month: 'short' }));
+            const ing = await models.Transaccion.sum('importe', {
+                where: { tipo: 'ingreso', fecha: { [require('sequelize').Op.between]: [cStart, cEnd] } },
+                include: [{ model: models.Vivienda, where: { id_usuario: userId } }]
+            }) || 0;
+            const gas = await models.Transaccion.sum('importe', {
+                where: { tipo: 'gasto',   fecha: { [require('sequelize').Op.between]: [cStart, cEnd] } },
+                include: [{ model: models.Vivienda, where: { id_usuario: userId } }]
+            }) || 0;
+            chartData.ingresos.push(parseFloat(ing));
+            chartData.gastos.push(parseFloat(gas));
+        }
         
         // Incidencias pendientes
         const incidenciasPendientes = await models.Incidencia.count({
@@ -295,10 +335,14 @@ app.get('/dashboard', requireAuth, async (req, res) => {
                 totalReservas,
                 proximasReservas,
                 tareasPendientes,
-                ingresosMes: ingresosMes.toFixed(2),
+                ingresosMes: parseFloat(ingresosMes).toFixed(2),
+                gastosMes: parseFloat(gastosMes).toFixed(2),
+                balanceMes: balanceMes.toFixed(2),
                 incidenciasPendientes,
-                ocupacion
+                ocupacion,
+                cobrosPendientes
             },
+            chartData,
             listaProximasReservas,
             notificaciones: notificacionesLimitadas
         });
@@ -312,10 +356,14 @@ app.get('/dashboard', requireAuth, async (req, res) => {
                 totalReservas: 0,
                 proximasReservas: 0,
                 tareasPendientes: 0,
-                ingresosMes: 0,
+                ingresosMes: '0.00',
+                gastosMes: '0.00',
+                balanceMes: '0.00',
                 incidenciasPendientes: 0,
-                ocupacion: 0
+                ocupacion: 0,
+                cobrosPendientes: 0
             },
+            chartData: { labels: [], ingresos: [], gastos: [] },
             listaProximasReservas: [],
             notificaciones: []
         });

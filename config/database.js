@@ -38,12 +38,17 @@ const testConnection = async () => {
 };
 
 // Función para sincronizar las tablas
+// Uso normal:          syncDatabase()          → CREATE TABLE IF NOT EXISTS (sin ALTER)
+// Reset total (dev):   RESET_DB=true node app.js → DROP + CREATE con todos los campos
 const syncDatabase = async (force = false) => {
     try {
-        // force: true borra y recrea las tablas (solo para desarrollo)
-        // force: false solo crea las tablas si no existen
-        // alter: true añade columnas nuevas sin borrar datos (recomendado en desarrollo)
-        await sequelize.sync({ force, alter: !force });
+        const shouldReset = process.env.RESET_DB === 'true';
+        if (shouldReset) {
+            console.log('⚠️  RESET_DB=true detectado → recreando todas las tablas desde cero...');
+        }
+        // Con RESET_DB=true: borra y recrea (útil al añadir campos nuevos al modelo)
+        // Normal: solo crea si no existe, SIN alter (sin ALTER TABLE en cada inicio)
+        await sequelize.sync({ force: shouldReset || force, alter: false });
         
         console.log('\n🎉 ═══════════════════════════════════════════════════════════');
         console.log('✅ TABLAS CREADAS CORRECTAMENTE CON SEQUELIZE');

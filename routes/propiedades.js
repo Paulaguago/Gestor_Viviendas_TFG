@@ -131,6 +131,10 @@ router.post('/', uploadImage.single('imagen'), async (req, res) => {
       url_airbnb: req.body.url_airbnb || null,
       url_booking: req.body.url_booking || null,
       
+      // Precios
+      precio_alquiler: req.body.precio_alquiler ? parseFloat(req.body.precio_alquiler) : null,
+      precio_venta: req.body.precio_venta ? parseFloat(req.body.precio_venta) : null,
+
       // Comodidades en formato JSON string
       amenities: (() => {
         const amenitiesData = req.body['amenities[]'] || req.body.amenities;
@@ -466,18 +470,18 @@ router.delete('/:id', async (req, res) => {
     }
 
     // Verificar que la vivienda pertenece al usuario
-    if (vivienda.id_usuario !== req.user.id_usuario) {
+    // eslint-disable-next-line eqeqeq
+    if (vivienda.id_usuario != req.user.id_usuario) {
       return res.status(403).json({ success: false, error: 'No tienes permiso para eliminar esta vivienda' });
     }
 
     // Soft delete: marcar como inactiva
     await vivienda.update({ activa: false });
-    
-    // Redirigir con mensaje de éxito
-    res.redirect('/propiedades?mensaje=eliminada');
+
+    return res.json({ success: true });
   } catch (error) {
     console.error('Error al desactivar vivienda:', error);
-    res.redirect('/propiedades?error=eliminacion');
+    return res.status(500).json({ success: false, error: error.message });
   }
 });
 

@@ -163,6 +163,23 @@ const Vivienda = sequelize.define('Vivienda', {
         type: DataTypes.TEXT,
         allowNull: true,
         comment: 'URL pública de la propiedad en Airbnb'
+    },
+    // Precios
+    precio_alquiler: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+        comment: 'Precio por noche en euros'
+    },
+    precio_venta: {
+        type: DataTypes.DECIMAL(12, 2),
+        allowNull: true,
+        comment: 'Precio de venta en euros'
+    },
+    estado_actual: {
+        type: DataTypes.ENUM('libre', 'ocupada'),
+        allowNull: true,
+        defaultValue: 'libre',
+        comment: 'Estado de ocupación actual'
     }
 }, {
     tableName: 'viviendas',

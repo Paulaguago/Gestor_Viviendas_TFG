@@ -536,27 +536,33 @@ function cerrarModalEliminar() {
 async function confirmarEliminarVivienda() {
     if (!viviendaIdEliminar) return;
 
+    // Guardar el ID antes de cerrar el modal (cerrarModalEliminar lo pone a null)
+    const idToDelete = viviendaIdEliminar;
+
     // Cerrar modal y mostrar spinner
     cerrarModalEliminar();
     showSpinner('Eliminando propiedad...', 'Esta acción no se puede deshacer', 'fa-trash-alt');
 
     try {
-        const response = await fetch(`/propiedades/${viviendaIdEliminar}`, { 
+        const response = await fetch(`/propiedades/${idToDelete}`, { 
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }
         });
-        
-        // Mantener el spinner con "Eliminando propiedad..." hasta redirigir
-        setTimeout(() => {
-            window.location.href = '/propiedades?mensaje=eliminada';
-        }, 1000);
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+            setTimeout(() => {
+                window.location.href = '/propiedades?mensaje=eliminada';
+            }, 800);
+        } else {
+            hideSpinner();
+            showModernAlert(data.error || 'Error al eliminar la propiedad', 'error');
+        }
     } catch (error) {
         console.error('Error:', error);
         hideSpinner();
-        showModernAlert('Error al eliminar la propiedad', 'error');
-        setTimeout(() => {
-            window.location.href = '/propiedades?error=eliminacion';
-        }, 2000);
+        showModernAlert('Error de conexión al eliminar la propiedad', 'error');
     }
 }
 
@@ -585,9 +591,11 @@ async function subirImagenVivienda(viviendaId, fileInput) {
     const formData = new FormData();
     formData.append('imagen', file);
 
-    // Obtener elementos
-    const propertyCard = fileInput.closest('.property-card');
-    const imageContainer = propertyCard.querySelector('.property-image');
+    // Obtener elementos — soporta tanto el nuevo diseño (.mp-card) como el legacy (.property-card)
+    const propertyCard = fileInput.closest('.mp-card') || fileInput.closest('.property-card');
+    const imageContainer = propertyCard
+        ? (propertyCard.querySelector('.mp-img-wrap') || propertyCard.querySelector('.property-image'))
+        : null;
     
     // Agregar transición suave - fade out
     if (imageContainer) {
@@ -621,8 +629,8 @@ async function subirImagenVivienda(viviendaId, fileInput) {
                         }, 50);
                     }, 300);
                 } else {
-                    // Si no hay imagen, crear una nueva
-                    const placeholder = imageContainer.querySelector('.image-placeholder');
+                    // Si no hay imagen, crear una nueva (nuevo diseño: .mp-img-placeholder, legacy: .image-placeholder)
+                    const placeholder = imageContainer.querySelector('.mp-img-placeholder') || imageContainer.querySelector('.image-placeholder');
                     if (placeholder) {
                         imageContainer.style.opacity = '0';
                         
@@ -630,7 +638,7 @@ async function subirImagenVivienda(viviendaId, fileInput) {
                             const newImg = document.createElement('img');
                             newImg.src = data.imagen_url + '?t=' + new Date().getTime();
                             newImg.alt = 'Imagen de propiedad';
-                            newImg.style.cssText = 'width: 100%; height: 100%; object-fit: cover; border-radius: 1rem 0 0 0;';
+                            newImg.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
                             placeholder.replaceWith(newImg);
                             
                             setTimeout(() => {
