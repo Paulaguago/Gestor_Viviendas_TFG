@@ -259,6 +259,45 @@
       color: white;
     }
 
+    /* ─── Vista Detalle Reserva ─────────────────────────────── */
+    .rd-back-btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .55rem 1.1rem;
+      background: #f1f5f9; color: #1a2332;
+      border: none; border-radius: .5rem;
+      font-weight: 600; font-size: .875rem;
+      cursor: pointer; text-decoration: none; transition: background .2s;
+    }
+    .rd-back-btn:hover { background: #e2e8f0; }
+
+    .rd-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start;
+    }
+    @media (max-width: 900px) { .rd-grid { grid-template-columns: 1fr; } }
+
+    .rd-table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+    .rd-table thead tr { background: #f8fafc; border-bottom: 2px solid #e2e8f0; }
+    .rd-table th { padding: .65rem 1rem; text-align: left; font-weight: 600; color: #64748b; }
+    .rd-table td { padding: .65rem 1rem; }
+    .rd-table tbody tr { border-bottom: 1px solid #f1f5f9; }
+
+    .rd-btn-save {
+      width: 100%; padding: .7rem; background: #065f46; color: white;
+      border: none; border-radius: .5rem; font-weight: 700; font-size: .9rem;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      gap: .4rem; margin-top: .5rem; transition: background .2s;
+    }
+    .rd-btn-save:hover { background: #047857; }
+    .rd-btn-save:disabled { background: #94a3b8; cursor: not-allowed; }
+
+    .rd-btn-pdf {
+      padding: .75rem 2rem; background: #1a2332; color: white;
+      border: none; border-radius: .5rem; font-weight: 700; font-size: .9rem;
+      cursor: pointer; display: inline-flex; align-items: center; gap: .5rem;
+      transition: background .2s;
+    }
+    .rd-btn-pdf:hover { background: #0f172a; }
+
     /* Content Area */
     .content-area {
       flex: 1;
@@ -2036,6 +2075,137 @@
               </table>
             </div>
           </div>
+
+          <!-- ====== Vista: Detalles de la Reserva (visible al pulsar el ojo) ====== -->
+          <div id="reservaDetailView" style="display:none;">
+            <!-- Header -->
+            <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+              <button class="rd-back-btn" onclick="closeReservaDetail()">
+                <i class="fas fa-arrow-left"></i> Volver a Gestión de Reservas
+              </button>
+              <h3 id="rdTitle" style="margin:0;font-size:1.25rem;font-weight:700;color:#1a2332;">Reserva</h3>
+            </div>
+
+            <!-- Dos columnas -->
+            <div class="rd-grid">
+              <!-- Section A: Datos editables -->
+              <div class="card" style="margin:0;">
+                <div class="card-header-custom">
+                  <div class="card-header-left">
+                    <div class="card-icon"><i class="fas fa-calendar-day"></i></div>
+                    <h3>Datos de la Reserva</h3>
+                  </div>
+                </div>
+                <div style="padding:1.5rem;display:flex;flex-direction:column;gap:1rem;">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>Fecha de entrada</label>
+                      <input type="date" id="rdFechaInicio">
+                    </div>
+                    <div class="form-group">
+                      <label>Hora de llegada</label>
+                      <input type="time" id="rdHoraLlegada">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>Fecha de salida</label>
+                      <input type="date" id="rdFechaFin">
+                    </div>
+                    <div class="form-group">
+                      <label>Hora de salida</label>
+                      <input type="time" id="rdHoraSalida">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>Importe total (€)
+                        <!-- NOTE: Al guardar, si la reserva está Pagada el servidor
+                        actualiza también la transacción vinculada y el Análisis
+                        Financiero se refresca vía recargarTransacciones(). -->
+                      </label>
+                      <input type="number" id="rdImporte" step="0.01" min="0" placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                      <label>Nº personas</label>
+                      <input type="number" id="rdNumHuespedes" min="1" placeholder="1">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>Plataforma</label>
+                      <select id="rdPlataforma">
+                        <option value="airbnb">Airbnb</option>
+                        <option value="booking">Booking.com</option>
+                        <option value="bocaboca">Boca a boca</option>
+                        <option value="otros">Otros</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Estado</label>
+                      <select id="rdEstado">
+                        <option value="confirmada">Confirmada</option>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="cancelada">Cancelada</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;padding:.25rem 0;">
+                    <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;font-weight:500;font-size:.875rem;">
+                      <input type="checkbox" id="rdCheckin"> Check-in realizado
+                    </label>
+                    <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;font-weight:500;font-size:.875rem;">
+                      <input type="checkbox" id="rdCheckout"> Check-out realizado
+                    </label>
+                    <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;font-weight:500;font-size:.875rem;">
+                      <input type="checkbox" id="rdPagado"> Pagado
+                    </label>
+                  </div>
+                  <button class="rd-btn-save" id="rdBtnGuardar" onclick="guardarCambiosReservaDetalle()">
+                    <i class="fas fa-save"></i> Guardar cambios en la reserva
+                  </button>
+                </div>
+              </div>
+
+              <!-- Section B: Huéspedes -->
+              <div class="card" style="margin:0;">
+                <div class="card-header-custom">
+                  <div class="card-header-left">
+                    <div class="card-icon"><i class="fas fa-users"></i></div>
+                    <h3>Huéspedes</h3>
+                  </div>
+                  <button class="btn-add" onclick="openHuespedModal(null)">
+                    <i class="fas fa-user-plus"></i> Añadir huésped
+                  </button>
+                </div>
+                <div style="overflow-x:auto;padding:0 1.5rem 1.5rem;">
+                  <table class="rd-table">
+                    <thead>
+                      <tr>
+                        <th>Nombre</th>
+                        <th>DNI / Pasaporte</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                        <th style="text-align:center;">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody id="rdHuespedesBody">
+                      <tr><td colspan="5" style="text-align:center;padding:2rem;color:#94a3b8;">Cargando…</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- PDF -->
+            <div style="margin-top:1.5rem;display:flex;justify-content:flex-end;">
+              <button class="rd-btn-pdf" onclick="generarPDFDetalle()" title="Genera el parte de viajeros en PDF">
+                <i class="fas fa-file-pdf"></i>&nbsp; Generar PDF — Registro de Viajeros
+              </button>
+            </div>
+          </div>
+          <!-- ====== /Vista Detalle Reserva ====== -->
+
         </div>
 
       </div>
@@ -2063,6 +2233,10 @@
         <button id="nrTabHuespedBtn" onclick="switchNrTab('huesped')"
           style="padding: 0.75rem 1.5rem; border: none; border-bottom: 3px solid transparent; background: none; font-weight: 500; color: #94a3b8; cursor: pointer; font-size: 0.875rem; margin-bottom: -2px;">
           <i class="fas fa-user"></i> Datos del Huésped
+        </button>
+        <button id="nrTabPagoBtn" onclick="switchNrTab('pago')"
+          style="padding: 0.75rem 1.5rem; border: none; border-bottom: 3px solid transparent; background: none; font-weight: 500; color: #94a3b8; cursor: pointer; font-size: 0.875rem; margin-bottom: -2px;">
+          <i class="fas fa-credit-card"></i> Datos del Pago
         </button>
       </div>
       <div class="modal-body" style="flex: 1; overflow-y: auto; min-height: 0;">
@@ -2138,6 +2312,43 @@
         <!-- Huésped panel -->
         <div id="nrPanelHuesped" style="display: none;">
           <div id="nrHuespedesContainer"></div>
+        </div>
+        <!-- Pago panel -->
+        <div id="nrPanelPago" style="display: none;">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tipo de pago</label>
+              <select id="nrTipoPago">
+                <option value="">— Sin especificar —</option>
+                <option value="efectivo">Efectivo</option>
+                <option value="tarjeta">Tarjeta bancaria</option>
+                <option value="transferencia">Transferencia</option>
+                <option value="bizum">Bizum</option>
+                <option value="cheque">Cheque</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Método / Red de pago</label>
+              <input type="text" id="nrMetodoPago" placeholder="Ej: Visa, Mastercard, PayPal…">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Titular del medio de pago</label>
+              <input type="text" id="nrTitularPago" placeholder="Nombre en la tarjeta o titular">
+            </div>
+            <div class="form-group">
+              <label>Fecha de caducidad (MM/AAAA)</label>
+              <input type="text" id="nrFechaCaducidadPago" placeholder="12/2028" maxlength="7">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Fecha del pago</label>
+              <input type="date" id="nrFechaPago">
+            </div>
+          </div>
         </div>
       </div>
       <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
@@ -2245,6 +2456,105 @@
         <button type="button" class="btn-cancel" onclick="closeEditReservaModal()">Cancelar</button>
         <button type="button" id="erBtnGuardar" class="btn-primary" onclick="guardarEdicionReserva()" style="background:#1e40af;">
           <i class="fas fa-save"></i> Guardar cambios
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- MODAL: Huésped (detalle reserva add/edit)   -->
+  <!-- ============================================ -->
+  <div id="huespedDetalleModal" class="modal" style="align-items:center;overflow-y:auto;">
+    <div class="modal-content" style="max-width:600px;width:95%;margin:auto;">
+      <div class="modal-header">
+        <h3 id="hdmTitle"><i class="fas fa-user-plus"></i> Añadir Huésped</h3>
+        <button class="modal-close" onclick="closeHuespedModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="hdmHuespedId">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre <span class="req">*</span></label>
+            <input type="text" id="hdmNombre" placeholder="Nombre">
+          </div>
+          <div class="form-group">
+            <label>Apellidos <span class="req">*</span></label>
+            <input type="text" id="hdmApellidos" placeholder="Apellidos">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Tipo documento</label>
+            <select id="hdmTipoDoc">
+              <option value="DNI">DNI</option>
+              <option value="Pasaporte">Pasaporte</option>
+              <option value="NIE">NIE</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Nº documento <span class="req">*</span></label>
+            <input type="text" id="hdmDni" placeholder="12345678A">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Teléfono</label>
+            <input type="tel" id="hdmTelefono" placeholder="+34 600 000 000">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="hdmEmail" placeholder="email@ejemplo.com">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nacionalidad</label>
+            <input type="text" id="hdmNacionalidad" placeholder="Española">
+          </div>
+          <div class="form-group">
+            <label>Sexo</label>
+            <select id="hdmSexo">
+              <option value="">—</option>
+              <option value="M">Masculino</option>
+              <option value="F">Femenino</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Fecha de nacimiento</label>
+            <input type="date" id="hdmFechaNac">
+          </div>
+          <div class="form-group">
+            <label>Fecha expedición doc.</label>
+            <input type="date" id="hdmFechaExpedicion">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Dirección habitual</label>
+            <input type="text" id="hdmDireccion" placeholder="Calle, número, piso">
+          </div>
+          <div class="form-group">
+            <label>Localidad</label>
+            <input type="text" id="hdmLocalidad" placeholder="Ciudad o pueblo">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>País</label>
+            <input type="text" id="hdmPais" placeholder="España">
+          </div>
+          <div class="form-group">
+            <label>Parentesco (menores)</label>
+            <input type="text" id="hdmParentesco" placeholder="Hijo/a, sobrino/a…">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" onclick="closeHuespedModal()">Cancelar</button>
+        <button type="button" id="hdmBtnGuardar" class="btn-primary" onclick="guardarHuespedDetalle()" style="background:#0f766e;">
+          <i class="fas fa-save"></i> Guardar huésped
         </button>
       </div>
     </div>
@@ -2660,6 +2970,223 @@
         btn.innerHTML = '<i class="fas fa-save"></i> Guardar cambios';
         showToast('Error de conexi\u00f3n', 'error');
       });
+    }
+
+    // ======================================================
+    // VISTA DETALLE RESERVA
+    // ======================================================
+    var _rdReservaId = null;
+    var _rdHuespedes = [];
+
+    function openReservaDetail(id) {
+      var r = reservasGestion.find(function(x){ return x.id === id; });
+      if (!r) return;
+      _rdReservaId = id;
+      document.getElementById('rdTitle').textContent = 'Reserva #' + id;
+      document.getElementById('rdFechaInicio').value  = r.fecha_inicio ? r.fecha_inicio.split('T')[0] : '';
+      document.getElementById('rdFechaFin').value     = r.fecha_fin    ? r.fecha_fin.split('T')[0]    : '';
+      document.getElementById('rdHoraLlegada').value  = r.hora_llegada    || '15:00';
+      document.getElementById('rdHoraSalida').value   = r.hora_salida_str || '11:00';
+      document.getElementById('rdImporte').value      = r.importe_total != null ? r.importe_total : '';
+      document.getElementById('rdNumHuespedes').value = r.num_huespedes || '';
+      document.getElementById('rdPlataforma').value   = r.plataforma || 'otros';
+      document.getElementById('rdEstado').value       = r.estado || 'confirmada';
+      document.getElementById('rdCheckin').checked    = !!r.checkin_realizado;
+      document.getElementById('rdCheckout').checked   = !!r.checkout_realizado;
+      document.getElementById('rdPagado').checked     = !!r.pagado;
+      document.querySelector('#tab-channels .card').style.display = 'none';
+      document.getElementById('reservaDetailView').style.display  = 'block';
+      cargarHuespedes(id);
+    }
+
+    function closeReservaDetail() {
+      document.getElementById('reservaDetailView').style.display = 'none';
+      document.querySelector('#tab-channels .card').style.display = '';
+      _rdReservaId = null;
+    }
+
+    function guardarCambiosReservaDetalle() {
+      if (!_rdReservaId) return;
+      var fi = document.getElementById('rdFechaInicio').value;
+      var ff = document.getElementById('rdFechaFin').value;
+      if (!fi || !ff) { showToast('Las fechas son obligatorias.', 'error'); return; }
+      if (new Date(fi) >= new Date(ff)) { showToast('La fecha de entrada debe ser anterior a la de salida.', 'error'); return; }
+      var btn = document.getElementById('rdBtnGuardar');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Guardando&hellip;';
+      fetch('/propiedades/' + viviendaIdGlobal + '/reservas/' + _rdReservaId, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fecha_inicio:       fi,
+          fecha_fin:          ff,
+          hora_llegada:       document.getElementById('rdHoraLlegada').value  || '15:00',
+          hora_salida:        document.getElementById('rdHoraSalida').value   || '11:00',
+          importe_total:      parseFloat(document.getElementById('rdImporte').value) || null,
+          num_huespedes:      parseInt(document.getElementById('rdNumHuespedes').value)  || null,
+          plataforma:         document.getElementById('rdPlataforma').value,
+          estado:             document.getElementById('rdEstado').value,
+          checkin_realizado:  document.getElementById('rdCheckin').checked,
+          checkout_realizado: document.getElementById('rdCheckout').checked,
+          pagado:             document.getElementById('rdPagado').checked
+        })
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(d) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> Guardar cambios en la reserva';
+        if (d.success) {
+          Promise.all([recargarReservas(), recargarTransacciones()]).then(function() {
+            showToast('Reserva actualizada correctamente', 'success');
+          });
+        } else { showToast(d.error || 'Error al guardar.', 'error'); }
+      })
+      .catch(function() {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> Guardar cambios en la reserva';
+        showToast('Error de conexion', 'error');
+      });
+    }
+
+    // Huespedes (detalle reserva)
+    function cargarHuespedes(reservaId) {
+      document.getElementById('rdHuespedesBody').innerHTML =
+        '<tr><td colspan="5" style="text-align:center;padding:2rem;color:#94a3b8;">' +
+        '<i class="fas fa-spinner fa-spin"></i> Cargando...</td></tr>';
+      fetch('/propiedades/' + viviendaIdGlobal + '/reservas/' + reservaId + '/huespedes')
+        .then(function(r){ return r.json(); })
+        .then(function(d) {
+          if (d.success) { _rdHuespedes = d.huespedes || []; renderHuespedes(); }
+          else showToast(d.error || 'Error al cargar huespedes', 'error');
+        })
+        .catch(function(){ showToast('Error de conexion al cargar huespedes', 'error'); });
+    }
+
+    function renderHuespedes() {
+      var tbody = document.getElementById('rdHuespedesBody');
+      if (!_rdHuespedes.length) {
+        tbody.innerHTML =
+          '<tr><td colspan="5" style="text-align:center;padding:2.5rem 1rem;color:#94a3b8;">' +
+          '<i class="fas fa-user-slash" style="font-size:2rem;opacity:.35;display:block;margin-bottom:.5rem;"></i>' +
+          'Sin huespedes registrados</td></tr>';
+        return;
+      }
+      tbody.innerHTML = _rdHuespedes.map(function(h) {
+        return '<tr style="border-bottom:1px solid #f1f5f9;" ' +
+          'onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'white\'">' +
+          '<td style="padding:.65rem 1rem;">' + escapeHtml((h.nombre||'') + ' ' + (h.apellidos||'')) + '</td>' +
+          '<td style="padding:.65rem 1rem;color:#64748b;font-size:.8rem;">' +
+            escapeHtml((h.tipo_documento || 'DNI') + ' - ' + (h.dni || '-')) + '</td>' +
+          '<td style="padding:.65rem 1rem;font-size:.8rem;color:#475569;">' + escapeHtml(h.telefono || '-') + '</td>' +
+          '<td style="padding:.65rem 1rem;font-size:.8rem;color:#475569;">'  + escapeHtml(h.email    || '-') + '</td>' +
+          '<td style="padding:.65rem 1rem;text-align:center;white-space:nowrap;">' +
+            '<button onclick="openHuespedModal(' + h.id_huesped + ')" title="Editar" ' +
+              'style="padding:.3rem .6rem;background:#1e40af;color:white;border:none;border-radius:.35rem;font-size:.75rem;cursor:pointer;">' +
+              '<i class="fas fa-edit"></i></button> ' +
+            '<button onclick="deleteHuespedDetalle(' + h.id_huesped + ')" title="Eliminar" ' +
+              'style="padding:.3rem .6rem;background:#991b1b;color:white;border:none;border-radius:.35rem;font-size:.75rem;cursor:pointer;">' +
+              '<i class="fas fa-trash"></i></button>' +
+          '</td></tr>';
+      }).join('');
+    }
+
+    function openHuespedModal(id) {
+      var h = id ? _rdHuespedes.find(function(x){ return x.id_huesped === id; }) : null;
+      document.getElementById('hdmTitle').innerHTML =
+        h ? '<i class="fas fa-user-edit"></i> Editar Huesped'
+          : '<i class="fas fa-user-plus"></i> Anadir Huesped';
+      document.getElementById('hdmHuespedId').value      = h ? h.id_huesped : '';
+      document.getElementById('hdmNombre').value         = h ? (h.nombre    || '') : '';
+      document.getElementById('hdmApellidos').value      = h ? (h.apellidos || '') : '';
+      document.getElementById('hdmDni').value            = h ? (h.dni       || '') : '';
+      document.getElementById('hdmTipoDoc').value        = h ? (h.tipo_documento || 'DNI') : 'DNI';
+      document.getElementById('hdmTelefono').value       = h ? (h.telefono  || '') : '';
+      document.getElementById('hdmEmail').value          = h ? (h.email     || '') : '';
+      document.getElementById('hdmNacionalidad').value   = h ? (h.nacionalidad || '') : '';
+      document.getElementById('hdmSexo').value           = h ? (h.sexo      || '') : '';
+      document.getElementById('hdmFechaNac').value        = h && h.fecha_nacimiento           ? h.fecha_nacimiento.split('T')[0]           : '';
+      document.getElementById('hdmFechaExpedicion').value = h && h.fecha_expedicion_documento ? h.fecha_expedicion_documento.split('T')[0] : '';
+      document.getElementById('hdmDireccion').value  = h ? (h.direccion  || '') : '';
+      document.getElementById('hdmLocalidad').value  = h ? (h.localidad  || '') : '';
+      document.getElementById('hdmPais').value       = h ? (h.pais       || '') : '';
+      document.getElementById('hdmParentesco').value = h ? (h.parentesco || '') : '';
+      ['hdmNombre','hdmApellidos','hdmDni'].forEach(function(i){
+        document.getElementById(i).classList.remove('input-error');
+      });
+      document.getElementById('huespedDetalleModal').style.display = 'flex';
+    }
+
+    function closeHuespedModal() {
+      document.getElementById('huespedDetalleModal').style.display = 'none';
+    }
+
+    function guardarHuespedDetalle() {
+      var nombre    = document.getElementById('hdmNombre').value.trim();
+      var apellidos = document.getElementById('hdmApellidos').value.trim();
+      var dni       = document.getElementById('hdmDni').value.trim();
+      var ok = true;
+      if (!nombre)    { document.getElementById('hdmNombre').classList.add('input-error');    ok = false; }
+      if (!apellidos) { document.getElementById('hdmApellidos').classList.add('input-error'); ok = false; }
+      if (!dni)       { document.getElementById('hdmDni').classList.add('input-error');       ok = false; }
+      if (!ok) { showToast('Rellena los campos obligatorios: nombre, apellidos y numero de documento.', 'error'); return; }
+      var hid = document.getElementById('hdmHuespedId').value;
+      var btn = document.getElementById('hdmBtnGuardar');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Guardando...';
+      fetch(
+        '/propiedades/' + viviendaIdGlobal + '/reservas/' + _rdReservaId + '/huespedes' + (hid ? '/' + hid : ''),
+        {
+          method: hid ? 'PATCH' : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nombre, apellidos, dni,
+            tipo_documento:             document.getElementById('hdmTipoDoc').value,
+            telefono:                   document.getElementById('hdmTelefono').value || null,
+            email:                      document.getElementById('hdmEmail').value    || null,
+            nacionalidad:               document.getElementById('hdmNacionalidad').value || null,
+            sexo:                       document.getElementById('hdmSexo').value     || null,
+            fecha_nacimiento:           document.getElementById('hdmFechaNac').value        || null,
+            fecha_expedicion_documento: document.getElementById('hdmFechaExpedicion').value || null,
+            direccion:                  document.getElementById('hdmDireccion').value        || null,
+            localidad:                  document.getElementById('hdmLocalidad').value        || null,
+            pais:                       document.getElementById('hdmPais').value             || null,
+            parentesco:                 document.getElementById('hdmParentesco').value       || null
+          })
+        }
+      )
+      .then(function(r){ return r.json(); })
+      .then(function(d) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> Guardar huesped';
+        if (d.success) {
+          closeHuespedModal();
+          cargarHuespedes(_rdReservaId);
+          showToast(hid ? 'Huesped actualizado correctamente' : 'Huesped anadido correctamente', 'success');
+        } else { showToast(d.error || 'Error al guardar el huesped.', 'error'); }
+      })
+      .catch(function() {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> Guardar huesped';
+        showToast('Error de conexion', 'error');
+      });
+    }
+
+    function deleteHuespedDetalle(hid) {
+      if (!confirm('Eliminar este huesped de la reserva?')) return;
+      fetch('/propiedades/' + viviendaIdGlobal + '/reservas/' + _rdReservaId + '/huespedes/' + hid,
+        { method: 'DELETE' })
+        .then(function(r){ return r.json(); })
+        .then(function(d) {
+          if (d.success) { cargarHuespedes(_rdReservaId); showToast('Huesped eliminado', 'success'); }
+          else showToast(d.error || 'Error al eliminar', 'error');
+        })
+        .catch(function(){ showToast('Error de conexion', 'error'); });
+    }
+
+    function generarPDFDetalle() {
+      if (_rdReservaId === null) return;
+      var realIdx = reservasGestion.findIndex(function(x){ return x.id === _rdReservaId; });
+      if (realIdx !== -1) exportarParteViajeros(realIdx);
     }
 
     // ---- TAREAS ----
@@ -3308,7 +3835,12 @@
               checkin_realizado: !!r.checkin_realizado,
               checkout_realizado: !!r.checkout_realizado,
               activa: !!r.activa,
-              pagado: !!r.pagado
+              pagado: !!r.pagado,
+              tipo_pago: r.tipo_pago || '',
+              metodo_pago: r.metodo_pago || '',
+              titular_pago: r.titular_pago || '',
+              fecha_caducidad_pago: r.fecha_caducidad_pago || '',
+              fecha_pago: r.fecha_pago || ''
             };
           });
           filtrarReservas();
@@ -3356,7 +3888,12 @@
         checkin_realizado: r.checkin_realizado || false,
         checkout_realizado: r.checkout_realizado || false,
         activa: !!r.activa,
-        pagado: !!r.pagado
+        pagado: !!r.pagado,
+        tipo_pago: r.tipo_pago || '',
+        metodo_pago: r.metodo_pago || '',
+        titular_pago: r.titular_pago || '',
+        fecha_caducidad_pago: r.fecha_caducidad_pago || '',
+        fecha_pago: r.fecha_pago || ''
       };
     });
 
@@ -3398,7 +3935,10 @@
           <td style="padding:.75rem 1rem;">${estadoSelect}</td>
           <td style="padding:.75rem 1rem;text-align:center;">${activaBadge}</td>
           <td style="padding:.75rem 1rem;white-space:nowrap;">
-            <button onclick="openEditReservaModal(${r.id})" title="Editar reserva" style="padding:.35rem .65rem;background:#1e40af;color:white;border:none;border-radius:.375rem;font-size:.75rem;cursor:pointer;">
+            <button onclick="openReservaDetail(${r.id})" title="Ver / Editar detalles" style="padding:.35rem .65rem;background:#0f766e;color:white;border:none;border-radius:.375rem;font-size:.75rem;cursor:pointer;">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button onclick="openEditReservaModal(${r.id})" title="Editar reserva rápido" style="padding:.35rem .65rem;background:#1e40af;color:white;border:none;border-radius:.375rem;font-size:.75rem;cursor:pointer;margin-left:.3rem;">
               <i class="fas fa-edit"></i>
             </button>
             <button onclick="exportarParteViajeros(${realIdx})" style="padding:.35rem .65rem;background:#1a2332;color:white;border:none;border-radius:.375rem;font-size:.75rem;cursor:pointer;margin-left:.35rem;">
@@ -3506,19 +4046,19 @@
       switchNrTab('huesped');
     }
     function switchNrTab(tab) {
-      const isR = tab === 'reserva';
-      document.getElementById('nrPanelReserva').style.display = isR ? 'block' : 'none';
-      document.getElementById('nrPanelHuesped').style.display = isR ? 'none' : 'block';
-      document.getElementById('nrBtnSiguiente').style.display = isR ? '' : 'none';
-      document.getElementById('nrBtnGuardar').style.display = isR ? 'none' : '';
-      ['nrTabReservaBtn','nrTabHuespedBtn'].forEach((id, i) => {
-        const active = isR ? i === 0 : i === 1;
-        const btn = document.getElementById(id);
+      document.getElementById('nrPanelReserva').style.display = tab === 'reserva' ? 'block' : 'none';
+      document.getElementById('nrPanelHuesped').style.display = tab === 'huesped' ? 'block' : 'none';
+      document.getElementById('nrPanelPago').style.display    = tab === 'pago'    ? 'block' : 'none';
+      document.getElementById('nrBtnSiguiente').style.display = tab === 'reserva' ? '' : 'none';
+      document.getElementById('nrBtnGuardar').style.display   = tab === 'reserva' ? 'none' : '';
+      [['nrTabReservaBtn','reserva'],['nrTabHuespedBtn','huesped'],['nrTabPagoBtn','pago']].forEach(function(pair) {
+        const active = pair[1] === tab;
+        const btn = document.getElementById(pair[0]);
         btn.style.borderBottomColor = active ? '#1a2332' : 'transparent';
         btn.style.fontWeight = active ? '700' : '500';
         btn.style.color = active ? '#1a2332' : '#94a3b8';
       });
-      if (!isR) buildHuespedesAccordion();
+      if (tab === 'huesped') buildHuespedesAccordion();
     }
 
     function buildHuespedesAccordion() {
@@ -3528,7 +4068,7 @@
       const existing = {};
       container.querySelectorAll('.nh-accordion-item').forEach(function(el) {
         const idx = el.dataset.idx;
-        ['Nombre','Apellidos','Dni','TipoDocumento','FechaExpedicion','FechaNacimiento','Sexo','Nacionalidad','Email','Telefono'].forEach(function(f) {
+        ['Nombre','Apellidos','Dni','TipoDocumento','FechaExpedicion','FechaNacimiento','Sexo','Nacionalidad','Email','Telefono','Direccion','Localidad','Pais','Parentesco'].forEach(function(f) {
           const inp = el.querySelector('[data-field="' + f + '"]');
           if (inp) { existing[idx + '_' + f] = inp.value; }
         });
@@ -3598,6 +4138,14 @@
         +'<div class="form-row">'
         +'<div class="form-group"><label>Email</label><input type="email" data-field="Email" '+val('Email')+' placeholder="correo@ejemplo.com"></div>'
         +'<div class="form-group"><label>Teléfono</label><input type="tel" data-field="Telefono" '+val('Telefono')+' placeholder="+34 600 000 000"></div>'
+        +'</div>'
+        +'<div class="form-row">'
+        +'<div class="form-group"><label>Dirección habitual</label><input type="text" data-field="Direccion" '+val('Direccion')+' placeholder="Calle, número, piso…"></div>'
+        +'<div class="form-group"><label>Localidad</label><input type="text" data-field="Localidad" '+val('Localidad')+' placeholder="Ciudad"></div>'
+        +'</div>'
+        +'<div class="form-row">'
+        +'<div class="form-group"><label>País</label><input type="text" data-field="Pais" '+val('Pais')+' placeholder="España"></div>'
+        +'<div class="form-group"><label>Parentesco (menores)</label><input type="text" data-field="Parentesco" '+val('Parentesco')+' placeholder="Hijo/a, sobrino/a…"></div>'
         +'</div>';
     }
 
@@ -3652,7 +4200,16 @@
         telefono: getHuespedField(1,'Telefono'),
         nacionalidad: getHuespedField(1,'Nacionalidad'),
         sexo: getHuespedField(1,'Sexo'),
-        fecha_nacimiento: getHuespedField(1,'FechaNacimiento')
+        fecha_nacimiento: getHuespedField(1,'FechaNacimiento'),
+        direccion: getHuespedField(1,'Direccion') || null,
+        localidad_h: getHuespedField(1,'Localidad') || null,
+        pais_h: getHuespedField(1,'Pais') || null,
+        parentesco: getHuespedField(1,'Parentesco') || null,
+        tipo_pago:            document.getElementById('nrTipoPago').value            || null,
+        metodo_pago:          document.getElementById('nrMetodoPago').value          || null,
+        titular_pago:         document.getElementById('nrTitularPago').value         || null,
+        fecha_caducidad_pago: document.getElementById('nrFechaCaducidadPago').value  || null,
+        fecha_pago:           document.getElementById('nrFechaPago').value           || null
       };
 
       const saveBtn = document.getElementById('nrBtnGuardar');
@@ -3680,6 +4237,7 @@
           document.getElementById('nrCheckoutRealizado').checked = false;
           document.getElementById('nrPagado').checked = false;
           document.getElementById('nrHuespedesContainer').innerHTML = '';
+          ['nrTipoPago','nrMetodoPago','nrTitularPago','nrFechaCaducidadPago','nrFechaPago'].forEach(function(fid){ const el=document.getElementById(fid); if(el) el.value=''; });
           // Recargar reservas Y transacciones desde BD para consistencia total
           Promise.all([recargarReservas(), recargarTransacciones()]).then(function() {
             showToast('Reserva creada correctamente', 'success');
@@ -3712,52 +4270,83 @@
       const r = reservasGestion[idx]; if (!r) return;
       const fmt = d => d ? new Date(d).toLocaleDateString('es-ES') : '—';
       const sexoMap = { M: 'Masculino', F: 'Femenino', O: 'Otro' };
-      document.getElementById('parteViajerosContent').innerHTML = `
-        <div style="font-family:'Inter',sans-serif;color:#1a2332;">
-          <h2 style="text-align:center;font-size:1.1rem;font-weight:700;border-bottom:2px solid #1a2332;padding-bottom:.75rem;margin-bottom:1.5rem;">PARTE DE ENTRADA DE VIAJEROS</h2>
-          ${parteSection('1. Datos del Establecimiento',[
-            ['Nombre comercial','<%= vivienda.nombre || "" %>'],
-            ['Tipo de alojamiento','Vivienda turística'],
-            ['Dirección completa','<%= [vivienda.calle,vivienda.bloque_portal,vivienda.piso,vivienda.letra_numero].filter(Boolean).join(", ") %>'],
-            ['Código postal','<%= vivienda.codigo_postal || "" %>'],
-            ['Localidad y provincia','<%= vivienda.ciudad || "" %>'],
-            ['Nº registro turístico','<%= vivienda.numero_registro_autonomico || "" %>']
-          ])}
-          ${parteSection('2. Datos del Titular o Empresa Arrendadora',[
-            ['Nombre o razón social',''],['NIF/CIF',''],['Teléfono',''],
-            ['Correo electrónico',''],['Web',''],['URL del anuncio','']
-          ])}
-          ${parteSection('3. Datos del Viajero',[
-            ['Nombre completo', r.nombre_huesped || '—'],
-            ['Apellidos', r.apellidos_huesped || '—'],
-            ['Sexo', sexoMap[r.sexo] || '—'],
-            ['Fecha de nacimiento', fmt(r.fecha_nacimiento)],
-            ['Nacionalidad', r.nacionalidad || '—'],
-            ['Tipo de documento', r.tipo_documento || '—'],
-            ['Número de documento', r.dni || '—'],
-            ['Fecha de expedición', fmt(r.fecha_expedicion)],
-            ['Dirección habitual','—'],['Localidad','—'],['País','—'],
-            ['Teléfono móvil', r.telefono || '—'],
-            ['Correo electrónico', r.email || '—']
-          ])}
-          ${parteSection('4. Datos de la Estancia',[
-            ['Fecha y hora de entrada', r.fecha_inicio ? fmt(r.fecha_inicio)+' '+(r.hora_llegada||'') : '—'],
-            ['Fecha y hora de salida', r.fecha_fin ? fmt(r.fecha_fin)+' '+(r.hora_salida_str||'') : '—'],
-            ['Nº reserva / referencia', r.id_reserva_externo || r.id || '—'],
-            ['Número de personas', r.num_huespedes || '—'],
-            ['Relación de parentesco (menores)','—']
-          ])}
-          ${parteSection('5. Datos del Pago',[
-            ['Tipo de pago','—'],['Medio de pago','—'],['Titular del medio de pago','—'],
-            ['Fecha de caducidad','—'],['Fecha del pago','—'],
-            ['Importe total', r.importe_total ? r.importe_total+' €' : '—']
-          ])}
-          <div style="border:1px solid #e2e8f0;border-radius:.5rem;padding:1rem;margin-top:1rem;">
-            <strong>6. Firma del Viajero</strong>
-            <div style="margin-top:1.5rem;padding-top:2.5rem;border-top:1px dashed #94a3b8;color:#64748b;font-size:.8rem;text-align:center;">Firma manuscrita o digital</div>
-          </div>
-        </div>`;
-      document.getElementById('parteViajerosModal').style.display = 'flex';
+
+      // Fetch all guests then build PDF
+      fetch('/propiedades/' + viviendaIdGlobal + '/reservas/' + r.id + '/huespedes')
+        .then(function(res){ return res.json(); })
+        .then(function(data) {
+          const huespedes = (data.success && data.huespedes && data.huespedes.length)
+            ? data.huespedes
+            : [{
+                nombre: r.nombre_huesped, apellidos: r.apellidos_huesped,
+                dni: r.dni, tipo_documento: r.tipo_documento,
+                fecha_expedicion_documento: r.fecha_expedicion,
+                fecha_nacimiento: r.fecha_nacimiento, sexo: r.sexo,
+                nacionalidad: r.nacionalidad, telefono: r.telefono, email: r.email,
+                direccion: '', localidad: '', pais: '', parentesco: ''
+              }];
+
+          const viajerosHTML = huespedes.map(function(h, i) {
+            return parteSection('3.' + (i+1) + '. Datos del Viajero ' + (huespedes.length > 1 ? (i+1) : ''),[
+              ['Nombre', h.nombre || '—'],
+              ['Apellidos', h.apellidos || '—'],
+              ['Sexo', sexoMap[h.sexo] || '—'],
+              ['Fecha de nacimiento', fmt(h.fecha_nacimiento)],
+              ['Nacionalidad', h.nacionalidad || '—'],
+              ['Tipo de documento', h.tipo_documento || '—'],
+              ['Número de documento', h.dni || '—'],
+              ['Fecha de expedición', fmt(h.fecha_expedicion_documento)],
+              ['Dirección habitual', h.direccion || '—'],
+              ['Localidad', h.localidad || '—'],
+              ['País', h.pais || '—'],
+              ['Teléfono móvil', h.telefono || '—'],
+              ['Correo electrónico', h.email || '—'],
+              ['Parentesco con responsable', h.parentesco || (i === 0 ? 'Titular' : '—')]
+            ]);
+          }).join('');
+
+          document.getElementById('parteViajerosContent').innerHTML = `
+            <div style="font-family:'Inter',sans-serif;color:#1a2332;">
+              <h2 style="text-align:center;font-size:1.1rem;font-weight:700;border-bottom:2px solid #1a2332;padding-bottom:.75rem;margin-bottom:1.5rem;">PARTE DE ENTRADA DE VIAJEROS</h2>
+              ${parteSection('1. Datos del Establecimiento',[
+                ['Nombre comercial','<%= vivienda.nombre || "" %>'],
+                ['Tipo de alojamiento','Vivienda turística'],
+                ['Dirección completa','<%= [vivienda.calle,vivienda.bloque_portal,vivienda.piso,vivienda.letra_numero].filter(Boolean).join(", ") %>'],
+                ['Código postal','<%= vivienda.codigo_postal || "" %>'],
+                ['Localidad y provincia','<%= vivienda.ciudad || "" %>'],
+                ['Nº registro turístico','<%= vivienda.numero_registro_autonomico || "" %>']
+              ])}
+              ${parteSection('2. Datos del Titular o Empresa Arrendadora',[
+                ['Nombre o razón social','<%= user.razon_social || user.username || "" %>'],
+                ['NIF/CIF','<%= user.dni_cif || "" %>'],
+                ['Teléfono','<%= user.telefono || "" %>'],
+                ['Correo electrónico','<%= user.email || "" %>']
+              ])}
+              ${viajerosHTML}
+              ${parteSection('4. Datos de la Estancia',[
+                ['Fecha y hora de entrada', r.fecha_inicio ? fmt(r.fecha_inicio)+' '+(r.hora_llegada||'') : '—'],
+                ['Fecha y hora de salida', r.fecha_fin ? fmt(r.fecha_fin)+' '+(r.hora_salida_str||'') : '—'],
+                ['Nº reserva / referencia', r.id_reserva_externo || r.id || '—'],
+                ['Número de personas', r.num_huespedes || '—']
+              ])}
+              ${parteSection('5. Datos del Pago',[
+                ['Tipo de pago', r.tipo_pago || '—'],
+                ['Método de pago', r.metodo_pago || '—'],
+                ['Titular del medio de pago', r.titular_pago || '—'],
+                ['Fecha de caducidad', r.fecha_caducidad_pago || '—'],
+                ['Fecha del pago', r.fecha_pago ? fmt(r.fecha_pago) : '—'],
+                ['Importe total', r.importe_total ? r.importe_total+' €' : '—']
+              ])}
+              <div style="border:1px solid #e2e8f0;border-radius:.5rem;padding:1rem;margin-top:1rem;">
+                <strong>6. Firma del Viajero</strong>
+                <div style="margin-top:1.5rem;padding-top:2.5rem;border-top:1px dashed #94a3b8;color:#64748b;font-size:.8rem;text-align:center;">Firma manuscrita o digital</div>
+              </div>
+            </div>`;
+          document.getElementById('parteViajerosModal').style.display = 'flex';
+        })
+        .catch(function() {
+          showToast('Error al cargar los huéspedes para el parte.', 'error');
+        });
     }
     function closeParte() { document.getElementById('parteViajerosModal').style.display = 'none'; }
     function imprimirParte() {

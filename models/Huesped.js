@@ -47,6 +47,23 @@ const Huesped = sequelize.define('Huesped', {
     fecha_nacimiento: {
         type: DataTypes.DATEONLY,
         allowNull: true
+    },
+    direccion: {
+        type: DataTypes.STRING(255),
+        allowNull: true
+    },
+    localidad: {
+        type: DataTypes.STRING(100),
+        allowNull: true
+    },
+    pais: {
+        type: DataTypes.STRING(100),
+        allowNull: true
+    },
+    parentesco: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+        comment: 'Parentesco del menor con el responsable de reserva'
     }
 }, {
     tableName: 'huespedes',

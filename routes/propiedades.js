@@ -516,7 +516,10 @@ router.post('/:id/reservas', async (req, res) => {
       hora_llegada, hora_salida,
       // Datos del huésped principal
       nombre_huesped, apellidos_huesped, dni, tipo_documento,
-      fecha_expedicion, fecha_nacimiento, sexo, nacionalidad, email, telefono
+      fecha_expedicion, fecha_nacimiento, sexo, nacionalidad, email, telefono,
+      direccion, localidad_h, pais_h, parentesco,
+      // Datos de pago
+      tipo_pago, metodo_pago, titular_pago, fecha_caducidad_pago, fecha_pago
     } = req.body;
 
     if (!fecha_inicio || !fecha_fin) return res.status(400).json({ success: false, error: 'Fechas obligatorias' });
@@ -571,7 +574,12 @@ router.post('/:id/reservas', async (req, res) => {
       checkin_realizado: !!checkin_realizado,
       checkout_realizado: !!checkout_realizado,
       activa: true,
-      pagado: !!pagado
+      pagado: !!pagado,
+      tipo_pago: tipo_pago || null,
+      metodo_pago: metodo_pago || null,
+      titular_pago: titular_pago || null,
+      fecha_caducidad_pago: fecha_caducidad_pago || null,
+      fecha_pago: fecha_pago || null
     });
 
     // Crear huésped principal si se enviaron datos
@@ -587,7 +595,11 @@ router.post('/:id/reservas', async (req, res) => {
         sexo: sexo || null,
         nacionalidad: nacionalidad || null,
         email: email || null,
-        telefono: telefono || null
+        telefono: telefono || null,
+        direccion: direccion || null,
+        localidad: localidad_h || null,
+        pais: pais_h || null,
+        parentesco: parentesco || null
       });
       // Vincular huésped a la reserva (insert directo en tabla intermedia)
       await sequelize.query(
@@ -674,8 +686,15 @@ router.patch('/:id/reservas/:rid', async (req, res) => {
     // Campos editables generales (excepto importe_total y pagado que se gestionan aparte)
     const editables = ['fecha_inicio', 'fecha_fin', 'num_huespedes', 'plataforma',
                        'id_reserva_externo', 'checkin_realizado', 'checkout_realizado',
-                       'hora_llegada', 'hora_salida'];
+                       'hora_llegada', 'hora_salida',
+                       'tipo_pago', 'metodo_pago', 'titular_pago',
+                       'fecha_caducidad_pago', 'fecha_pago'];
     editables.forEach(f => { if (req.body[f] !== undefined) updates[f] = req.body[f] || null; });
+
+    // importe_total needs parseFloat, not plain string assignment
+    if (req.body.importe_total !== undefined) {
+      updates.importe_total = req.body.importe_total ? parseFloat(req.body.importe_total) : null;
+    }
 
     // Helper: convert HH:MM to minutes
     const toMin = (t) => { const [h,m] = (t||'00:00').split(':').map(Number); return h*60+m; };
@@ -755,6 +774,20 @@ router.patch('/:id/reservas/:rid', async (req, res) => {
     }
 
     await reserva.update(updates);
+
+    // Sync linked income transaction if importe changed and reservation is paid
+    if (updates.importe_total !== undefined) {
+      const isPaid = updates.pagado !== undefined ? updates.pagado : reserva.pagado;
+      if (isPaid && updates.importe_total) {
+        try {
+          await Transaccion.update(
+            { importe: updates.importe_total },
+            { where: { id_reserva: reserva.id_reserva, tipo: 'ingreso' } }
+          );
+        } catch(e) { console.error('Error al sincronizar transacción vinculada:', e.message); }
+      }
+    }
+
     return res.json({ success: true, transaccionCreada });
   } catch (error) {
     console.error('Error al actualizar reserva:', error);
@@ -865,6 +898,89 @@ router.post('/:id/documentos', upload.single('documento'), async (req, res) => {
     console.error(error);
     res.status(500).send('Error al subir el documento');
   }
+});
+
+// ──────────────────────────────────────────────────────────────────
+// Huéspedes de una reserva (vista detalle)
+// ──────────────────────────────────────────────────────────────────
+
+// GET /:id/reservas/:rid/huespedes
+router.get('/:id/reservas/:rid/huespedes', async (req, res) => {
+  try {
+    const reserva = await Reserva.findOne({
+      where: { id_reserva: req.params.rid, id_vivienda: req.params.id },
+      include: [{ model: Huesped, as: 'Huespedes', through: { attributes: [] } }]
+    });
+    if (!reserva) return res.status(404).json({ success: false, error: 'Reserva no encontrada' });
+    return res.json({ success: true, huespedes: reserva.Huespedes || [] });
+  } catch(e) { return res.status(500).json({ success: false, error: e.message }); }
+});
+
+// POST /:id/reservas/:rid/huespedes
+router.post('/:id/reservas/:rid/huespedes', async (req, res) => {
+  try {
+    const reserva = await Reserva.findOne({ where: { id_reserva: req.params.rid, id_vivienda: req.params.id } });
+    if (!reserva) return res.status(404).json({ success: false, error: 'Reserva no encontrada' });
+    const { nombre, apellidos, dni, tipo_documento, telefono, email, nacionalidad, sexo, fecha_nacimiento, fecha_expedicion_documento, direccion, localidad, pais, parentesco } = req.body;
+    if (!nombre || !apellidos || !dni)
+      return res.status(400).json({ success: false, error: 'Nombre, apellidos y nº documento son obligatorios' });
+    const huesped = await Huesped.create({
+      nombre, apellidos, dni,
+      tipo_documento: tipo_documento || 'DNI',
+      telefono: telefono || null, email: email || null,
+      nacionalidad: nacionalidad || null, sexo: sexo || null,
+      fecha_nacimiento: fecha_nacimiento || null,
+      fecha_expedicion_documento: fecha_expedicion_documento || null,
+      direccion: direccion || null,
+      localidad: localidad || null,
+      pais: pais || null,
+      parentesco: parentesco || null
+    });
+    // Vincular usando raw SQL, igual que en el POST principal de reservas
+    await sequelize.query(
+      'INSERT INTO reserva_huesped (id_reserva, id_huesped) VALUES (?, ?)',
+      { replacements: [reserva.id_reserva, huesped.id_huesped] }
+    );
+    return res.json({ success: true, huesped });
+  } catch(e) { return res.status(500).json({ success: false, error: e.message }); }
+});
+
+// PATCH /:id/reservas/:rid/huespedes/:hid
+router.patch('/:id/reservas/:rid/huespedes/:hid', async (req, res) => {
+  try {
+    const huesped = await Huesped.findByPk(req.params.hid);
+    if (!huesped) return res.status(404).json({ success: false, error: 'Huésped no encontrado' });
+    const { nombre, apellidos, dni, tipo_documento, telefono, email, nacionalidad, sexo, fecha_nacimiento, fecha_expedicion_documento, direccion, localidad, pais, parentesco } = req.body;
+    if (!nombre || !apellidos || !dni)
+      return res.status(400).json({ success: false, error: 'Nombre, apellidos y nº documento son obligatorios' });
+    await huesped.update({
+      nombre, apellidos, dni,
+      tipo_documento: tipo_documento || 'DNI',
+      telefono: telefono || null, email: email || null,
+      nacionalidad: nacionalidad || null, sexo: sexo || null,
+      fecha_nacimiento: fecha_nacimiento || null,
+      fecha_expedicion_documento: fecha_expedicion_documento || null,
+      direccion: direccion || null,
+      localidad: localidad || null,
+      pais: pais || null,
+      parentesco: parentesco || null
+    });
+    return res.json({ success: true, huesped });
+  } catch(e) { return res.status(500).json({ success: false, error: e.message }); }
+});
+
+// DELETE /:id/reservas/:rid/huespedes/:hid
+router.delete('/:id/reservas/:rid/huespedes/:hid', async (req, res) => {
+  try {
+    const reserva = await Reserva.findOne({ where: { id_reserva: req.params.rid, id_vivienda: req.params.id } });
+    if (!reserva) return res.status(404).json({ success: false, error: 'Reserva no encontrada' });
+    // Desvincular de la tabla intermedia con raw SQL
+    await sequelize.query(
+      'DELETE FROM reserva_huesped WHERE id_reserva = ? AND id_huesped = ?',
+      { replacements: [reserva.id_reserva, req.params.hid] }
+    );
+    return res.json({ success: true });
+  } catch(e) { return res.status(500).json({ success: false, error: e.message }); }
 });
 
 module.exports = router;

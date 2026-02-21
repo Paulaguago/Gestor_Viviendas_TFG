@@ -33,6 +33,14 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING(20),
         allowNull: true
     },
+    razon_social: {
+        type: DataTypes.STRING(200),
+        allowNull: true
+    },
+    dni_cif: {
+        type: DataTypes.STRING(20),
+        allowNull: true
+    },
     google_id: {
         type: DataTypes.STRING(255),
         allowNull: true

@@ -67,6 +67,27 @@ const Reserva = sequelize.define('Reserva', {
         type: DataTypes.STRING(5),
         allowNull: true,
         defaultValue: '11:00'
+    },
+    tipo_pago: {
+        type: DataTypes.STRING(50),
+        allowNull: true
+    },
+    metodo_pago: {
+        type: DataTypes.STRING(100),
+        allowNull: true
+    },
+    titular_pago: {
+        type: DataTypes.STRING(150),
+        allowNull: true
+    },
+    fecha_caducidad_pago: {
+        type: DataTypes.STRING(7),
+        allowNull: true,
+        comment: 'MM/AAAA'
+    },
+    fecha_pago: {
+        type: DataTypes.DATEONLY,
+        allowNull: true
     }
 }, {
     tableName: 'reservas',

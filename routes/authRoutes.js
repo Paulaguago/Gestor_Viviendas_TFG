@@ -32,7 +32,7 @@ router.get('/register', requireGuest, (req, res) => {
 // Handle registration
 router.post('/register', requireGuest, async (req, res) => {
     try {
-        const { username, email, password, confirmPassword } = req.body;
+        const { username, email, password, confirmPassword, razon_social, dni_cif, telefono } = req.body;
 
         // Validation
         if (!username || !email || !password || !confirmPassword) {
@@ -62,7 +62,10 @@ router.post('/register', requireGuest, async (req, res) => {
             nombre: username,
             apellidos: '',
             email: email,
-            password_hash: password
+            password_hash: password,
+            razon_social: razon_social || null,
+            dni_cif: dni_cif || null,
+            telefono: telefono || null
         });
 
         // Iniciar sesión automáticamente después del registro
