@@ -130,7 +130,7 @@ router.post('/', uploadImage.single('imagen'), async (req, res) => {
       url_booking: req.body.url_booking,
       
       // Comodidades en formato JSON
-      amenities: req.body['amenity[]'] ? JSON.stringify(req.body['amenity[]']) : null,
+      amenities: req.body.amenities || null,
       
       // Comodidades (legacy - checkbox individuales para compatibilidad)
       wifi: req.body.wifi === 'true',
@@ -153,11 +153,7 @@ router.post('/', uploadImage.single('imagen'), async (req, res) => {
     res.redirect('/propiedades');
   } catch (error) {
     console.error(error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Error al crear la vivienda', 
-      error: error.message 
-    });
+    res.status(500).send('Error al crear la vivienda');
   }
 });
 
