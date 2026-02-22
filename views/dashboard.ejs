@@ -1,226 +1,390 @@
-DASHBOARD_REPLACEMENT_MARKER
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title : 'Dashboard - Gestor Viviendas' %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #F4F6F9; color: #0F172A; margin: 0; }
+    .db-page { max-width: 1340px; margin: 0 auto; padding: 2rem 1.75rem 3rem; }
+    .db-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.08); padding: 1.5rem; }
+    .db-onboarding { margin-bottom: 1.5rem; }
+    .db-onboarding-title { font-size: 1rem; font-weight: 700; color: #0F172A; margin: 0 0 .25rem; }
+    .db-onboarding-sub { font-size: .8rem; color: #64748b; margin: 0 0 1rem; }
+    .db-progress-bar-bg { height: 6px; background: #F1F5F9; border-radius: 99px; margin-bottom: 1.5rem; }
+    .db-progress-bar-fill { height: 100%; background: #10B981; border-radius: 99px; transition: width .4s; }
+    .db-steps-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+    .db-step { border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 1.125rem 1.25rem; display: flex; flex-direction: column; gap: .5rem; }
+    .db-step--active { border-color: #0F172A; background: #F8FAFC; }
+    .db-step--done { border-color: #10B981; background: #F0FDF4; }
+    .db-step-icon { width: 2.25rem; height: 2.25rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .875rem; }
+    .db-step--active .db-step-icon { background: #0F172A; color: #fff; }
+    .db-step--done .db-step-icon { background: #10B981; color: #fff; }
+    .db-step--pending .db-step-icon { background: #F1F5F9; color: #94A3B8; }
+    .db-step-label { font-size: .875rem; font-weight: 700; color: #0F172A; }
+    .db-step--pending .db-step-label { color: #94A3B8; }
+    .db-step-desc { font-size: .78rem; color: #64748b; }
+    .db-step-btn { display: inline-flex; align-items: center; gap: .3rem; padding: .4rem .875rem; border-radius: 8px; font-size: .78rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: .15s; margin-top: auto; }
+    .db-step--active .db-step-btn { background: #0F172A; color: #fff; }
+    .db-step--active .db-step-btn:hover { background: #1e293b; color: #fff; }
+    .db-step--done .db-step-btn { background: #D1FAE5; color: #065f46; }
+    .db-step--pending .db-step-btn { background: #F1F5F9; color: #94A3B8; pointer-events: none; }
+    .db-welcome { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.75rem; gap: 1rem; flex-wrap: wrap; }
+    .db-welcome-title { font-size: 1.5rem; font-weight: 800; color: #0F172A; margin: 0 0 .25rem; display: flex; align-items: center; gap: .625rem; }
+    .db-welcome-title i { color: #10B981; font-size: 1.25rem; }
+    .db-welcome-sub { font-size: .875rem; color: #64748b; margin: 0; }
+    .db-session-pill { display: inline-flex; align-items: center; gap: .375rem; background: #D1FAE5; color: #065f46; padding: .35rem .875rem; border-radius: 99px; font-size: .78rem; font-weight: 700; white-space: nowrap; align-self: flex-start; }
+    .db-session-dot { width: .45rem; height: .45rem; background: #10B981; border-radius: 50%; animation: db-pulse 2s infinite; }
+    @keyframes db-pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .db-kpi-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    @media (max-width:1200px) { .db-kpi-grid { grid-template-columns: repeat(3,1fr); } }
+    @media (max-width:700px) { .db-kpi-grid { grid-template-columns: repeat(2,1fr); } }
+    .db-kpi { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.08); padding: 1.25rem 1.25rem 1rem; position: relative; overflow: hidden; }
+    .db-kpi-icon { position: absolute; top: 1rem; right: 1rem; width: 2.25rem; height: 2.25rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .875rem; }
+    .db-kpi-label { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #94A3B8; margin: 0 0 .375rem; }
+    .db-kpi-value { font-size: 1.625rem; font-weight: 800; color: #0F172A; line-height: 1; margin: 0 0 .375rem; }
+    .db-kpi-sub { font-size: .725rem; color: #94A3B8; margin: 0; }
+    .db-kpi-icon--blue { background: #EFF6FF; color: #3B82F6; }
+    .db-kpi-icon--green { background: #F0FDF4; color: #10B981; }
+    .db-kpi-icon--red { background: #FEF2F2; color: #EF4444; }
+    .db-kpi-icon--teal { background: #F0FDFA; color: #0D9488; }
+    .db-kpi-icon--purple { background: #F5F3FF; color: #8B5CF6; }
+    .db-kpi-icon--amber { background: #FFFBEB; color: #F59E0B; }
+    .db-two-col { display: grid; grid-template-columns: 1fr 320px; gap: 1.25rem; margin-bottom: 1.5rem; }
+    @media (max-width:900px) { .db-two-col { grid-template-columns: 1fr; } }
+    .db-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+    .db-card-header-left { display: flex; align-items: center; gap: .625rem; }
+    .db-card-icon { width: 2rem; height: 2rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .8rem; }
+    .db-card-icon--blue { background: #EFF6FF; color: #3B82F6; }
+    .db-card-icon--green { background: #F0FDF4; color: #10B981; }
+    .db-card-icon--purple { background: #F5F3FF; color: #8B5CF6; }
+    .db-card-title { font-size: .9375rem; font-weight: 700; color: #0F172A; margin: 0; }
+    .db-card-link { font-size: .8rem; font-weight: 600; color: #3B82F6; text-decoration: none; display: flex; align-items: center; gap: .25rem; }
+    .db-card-link:hover { color: #2563eb; }
+    .db-empty { display: flex; flex-direction: column; align-items: center; padding: 2.5rem 1rem; text-align: center; gap: .5rem; }
+    .db-empty-icon { width: 3.5rem; height: 3.5rem; background: #F1F5F9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: #94A3B8; margin-bottom: .25rem; }
+    .db-empty-title { font-size: .9rem; font-weight: 600; color: #334155; margin: 0; }
+    .db-empty-sub { font-size: .8rem; color: #94A3B8; margin: 0; }
+    .db-empty-cta { display: inline-flex; align-items: center; gap: .3rem; background: #10B981; color: #fff; border: none; border-radius: 8px; padding: .55rem 1.125rem; font-size: .8rem; font-weight: 600; cursor: pointer; text-decoration: none; margin-top: .5rem; transition: background .15s; }
+    .db-empty-cta:hover { background: #059669; color: #fff; }
+    .db-reservas-table { width: 100%; border-collapse: collapse; font-size: .825rem; }
+    .db-reservas-table thead tr { background: #F8FAFC; border-bottom: 1.5px solid #E2E8F0; }
+    .db-reservas-table th { padding: .625rem .875rem; text-align: left; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #64748b; white-space: nowrap; }
+    .db-reservas-table td { padding: .75rem .875rem; border-bottom: 1px solid #F1F5F9; color: #334155; vertical-align: middle; }
+    .db-reservas-table tbody tr:last-child td { border-bottom: none; }
+    .db-reservas-table tbody tr:hover td { background: #F8FAFC; }
+    .db-prop-name { font-weight: 600; color: #0F172A; }
+    .db-date-range { display: flex; align-items: center; gap: .3rem; }
+    .db-date-arrow { color: #94A3B8; font-size: .7rem; }
+    .db-nights { display: inline-flex; align-items: center; gap: .2rem; background: #F1F5F9; border-radius: 99px; padding: .15rem .5rem; font-size: .7rem; font-weight: 600; color: #475569; }
+    .db-amount { font-weight: 700; color: #0F172A; }
+    .db-pill { display: inline-flex; align-items: center; gap: .25rem; padding: .2rem .625rem; border-radius: 99px; font-size: .7rem; font-weight: 700; }
+    .db-pill--green { background: #D1FAE5; color: #065f46; }
+    .db-pill--amber { background: #FEF3C7; color: #92400E; }
+    .db-pill--red { background: #FEE2E2; color: #991b1b; }
+    .db-pill--gray { background: #F1F5F9; color: #64748b; }
+    .db-timeline { display: flex; flex-direction: column; }
+    .db-timeline-item { display: flex; gap: .875rem; align-items: flex-start; padding: .75rem 0; border-bottom: 1px solid #F1F5F9; }
+    .db-timeline-item:last-child { border-bottom: none; }
+    .db-timeline-dot { width: .625rem; height: .625rem; border-radius: 50%; flex-shrink: 0; margin-top: .3rem; }
+    .db-timeline-dot--green { background: #10B981; }
+    .db-timeline-dot--blue { background: #3B82F6; }
+    .db-timeline-dot--amber { background: #F59E0B; }
+    .db-timeline-dot--red { background: #EF4444; }
+    .db-timeline-msg { font-size: .825rem; color: #334155; line-height: 1.4; flex: 1; }
+    .db-timeline-time { font-size: .72rem; color: #94A3B8; white-space: nowrap; }
+    .db-rendimiento { margin-bottom: 0; }
+    .db-rendimiento-body { display: grid; grid-template-columns: 1fr 260px; gap: 2rem; align-items: start; }
+    @media (max-width:900px) { .db-rendimiento-body { grid-template-columns: 1fr; } }
+    .db-chart-wrap { position: relative; height: 220px; }
+    .db-mini-cards { display: flex; flex-direction: column; gap: .75rem; }
+    .db-mini-card { display: flex; align-items: center; gap: .875rem; padding: .875rem 1rem; background: #F8FAFC; border-radius: 10px; }
+    .db-mini-card-icon { width: 2rem; height: 2rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .8rem; flex-shrink: 0; }
+    .db-mini-card-label { font-size: .7rem; color: #94A3B8; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+    .db-mini-card-value { font-size: 1.0625rem; font-weight: 800; color: #0F172A; }
+  </style>
 </head>
 <body>
-    
-    <%- include('partials/navbar') %>
-    <%- include('partials/spinner') %>
 
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar Izquierdo (1/4 de la pantalla) -->
-            <aside class="col-lg-3 col-md-4 sidebar-dashboard">
-                <div class="sidebar-content">
-                    <h5 class="sidebar-title">Calendario</h5>
-                    
-                    <!-- Mini Calendario dinámico -->
-                    <div id="miniCalendarContainer">
-                        <!-- El calendario se genera dinámicamente con JavaScript -->
-                    </div>
+  <%- include('partials/navbar') %>
+  <%- include('partials/spinner') %>
 
-                            <div class="mt-4">
-                        <h6 class="sidebar-subtitle">Resumen Rápido</h6>
-                        <div class="card summary-card">
-                            <div class="card-body">
-                                <div class="summary-item">
-                                    <span class="summary-label">Propiedades activas</span>
-                                    <span class="summary-value"><%= stats.totalViviendas %></span>
-                                </div>
-                                <div class="summary-item">
-                                    <span class="summary-label">Reservas totales</span>
-                                    <span class="summary-value text-success"><%= stats.totalReservas %></span>
-                                </div>
-                                <div class="summary-item">
-                                    <span class="summary-label">Incidencias</span>
-                                    <span class="summary-value <%= stats.incidenciasPendientes > 0 ? 'text-danger' : 'text-success' %>"><%= stats.incidenciasPendientes %></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Mockup decorativo -->
-                    <div class="mt-4">
-                        <h6 class="sidebar-subtitle">Vista Previa</h6>
-                        <div class="rounded-2xl p-3 space-y-2 border" style="background: rgba(26, 35, 50, 0.3); border-color: rgba(26, 35, 50, 0.3);">
-                            <div class="h-6 bg-gradient-to-r from-yellow-400/30 to-green-400/30 rounded"></div>
-                            <div class="h-16 rounded" style="background: rgba(26, 35, 50, 0.4);"></div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div class="h-12 rounded" style="background: rgba(26, 35, 50, 0.4);"></div>
-                                <div class="h-12 rounded" style="background: rgba(26, 35, 50, 0.4);"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </aside>
+  <div class="db-page">
 
-            <!-- Panel Principal (3/4 de la pantalla) -->
-            <main class="col-lg-9 col-md-8 main-content">
-                <div class="content-wrapper">
-                    <!-- Header del Dashboard -->
-                    <div class="dashboard-header">
-                        <h2>Bienvenido de nuevo, <span class="text-primary"><%= user ? user.nombre : 'Usuario' %></span></h2>
-                        <p class="text-muted">Resumen de tu actividad y próximas reservas</p>
-                    </div>
+    <%
+      const _hoy = new Date();
+      const _fechaStr = _hoy.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+      const _fechaCap = _fechaStr.charAt(0).toUpperCase() + _fechaStr.slice(1);
+    %>
 
-                    <!-- Tarjetas de Estadísticas -->
-                    <div class="row stats-row mb-4">
-                        <div class="col-lg-3 col-md-6 mb-3">
-                            <div class="card stat-card">
-                                <div class="card-body">
-                                    <div class="stat-icon bg-primary">
-                                        <i class="bi bi-calendar-check"></i>
-                                    </div>
-                                    <h6>Próximas Reservas</h6>
-                                    <h3><%= stats.proximasReservas %></h3>
-                                    <small class="text-muted">En los próximos 7 días</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 mb-3">
-                            <div class="card stat-card">
-                                <div class="card-body">
-                                    <div class="stat-icon bg-success">
-                                        <i class="bi bi-currency-euro"></i>
-                                    </div>
-                                    <h6>Ingresos del Mes</h6>
-                                    <h3><%= stats.ingresosMes %>€</h3>
-                                    <small class="text-muted">Mes actual</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 mb-3">
-                            <div class="card stat-card">
-                                <div class="card-body">
-                                    <div class="stat-icon bg-warning">
-                                        <i class="bi bi-exclamation-triangle"></i>
-                                    </div>
-                                    <h6>Tareas Pendientes</h6>
-                                    <h3><%= stats.tareasPendientes %></h3>
-                                    <small class="text-muted"><%= stats.tareasPendientes === 0 ? 'Sin tareas pendientes' : 'Revisar tareas' %></small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 mb-3">
-                            <div class="card stat-card">
-                                <div class="card-body">
-                                    <div class="stat-icon bg-info">
-                                        <i class="bi bi-house-door"></i>
-                                    </div>
-                                    <h6>Propiedades Activas</h6>
-                                    <h3><%= stats.totalViviendas %></h3>
-                                    <small class="text-muted"><%= stats.totalViviendas === 0 ? 'Añade tu primera propiedad' : 'Total de viviendas' %></small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sección de Próximas Reservas -->
-                    <div class="card reservas-card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0"><i class="bi bi-calendar-event me-2"></i>Próximas Reservas</h5>
-                            <a href="/reservas" class="btn btn-sm btn-outline-primary">Ver todas</a>
-                        </div>
-                        <div class="card-body">
-                            <% if (listaProximasReservas && listaProximasReservas.length > 0) { %>
-                                <div class="reservas-scroll-container">
-                                    <% listaProximasReservas.forEach(reserva => { 
-                                        const fechaInicio = new Date(reserva.fecha_inicio);
-                                        const fechaFin = new Date(reserva.fecha_fin);
-                                        const dia = fechaInicio.getDate();
-                                        const mes = fechaInicio.toLocaleDateString('es-ES', { month: 'short' }).toUpperCase();
-                                        const horaInicio = '15:00'; // Por defecto
-                                        const horaFin = '11:00'; // Por defecto
-                                        const noches = Math.ceil((fechaFin - fechaInicio) / (1000 * 60 * 60 * 24));
-                                        const estado = reserva.estado || 'Confirmada';
-                                        const estadoClass = estado === 'Confirmada' ? 'bg-success' : (estado === 'Pendiente' ? 'bg-warning' : 'bg-info');
-                                    %>
-                                    <div class="reserva-card">
-                                        <div class="reserva-fecha">
-                                            <div class="fecha-badge">
-                                                <span class="dia"><%= dia %></span>
-                                                <span class="mes"><%= mes %></span>
-                                            </div>
-                                        </div>
-                                        <div class="reserva-info">
-                                            <h6><%= reserva.Vivienda.direccion %></h6>
-                                            <p class="mb-1"><i class="bi bi-moon-stars"></i> <%= noches %> <%= noches === 1 ? 'noche' : 'noches' %></p>
-                                            <small class="text-muted">
-                                                Check-in: <%= fechaInicio.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }) %> <%= horaInicio %> - 
-                                                Check-out: <%= fechaFin.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }) %> <%= horaFin %>
-                                            </small>
-                                        </div>
-                                        <div class="reserva-estado">
-                                            <span class="badge <%= estadoClass %>"><%= estado %></span>
-                                            <% if (reserva.precio_total) { %>
-                                            <p class="reserva-precio mb-0"><%= reserva.precio_total %>€</p>
-                                            <% } %>
-                                        </div>
-                                    </div>
-                                    <% }); %>
-                                </div>
-                            <% } else { %>
-                                <div class="empty-state text-center py-5">
-                                    <i class="bi bi-calendar-x" style="font-size: 3rem; color: #6c757d; opacity: 0.5;"></i>
-                                    <p class="mt-3 text-muted mb-0">Aún no tienes reservas pendientes</p>
-                                    <small class="text-muted">Las reservas de los próximos 7 días aparecerán aquí</small>
-                                </div>
-                            <% } %>
-                        </div>
-                    </div>
-
-                    <!-- Sección adicional: Alertas y Tareas -->
-                    <div class="row mt-4">
-                        <div class="col-lg-6 mb-3">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h6 class="mb-0"><i class="bi bi-bell me-2"></i>Notificaciones Recientes</h6>
-                                </div>
-                                <div class="card-body">
-                                    <% if (notificaciones && notificaciones.length > 0) { %>
-                                        <% notificaciones.forEach(notif => { %>
-                                        <div class="notification-item">
-                                            <i class="bi <%= notif.icono %> text-<%= notif.color %>"></i>
-                                            <span><%= notif.mensaje %></span>
-                                            <small><%= notif.tiempo %></small>
-                                        </div>
-                                        <% }); %>
-                                    <% } else { %>
-                                        <div class="empty-state text-center py-4">
-                                            <i class="bi bi-bell-slash" style="font-size: 2.5rem; color: #6c757d; opacity: 0.5;"></i>
-                                            <p class="mt-3 text-muted mb-0">No hay notificaciones recientes</p>
-                                            <small class="text-muted">Las actualizaciones aparecerán aquí</small>
-                                        </div>
-                                    <% } %>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 mb-3">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h6 class="mb-0"><i class="bi bi-bar-chart me-2"></i>Rendimiento del Mes</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p class="text-muted small">Ocupación general:</p>
-                                    <div class="performance-item">
-                                        <span class="property-name">Porcentaje de ocupación</span>
-                                        <span class="badge <%= stats.ocupacion >= 80 ? 'bg-success' : (stats.ocupacion >= 50 ? 'bg-warning' : 'bg-secondary') %>">
-                                            <%= stats.ocupacion %>%
-                                        </span>
-                                    </div>
-                                    <% if (stats.totalViviendas === 0) { %>
-                                    <small class="text-muted">Añade propiedades y reservas para ver estadísticas</small>
-                                    <% } %>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
+    <% if (stats.totalViviendas === 0) { %>
+    <div class="db-card db-onboarding">
+      <p class="db-onboarding-title">Primeros pasos</p>
+      <p class="db-onboarding-sub">Completa estos pasos para empezar a gestionar tus propiedades</p>
+      <div class="db-progress-bar-bg">
+        <div class="db-progress-bar-fill" style="width: 0%"></div>
+      </div>
+      <div class="db-steps-row">
+        <div class="db-step db-step--active">
+          <div class="db-step-icon"><i class="fas fa-home"></i></div>
+          <div class="db-step-label">A&ntilde;ade una propiedad</div>
+          <div class="db-step-desc">Registra tu primera vivienda con todos sus datos</div>
+          <a href="/propiedades" class="db-step-btn"><i class="fas fa-plus"></i> A&ntilde;adir ahora</a>
         </div>
+        <div class="db-step db-step--pending">
+          <div class="db-step-icon"><i class="fas fa-euro-sign"></i></div>
+          <div class="db-step-label">Configura un precio</div>
+          <div class="db-step-desc">Establece el precio por noche de tu propiedad</div>
+          <span class="db-step-btn"><i class="fas fa-lock"></i> Bloqueado</span>
+        </div>
+        <div class="db-step db-step--pending">
+          <div class="db-step-icon"><i class="fas fa-calendar-plus"></i></div>
+          <div class="db-step-label">Crea tu primera reserva</div>
+          <div class="db-step-desc">Registra la primera reserva de un hu&eacute;sped</div>
+          <span class="db-step-btn"><i class="fas fa-lock"></i> Bloqueado</span>
+        </div>
+      </div>
+    </div>
+    <% } %>
+
+    <div class="db-welcome">
+      <div>
+        <h1 class="db-welcome-title">
+          <i class="fas fa-home"></i>
+          Bienvenido, <%= user ? user.nombre : 'Usuario' %>
+        </h1>
+        <p class="db-welcome-sub">Resumen de tu actividad &middot; <%= _fechaCap %></p>
+      </div>
+      <span class="db-session-pill">
+        <span class="db-session-dot"></span>
+        Sesi&oacute;n activa
+      </span>
     </div>
 
-    <%- include('partials/footer') %>
+    <div class="db-kpi-grid">
+      <div class="db-kpi">
+        <div class="db-kpi-icon db-kpi-icon--blue"><i class="fas fa-calendar-check"></i></div>
+        <p class="db-kpi-label">Pr&oacute;ximas Reservas</p>
+        <p class="db-kpi-value"><%= stats.proximasReservas %></p>
+        <p class="db-kpi-sub"><%= stats.proximasReservas == 0 ? 'Sin datos a&uacute;n' : 'En los pr&oacute;ximos 7 d&iacute;as' %></p>
+      </div>
+      <div class="db-kpi">
+        <div class="db-kpi-icon db-kpi-icon--green"><i class="fas fa-euro-sign"></i></div>
+        <p class="db-kpi-label">Ingresos del Mes</p>
+        <p class="db-kpi-value"><%= parseFloat(stats.ingresosMes) > 0 ? Number(stats.ingresosMes).toLocaleString('es-ES') + '\u20AC' : '0\u20AC' %></p>
+        <p class="db-kpi-sub"><%= parseFloat(stats.ingresosMes) == 0 ? 'Sin datos a\u00FAn' : 'Mes actual' %></p>
+      </div>
+      <div class="db-kpi">
+        <div class="db-kpi-icon db-kpi-icon--red"><i class="fas fa-receipt"></i></div>
+        <p class="db-kpi-label">Gastos del Mes</p>
+        <p class="db-kpi-value"><%= parseFloat(stats.gastosMes) > 0 ? Number(stats.gastosMes).toLocaleString('es-ES') + '\u20AC' : '0\u20AC' %></p>
+        <p class="db-kpi-sub"><%= parseFloat(stats.gastosMes) == 0 ? 'Sin datos a\u00FAn' : 'Mes actual' %></p>
+      </div>
+      <div class="db-kpi">
+        <div class="db-kpi-icon db-kpi-icon--teal"><i class="fas fa-balance-scale"></i></div>
+        <p class="db-kpi-label">Balance del Mes</p>
+        <p class="db-kpi-value" style="color:<%= parseFloat(stats.balanceMes) >= 0 ? '#0D9488' : '#EF4444' %>">
+          <%= parseFloat(stats.balanceMes) >= 0 ? '+' : '' %><%= Number(stats.balanceMes).toLocaleString('es-ES') %>&#8364;
+        </p>
+        <p class="db-kpi-sub"><%= parseFloat(stats.balanceMes) == 0 ? 'Sin datos a\u00FAn' : (parseFloat(stats.balanceMes) >= 0 ? 'Resultado positivo' : 'Resultado negativo') %></p>
+      </div>
+      <div class="db-kpi">
+        <div class="db-kpi-icon db-kpi-icon--purple"><i class="fas fa-percent"></i></div>
+        <p class="db-kpi-label">Ocupaci&oacute;n Media</p>
+        <p class="db-kpi-value"><%= stats.ocupacion %>%</p>
+        <p class="db-kpi-sub"><%= stats.ocupacion == 0 ? 'Sin datos a&uacute;n' : 'Este mes' %></p>
+      </div>
+      <div class="db-kpi">
+        <div class="db-kpi-icon db-kpi-icon--amber"><i class="fas fa-hourglass-half"></i></div>
+        <p class="db-kpi-label">Cobros Pendientes</p>
+        <p class="db-kpi-value"><%= stats.cobrosPendientes %></p>
+        <p class="db-kpi-sub"><%= stats.cobrosPendientes == 0 ? 'Sin datos a&uacute;n' : 'Reservas sin cobrar' %></p>
+      </div>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/calendar.js"></script>
+    <div class="db-two-col">
+
+      <div class="db-card">
+        <div class="db-card-header">
+          <div class="db-card-header-left">
+            <div class="db-card-icon db-card-icon--blue"><i class="fas fa-calendar-alt"></i></div>
+            <h3 class="db-card-title">Pr&oacute;ximas Reservas</h3>
+          </div>
+          <a href="/propiedades" class="db-card-link">Ver todas <i class="fas fa-arrow-right" style="font-size:.65rem;"></i></a>
+        </div>
+        <% if (listaProximasReservas && listaProximasReservas.length > 0) { %>
+        <div style="overflow-x:auto;">
+          <table class="db-reservas-table">
+            <thead>
+              <tr>
+                <th>Propiedad</th>
+                <th>Titular</th>
+                <th>Entrada &#8594; Salida</th>
+                <th>Noches</th>
+                <th>Importe</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% listaProximasReservas.forEach(function(r) {
+                  const fI = new Date(r.fecha_inicio);
+                  const fF = new Date(r.fecha_fin);
+                  const noches = Math.max(1, Math.round((fF - fI) / 86400000));
+                  const fmtI = fI.toLocaleDateString('es-ES', { day:'2-digit', month:'short' });
+                  const fmtF = fF.toLocaleDateString('es-ES', { day:'2-digit', month:'short' });
+                  const est = (r.estado || 'confirmada').toLowerCase();
+                  let pillCls = 'db-pill--gray';
+                  if (est === 'confirmada') pillCls = 'db-pill--green';
+                  else if (est === 'pendiente') pillCls = 'db-pill--amber';
+                  else if (est === 'cancelada') pillCls = 'db-pill--red';
+              %>
+              <tr>
+                <td><span class="db-prop-name"><%= r.Vivienda ? (r.Vivienda.nombre || r.Vivienda.direccion) : '?' %></span></td>
+                <td><%= r.titular_pago || '-' %></td>
+                <td>
+                  <div class="db-date-range">
+                    <%= fmtI %> <i class="fas fa-arrow-right db-date-arrow"></i> <%= fmtF %>
+                  </div>
+                </td>
+                <td><span class="db-nights"><i class="fas fa-moon" style="font-size:.6rem;"></i> <%= noches %></span></td>
+                <td><span class="db-amount"><%= r.importe_total ? Number(r.importe_total).toLocaleString('es-ES') + '\u20AC' : '-' %></span></td>
+                <td><span class="db-pill <%= pillCls %>"><%= r.estado || 'Confirmada' %></span></td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+        <% } else { %>
+        <div class="db-empty">
+          <div class="db-empty-icon"><i class="fas fa-calendar-times"></i></div>
+          <p class="db-empty-title">No tienes reservas pr&oacute;ximas</p>
+          <p class="db-empty-sub">Las reservas de los pr&oacute;ximos 7 d&iacute;as aparecer&aacute;n aqu&iacute;</p>
+          <a href="/propiedades" class="db-empty-cta"><i class="fas fa-plus"></i> A&ntilde;adir Reserva</a>
+        </div>
+        <% } %>
+      </div>
+
+      <div class="db-card">
+        <div class="db-card-header">
+          <div class="db-card-header-left">
+            <div class="db-card-icon db-card-icon--purple"><i class="fas fa-bolt"></i></div>
+            <h3 class="db-card-title">Actividad Reciente</h3>
+          </div>
+        </div>
+        <% if (notificaciones && notificaciones.length > 0) { %>
+        <div class="db-timeline">
+          <% notificaciones.forEach(function(n) {
+              let dotCls = 'db-timeline-dot--blue';
+              if (n.color === 'success') dotCls = 'db-timeline-dot--green';
+              else if (n.color === 'warning') dotCls = 'db-timeline-dot--amber';
+              else if (n.color === 'danger') dotCls = 'db-timeline-dot--red';
+          %>
+          <div class="db-timeline-item">
+            <span class="db-timeline-dot <%= dotCls %>"></span>
+            <div style="flex:1;min-width:0;">
+              <div class="db-timeline-msg"><%= n.mensaje %></div>
+            </div>
+            <span class="db-timeline-time"><%= n.tiempo %></span>
+          </div>
+          <% }); %>
+        </div>
+        <% } else { %>
+        <div class="db-empty">
+          <div class="db-empty-icon"><i class="fas fa-bell-slash"></i></div>
+          <p class="db-empty-title">Sin actividad reciente</p>
+          <p class="db-empty-sub">Las novedades aparecer&aacute;n aqu&iacute;</p>
+        </div>
+        <% } %>
+      </div>
+
+    </div>
+
+    <div class="db-card db-rendimiento">
+      <div class="db-card-header">
+        <div class="db-card-header-left">
+          <div class="db-card-icon db-card-icon--green"><i class="fas fa-chart-line"></i></div>
+          <h3 class="db-card-title">Rendimiento del Mes</h3>
+        </div>
+      </div>
+      <div class="db-rendimiento-body">
+        <div class="db-chart-wrap">
+          <canvas id="dbChart"></canvas>
+        </div>
+        <div class="db-mini-cards">
+          <div class="db-mini-card">
+            <div class="db-mini-card-icon db-kpi-icon--green"><i class="fas fa-arrow-up"></i></div>
+            <div>
+              <div class="db-mini-card-label">Ingresos Totales</div>
+              <div class="db-mini-card-value" style="color:#10B981;"><%= Number(stats.ingresosMes).toLocaleString('es-ES') %>&#8364;</div>
+            </div>
+          </div>
+          <div class="db-mini-card">
+            <div class="db-mini-card-icon db-kpi-icon--red"><i class="fas fa-arrow-down"></i></div>
+            <div>
+              <div class="db-mini-card-label">Gastos Totales</div>
+              <div class="db-mini-card-value" style="color:#EF4444;"><%= Number(stats.gastosMes).toLocaleString('es-ES') %>&#8364;</div>
+            </div>
+          </div>
+          <div class="db-mini-card">
+            <div class="db-mini-card-icon db-kpi-icon--blue"><i class="fas fa-hourglass-half"></i></div>
+            <div>
+              <div class="db-mini-card-label">Cobros Pendientes</div>
+              <div class="db-mini-card-value" style="color:#3B82F6;"><%= stats.cobrosPendientes %></div>
+            </div>
+          </div>
+          <div class="db-mini-card">
+            <div class="db-mini-card-icon db-kpi-icon--purple"><i class="fas fa-calendar-check"></i></div>
+            <div>
+              <div class="db-mini-card-label">Total Reservas</div>
+              <div class="db-mini-card-value" style="color:#8B5CF6;"><%= stats.totalReservas %></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <%- include('partials/footer') %>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script>
+    (function() {
+      var chartData = <%- JSON.stringify(chartData) %>;
+      var ctx = document.getElementById('dbChart');
+      if (!ctx) return;
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: chartData.labels,
+          datasets: [
+            { label: 'Ingresos', data: chartData.ingresos, borderColor: '#10B981', backgroundColor: 'rgba(16,185,129,.08)', borderWidth: 2.5, pointBackgroundColor: '#10B981', pointRadius: 4, pointHoverRadius: 6, fill: true, tension: 0.4 },
+            { label: 'Gastos', data: chartData.gastos, borderColor: '#EF4444', backgroundColor: 'rgba(239,68,68,.06)', borderWidth: 2.5, pointBackgroundColor: '#EF4444', pointRadius: 4, pointHoverRadius: 6, fill: true, tension: 0.4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'top', labels: { usePointStyle: true, pointStyleWidth: 8, padding: 16, font: { family: 'Inter', size: 12, weight: '600' }, color: '#475569' } },
+            tooltip: { backgroundColor: '#0F172A', titleColor: '#fff', bodyColor: '#CBD5E1', padding: 12, cornerRadius: 8,
+              callbacks: { label: function(c) { return ' ' + c.dataset.label + ': ' + c.parsed.y.toLocaleString('es-ES') + '\u20AC'; } }
+            }
+          },
+          scales: {
+            x: { grid: { display: false }, ticks: { font: { family: 'Inter', size: 11 }, color: '#94A3B8' } },
+            y: { grid: { color: 'rgba(0,0,0,.04)' }, ticks: { font: { family: 'Inter', size: 11 }, color: '#94A3B8', callback: function(v) { return v.toLocaleString('es-ES') + '\u20AC'; } } }
+          }
+        }
+      });
+    })();
+  </script>
+
 </body>
 </html>
