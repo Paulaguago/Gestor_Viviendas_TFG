@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Vivienda, Reserva, Tarea, DocumentoVivienda, Transaccion, Huesped } = require('../models');
+const { Vivienda, Reserva, Tarea, DocumentoVivienda, Transaccion, Huesped, CategoriaFinanciera } = require('../models');
 const { Op } = require('sequelize');
 const { sequelize } = require('../config/database');
 const multer = require('multer');
@@ -358,6 +358,22 @@ router.get('/:id', async (req, res) => {
       console.log('No se pudieron cargar los documentos:', e.message);
     }
 
+    // Obtener categorías financieras del usuario para los modales
+    let categoriasGasto = [];
+    let categoriasIngreso = [];
+    try {
+      categoriasGasto = await CategoriaFinanciera.findAll({
+        where: { id_usuario: req.user.id_usuario, tipo: 'gasto' },
+        order: [['nombre', 'ASC']]
+      });
+      categoriasIngreso = await CategoriaFinanciera.findAll({
+        where: { id_usuario: req.user.id_usuario, tipo: 'ingreso' },
+        order: [['nombre', 'ASC']]
+      });
+    } catch (e) {
+      console.log('No se pudieron cargar las categorías financieras:', e.message);
+    }
+
     res.render('propiedades/detalle2', {
       title: 'Detalle de Propiedad',
       user: req.user,
@@ -370,7 +386,9 @@ router.get('/:id', async (req, res) => {
       porcentajeOcupacion,
       reservasMes,
       ultimasTransacciones,
-      documentos
+      documentos,
+      categoriasGasto,
+      categoriasIngreso
     });
   } catch (error) {
     console.error('Error al cargar el detalle de la vivienda:', error);
@@ -504,15 +522,26 @@ router.post('/:id/transacciones', async (req, res) => {
     const vivienda = await Vivienda.findOne({ where: { id_vivienda: req.params.id, id_usuario: req.user.id_usuario } });
     if (!vivienda) return res.status(404).json({ success: false, error: 'Vivienda no encontrada' });
 
-    const { tipo, importe, descripcion, fecha } = req.body;
+    const { tipo, importe, descripcion, fecha, categoria } = req.body;
     if (!tipo || !importe || !fecha) return res.status(400).json({ success: false, error: 'Faltan campos obligatorios' });
+
+    // Find-or-create category record so the donut chart can split by category
+    let id_categoria = null;
+    if (categoria) {
+      const [catRecord] = await CategoriaFinanciera.findOrCreate({
+        where: { nombre: categoria, tipo, id_usuario: req.user.id_usuario },
+        defaults: { nombre: categoria, tipo, id_usuario: req.user.id_usuario }
+      });
+      id_categoria = catRecord.id_categoria;
+    }
 
     const t = await Transaccion.create({
       id_vivienda: req.params.id,
       tipo,
       importe: parseFloat(importe),
       descripcion: descripcion || null,
-      fecha
+      fecha,
+      id_categoria
     });
     return res.json({ success: true, transaccion: t });
   } catch (error) {

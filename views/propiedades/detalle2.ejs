@@ -2807,16 +2807,19 @@
             <label for="expenseCategory">Categoría *</label>
             <select id="expenseCategory" name="expenseCategory" required>
               <option value="">Selecciona una categoría</option>
-              <option value="mantenimiento">Mantenimiento</option>
-              <option value="servicios">Servicios (agua, luz, gas)</option>
-              <option value="impuestos">Impuestos</option>
-              <option value="seguros">Seguros</option>
-              <option value="limpieza">Limpieza</option>
-              <option value="reparaciones">Reparaciones</option>
-              <option value="marketing">Marketing</option>
-              <option value="gestion">Gestión</option>
-              <option value="otros">Otros</option>
+              <% if (categoriasGasto && categoriasGasto.length > 0) { %>
+                <% categoriasGasto.forEach(function(cat) { %>
+                  <option value="<%= cat.id_categoria %>"><%= cat.nombre %></option>
+                <% }); %>
+              <% } else { %>
+                <option value="" disabled>— Sin categorías guardadas —</option>
+              <% } %>
+              <option value="__nueva__">＋ Nueva categoría…</option>
             </select>
+            <input type="text" id="expenseCategoryNueva" name="expenseCategoryNueva"
+              placeholder="Escribe el nombre de la nueva categoría"
+              style="display:none; margin-top:0.5rem;"
+              class="form-control">
           </div>
           <div class="form-group">
             <label for="expenseAmount">Importe (€) *</label>
@@ -2857,13 +2860,19 @@
             <label for="incomeCategory">Categoría *</label>
             <select id="incomeCategory" name="incomeCategory" required>
               <option value="">Selecciona una categoría</option>
-              <option value="alquiler">Alquiler</option>
-              <option value="servicios_adicionales">Servicios Adicionales</option>
-              <option value="deposito">Depósito/Fianza</option>
-              <option value="limpieza_extra">Limpieza Extra</option>
-              <option value="parking">Parking</option>
-              <option value="otros">Otros</option>
+              <% if (categoriasIngreso && categoriasIngreso.length > 0) { %>
+                <% categoriasIngreso.forEach(function(cat) { %>
+                  <option value="<%= cat.id_categoria %>"><%= cat.nombre %></option>
+                <% }); %>
+              <% } else { %>
+                <option value="" disabled>— Sin categorías guardadas —</option>
+              <% } %>
+              <option value="__nueva__">＋ Nueva categoría…</option>
             </select>
+            <input type="text" id="incomeCategoryNueva" name="incomeCategoryNueva"
+              placeholder="Escribe el nombre de la nueva categoría"
+              style="display:none; margin-top:0.5rem;"
+              class="form-control">
           </div>
           <div class="form-group">
             <label for="incomeAmount">Importe (€) *</label>
@@ -2922,6 +2931,8 @@
     function closeExpenseModal() {
       document.getElementById('expenseModal').classList.remove('show');
       document.getElementById('expenseForm').reset();
+      var en = document.getElementById('expenseCategoryNueva');
+      if (en) { en.style.display = 'none'; en.value = ''; }
     }
     function openIncomeModal() {
       document.getElementById('incomeModal').classList.add('show');
@@ -2929,7 +2940,21 @@
     function closeIncomeModal() {
       document.getElementById('incomeModal').classList.remove('show');
       document.getElementById('incomeForm').reset();
+      var in_ = document.getElementById('incomeCategoryNueva');
+      if (in_) { in_.style.display = 'none'; in_.value = ''; }
     }
+
+    // Mostrar/ocultar campo de nueva categoría al seleccionar "＋ Nueva categoría…"
+    ['expense', 'income'].forEach(function(pfx) {
+      const sel = document.getElementById(pfx + 'Category');
+      const inp = document.getElementById(pfx + 'CategoryNueva');
+      if (sel && inp) {
+        sel.addEventListener('change', function() {
+          inp.style.display = this.value === '__nueva__' ? 'block' : 'none';
+          if (this.value !== '__nueva__') inp.value = '';
+        });
+      }
+    });
 
     function _saveTransaccion(tipo, formId, closeFn) {
       const form = document.getElementById(formId);
@@ -2937,6 +2962,17 @@
       const importe = document.getElementById(prefix + 'Amount').value;
       const descripcion = document.getElementById(prefix + 'Description').value;
       const fecha = document.getElementById(prefix + 'Date').value;
+      const categoryEl = document.getElementById(prefix + 'Category');
+      const categoryNuevaEl = document.getElementById(prefix + 'CategoryNueva');
+      let categoria = '';
+      if (categoryEl) {
+        if (categoryEl.value === '__nueva__') {
+          categoria = categoryNuevaEl ? categoryNuevaEl.value.trim() : '';
+          if (!categoria) { showToast('Escribe el nombre de la nueva categoría.', 'error'); return; }
+        } else if (categoryEl.value) {
+          categoria = categoryEl.selectedOptions[0].text;
+        }
+      }
       if (!importe || !fecha) { showToast('Completa el importe y la fecha.', 'error'); return; }
 
       const btn = form.closest('.modal-content').querySelector('.btn-primary');
@@ -2947,7 +2983,7 @@
       fetch('/propiedades/' + viviendaIdGlobal + '/transacciones', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tipo, importe, descripcion, fecha })
+        body: JSON.stringify({ tipo, importe, descripcion, fecha, categoria })
       })
       .then(function(r){ return r.json(); })
       .then(function(d) {
