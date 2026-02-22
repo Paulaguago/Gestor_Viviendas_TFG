@@ -107,6 +107,67 @@
     .db-mini-card-icon { width: 2rem; height: 2rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .8rem; flex-shrink: 0; }
     .db-mini-card-label { font-size: .7rem; color: #94A3B8; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
     .db-mini-card-value { font-size: 1.0625rem; font-weight: 800; color: #0F172A; }
+
+    /* ===== INNER SPLIT (reservas + calendario) ===== */
+    .db-inner-split { display: grid; grid-template-columns: 1fr 280px; gap: 0; }
+    @media (max-width:1000px) { .db-inner-split { grid-template-columns: 1fr; } }
+    .db-inner-split-table { overflow-x: auto; border-right: 1px solid #F1F5F9; padding-right: 0; }
+    @media (max-width:1000px) { .db-inner-split-table { border-right: none; border-bottom: 1px solid #F1F5F9; padding-bottom: 1.25rem; } }
+    .db-inner-split-cal { padding: 1.25rem 1.35rem; flex-shrink: 0; }
+
+    /* ===== MINI CALENDAR ===== */
+    .db-cal-title { font-size: .8rem; font-weight: 700; color: #0F172A; text-align: center; margin-bottom: .875rem; text-transform: capitalize; }
+    .db-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+    .db-cal-dow { font-size: .65rem; font-weight: 700; color: #94A3B8; text-align: center; padding: .2rem 0 .4rem; text-transform: uppercase; }
+    .db-cal-day {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      border-radius: 6px; font-size: .75rem; font-weight: 500; color: #475569;
+      cursor: default; position: relative;
+    }
+    .db-cal-day.today { background: #0F172A; color: #fff; font-weight: 700; }
+    .db-cal-day.has-reserva { background: #D1FAE5; color: #065f46; font-weight: 700; }
+    .db-cal-day.today.has-reserva { background: #0F172A; color: #fff; }
+    .db-cal-day.empty { pointer-events: none; }
+    .db-cal-legend { display: flex; flex-direction: column; gap: .3rem; margin-top: .875rem; }
+    .db-cal-legend-item { display: flex; align-items: center; gap: .4rem; font-size: .7rem; color: #64748b; }
+    .db-cal-legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+    /* ===== INCIDENCIAS PANEL ===== */
+    .db-inc-list { display: flex; flex-direction: column; }
+    .db-inc-item { display: flex; align-items: flex-start; gap: .875rem; padding: .75rem 1.35rem; border-bottom: 1px solid #F1F5F9; }
+    .db-inc-item:last-child { border-bottom: none; }
+    .db-inc-icon { width: 2rem; height: 2rem; border-radius: 8px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: .8rem; flex-shrink: 0; margin-top: .15rem; }
+    .db-inc-body { flex: 1; min-width: 0; }
+    .db-inc-concepto { font-size: .825rem; font-weight: 600; color: #0F172A; margin: 0 0 .25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .db-inc-meta { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+    .db-inc-vivienda { font-size: .75rem; color: #64748b; }
+    .db-inc-date { font-size: .7rem; color: #94A3B8; }
+    .db-inc-badge { display: inline-flex; align-items: center; gap: .25rem; background: #FEF3C7; color: #92400E; border-radius: 99px; padding: .1rem .5rem; font-size: .68rem; font-weight: 700; }
+    .db-tarea-badge { display: inline-flex; align-items: center; gap: .25rem; border-radius: 99px; padding: .1rem .5rem; font-size: .68rem; font-weight: 700; }
+    .db-tarea-badge--pendiente { background: #EFF6FF; color: #1d4ed8; }
+    .db-tarea-badge--proceso   { background: #F5F3FF; color: #6d28d9; }
+    .db-tarea-badge--vencida   { background: #FEE2E2; color: #991b1b; }
+    .db-inc-icon--tarea { background: #EFF6FF; color: #3B82F6; }
+
+    /* ===== ACTIVITY FEED ===== */
+    .db-activity-item {
+      display: flex; align-items: center; gap: .875rem;
+      padding: .7rem 0; border-bottom: 1px solid #F1F5F9;
+    }
+    .db-activity-item:last-child { border-bottom: none; }
+    .db-activity-icon {
+      width: 2rem; height: 2rem; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; flex-shrink: 0;
+    }
+    .db-activity-icon--ingreso { background: #D1FAE5; color: #065f46; }
+    .db-activity-icon--gasto   { background: #FEE2E2; color: #991b1b; }
+    .db-activity-msg { flex: 1; min-width: 0; font-size: .825rem; color: #334155; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .db-activity-right { display: flex; flex-direction: column; align-items: flex-end; gap: .15rem; flex-shrink: 0; }
+    .db-activity-amount { font-size: .875rem; font-weight: 700; }
+    .db-activity-amount--ingreso { color: #10B981; }
+    .db-activity-amount--gasto   { color: #EF4444; }
+    .db-activity-time { font-size: .7rem; color: #94A3B8; }
   </style>
 </head>
 <body>
@@ -171,7 +232,7 @@
         <div class="db-kpi-icon db-kpi-icon--blue"><i class="fas fa-calendar-check"></i></div>
         <p class="db-kpi-label">Pr&oacute;ximas Reservas</p>
         <p class="db-kpi-value"><%= stats.proximasReservas %></p>
-        <p class="db-kpi-sub"><%= stats.proximasReservas == 0 ? 'Sin datos a&uacute;n' : 'En los pr&oacute;ximos 7 d&iacute;as' %></p>
+        <p class="db-kpi-sub"><%= stats.proximasReservas == 0 ? 'Sin reservas pendientes' : 'Pendientes de empezar' %></p>
       </div>
       <div class="db-kpi">
         <div class="db-kpi-icon db-kpi-icon--green"><i class="fas fa-euro-sign"></i></div>
@@ -207,8 +268,7 @@
       </div>
     </div>
 
-    <div class="db-two-col">
-
+    <div style="margin-bottom:1.25rem;">
       <div class="db-card">
         <div class="db-card-header">
           <div class="db-card-header-left">
@@ -217,91 +277,172 @@
           </div>
           <a href="/propiedades" class="db-card-link">Ver todas <i class="fas fa-arrow-right" style="font-size:.65rem;"></i></a>
         </div>
-        <% if (listaProximasReservas && listaProximasReservas.length > 0) { %>
-        <div style="overflow-x:auto;">
-          <table class="db-reservas-table">
-            <thead>
-              <tr>
-                <th>Propiedad</th>
-                <th>Titular</th>
-                <th>Entrada &#8594; Salida</th>
-                <th>Noches</th>
-                <th>Importe</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% listaProximasReservas.forEach(function(r) {
-                  const fI = new Date(r.fecha_inicio);
-                  const fF = new Date(r.fecha_fin);
-                  const noches = Math.max(1, Math.round((fF - fI) / 86400000));
-                  const fmtI = fI.toLocaleDateString('es-ES', { day:'2-digit', month:'short' });
-                  const fmtF = fF.toLocaleDateString('es-ES', { day:'2-digit', month:'short' });
-                  const est = (r.estado || 'confirmada').toLowerCase();
-                  let pillCls = 'db-pill--gray';
-                  if (est === 'confirmada') pillCls = 'db-pill--green';
-                  else if (est === 'pendiente') pillCls = 'db-pill--amber';
-                  else if (est === 'cancelada') pillCls = 'db-pill--red';
-              %>
-              <tr>
-                <td><span class="db-prop-name"><%= r.Vivienda ? (r.Vivienda.nombre || r.Vivienda.direccion) : '?' %></span></td>
-                <td><%= r.titular_pago || '-' %></td>
-                <td>
-                  <div class="db-date-range">
-                    <%= fmtI %> <i class="fas fa-arrow-right db-date-arrow"></i> <%= fmtF %>
-                  </div>
-                </td>
-                <td><span class="db-nights"><i class="fas fa-moon" style="font-size:.6rem;"></i> <%= noches %></span></td>
-                <td><span class="db-amount"><%= r.importe_total ? Number(r.importe_total).toLocaleString('es-ES') + '\u20AC' : '-' %></span></td>
-                <td><span class="db-pill <%= pillCls %>"><%= r.estado || 'Confirmada' %></span></td>
-              </tr>
-              <% }); %>
-            </tbody>
-          </table>
+
+        <div class="db-inner-split">
+
+          <!-- tabla reservas -->
+          <div class="db-inner-split-table">
+            <% if (listaProximasReservas && listaProximasReservas.length > 0) { %>
+            <div style="padding: 0 1.35rem 1.25rem">
+              <table class="db-reservas-table">
+                <thead>
+                  <tr>
+                    <th>Propiedad</th>
+                    <th>Entrada &rarr; Salida</th>
+                    <th>Noches</th>
+                    <th>Importe</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% listaProximasReservas.forEach(function(r) {
+                      const fI = new Date(r.fecha_inicio);
+                      const fF = new Date(r.fecha_fin);
+                      const noches = Math.max(1, Math.round((fF - fI) / 86400000));
+                      const fmtI = fI.toLocaleDateString('es-ES', { day:'2-digit', month:'short' });
+                      const fmtF = fF.toLocaleDateString('es-ES', { day:'2-digit', month:'short' });
+                      const est = (r.estado || 'confirmada').toLowerCase();
+                      let pillCls = 'db-pill--gray';
+                      if (est === 'confirmada') pillCls = 'db-pill--green';
+                      else if (est === 'pendiente') pillCls = 'db-pill--amber';
+                      else if (est === 'cancelada') pillCls = 'db-pill--red';
+                  %>
+                  <tr>
+                    <td><span class="db-prop-name"><%= r.Vivienda ? (r.Vivienda.nombre || r.Vivienda.direccion) : '?' %></span></td>
+                    <td>
+                      <div class="db-date-range">
+                        <%= fmtI %> <i class="fas fa-arrow-right db-date-arrow"></i> <%= fmtF %>
+                      </div>
+                    </td>
+                    <td><span class="db-nights"><i class="fas fa-moon" style="font-size:.6rem;"></i> <%= noches %></span></td>
+                    <td><span class="db-amount"><%= r.importe_total ? Number(r.importe_total).toLocaleString('es-ES') + '\u20AC' : '-' %></span></td>
+                    <td><span class="db-pill <%= pillCls %>"><%= r.estado || 'Confirmada' %></span></td>
+                  </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+            <% } else { %>
+            <div class="db-empty">
+              <div class="db-empty-icon"><i class="fas fa-calendar-times"></i></div>
+              <p class="db-empty-title">No tienes reservas pr&oacute;ximas</p>
+              <p class="db-empty-sub">Las reservas futuras aparecer&aacute;n aqu&iacute;</p>
+              <a href="/propiedades" class="db-empty-cta"><i class="fas fa-plus"></i> A&ntilde;adir Reserva</a>
+            </div>
+            <% } %>
+          </div>
+
+          <!-- calendario -->
+          <div class="db-inner-split-cal">
+            <div class="db-cal-title" id="db-cal-month"></div>
+            <div class="db-cal-grid" id="db-cal-grid"></div>
+            <div class="db-cal-legend">
+              <div class="db-cal-legend-item"><div class="db-cal-legend-dot" style="background:#D1FAE5;"></div> Reserva activa</div>
+            </div>
+          </div>
+
+        </div><!-- /db-inner-split -->
+      </div>
+    </div>
+
+    <div style="margin-bottom:1.5rem;">
+      <div class="db-card">
+        <div class="db-card-header">
+          <div class="db-card-header-left">
+            <div class="db-card-icon" style="background:#FFFBEB;color:#D97706;"><i class="fas fa-exclamation-triangle"></i></div>
+            <h3 class="db-card-title">Incidencias y Tareas Pendientes</h3>
+          </div>
+          <a href="/propiedades" class="db-card-link">Ver propiedades <i class="fas fa-arrow-right" style="font-size:.65rem;"></i></a>
+        </div>
+        <% const _totalPend = (calendarIncidencias ? calendarIncidencias.length : 0) + (tareasPendientesList ? tareasPendientesList.length : 0); %>
+        <% if (_totalPend > 0) { %>
+        <div class="db-inc-list">
+          <% if (calendarIncidencias && calendarIncidencias.length > 0) { %>
+          <% calendarIncidencias.forEach(function(inc) {
+              const fechaInc = inc.fecha ? new Date(inc.fecha.substring(0,10) + 'T00:00:00').toLocaleDateString('es-ES', { day:'2-digit', month:'short', year:'numeric' }) : 'Fecha desconocida';
+          %>
+          <div class="db-inc-item">
+            <div class="db-inc-icon"><i class="fas fa-tools"></i></div>
+            <div class="db-inc-body">
+              <p class="db-inc-concepto"><%= inc.concepto || 'Sin descripci&oacute;n' %></p>
+              <div class="db-inc-meta">
+                <% if (inc.vivienda) { %><span class="db-inc-vivienda"><i class="fas fa-home" style="font-size:.6rem;margin-right:.2rem;"></i><%= inc.vivienda %></span><% } %>
+                <span class="db-inc-date"><%= fechaInc %></span>
+                <span class="db-inc-badge"><i class="fas fa-clock" style="font-size:.6rem;"></i> Abierta</span>
+              </div>
+            </div>
+          </div>
+          <% }); %>
+          <% } %>
+          <% if (tareasPendientesList && tareasPendientesList.length > 0) { %>
+          <% tareasPendientesList.forEach(function(t) {
+              const hoyMs = new Date().setHours(0,0,0,0);
+              const limMs = t.fecha_limite ? new Date(t.fecha_limite.substring(0,10) + 'T00:00:00').getTime() : null;
+              const vencida = limMs && limMs < hoyMs;
+              const fechaLim = t.fecha_limite ? new Date(t.fecha_limite.substring(0,10) + 'T00:00:00').toLocaleDateString('es-ES', { day:'2-digit', month:'short', year:'numeric' }) : null;
+              const estadoNorm = (t.estado || 'Pendiente').toLowerCase();
+              let badgeCls = 'db-tarea-badge--pendiente';
+              if (vencida) badgeCls = 'db-tarea-badge--vencida';
+              else if (estadoNorm.includes('proceso') || estadoNorm.includes('progreso')) badgeCls = 'db-tarea-badge--proceso';
+          %>
+          <div class="db-inc-item">
+            <div class="db-inc-icon db-inc-icon--tarea"><i class="fas fa-clipboard-list"></i></div>
+            <div class="db-inc-body">
+              <p class="db-inc-concepto"><%= t.descripcion || 'Sin descripci&oacute;n' %></p>
+              <div class="db-inc-meta">
+                <% if (t.vivienda) { %><span class="db-inc-vivienda"><i class="fas fa-home" style="font-size:.6rem;margin-right:.2rem;"></i><%= t.vivienda %></span><% } %>
+                <% if (fechaLim) { %><span class="db-inc-date"><i class="fas fa-calendar-alt" style="font-size:.6rem;margin-right:.2rem;"></i><%= vencida ? 'Vencida: ' : 'Límite: ' %><%= fechaLim %></span><% } %>
+                <span class="db-tarea-badge <%= badgeCls %>"><i class="fas fa-<%= vencida ? 'exclamation-circle' : 'tasks' %>" style="font-size:.6rem;"></i> <%= vencida ? 'Vencida' : t.estado %></span>
+              </div>
+            </div>
+          </div>
+          <% }); %>
+          <% } %>
         </div>
         <% } else { %>
         <div class="db-empty">
-          <div class="db-empty-icon"><i class="fas fa-calendar-times"></i></div>
-          <p class="db-empty-title">No tienes reservas pr&oacute;ximas</p>
-          <p class="db-empty-sub">Las reservas de los pr&oacute;ximos 7 d&iacute;as aparecer&aacute;n aqu&iacute;</p>
-          <a href="/propiedades" class="db-empty-cta"><i class="fas fa-plus"></i> A&ntilde;adir Reserva</a>
+          <div class="db-empty-icon" style="background:#F0FDF4;color:#10B981;"><i class="fas fa-check-circle"></i></div>
+          <p class="db-empty-title">Sin incidencias ni tareas pendientes</p>
+          <p class="db-empty-sub">Todo en orden, no hay elementos pendientes</p>
         </div>
         <% } %>
       </div>
+    </div>
 
+    <div style="margin-bottom:1.5rem;">
       <div class="db-card">
         <div class="db-card-header">
           <div class="db-card-header-left">
             <div class="db-card-icon db-card-icon--purple"><i class="fas fa-bolt"></i></div>
             <h3 class="db-card-title">Actividad Reciente</h3>
           </div>
+          <a href="/finanzas" class="db-card-link">Ver finanzas <i class="fas fa-arrow-right" style="font-size:.65rem;"></i></a>
         </div>
         <% if (notificaciones && notificaciones.length > 0) { %>
-        <div class="db-timeline">
-          <% notificaciones.forEach(function(n) {
-              let dotCls = 'db-timeline-dot--blue';
-              if (n.color === 'success') dotCls = 'db-timeline-dot--green';
-              else if (n.color === 'warning') dotCls = 'db-timeline-dot--amber';
-              else if (n.color === 'danger') dotCls = 'db-timeline-dot--red';
-          %>
-          <div class="db-timeline-item">
-            <span class="db-timeline-dot <%= dotCls %>"></span>
-            <div style="flex:1;min-width:0;">
-              <div class="db-timeline-msg"><%= n.mensaje %></div>
+        <div style="padding: 0 1.35rem .5rem;">
+          <% notificaciones.forEach(function(n) { %>
+          <div class="db-activity-item">
+            <div class="db-activity-icon db-activity-icon--<%= n.tipo %>">
+              <i class="fas fa-<%= n.tipo === 'ingreso' ? 'arrow-up' : 'arrow-down' %>"></i>
             </div>
-            <span class="db-timeline-time"><%= n.tiempo %></span>
+            <div class="db-activity-msg" title="<%= n.mensaje %>"><%= n.mensaje %></div>
+            <div class="db-activity-right">
+              <span class="db-activity-amount db-activity-amount--<%= n.tipo %>">
+                <%= n.tipo === 'ingreso' ? '+' : '-' %><%= n.importe.toLocaleString('es-ES') %>&euro;
+              </span>
+              <span class="db-activity-time"><%= n.tiempo %></span>
+            </div>
           </div>
           <% }); %>
         </div>
         <% } else { %>
         <div class="db-empty">
-          <div class="db-empty-icon"><i class="fas fa-bell-slash"></i></div>
-          <p class="db-empty-title">Sin actividad reciente</p>
-          <p class="db-empty-sub">Las novedades aparecer&aacute;n aqu&iacute;</p>
+          <div class="db-empty-icon"><i class="fas fa-receipt"></i></div>
+          <p class="db-empty-title">Sin movimientos recientes</p>
+          <p class="db-empty-sub">Los ingresos y gastos aparecer&aacute;n aqu&iacute;</p>
         </div>
         <% } %>
       </div>
-
     </div>
 
     <div class="db-card db-rendimiento">
@@ -383,6 +524,88 @@
           }
         }
       });
+    })();
+  </script>
+
+  <script>
+    // ===== MINI CALENDAR =====
+    (function() {
+      var calReservas = <%- JSON.stringify(calendarReservas) %>;
+
+      var hoy    = new Date();
+      var year   = hoy.getFullYear();
+      var month  = hoy.getMonth(); // 0-based
+      var todayD = hoy.getDate();
+
+      // Build set of reservation day numbers
+      var daysReserva = new Set();
+
+      calReservas.forEach(function(r) {
+        if (!r.inicio || !r.fin) return;
+        var s = new Date(r.inicio + 'T00:00:00');
+        var e = new Date(r.fin   + 'T00:00:00');
+        for (var d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
+          if (d.getFullYear() === year && d.getMonth() === month) {
+            daysReserva.add(d.getDate());
+          }
+        }
+      });
+
+      // Header
+      var monthName = new Date(year, month, 1).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+      var titleEl = document.getElementById('db-cal-month');
+      if (titleEl) titleEl.textContent = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+
+      // Grid
+      var grid = document.getElementById('db-cal-grid');
+      if (!grid) return;
+
+      var dows = ['Lu','Ma','Mi','Ju','Vi','Sa','Do'];
+      dows.forEach(function(d) {
+        var el = document.createElement('div');
+        el.className = 'db-cal-dow';
+        el.textContent = d;
+        grid.appendChild(el);
+      });
+
+      // first day of month (0=Sun…6=Sat → convert to Mon-based 0-6)
+      var firstDow = new Date(year, month, 1).getDay(); // 0=Sun
+      var offset = (firstDow + 6) % 7; // Mon=0
+
+      for (var i = 0; i < offset; i++) {
+        var el = document.createElement('div');
+        el.className = 'db-cal-day empty';
+        grid.appendChild(el);
+      }
+
+      var daysInMonth = new Date(year, month + 1, 0).getDate();
+      for (var day = 1; day <= daysInMonth; day++) {
+        var el = document.createElement('div');
+        var cls = 'db-cal-day';
+        if (day === todayD) cls += ' today';
+        var hasR = daysReserva.has(day);
+        if (hasR) cls += ' has-reserva';
+
+        el.className = cls;
+        el.textContent = day;
+
+        // Tooltip
+        if (hasR) {
+          var tips = [];
+          calReservas.forEach(function(r) {
+            if (!r.inicio || !r.fin) return;
+            var s = new Date(r.inicio + 'T00:00:00');
+            var e = new Date(r.fin   + 'T00:00:00');
+            var target = new Date(year, month, day);
+            if (target >= s && target <= e) {
+              tips.push('\uD83D\uDFE2 Reserva: ' + (r.vivienda || '') + (r.titular ? ' (' + r.titular + ')' : ''));
+            }
+          });
+          if (tips.length) { el.title = tips.join('\n'); el.style.cursor = 'help'; }
+        }
+
+        grid.appendChild(el);
+      }
     })();
   </script>
 

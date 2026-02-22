@@ -1,5 +1,19 @@
+<!-- Bootstrap Icons (carga solo si no está ya incluido) -->
+<script>
+(function() {
+    var loaded = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+        .some(function(l) { return l.href && l.href.includes('bootstrap-icons'); });
+    if (!loaded) {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css';
+        document.head.appendChild(link);
+    }
+})();
+</script>
+
 <!-- Navbar Principal -->
-<nav style="background-color: #ffffff; border-bottom: 2px solid #e5e7eb; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 100001; min-height: 70px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+<nav style="background-color: #ffffff; border-bottom: 2px solid #e5e7eb; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 100001; min-height: 70px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;">
     
     <!-- Logo y Marca -->
     <div style="display: flex; align-items: center; gap: 1rem;">
@@ -16,30 +30,22 @@
     
     <!-- Menú de navegación -->
     <div id="navMenu" style="display: flex; align-items: center; gap: 2rem; flex: 1; margin: 0 2rem;">
-        <a href="/dashboard" style="color: #374151; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+        <a href="/dashboard" data-nav="dashboard" style="color: #374151; text-decoration: none; font-weight: 500; font-size: 1rem; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 0.4rem; transition: background 0.15s;">
             <i class="bi bi-speedometer2" style="font-size: 1rem;"></i>
-            <span>Dashboard</span>
+            <span>Inicio</span>
         </a>
-        <a href="/propiedades" style="color: #1a2332; text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+        <a href="/propiedades" data-nav="propiedades" style="color: #374151; text-decoration: none; font-weight: 500; font-size: 1rem; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 0.4rem; transition: background 0.15s;">
             <i class="bi bi-building" style="font-size: 1rem;"></i>
             <span>Mis Propiedades</span>
         </a>
-        <a href="/calendario" style="color: #374151; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
-            <i class="bi bi-calendar3" style="font-size: 1rem;"></i>
-            <span>Calendario</span>
-        </a>
-        <a href="/reservas" style="color: #374151; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
-            <i class="bi bi-calendar-check" style="font-size: 1rem;"></i>
-            <span>Reservas</span>
-        </a>
-        <a href="/finanzas" style="color: #374151; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+        <a href="/finanzas" data-nav="finanzas" style="color: #374151; text-decoration: none; font-weight: 500; font-size: 1rem; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 0.4rem; transition: background 0.15s;">
             <i class="bi bi-cash-stack" style="font-size: 1rem;"></i>
             <span>Finanzas</span>
         </a>
         
         <!-- Dropdown AI -->
         <div style="position: relative; display: inline-block;">
-            <a href="#" onclick="toggleDropdown('aiDropdown', event)" style="color: #374151; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+            <a href="#" data-nav="ai" onclick="toggleDropdown('aiDropdown', event)" style="color: #374151; text-decoration: none; font-weight: 500; font-size: 1rem; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 0.4rem; transition: background 0.15s;">
                 <i class="bi bi-cpu" style="font-size: 1rem;"></i>
                 <span>AI</span>
                 <i class="bi bi-chevron-down" style="font-size: 0.75rem; margin-left: 0.25rem;"></i>
@@ -72,10 +78,6 @@
             <a href="/perfil" style="color: #374151; text-decoration: none; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid #f3f4f6;">
                 <i class="bi bi-person" style="font-size: 1rem;"></i>
                 <span>Ver perfil</span>
-            </a>
-            <a href="/ajustes" style="color: #374151; text-decoration: none; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid #f3f4f6;">
-                <i class="bi bi-gear" style="font-size: 1rem;"></i>
-                <span>Ajustes</span>
             </a>
             <a href="/auth/logout" style="color: #ef4444; text-decoration: none; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
                 <i class="bi bi-box-arrow-right" style="font-size: 1rem;"></i>
@@ -179,5 +181,28 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.backgroundColor = 'transparent';
         });
     });
+
+    // Marcar sección activa según la ruta actual
+    const path = window.location.pathname;
+    const navMap = {
+        dashboard:   ['/dashboard'],
+        propiedades: ['/propiedades', '/viviendas'],
+        finanzas:    ['/finanzas'],
+        ai:          ['/alquiler', '/venta', '/prediccion']
+    };
+
+    Object.entries(navMap).forEach(([key, prefixes]) => {
+        const isActive = prefixes.some(p => path === p || path.startsWith(p + '/'));
+        if (!isActive) return;
+
+        // Link principal (no dropdown)
+        const link = document.querySelector(`[data-nav="${key}"]`);
+        if (link) {
+            link.style.fontWeight = '700';
+            link.style.color = '#111827';
+            link.style.backgroundColor = '#f3f4f6';
+        }
+    });
 });
+
 </script>

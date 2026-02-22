@@ -8,7 +8,64 @@ const {
   projectRoot 
 } = require('../utils/dataLoader');
 const { requireAuth } = require('../utils/authMiddleware');
-const { Vivienda, Reserva } = require('../models');
+const { Vivienda, Reserva, User } = require('../models');
+
+// ================= PERFIL DE USUARIO =================
+
+router.get('/perfil', requireAuth, (req, res) => {
+    res.render('perfil', {
+        user: req.user,
+        isAuthenticated: true,
+        success: req.flash('success'),
+        error: req.flash('error')
+    });
+});
+
+router.post('/perfil', requireAuth, async (req, res) => {
+    try {
+        const { nombre, apellidos, telefono, razon_social } = req.body;
+        await req.user.update({ nombre, apellidos, telefono, razon_social });
+        req.flash('success', 'Perfil actualizado correctamente');
+    } catch (err) {
+        console.error('Error actualizando perfil:', err);
+        req.flash('error', 'Error al actualizar el perfil');
+    }
+    res.redirect('/perfil');
+});
+
+router.post('/perfil/cambiar-password', requireAuth, async (req, res) => {
+    try {
+        const { password_actual, password_nuevo, password_confirmar } = req.body;
+
+        if (req.user.google_id && !req.user.password_hash) {
+            req.flash('error', 'Tu cuenta usa inicio de sesión con Google; no tiene contraseña local');
+            return res.redirect('/perfil');
+        }
+
+        const valid = await req.user.comparePassword(password_actual);
+        if (!valid) {
+            req.flash('error', 'La contraseña actual es incorrecta');
+            return res.redirect('/perfil');
+        }
+
+        if (password_nuevo !== password_confirmar) {
+            req.flash('error', 'Las contraseñas nuevas no coinciden');
+            return res.redirect('/perfil');
+        }
+
+        if (password_nuevo.length < 6) {
+            req.flash('error', 'La nueva contraseña debe tener al menos 6 caracteres');
+            return res.redirect('/perfil');
+        }
+
+        await req.user.update({ password_hash: password_nuevo });
+        req.flash('success', 'Contraseña actualizada correctamente');
+    } catch (err) {
+        console.error('Error cambiando contraseña:', err);
+        req.flash('error', 'Error al cambiar la contraseña');
+    }
+    res.redirect('/perfil');
+});
 
 // ================= RUTAS UI DE NAVEGACIÓN =================
 // Landing de selección de dominio (alquiler/venta)

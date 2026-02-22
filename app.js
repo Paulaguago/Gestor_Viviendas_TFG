@@ -79,298 +79,230 @@ app.use('/venta', requireAuth, ventaRoutes);
 
 // Dashboard route (protected)
 app.get('/dashboard', requireAuth, async (req, res) => {
+    const { Op } = require('sequelize');
+
+    const emptyStats = {
+        totalViviendas: 0, totalReservas: 0, proximasReservas: 0,
+        tareasPendientes: 0, ingresosMes: '0.00', gastosMes: '0.00',
+        balanceMes: '0.00', incidenciasPendientes: 0, ocupacion: 0, cobrosPendientes: 0
+    };
+    const emptyRender = {
+        title: 'Dashboard - Gestor Viviendas', user: req.user,
+        stats: emptyStats, chartData: { labels: [], ingresos: [], gastos: [] },
+        listaProximasReservas: [], calendarReservas: [], calendarIncidencias: [], tareasPendientesList: [], notificaciones: []
+    };
+
     try {
         const userId = req.user.id_usuario;
-        
-        // Obtener estadísticas del usuario
-        const totalViviendas = await models.Vivienda.count({
+        const hoy    = new Date();
+
+        // ── 1. Viviendas del usuario ────────────────────────────────────────
+        const viviendas = await models.Vivienda.findAll({
             where: { id_usuario: userId, activa: true }
         });
-        
-        const totalReservas = await models.Reserva.count({
-            include: [{
-                model: models.Vivienda,
-                where: { id_usuario: userId }
-            }]
-        });
-        
-        // Reservas próximas (próximos 7 días)
-        const fechaHoy = new Date();
-        const fecha7Dias = new Date();
-        fecha7Dias.setDate(fechaHoy.getDate() + 7);
-        
-        const proximasReservas = await models.Reserva.count({
-            where: {
-                fecha_inicio: {
-                    [require('sequelize').Op.between]: [fechaHoy, fecha7Dias]
-                }
-            },
-            include: [{
-                model: models.Vivienda,
-                where: { id_usuario: userId }
-            }]
-        });
-        
-        // Tareas pendientes
-        const tareasPendientes = await models.Tarea.count({
-            where: { estado: 'Pendiente' },
-            include: [{
-                model: models.Vivienda,
-                where: { id_usuario: userId }
-            }]
-        });
-        
-        // Ingresos del mes actual
-        const inicioMes = new Date(fechaHoy.getFullYear(), fechaHoy.getMonth(), 1);
-        const finMes = new Date(fechaHoy.getFullYear(), fechaHoy.getMonth() + 1, 0);
-        
-        const ingresosMes = await models.Transaccion.sum('importe', {
-            where: {
-                tipo: 'ingreso',
-                fecha: {
-                    [require('sequelize').Op.between]: [inicioMes, finMes]
-                }
-            },
-            include: [{
-                model: models.Vivienda,
-                where: { id_usuario: userId }
-            }]
-        }) || 0;
+        const viviendasIds = viviendas.map(v => v.id_vivienda);
 
-        const gastosMes = await models.Transaccion.sum('importe', {
-            where: {
-                tipo: 'gasto',
-                fecha: {
-                    [require('sequelize').Op.between]: [inicioMes, finMes]
-                }
-            },
-            include: [{
-                model: models.Vivienda,
-                where: { id_usuario: userId }
-            }]
-        }) || 0;
-
-        const balanceMes = parseFloat(ingresosMes) - parseFloat(gastosMes);
-
-        // Cobros pendientes: reservas activas no pagadas
-        const cobrosPendientes = await models.Reserva.count({
-            where: { pagado: false, activa: true },
-            include: [{ model: models.Vivienda, where: { id_usuario: userId } }]
-        });
-
-        // Chart data: últimos 6 meses (ingresos y gastos)
-        const chartData = { labels: [], ingresos: [], gastos: [] };
-        for (let i = 5; i >= 0; i--) {
-            const d      = new Date(fechaHoy.getFullYear(), fechaHoy.getMonth() - i, 1);
-            const cStart = new Date(d.getFullYear(), d.getMonth(), 1);
-            const cEnd   = new Date(d.getFullYear(), d.getMonth() + 1, 0);
-            chartData.labels.push(d.toLocaleDateString('es-ES', { month: 'short' }));
-            const ing = await models.Transaccion.sum('importe', {
-                where: { tipo: 'ingreso', fecha: { [require('sequelize').Op.between]: [cStart, cEnd] } },
-                include: [{ model: models.Vivienda, where: { id_usuario: userId } }]
-            }) || 0;
-            const gas = await models.Transaccion.sum('importe', {
-                where: { tipo: 'gasto',   fecha: { [require('sequelize').Op.between]: [cStart, cEnd] } },
-                include: [{ model: models.Vivienda, where: { id_usuario: userId } }]
-            }) || 0;
-            chartData.ingresos.push(parseFloat(ing));
-            chartData.gastos.push(parseFloat(gas));
+        if (viviendasIds.length === 0) {
+            return res.render('dashboard', { ...emptyRender, stats: { ...emptyStats, totalViviendas: 0 } });
         }
-        
-        // Incidencias pendientes
-        const incidenciasPendientes = await models.Incidencia.count({
-            where: { resuelta: false },
-            include: [{
-                model: models.Vivienda,
-                where: { id_usuario: userId }
-            }]
+
+        // ── 2. Rango mes actual ─────────────────────────────────────────────
+        const inicioMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+        const finMes    = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0);
+        const inicioMesStr = inicioMes.toISOString().slice(0, 10);
+        const finMesStr    = finMes.toISOString().slice(0, 10);
+        const hoyStr       = hoy.toISOString().slice(0, 10);
+
+        // ── 3. Transacciones del mes ────────────────────────────────────────
+        const transaccionesMes = await models.Transaccion.findAll({
+            where: {
+                id_vivienda: { [Op.in]: viviendasIds },
+                fecha: { [Op.between]: [inicioMesStr, finMesStr] }
+            }
         });
-        
-        // Calcular porcentaje de ocupación
-        // Obtener días totales del mes
-        const diasMes = finMes.getDate();
-        const diasPosibles = totalViviendas * diasMes;
-        
-        // Obtener días ocupados (suma de días de todas las reservas del mes)
+        let ingresosMes = 0, gastosMes = 0;
+        transaccionesMes.forEach(t => {
+            const imp = parseFloat(t.importe) || 0;
+            if (t.tipo === 'ingreso') ingresosMes += imp;
+            else gastosMes += imp;
+        });
+        const balanceMes = ingresosMes - gastosMes;
+
+        // ── 4. Reservas del mes (para ocupación) ───────────────────────────
         const reservasMes = await models.Reserva.findAll({
             where: {
-                [require('sequelize').Op.or]: [
-                    {
-                        fecha_inicio: {
-                            [require('sequelize').Op.between]: [inicioMes, finMes]
-                        }
-                    },
-                    {
-                        fecha_fin: {
-                            [require('sequelize').Op.between]: [inicioMes, finMes]
-                        }
-                    }
+                id_vivienda: { [Op.in]: viviendasIds },
+                activa: true,
+                [Op.or]: [
+                    { fecha_inicio: { [Op.between]: [inicioMesStr, finMesStr] } },
+                    { fecha_fin:    { [Op.between]: [inicioMesStr, finMesStr] } },
+                    { fecha_inicio: { [Op.lte]: inicioMesStr }, fecha_fin: { [Op.gte]: finMesStr } }
                 ]
-            },
-            include: [{
-                model: models.Vivienda,
-                where: { id_usuario: userId }
-            }]
+            }
         });
-        
-        let diasOcupados = 0;
-        reservasMes.forEach(reserva => {
-            const inicio = new Date(reserva.fecha_inicio);
-            const fin = new Date(reserva.fecha_fin);
-            const inicioCalculo = inicio < inicioMes ? inicioMes : inicio;
-            const finCalculo = fin > finMes ? finMes : fin;
-            const dias = Math.ceil((finCalculo - inicioCalculo) / (1000 * 60 * 60 * 24)) + 1;
-            diasOcupados += dias;
+        const diasMes      = finMes.getDate();
+        const diasPosibles = viviendasIds.length * diasMes;
+        let diasOcupados   = 0;
+        reservasMes.forEach(r => {
+            const s  = new Date(r.fecha_inicio);
+            const e  = new Date(r.fecha_fin);
+            const s2 = s < inicioMes ? inicioMes : s;
+            const e2 = e > finMes    ? finMes    : e;
+            diasOcupados += Math.max(0, Math.ceil((e2 - s2) / 86400000));
         });
-        
         const ocupacion = diasPosibles > 0 ? ((diasOcupados / diasPosibles) * 100).toFixed(1) : 0;
-        
-        // Obtener lista de próximas reservas con detalles
+
+        // ── 5. Cobros pendientes ────────────────────────────────────────────
+        const cobrosPendientes = await models.Reserva.count({
+            where: { id_vivienda: { [Op.in]: viviendasIds }, pagado: false, activa: true }
+        });
+
+        // ── 6. Próximas reservas (contador) ────────────────────────────────
+        const proximasReservas = await models.Reserva.count({
+            where: {
+                id_vivienda: { [Op.in]: viviendasIds },
+                fecha_inicio: { [Op.gte]: hoyStr },
+                activa: true
+            }
+        });
+
+        // ── 7. Total reservas históricas ────────────────────────────────────
+        const totalReservas = await models.Reserva.count({
+            where: { id_vivienda: { [Op.in]: viviendasIds } }
+        });
+
+        // ── 8. Incidencias & tareas pendientes ─────────────────────────────
+        const incidenciasPendientes = await models.Incidencia.count({
+            where: { id_vivienda: { [Op.in]: viviendasIds }, resuelta: false }
+        });
+        const tareasPendientes = await models.Tarea.count({
+            where: { id_vivienda: { [Op.in]: viviendasIds }, estado: 'Pendiente' }
+        });
+
+        // ── 9. Chart data: últimos 6 meses ─────────────────────────────────
+        const chartData = { labels: [], ingresos: [], gastos: [] };
+        for (let i = 5; i >= 0; i--) {
+            const d  = new Date(hoy.getFullYear(), hoy.getMonth() - i, 1);
+            const s  = new Date(d.getFullYear(), d.getMonth(), 1).toISOString().slice(0, 10);
+            const e  = new Date(d.getFullYear(), d.getMonth() + 1, 0).toISOString().slice(0, 10);
+            const tx = await models.Transaccion.findAll({
+                where: { id_vivienda: { [Op.in]: viviendasIds }, fecha: { [Op.between]: [s, e] } }
+            });
+            let ing = 0, gas = 0;
+            tx.forEach(t => {
+                const imp = parseFloat(t.importe) || 0;
+                if (t.tipo === 'ingreso') ing += imp; else gas += imp;
+            });
+            chartData.labels.push(d.toLocaleDateString('es-ES', { month: 'short' }));
+            chartData.ingresos.push(ing);
+            chartData.gastos.push(gas);
+        }
+
+        // ── 10. Lista próximas reservas (con nombre de vivienda) ───────────
         const listaProximasReservas = await models.Reserva.findAll({
             where: {
-                fecha_inicio: {
-                    [require('sequelize').Op.between]: [fechaHoy, fecha7Dias]
-                }
+                id_vivienda: { [Op.in]: viviendasIds },
+                fecha_inicio: { [Op.gte]: hoyStr },
+                activa: true
             },
-            include: [{
-                model: models.Vivienda,
-                where: { id_usuario: userId }
-            }],
+            include: [{ model: models.Vivienda, attributes: ['nombre', 'direccion'] }],
             order: [['fecha_inicio', 'ASC']],
-            limit: 5
+            limit: 10
         });
-        
-        // Generar notificaciones dinámicas
-        const notificaciones = [];
-        
-        // Notificaciones de reservas recientes (últimas 24 horas)
-        const fecha24h = new Date();
-        fecha24h.setHours(fecha24h.getHours() - 24);
-        
-        const reservasRecientes = await models.Reserva.findAll({
+
+        // ── 11. Calendario: reservas del mes actual ─────────────────────────
+        const calendarReservas = await models.Reserva.findAll({
             where: {
-                createdAt: {
-                    [require('sequelize').Op.gte]: fecha24h
-                }
+                id_vivienda: { [Op.in]: viviendasIds },
+                activa: true,
+                [Op.or]: [
+                    { fecha_inicio: { [Op.between]: [inicioMesStr, finMesStr] } },
+                    { fecha_fin:    { [Op.between]: [inicioMesStr, finMesStr] } },
+                    { fecha_inicio: { [Op.lte]: inicioMesStr }, fecha_fin: { [Op.gte]: finMesStr } }
+                ]
             },
-            include: [{
-                model: models.Vivienda,
-                where: { id_usuario: userId }
-            }],
-            limit: 3
+            include: [{ model: models.Vivienda, attributes: ['nombre', 'direccion'] }]
         });
-        
-        reservasRecientes.forEach(reserva => {
-            const horasPasadas = Math.floor((fechaHoy - new Date(reserva.fecha_inicio)) / (1000 * 60 * 60));
-            const tiempoTexto = horasPasadas < 1 ? 'Hace menos de 1 hora' : `Hace ${horasPasadas} ${horasPasadas === 1 ? 'hora' : 'horas'}`;
-            notificaciones.push({
-                icono: 'bi-check-circle',
-                color: 'success',
-                mensaje: `Nueva reserva confirmada en ${reserva.Vivienda.direccion}`,
-                tiempo: tiempoTexto
-            });
+
+        // ── 12. Calendario: incidencias abiertas ────────────────────────────
+        const calendarIncidencias = await models.Incidencia.findAll({
+            where: { id_vivienda: { [Op.in]: viviendasIds }, resuelta: false },
+            include: [{ model: models.Vivienda, attributes: ['nombre', 'direccion'] }]
         });
-        
-        // Notificaciones de incidencias recientes
-        const incidenciasRecientes = await models.Incidencia.findAll({
+
+        // ── 13. Tareas pendientes ────────────────────────────────────────
+        const tareasPendientesList = await models.Tarea.findAll({
             where: {
-                resuelta: false,
-                fecha: {
-                    [require('sequelize').Op.gte]: fecha24h
-                }
+                id_vivienda: { [Op.in]: viviendasIds },
+                estado: { [Op.notIn]: ['Completada', 'completada'] }
             },
-            include: [{
-                model: models.Vivienda,
-                where: { id_usuario: userId }
-            }],
+            include: [{ model: models.Vivienda, attributes: ['nombre', 'direccion'] }],
+            order: [['fecha_limite', 'ASC']]
+        });
+
+        // ── 14. Actividad reciente: últimas transacciones ──────────────────
+        const transaccionesRecientes = await models.Transaccion.findAll({
+            where: { id_vivienda: { [Op.in]: viviendasIds } },
+            include: [{ model: models.Vivienda, attributes: ['nombre', 'direccion'] }],
             order: [['fecha', 'DESC']],
-            limit: 2
+            limit: 8
         });
-        
-        incidenciasRecientes.forEach(incidencia => {
-            const horasPasadas = Math.floor((fechaHoy - new Date(incidencia.fecha)) / (1000 * 60 * 60));
-            const tiempoTexto = horasPasadas < 1 ? 'Hace menos de 1 hora' : `Hace ${horasPasadas} ${horasPasadas === 1 ? 'hora' : 'horas'}`;
-            notificaciones.push({
-                icono: 'bi-exclamation-circle',
-                color: 'warning',
-                mensaje: `Nueva incidencia reportada: ${incidencia.descripcion.substring(0, 50)}${incidencia.descripcion.length > 50 ? '...' : ''}`,
-                tiempo: tiempoTexto
-            });
+        const notificaciones = transaccionesRecientes.map(t => {
+            const esIngreso    = t.tipo === 'ingreso';
+            const nombreViv    = t.Vivienda ? (t.Vivienda.nombre || t.Vivienda.direccion) : 'Propiedad';
+            const fechaTx      = new Date(t.fecha);
+            const diasPasados  = Math.floor((hoy - fechaTx) / 86400000);
+            const tiempoTexto  = diasPasados === 0 ? 'Hoy' : diasPasados === 1 ? 'Ayer' : `Hace ${diasPasados} días`;
+            const desc         = t.descripcion ? ' · ' + t.descripcion.substring(0, 45) + (t.descripcion.length > 45 ? '…' : '') : '';
+            return {
+                color:   esIngreso ? 'success' : 'danger',
+                tipo:    t.tipo,
+                mensaje: `${esIngreso ? 'Ingreso' : 'Gasto'} de ${Number(t.importe).toLocaleString('es-ES')}€${desc} (${nombreViv})`,
+                importe: Number(t.importe),
+                tiempo:  tiempoTexto
+            };
         });
-        
-        // Notificaciones de tareas próximas (en las próximas 24 horas)
-        const fecha24hFuturo = new Date();
-        fecha24hFuturo.setHours(fecha24hFuturo.getHours() + 24);
-        
-        const tareasCercanas = await models.Tarea.findAll({
-            where: {
-                completada: false,
-                fecha_limite: {
-                    [require('sequelize').Op.between]: [fechaHoy, fecha24hFuturo]
-                }
-            },
-            include: [{
-                model: models.Vivienda,
-                where: { id_usuario: userId }
-            }],
-            order: [['fecha_limite', 'ASC']],
-            limit: 2
-        });
-        
-        tareasCercanas.forEach(tarea => {
-            const horasRestantes = Math.ceil((new Date(tarea.fecha_limite) - fechaHoy) / (1000 * 60 * 60));
-            const tiempoTexto = horasRestantes < 1 ? 'Vence pronto' : `Vence en ${horasRestantes} ${horasRestantes === 1 ? 'hora' : 'horas'}`;
-            notificaciones.push({
-                icono: 'bi-clock',
-                color: 'info',
-                mensaje: `Recordatorio: ${tarea.descripcion.substring(0, 50)}${tarea.descripcion.length > 50 ? '...' : ''}`,
-                tiempo: tiempoTexto
-            });
-        });
-        
-        // Limitar a 5 notificaciones máximo
-        const notificacionesLimitadas = notificaciones.slice(0, 5);
-        
-        res.render('dashboard', { 
+
+        res.render('dashboard', {
             title: 'Dashboard - Gestor Viviendas',
             user: req.user,
             stats: {
-                totalViviendas,
+                totalViviendas:      viviendasIds.length,
                 totalReservas,
                 proximasReservas,
                 tareasPendientes,
-                ingresosMes: parseFloat(ingresosMes).toFixed(2),
-                gastosMes: parseFloat(gastosMes).toFixed(2),
-                balanceMes: balanceMes.toFixed(2),
+                ingresosMes:         ingresosMes.toFixed(2),
+                gastosMes:           gastosMes.toFixed(2),
+                balanceMes:          balanceMes.toFixed(2),
                 incidenciasPendientes,
                 ocupacion,
                 cobrosPendientes
             },
             chartData,
             listaProximasReservas,
-            notificaciones: notificacionesLimitadas
+            calendarReservas: calendarReservas.map(r => ({
+                inicio:   r.fecha_inicio,
+                fin:      r.fecha_fin,
+                estado:   r.estado,
+                titular:  r.titular_pago,
+                vivienda: r.Vivienda ? (r.Vivienda.nombre || r.Vivienda.direccion) : ''
+            })),
+            calendarIncidencias: calendarIncidencias.map(i => ({
+                fecha:    i.fecha_reporte,
+                concepto: i.concepto,
+                vivienda: i.Vivienda ? (i.Vivienda.nombre || i.Vivienda.direccion) : ''
+            })),
+            tareasPendientesList: tareasPendientesList.map(t => ({
+                descripcion:  t.descripcion,
+                fecha_limite: t.fecha_limite,
+                estado:       t.estado,
+                vivienda:     t.Vivienda ? (t.Vivienda.nombre || t.Vivienda.direccion) : ''
+            })),
+            notificaciones
         });
     } catch (error) {
         console.error('Error al cargar dashboard:', error);
-        res.render('dashboard', { 
-            title: 'Dashboard - Gestor Viviendas',
-            user: req.user,
-            stats: {
-                totalViviendas: 0,
-                totalReservas: 0,
-                proximasReservas: 0,
-                tareasPendientes: 0,
-                ingresosMes: '0.00',
-                gastosMes: '0.00',
-                balanceMes: '0.00',
-                incidenciasPendientes: 0,
-                ocupacion: 0,
-                cobrosPendientes: 0
-            },
-            chartData: { labels: [], ingresos: [], gastos: [] },
-            listaProximasReservas: [],
-            notificaciones: []
-        });
+        res.render('dashboard', emptyRender);
     }
 });
 
