@@ -20,47 +20,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // ========================================
     // FILTROS Y BÚSQUEDA
     // ========================================
-    const filterPills = document.querySelectorAll('.filter-pill');
-    const propertyCards = document.querySelectorAll('.property-card');
+    const propertyCards = document.querySelectorAll('.mp-card');
     const propertiesGrid = document.getElementById('propiedadesGrid');
     const noResultsMsg = document.getElementById('noResultsMessage');
 
-    filterPills.forEach(pill => {
-        pill.addEventListener('click', () => {
-            filterPills.forEach(p => p.classList.remove('filter-pill--active'));
-            pill.classList.add('filter-pill--active');
+    // Filtros por nombre y ciudad
+    function applyFilters() {
+        const nombreTerm = (document.getElementById('searchNombre') ? document.getElementById('searchNombre').value.toLowerCase().trim() : '');
+        const ciudadTerm = (document.getElementById('searchCiudad') ? document.getElementById('searchCiudad').value.toLowerCase().trim() : '');
+        let visibleCount = 0;
 
-            const filter = pill.dataset.filter;
-            let visibleCount = 0;
-
-            propertyCards.forEach(card => {
-                const estado = card.dataset.estado;
-                const shouldShow = (filter === 'todas' || estado === filter);
-                card.style.display = shouldShow ? 'flex' : 'none';
-                if (shouldShow) visibleCount++;
-            });
-
-            toggleNoResults(visibleCount);
+        propertyCards.forEach(card => {
+            const nombre = (card.dataset.nombre || '');
+            const ciudad = (card.dataset.ciudad || '');
+            const nombreOk = !nombreTerm || nombre.includes(nombreTerm);
+            const ciudadOk = !ciudadTerm || ciudad.includes(ciudadTerm);
+            const shouldShow = nombreOk && ciudadOk;
+            card.style.display = shouldShow ? 'flex' : 'none';
+            if (shouldShow) visibleCount++;
         });
-    });
 
-    // Buscador
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            let visibleCount = 0;
-
-            propertyCards.forEach(card => {
-                const text = card.textContent.toLowerCase();
-                const shouldShow = text.includes(searchTerm);
-                card.style.display = shouldShow ? 'flex' : 'none';
-                if (shouldShow) visibleCount++;
-            });
-
-            toggleNoResults(visibleCount);
-        });
+        toggleNoResults(visibleCount);
     }
+
+    const searchNombre = document.getElementById('searchNombre');
+    if (searchNombre) searchNombre.addEventListener('input', applyFilters);
+
+    const searchCiudad = document.getElementById('searchCiudad');
+    if (searchCiudad) searchCiudad.addEventListener('input', applyFilters);
 
     function toggleNoResults(count) {
         if (count === 0 && propertyCards.length > 0) {

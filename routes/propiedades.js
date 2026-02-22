@@ -5,6 +5,7 @@ const { Op } = require('sequelize');
 const { sequelize } = require('../config/database');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const uploadImage = require('../config/multer'); // Configuración de multer para imágenes
 
 // Configuración de multer para subir documentos
@@ -346,6 +347,17 @@ router.get('/:id', async (req, res) => {
       console.log('No se pudieron cargar transacciones:', e.message);
     }
 
+    // Obtener documentos de la vivienda
+    let documentos = [];
+    try {
+      documentos = await DocumentoVivienda.findAll({
+        where: { id_vivienda: req.params.id },
+        order: [['fecha_subida', 'DESC']]
+      });
+    } catch (e) {
+      console.log('No se pudieron cargar los documentos:', e.message);
+    }
+
     res.render('propiedades/detalle2', {
       title: 'Detalle de Propiedad',
       user: req.user,
@@ -357,7 +369,8 @@ router.get('/:id', async (req, res) => {
       balanceAnual,
       porcentajeOcupacion,
       reservasMes,
-      ultimasTransacciones
+      ultimasTransacciones,
+      documentos
     });
   } catch (error) {
     console.error('Error al cargar el detalle de la vivienda:', error);
@@ -607,7 +620,7 @@ router.post('/:id/reservas', async (req, res) => {
       });
       // Vincular huésped a la reserva (insert directo en tabla intermedia)
       await sequelize.query(
-        'INSERT INTO reserva_huesped (id_reserva, id_huesped) VALUES (?, ?)',
+        'INSERT INTO reserva_huesped (id_reserva, id_huesped, createdAt, updatedAt) VALUES (?, ?, NOW(), NOW())',
         { replacements: [reserva.id_reserva, huesped.id_huesped] }
       );
     }
@@ -889,18 +902,45 @@ router.delete('/:id/tareas/:tid', async (req, res) => {
 // Subir documento
 router.post('/:id/documentos', upload.single('documento'), async (req, res) => {
   try {
+    if (!req.file) {
+      return res.status(400).send('No se ha recibido ningún archivo');
+    }
+    const nombreDoc = req.body.nombre || 'Documento';
+    const tipoDoc = req.body.tipo || 'otro';
     await DocumentoVivienda.create({
-      vivienda_id: req.params.id,
-      nombre: req.body.nombre,
-      tipo: req.body.tipo,
-      ruta_archivo: '/uploads/documentos/' + req.file.filename,
-      fecha_expiracion: req.body.fecha_expiracion || null
+      id_vivienda: req.params.id,
+      tipo_documento: nombreDoc + (tipoDoc ? ' (' + tipoDoc + ')' : ''),
+      url_documento: '/uploads/documentos/' + req.file.filename
     });
 
-    res.redirect(`/propiedades/${req.params.id}`);
+    res.redirect(`/viviendas/${req.params.id}?tab=documents`);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error al subir el documento');
+    res.status(500).send('Error al subir el documento: ' + error.message);
+  }
+});
+
+// Eliminar documento
+router.delete('/:id/documentos/:docId', async (req, res) => {
+  try {
+    const doc = await DocumentoVivienda.findOne({
+      where: { id_documento: req.params.docId, id_vivienda: req.params.id }
+    });
+    if (!doc) return res.status(404).send('Documento no encontrado');
+
+    // Borrar el archivo físico del disco si existe
+    if (doc.url_documento) {
+      const filePath = path.join(__dirname, '..', 'public', doc.url_documento);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    }
+
+    await doc.destroy();
+    res.redirect(`/viviendas/${req.params.id}?tab=documents`);
+  } catch (error) {
+    console.error('Error al eliminar documento:', error);
+    res.status(500).send('Error al eliminar el documento: ' + error.message);
   }
 });
 
@@ -942,7 +982,7 @@ router.post('/:id/reservas/:rid/huespedes', async (req, res) => {
     });
     // Vincular usando raw SQL, igual que en el POST principal de reservas
     await sequelize.query(
-      'INSERT INTO reserva_huesped (id_reserva, id_huesped) VALUES (?, ?)',
+      'INSERT INTO reserva_huesped (id_reserva, id_huesped, createdAt, updatedAt) VALUES (?, ?, NOW(), NOW())',
       { replacements: [reserva.id_reserva, huesped.id_huesped] }
     );
     return res.json({ success: true, huesped });

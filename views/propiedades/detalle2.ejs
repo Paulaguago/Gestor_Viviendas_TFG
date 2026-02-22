@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -933,6 +933,161 @@
       margin-bottom: 1.5rem;
     }
 
+    /* ══════════════════════════════════════════════════════════════════
+       PREMIUM PROPERTY INFO TAB — design system
+    ══════════════════════════════════════════════════════════════════ */
+    .prop-page-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 1.75rem; background: #fff; border-radius: 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      margin-bottom: 1.5rem; border-bottom: 3px solid #f1f5f9;
+    }
+    .prop-page-header-left { display: flex; align-items: center; gap: 1rem; }
+    .prop-page-header-icon {
+      width: 48px; height: 48px; background: #eff6ff; color: #0F172A;
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.35rem; flex-shrink: 0;
+    }
+    .prop-page-title  { font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 0 0 0.2rem; }
+    .prop-page-subtitle { font-size: 0.85rem; color: #64748b; margin: 0; display: flex; align-items: center; gap: 0.35rem; }
+    .prop-page-subtitle i { color: #94a3b8; font-size: 0.72rem; }
+    .prop-active-badge {
+      padding: 0.4rem 1rem; border-radius: 9999px;
+      font-size: 0.8rem; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 0.4rem; flex-shrink: 0;
+    }
+    .prop-active-badge.activa   { background: #d1fae5; color: #065f46; }
+    .prop-active-badge.inactiva { background: #fee2e2; color: #991b1b; }
+    .prop-two-col { display: grid; grid-template-columns: 55fr 45fr; gap: 1.5rem; align-items: start; }
+    .prop-card { background: #fff; border-radius: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); overflow: hidden; }
+    .prop-section { padding: 1.125rem 1.5rem; border-bottom: 1px solid #F1F5F9; }
+    .prop-section:last-child { border-bottom: none; }
+    .prop-section-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem; }
+    .prop-sec-label {
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.09em;
+      font-weight: 800; color: #94a3b8; display: flex; align-items: center; gap: 0.4rem;
+    }
+    /* Identification pills */
+    .ident-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .ident-pills .ficha-item {
+      display: inline-flex !important; align-items: center; gap: 0.4rem;
+      padding: 0.4rem 0.85rem !important; border-bottom: none !important;
+      border-radius: 9999px; cursor: default; position: relative;
+    }
+    .ident-pills .ficha-item.i-nombre { background: #EFF6FF; color: #1E40AF; }
+    .ident-pills .ficha-item.i-nombre .ficha-value { color: #1E40AF; }
+    .ident-pills .ficha-item.i-type    { background: #0F172A; color: #fff; }
+    .ident-pills .ficha-item.i-cat     { background: #FEF3C7; color: #92400E; }
+    .ident-pills .ficha-item.i-activa  { background: #D1FAE5; color: #065f46; }
+    .ident-pills .ficha-item.i-inactiva{ background: #FEE2E2; color: #991b1b; }
+    .ident-pills .ficha-label { display: none !important; }
+    .ident-pills .ficha-value { font-size: 0.8rem; font-weight: 600; white-space: nowrap; overflow: visible; flex: none; color: inherit; }
+    .ident-pills .ficha-icon-sm { color: inherit; font-size: 0.78rem; width: auto; }
+    .ident-pills .btn-edit-field { font-size: 0.6rem; padding: 2px 4px; color: inherit; opacity: 0; }
+    .ident-pills .ficha-item:hover .btn-edit-field { opacity: 0.6; }
+    /* Address / Legal grid */
+    .dir-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem;
+      background: #F8FAFC; border-radius: 10px; padding: 0.7rem;
+    }
+    .dir-grid .ficha-item {
+      display: flex !important; flex-direction: column !important;
+      align-items: flex-start !important; gap: 0.1rem !important;
+      padding: 0.55rem 0.65rem !important; border-bottom: none !important;
+      border-radius: 7px; background: #fff;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04); position: relative;
+    }
+    .dir-grid .ficha-label {
+      font-size: 0.61rem !important; text-transform: uppercase;
+      letter-spacing: 0.06em; font-weight: 700; color: #94a3b8; white-space: nowrap; flex-shrink: 0;
+    }
+    .dir-grid .ficha-label::after { content: '' !important; }
+    .dir-grid .ficha-value {
+      font-size: 0.85rem; font-weight: 600; color: #0F172A;
+      white-space: normal !important; overflow: visible !important; text-overflow: unset !important; flex: none;
+    }
+    .dir-grid .btn-edit-field { position: absolute; top: 4px; right: 4px; opacity: 0; }
+    .dir-grid .ficha-item:hover .btn-edit-field { opacity: 1; }
+    .dir-grid .ficha-item.legal-tramite { border-left: 3px solid #F59E0B; }
+    .dir-grid .ficha-item.legal-activa  { border-left: 3px solid #10B981; }
+    /* Characteristics stat grid */
+    .chars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+    .chars-grid .ficha-item {
+      display: flex !important; flex-direction: column !important;
+      align-items: center !important; text-align: center;
+      padding: 0.9rem 0.5rem !important; border-bottom: none !important;
+      background: #fff; border: 1px solid #e2e8f0; border-radius: 10px;
+      gap: 0.1rem; position: relative;
+    }
+    .c-stat-icon {
+      width: 2.1rem; height: 2.1rem; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.95rem; margin-bottom: 0.3rem;
+    }
+    .chars-grid .ficha-value {
+      font-size: 1.65rem !important; font-weight: 800 !important;
+      color: #0F172A !important; overflow: visible !important; white-space: nowrap; flex: none; line-height: 1.1;
+    }
+    .chars-grid .ficha-label {
+      font-size: 0.68rem !important; color: #64748b !important; font-weight: 500 !important; white-space: nowrap; flex-shrink: 0;
+    }
+    .chars-grid .ficha-label::after { content: '' !important; }
+    .chars-grid .btn-edit-field { position: absolute; top: 5px; right: 5px; opacity: 0; font-size: 0.58rem; }
+    .chars-grid .ficha-item:hover .btn-edit-field { opacity: 1; }
+    .chars-extra .ficha-item { padding: 0.4rem 0 !important; }
+    /* Platform link rows (ficha info section) */
+    .plat-rows { display: flex; flex-direction: column; }
+    .plat-rows .ficha-item {
+      display: flex !important; align-items: center !important; gap: 0.7rem !important;
+      padding: 0.7rem 0.25rem !important; border-bottom: 1px solid #f1f5f9 !important;
+      border-radius: 0 !important; position: relative;
+    }
+    .plat-rows .ficha-item:last-child { border-bottom: none !important; }
+    .p-row-icon {
+      width: 2rem; height: 2rem; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+    .p-airbnb  .p-row-icon { background: #FFE4E5; color: #FF5A5F; }
+    .p-booking .p-row-icon { background: #DBEAFE; color: #003580; }
+    .p-row-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+    .p-row-name { font-size: 0.82rem; font-weight: 700; color: #0F172A; }
+    .p-row-info .ficha-value         { font-size: 0.74rem; font-weight: 500; overflow: visible !important; flex: none; color: #94a3b8; font-style: italic; }
+    .p-row-info .ficha-value.url-val { color: #3b82f6; font-style: normal; font-weight: 600; }
+    .plat-rows .ficha-label { display: none !important; }
+    /* Map info bar */
+    .prop-map-info {
+      display: flex; align-items: stretch; padding: 0.85rem 1.25rem;
+      border-top: 1px solid #F1F5F9;
+    }
+    .prop-map-info-item { display: flex; align-items: center; gap: 0.5rem; flex: 1; min-width: 0; }
+    .prop-map-info-item > i { color: #94a3b8; font-size: 0.8rem; flex-shrink: 0; }
+    .prop-map-info-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; color: #94a3b8; }
+    .prop-map-info-val   { font-size: 0.78rem; font-weight: 600; color: #0F172A; line-height: 1.3; }
+    .prop-map-divider    { width: 1px; background: #e2e8f0; align-self: stretch; margin: 0 0.3rem; flex-shrink: 0; }
+    /* Premium platform CTA buttons */
+    .prop-plat-btn {
+      display: flex; align-items: center; padding: 1rem 1.25rem;
+      border-radius: 14px; text-decoration: none; transition: all 0.2s;
+      font-weight: 700; font-size: 0.9rem; gap: 0.75rem;
+    }
+    .prop-plat-btn span { flex: 1; text-align: center; }
+    .prop-plat-btn.airbnb  { background: #FF5A5F; color: #fff; }
+    .prop-plat-btn.booking { background: #003580; color: #fff; }
+    .prop-plat-btn:hover { opacity: 0.9; transform: translateY(-1px); color: #fff; }
+    .prop-plat-ico { font-size: 1.3rem; }
+    .prop-plat-ext { font-size: 0.72rem; opacity: 0.7; }
+    .btn-action.danger { background: #fff; color: #EF4444; border: 1.5px solid #EF4444; }
+    .btn-action.danger:hover { background: #FEF2F2; }
+    /* Amenity tags */
+    .amenity-tag {
+      padding: 0.38rem 0.8rem; background: #fff;
+      border: 1.5px solid #e2e8f0; border-radius: 8px;
+      font-size: 0.78rem; font-weight: 500;
+      display: flex; align-items: center; gap: 0.4rem; color: #374151;
+    }
+    .amenity-tag i { color: #6366f1; font-size: 0.7rem; }
+
     /* Modal Styles */
     .modal {
       display: none;
@@ -1237,10 +1392,46 @@
         <!-- TAB 1: Panel General -->
         <div class="tab-content active" id="tab-general">
 
-          <!-- Próximas Reservas + Calendario -->
+          <!-- Calendario + Tareas (izquierda) | Próximas Reservas (derecha) -->
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start;">
 
-            <!-- Próximas Reservas -->
+            <!-- Columna izquierda: Calendario + Tareas -->
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+
+              <!-- Calendario de Ocupación -->
+              <div class="card" style="margin-bottom: 0;">
+                <div class="card-header-custom">
+                  <div class="card-header-left">
+                    <div class="card-icon"><i class="fas fa-calendar"></i></div>
+                    <h3>Calendario de Ocupación</h3>
+                  </div>
+                </div>
+                <div class="calendar-wrapper">
+                  <div id="calendario"></div>
+                </div>
+              </div>
+
+              <!-- Tareas Pendientes -->
+              <div class="card" style="margin-bottom: 0;">
+                <div class="card-header-custom" style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
+                  <div class="card-header-left" style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div class="card-icon"><i class="fas fa-tasks"></i></div>
+                    <h3>Tareas Pendientes</h3>
+                  </div>
+                  <button class="btn-add" onclick="openTaskModal()">
+                    <i class="fas fa-plus"></i> Añadir Tarea
+                  </button>
+                </div>
+                <div id="tareasContainer" style="max-height:420px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#cbd5e1 transparent;">
+                  <div style="text-align:center;padding:2rem;color:#64748b;">
+                    <i class="fas fa-circle-notch fa-spin" style="font-size:2rem;opacity:0.4;"></i>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Columna derecha: Próximas Reservas -->
             <div class="card" style="margin-bottom: 0;">
               <div class="card-header-custom">
                 <div class="card-header-left">
@@ -1295,37 +1486,6 @@
               <% } %>
             </div>
 
-            <!-- Calendario de Ocupación -->
-            <div class="card" style="margin-bottom: 0;">
-              <div class="card-header-custom">
-                <div class="card-header-left">
-                  <div class="card-icon"><i class="fas fa-calendar"></i></div>
-                  <h3>Calendario de Ocupación</h3>
-                </div>
-              </div>
-              <div class="calendar-wrapper">
-                <div id="calendario"></div>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Tareas Pendientes -->
-          <div class="card">
-            <div class="card-header-custom" style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
-              <div class="card-header-left" style="display: flex; align-items: center; gap: 0.75rem;">
-                <div class="card-icon"><i class="fas fa-tasks"></i></div>
-                <h3>Tareas Pendientes</h3>
-              </div>
-              <button class="btn-add" onclick="openTaskModal()">
-                <i class="fas fa-plus"></i> Añadir Tarea
-              </button>
-            </div>
-            <div id="tareasContainer" style="max-height:420px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#cbd5e1 transparent;">
-              <div style="text-align:center;padding:2rem;color:#64748b;">
-                <i class="fas fa-circle-notch fa-spin" style="font-size:2rem;opacity:0.4;"></i>
-              </div>
-            </div>
           </div>
 
         </div>
@@ -1475,399 +1635,366 @@
 
         <!-- TAB 3: Información de la Propiedad -->
         <div class="tab-content" id="tab-property">
-          <div class="two-column-layout">
 
-            <!-- Ficha Técnica -->
-            <div class="card" style="margin-bottom: 0;">
-              <div class="card-header-custom">
-                <div class="card-header-left">
-                  <div class="card-icon">
-                    <i class="fas fa-clipboard-list"></i>
+          <!-- ── Full-width property header ── -->
+          <div class="prop-page-header">
+            <div class="prop-page-header-left">
+              <div class="prop-page-header-icon"><i class="fas fa-home"></i></div>
+              <div>
+                <h2 class="prop-page-title"><%= vivienda.nombre || '—' %></h2>
+                <p class="prop-page-subtitle">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <%= [vivienda.calle, vivienda.bloque_portal, vivienda.piso, vivienda.letra_numero].filter(Boolean).join(', ') %>
+                  <% if(vivienda.ciudad) { %>&nbsp;·&nbsp;<%= vivienda.ciudad %><% } %>
+                  <% if(vivienda.pais) { %>,&nbsp;<%= vivienda.pais %><% } %>
+                </p>
+              </div>
+            </div>
+            <span class="prop-active-badge <%= vivienda.activa ? 'activa' : 'inactiva' %>">
+              <i class="fas fa-circle" style="font-size:0.5rem;"></i>
+              <%= vivienda.activa ? 'Activa' : 'Inactiva' %>
+            </span>
+          </div>
+
+          <!-- ── Two-column layout ── -->
+          <div class="prop-two-col">
+
+            <!-- ════ LEFT COLUMN: Ficha Técnica ════ -->
+            <div class="prop-card">
+
+              <!-- IDENTIFICACIÓN -->
+              <div class="prop-section">
+                <div class="prop-section-hdr">
+                  <span class="prop-sec-label"><i class="fas fa-id-card"></i>Identificación</span>
+                </div>
+                <div class="ident-pills">
+                  <div class="ficha-item i-nombre">
+                    <div class="ficha-icon-sm"><i class="fas fa-tag"></i></div>
+                    <span class="ficha-label">Nombre</span>
+                    <span class="ficha-value"><%= vivienda.nombre || '—' %></span>
+                    <button class="btn-edit-field" data-field="nombre" data-value="<%= vivienda.nombre || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <h3>Ficha Técnica</h3>
+                  <div class="ficha-item i-type">
+                    <div class="ficha-icon-sm"><i class="fas fa-home"></i></div>
+                    <span class="ficha-label">Tipo</span>
+                    <span class="ficha-value"><%= vivienda.tipo_vivienda || 'Sin tipo' %></span>
+                    <button class="btn-edit-field" data-field="tipo_vivienda" data-value="<%= vivienda.tipo_vivienda || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                  </div>
+                  <div class="ficha-item i-cat">
+                    <div class="ficha-icon-sm"><i class="fas fa-star"></i></div>
+                    <span class="ficha-label">Categoría</span>
+                    <span class="ficha-value"><%= vivienda.categoria || 'Sin categoría' %></span>
+                    <button class="btn-edit-field" data-field="categoria" data-value="<%= vivienda.categoria || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                  </div>
+                  <div class="ficha-item <%= vivienda.activa ? 'i-activa' : 'i-inactiva' %>">
+                    <div class="ficha-icon-sm"><i class="fas fa-<%= vivienda.activa ? 'check-circle' : 'times-circle' %>"></i></div>
+                    <span class="ficha-label">Estado</span>
+                    <span class="ficha-value"><%= vivienda.activa ? 'Activa' : 'Inactiva' %></span>
+                  </div>
                 </div>
               </div>
 
-              <div class="ficha-list">
-
-                <%# ——— Identificación ——— %>
-                <div class="ficha-section-title">Identificación</div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-tag"></i></div>
-                  <div class="ficha-content">
-                    <span class="ficha-label">Nombre</span>
-                    <span class="ficha-value"><%= vivienda.nombre || '—' %></span>
-                  </div>
-                  <button class="btn-edit-field" data-field="nombre" data-value="<%= vivienda.nombre || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+              <!-- DIRECCIÓN -->
+              <div class="prop-section">
+                <div class="prop-section-hdr">
+                  <span class="prop-sec-label"><i class="fas fa-map-marker-alt"></i>Dirección</span>
                 </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-home"></i></div>
-                  <div class="ficha-content">
-                    <span class="ficha-label">Tipo</span>
-                    <span class="ficha-value"><%= vivienda.tipo_vivienda || '—' %></span>
-                  </div>
-                  <button class="btn-edit-field" data-field="tipo_vivienda" data-value="<%= vivienda.tipo_vivienda || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-star"></i></div>
-                  <div class="ficha-content">
-                    <span class="ficha-label">Categoría</span>
-                    <span class="ficha-value"><%= vivienda.categoria || '—' %></span>
-                  </div>
-                  <button class="btn-edit-field" data-field="categoria" data-value="<%= vivienda.categoria || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <%# ——— Dirección ——— %>
-                <div class="ficha-section-title">Dirección</div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-road"></i></div>
-                  <div class="ficha-content">
+                <div class="dir-grid">
+                  <div class="ficha-item">
                     <span class="ficha-label">Calle</span>
                     <span class="ficha-value"><%= vivienda.calle || '—' %></span>
+                    <button class="btn-edit-field" data-field="calle" data-value="<%= (vivienda.calle || '').replace(/'/g, '&#39;') %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="calle" data-value="<%= (vivienda.calle || '').replace(/'/g, '&#39;') %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-building"></i></div>
-                  <div class="ficha-content">
-                    <span class="ficha-label">Bloque/Portal</span>
+                  <div class="ficha-item">
+                    <span class="ficha-label">Bloque / Portal</span>
                     <span class="ficha-value"><%= vivienda.bloque_portal || '—' %></span>
+                    <button class="btn-edit-field" data-field="bloque_portal" data-value="<%= vivienda.bloque_portal || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="bloque_portal" data-value="<%= vivienda.bloque_portal || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-sort-numeric-up"></i></div>
-                  <div class="ficha-content">
+                  <div class="ficha-item">
                     <span class="ficha-label">Escalera</span>
                     <span class="ficha-value"><%= vivienda.escalera || '—' %></span>
+                    <button class="btn-edit-field" data-field="escalera" data-value="<%= vivienda.escalera || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="escalera" data-value="<%= vivienda.escalera || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-layer-group"></i></div>
-                  <div class="ficha-content">
+                  <div class="ficha-item">
                     <span class="ficha-label">Piso</span>
                     <span class="ficha-value"><%= vivienda.piso || '—' %></span>
+                    <button class="btn-edit-field" data-field="piso" data-value="<%= vivienda.piso || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="piso" data-value="<%= vivienda.piso || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-door-open"></i></div>
-                  <div class="ficha-content">
+                  <div class="ficha-item">
                     <span class="ficha-label">Letra / Nº</span>
                     <span class="ficha-value"><%= vivienda.letra_numero || '—' %></span>
+                    <button class="btn-edit-field" data-field="letra_numero" data-value="<%= vivienda.letra_numero || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="letra_numero" data-value="<%= vivienda.letra_numero || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-map-signs"></i></div>
-                  <div class="ficha-content">
+                  <div class="ficha-item">
                     <span class="ficha-label">Barrio</span>
                     <span class="ficha-value"><%= vivienda.barrio || '—' %></span>
+                    <button class="btn-edit-field" data-field="barrio" data-value="<%= vivienda.barrio || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="barrio" data-value="<%= vivienda.barrio || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-city"></i></div>
-                  <div class="ficha-content">
+                  <div class="ficha-item">
                     <span class="ficha-label">Ciudad</span>
                     <span class="ficha-value"><%= vivienda.ciudad || '—' %></span>
+                    <button class="btn-edit-field" data-field="ciudad" data-value="<%= vivienda.ciudad || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="ciudad" data-value="<%= vivienda.ciudad || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-flag"></i></div>
-                  <div class="ficha-content">
+                  <div class="ficha-item">
                     <span class="ficha-label">País</span>
                     <span class="ficha-value"><%= vivienda.pais || '—' %></span>
+                    <button class="btn-edit-field" data-field="pais" data-value="<%= vivienda.pais || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="pais" data-value="<%= vivienda.pais || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-mail-bulk"></i></div>
-                  <div class="ficha-content">
+                  <div class="ficha-item" style="grid-column:1/-1;">
                     <span class="ficha-label">Código Postal</span>
                     <span class="ficha-value"><%= vivienda.codigo_postal || '—' %></span>
+                    <button class="btn-edit-field" data-field="codigo_postal" data-value="<%= vivienda.codigo_postal || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="codigo_postal" data-value="<%= vivienda.codigo_postal || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                 </div>
+              </div>
 
-                <%# ——— Características ——— %>
-                <div class="ficha-section-title">Características</div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-ruler-combined"></i></div>
-                  <div class="ficha-content">
-                    <span class="ficha-label">Superficie</span>
-                    <span class="ficha-value"><%= vivienda.superficie ? vivienda.superficie + ' m²' : '—' %></span>
-                  </div>
-                  <button class="btn-edit-field" data-field="superficie" data-value="<%= vivienda.superficie || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+              <!-- CARACTERÍSTICAS -->
+              <div class="prop-section">
+                <div class="prop-section-hdr">
+                  <span class="prop-sec-label"><i class="fas fa-ruler-combined"></i>Características</span>
                 </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-expand"></i></div>
-                  <div class="ficha-content">
-                    <span class="ficha-label">Sup. Parcela</span>
-                    <span class="ficha-value"><%= vivienda.superficie_parcela ? vivienda.superficie_parcela + ' m²' : '—' %></span>
-                  </div>
-                  <button class="btn-edit-field" data-field="superficie_parcela" data-value="<%= vivienda.superficie_parcela || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-bed"></i></div>
-                  <div class="ficha-content">
-                    <span class="ficha-label">Dormitorios</span>
+                <div class="chars-grid">
+                  <div class="ficha-item">
+                    <div class="c-stat-icon" style="background:#DBEAFE;color:#1D4ED8;"><i class="fas fa-bed"></i></div>
                     <span class="ficha-value"><%= vivienda.num_habitaciones != null ? vivienda.num_habitaciones : '—' %></span>
+                    <span class="ficha-label">Dormitorios</span>
+                    <button class="btn-edit-field" data-field="num_habitaciones" data-value="<%= vivienda.num_habitaciones != null ? vivienda.num_habitaciones : '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="num_habitaciones" data-value="<%= vivienda.num_habitaciones != null ? vivienda.num_habitaciones : '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-bath"></i></div>
-                  <div class="ficha-content">
-                    <span class="ficha-label">Baños</span>
+                  <div class="ficha-item">
+                    <div class="c-stat-icon" style="background:#E0E7FF;color:#4338CA;"><i class="fas fa-bath"></i></div>
                     <span class="ficha-value"><%= vivienda.num_banos != null ? vivienda.num_banos : '—' %></span>
+                    <span class="ficha-label">Baños</span>
+                    <button class="btn-edit-field" data-field="num_banos" data-value="<%= vivienda.num_banos != null ? vivienda.num_banos : '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="num_banos" data-value="<%= vivienda.num_banos != null ? vivienda.num_banos : '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-users"></i></div>
-                  <div class="ficha-content">
+                  <div class="ficha-item">
+                    <div class="c-stat-icon" style="background:#D1FAE5;color:#065f46;"><i class="fas fa-users"></i></div>
+                    <span class="ficha-value"><%= vivienda.capacidad_maxima != null ? vivienda.capacidad_maxima : '—' %></span>
                     <span class="ficha-label">Capacidad</span>
-                    <span class="ficha-value"><%= vivienda.capacidad_maxima != null ? vivienda.capacidad_maxima + ' personas' : '—' %></span>
+                    <button class="btn-edit-field" data-field="capacidad_maxima" data-value="<%= vivienda.capacidad_maxima != null ? vivienda.capacidad_maxima : '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="capacidad_maxima" data-value="<%= vivienda.capacidad_maxima != null ? vivienda.capacidad_maxima : '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-level-up-alt"></i></div>
-                  <div class="ficha-content">
+                  <div class="ficha-item">
+                    <div class="c-stat-icon" style="background:#FEF3C7;color:#92400E;"><i class="fas fa-ruler-combined"></i></div>
+                    <span class="ficha-value" style="font-size:1.2rem!important;"><%= vivienda.superficie ? vivienda.superficie + 'm²' : '—' %></span>
+                    <span class="ficha-label">Superficie</span>
+                    <button class="btn-edit-field" data-field="superficie" data-value="<%= vivienda.superficie || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                  </div>
+                  <div class="ficha-item">
+                    <div class="c-stat-icon" style="background:#FCE7F3;color:#9D174D;"><i class="fas fa-expand"></i></div>
+                    <span class="ficha-value" style="font-size:1.2rem!important;"><%= vivienda.superficie_parcela ? vivienda.superficie_parcela + 'm²' : '—' %></span>
+                    <span class="ficha-label">Parcela</span>
+                    <button class="btn-edit-field" data-field="superficie_parcela" data-value="<%= vivienda.superficie_parcela || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                  </div>
+                  <div class="ficha-item">
+                    <div class="c-stat-icon" style="background:#F1F5F9;color:#475569;"><i class="fas fa-layer-group"></i></div>
+                    <span class="ficha-value"><% if (vivienda.planta === 0) { %>B<% } else if (vivienda.planta === -1) { %>-1<% } else if (vivienda.planta != null) { %><%= vivienda.planta %><% } else { %>—<% } %></span>
                     <span class="ficha-label">Planta</span>
-                    <span class="ficha-value"><%
-                      if (vivienda.planta === 0) { %> Bajo <% }
-                      else if (vivienda.planta === -1) { %> Sótano <% }
-                      else if (vivienda.planta != null) { %> <%= vivienda.planta %> <% }
-                      else { %> — <% } %></span>
+                    <button class="btn-edit-field" data-field="planta" data-value="<%= vivienda.planta != null ? vivienda.planta : '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="planta" data-value="<%= vivienda.planta != null ? vivienda.planta : '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                 </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-calendar-alt"></i></div>
-                  <div class="ficha-content">
-                    <span class="ficha-label">Año Constr.</span>
-                    <span class="ficha-value"><%= vivienda.ano_construccion || '—' %></span>
+                <div class="chars-extra">
+                  <div class="ficha-item">
+                    <div class="ficha-icon-sm"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="ficha-content">
+                      <span class="ficha-label">Año Construcción</span>
+                      <span class="ficha-value"><%= vivienda.ano_construccion || '—' %></span>
+                    </div>
+                    <button class="btn-edit-field" data-field="ano_construccion" data-value="<%= vivienda.ano_construccion || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="ano_construccion" data-value="<%= vivienda.ano_construccion || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                 </div>
+              </div>
 
-                <%# ——— Legal ——— %>
-                <div class="ficha-section-title">Información Legal</div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-balance-scale"></i></div>
-                  <div class="ficha-content">
-                    <span class="ficha-label">Estado legal</span>
+              <!-- INFORMACIÓN LEGAL -->
+              <div class="prop-section">
+                <div class="prop-section-hdr">
+                  <span class="prop-sec-label"><i class="fas fa-balance-scale"></i>Información Legal</span>
+                </div>
+                <div class="dir-grid">
+                  <%
+                    var estadoLegal = (vivienda.estado_legal || '').toLowerCase();
+                    var legalClass = estadoLegal.includes('trámite') || estadoLegal.includes('tramite') ? ' legal-tramite'
+                                   : estadoLegal.includes('activ') ? ' legal-activa' : '';
+                  %>
+                  <div class="ficha-item<%= legalClass %>">
+                    <span class="ficha-label">Estado Legal</span>
                     <span class="ficha-value"><%= vivienda.estado_legal || '—' %></span>
+                    <button class="btn-edit-field" data-field="estado_legal" data-value="<%= vivienda.estado_legal || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="estado_legal" data-value="<%= vivienda.estado_legal || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-file-alt"></i></div>
-                  <div class="ficha-content">
+                  <div class="ficha-item">
                     <span class="ficha-label">Ref. Catastral</span>
                     <span class="ficha-value"><%= vivienda.referencia_catastral || '—' %></span>
+                    <button class="btn-edit-field" data-field="referencia_catastral" data-value="<%= vivienda.referencia_catastral || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="referencia_catastral" data-value="<%= vivienda.referencia_catastral || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-registered"></i></div>
-                  <div class="ficha-content">
+                  <div class="ficha-item">
                     <span class="ficha-label">Reg. Autonómico</span>
                     <span class="ficha-value"><%= vivienda.numero_registro_autonomico || '—' %></span>
+                    <button class="btn-edit-field" data-field="numero_registro_autonomico" data-value="<%= vivienda.numero_registro_autonomico || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="numero_registro_autonomico" data-value="<%= vivienda.numero_registro_autonomico || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-calendar-check"></i></div>
-                  <div class="ficha-content">
-                    <span class="ficha-label">Fecha registro</span>
+                  <div class="ficha-item">
+                    <span class="ficha-label">Fecha Registro</span>
                     <span class="ficha-value"><%= vivienda.fecha_registro ? new Date(vivienda.fecha_registro).toLocaleDateString('es-ES') : '—' %></span>
+                    <button class="btn-edit-field" data-field="fecha_registro" data-value="<%= vivienda.fecha_registro ? new Date(vivienda.fecha_registro).toISOString().split('T')[0] : '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="fecha_registro" data-value="<%= vivienda.fecha_registro ? new Date(vivienda.fecha_registro).toISOString().split('T')[0] : '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                 </div>
+              </div>
 
-                <%# ——— Plataformas ——— %>
-                <div class="ficha-section-title">Plataformas</div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fab fa-airbnb"></i></div>
-                  <div class="ficha-content">
-                    <span class="ficha-label">URL Airbnb</span>
-                    <span class="ficha-value url-val" title="<%= vivienda.url_airbnb || '' %>"><%= vivienda.url_airbnb ? 'Ver enlace' : '—' %></span>
+              <!-- PLATAFORMAS (enlaces) -->
+              <div class="prop-section">
+                <div class="prop-section-hdr">
+                  <span class="prop-sec-label"><i class="fas fa-link"></i>Plataformas</span>
+                </div>
+                <div class="plat-rows">
+                  <div class="ficha-item p-airbnb">
+                    <div class="p-row-icon"><i class="fab fa-airbnb"></i></div>
+                    <div class="p-row-info">
+                      <span class="p-row-name">Airbnb</span>
+                      <span class="ficha-value<%= vivienda.url_airbnb ? ' url-val' : '' %>" title="<%= vivienda.url_airbnb || '' %>"><%= vivienda.url_airbnb ? 'airbnb.com · Ver enlace' : 'No configurado' %></span>
+                    </div>
+                    <span class="ficha-label" style="display:none;">URL Airbnb</span>
+                    <% if (vivienda.url_airbnb) { %><i class="fas fa-external-link-alt" style="color:#cbd5e1;font-size:0.7rem;"></i><% } %>
+                    <button class="btn-edit-field" data-field="url_airbnb" data-value="<%= (vivienda.url_airbnb || '').replace(/'/g,'&#39;') %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="url_airbnb" data-value="<%= (vivienda.url_airbnb || '').replace(/'/g,'&#39;') %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-bed"></i></div>
-                  <div class="ficha-content">
-                    <span class="ficha-label">URL Booking</span>
-                    <span class="ficha-value url-val" title="<%= vivienda.url_booking || '' %>"><%= vivienda.url_booking ? 'Ver enlace' : '—' %></span>
+                  <div class="ficha-item p-booking">
+                    <div class="p-row-icon"><i class="fas fa-bed"></i></div>
+                    <div class="p-row-info">
+                      <span class="p-row-name">Booking.com</span>
+                      <span class="ficha-value<%= vivienda.url_booking ? ' url-val' : '' %>" title="<%= vivienda.url_booking || '' %>"><%= vivienda.url_booking ? 'booking.com · Ver enlace' : 'No configurado' %></span>
+                    </div>
+                    <span class="ficha-label" style="display:none;">URL Booking</span>
+                    <% if (vivienda.url_booking) { %><i class="fas fa-external-link-alt" style="color:#cbd5e1;font-size:0.7rem;"></i><% } %>
+                    <button class="btn-edit-field" data-field="url_booking" data-value="<%= (vivienda.url_booking || '').replace(/'/g,'&#39;') %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="url_booking" data-value="<%= (vivienda.url_booking || '').replace(/'/g,'&#39;') %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-sync-alt"></i></div>
-                  <div class="ficha-content">
-                    <span class="ficha-label">iCal Airbnb</span>
-                    <span class="ficha-value url-val" title="<%= vivienda.url_ical_airbnb || '' %>"><%= vivienda.url_ical_airbnb ? 'Ver enlace' : '—' %></span>
+                  <div class="ficha-item" style="border-bottom:none!important;">
+                    <div class="p-row-icon" style="background:#F1F5F9;color:#64748b;"><i class="fas fa-sync-alt"></i></div>
+                    <div class="p-row-info">
+                      <span class="p-row-name">iCal Airbnb</span>
+                      <span class="ficha-value<%= vivienda.url_ical_airbnb ? ' url-val' : '' %>" title="<%= vivienda.url_ical_airbnb || '' %>"><%= vivienda.url_ical_airbnb ? 'Configurado ✓' : 'No configurado' %></span>
+                    </div>
+                    <span class="ficha-label" style="display:none;">iCal Airbnb</span>
+                    <button class="btn-edit-field" data-field="url_ical_airbnb" data-value="<%= (vivienda.url_ical_airbnb || '').replace(/'/g,'&#39;') %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="url_ical_airbnb" data-value="<%= (vivienda.url_ical_airbnb || '').replace(/'/g,'&#39;') %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                </div>
-
-                <div class="ficha-item">
-                  <div class="ficha-icon-sm"><i class="fas fa-sync"></i></div>
-                  <div class="ficha-content">
-                    <span class="ficha-label">iCal Booking</span>
-                    <span class="ficha-value url-val" title="<%= vivienda.url_ical_booking || '' %>"><%= vivienda.url_ical_booking ? 'Ver enlace' : '—' %></span>
+                  <div class="ficha-item" style="border-bottom:none!important;">
+                    <div class="p-row-icon" style="background:#F1F5F9;color:#64748b;"><i class="fas fa-sync"></i></div>
+                    <div class="p-row-info">
+                      <span class="p-row-name">iCal Booking</span>
+                      <span class="ficha-value<%= vivienda.url_ical_booking ? ' url-val' : '' %>" title="<%= vivienda.url_ical_booking || '' %>"><%= vivienda.url_ical_booking ? 'Configurado ✓' : 'No configurado' %></span>
+                    </div>
+                    <span class="ficha-label" style="display:none;">iCal Booking</span>
+                    <button class="btn-edit-field" data-field="url_ical_booking" data-value="<%= (vivienda.url_ical_booking || '').replace(/'/g,'&#39;') %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <button class="btn-edit-field" data-field="url_ical_booking" data-value="<%= (vivienda.url_ical_booking || '').replace(/'/g,'&#39;') %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                 </div>
+              </div>
 
-              </div><!-- /.ficha-list -->
-
-              <!-- Comodidades -->
-              <div class="amenities-section" style="margin-top: 1.25rem; border-top: 1px solid #f1f5f9; padding-top: 1.25rem;">
-                <h4 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: #94a3b8; font-weight: 700; margin-bottom: 0.75rem;">
-                  <i class="fas fa-star" style="margin-right: 0.4rem;"></i>Comodidades
-                </h4>
+              <!-- COMODIDADES -->
+              <div class="prop-section" style="border-bottom:none;">
+                <div class="prop-section-hdr">
+                  <span class="prop-sec-label"><i class="fas fa-star"></i>Comodidades</span>
+                </div>
                 <div class="amenities-list">
                   <%
-                  let amenitiesList = [];
-                  if (vivienda.amenities) {
-                    try {
-                      const parsed = JSON.parse(vivienda.amenities);
-                      amenitiesList = Array.isArray(parsed) ? parsed : [];
-                    } catch(e) {}
-                  }
-                  if (amenitiesList.length > 0) {
-                    amenitiesList.forEach(function(amenity) {
-                      const nombre = (typeof amenity === 'string') ? amenity : (amenity.nombre || amenity.name || String(amenity));
-                      const icon = (typeof amenity === 'object' && amenity.icon) ? amenity.icon : 'check-circle';
+                    let amenitiesList = [];
+                    if (vivienda.amenities) {
+                      try {
+                        const parsed = JSON.parse(vivienda.amenities);
+                        amenitiesList = Array.isArray(parsed) ? parsed : [];
+                      } catch(e) {}
+                    }
+                    if (amenitiesList.length > 0) {
+                      amenitiesList.forEach(function(amenity) {
+                        const nombre = (typeof amenity === 'string') ? amenity : (amenity.nombre || amenity.name || String(amenity));
+                        const icon = (typeof amenity === 'object' && amenity.icon) ? amenity.icon : 'check-circle';
                   %>
-                      <div class="amenity-tag">
-                        <i class="fas fa-<%= icon %>"></i>
-                        <span><%= nombre %></span>
-                      </div>
-                  <%  });
-                  } else { %>
-                    <p style="color: #94a3b8; font-size: 0.8rem;">No hay comodidades especificadas</p>
+                        <div class="amenity-tag">
+                          <i class="fas fa-<%= icon %>"></i>
+                          <span><%= nombre %></span>
+                        </div>
+                  <%    });
+                    } else { %>
+                      <p style="color:#94a3b8;font-size:0.8rem;margin:0;">No hay comodidades especificadas</p>
                   <% } %>
                 </div>
               </div>
 
-            </div>
+            </div><!-- /left col -->
 
-            <!-- Columna derecha: Ubicación + Plataformas -->
-            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <!-- ════ RIGHT COLUMN ════ -->
+            <div style="display:flex;flex-direction:column;gap:1.5rem;">
 
-            <!-- Ubicación -->
-            <div class="card" style="margin-bottom: 0;">
-              <div class="card-header-custom">
-                <div class="card-header-left">
-                  <div class="card-icon">
-                    <i class="fas fa-map-marker-alt"></i>
-                  </div>
-                  <h3>Ubicación</h3>
+              <!-- UBICACIÓN -->
+              <div class="prop-card" style="margin-bottom:0;">
+                <div class="prop-section" style="padding-bottom:0.9rem;">
+                  <span class="prop-sec-label"><i class="fas fa-map-marker-alt"></i>Ubicación</span>
                 </div>
-              </div>
-              <% if (vivienda.latitud && vivienda.longitud) { %>
-                <div class="map-container" id="mapa"></div>
-              <% } else { %>
-                <div class="map-container" style="display: flex; align-items: center; justify-content: center; background: #f8fafc;">
-                  <div style="text-align: center; color: #64748b;">
-                    <i class="fas fa-map-marked-alt" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
-                    <p>Mapa no disponible</p>
-                  </div>
-                </div>
-              <% } %>
-              <div class="map-info">
-                <% if (vivienda.barrio) { %>
-                <div class="map-info-item">
-                  <i class="fas fa-map-signs"></i>
-                  <span><strong>Barrio:</strong> <%= vivienda.barrio %></span>
-                </div>
-                <% } %>
-                <% if (vivienda.codigo_postal) { %>
-                <div class="map-info-item">
-                  <i class="fas fa-mail-bulk"></i>
-                  <span><strong>CP:</strong> <%= vivienda.codigo_postal %></span>
-                </div>
-                <% } %>
                 <% if (vivienda.latitud && vivienda.longitud) { %>
-                <div class="map-info-item" style="grid-column: 1/-1; font-size: 0.75rem;">
-                  <i class="fas fa-map-pin"></i>
-                  <span><strong>Coordenadas:</strong> <%= parseFloat(vivienda.latitud).toFixed(6) %>, <%= parseFloat(vivienda.longitud).toFixed(6) %></span>
-                </div>
+                  <div class="map-container" id="mapa" style="height:280px;border-radius:0;margin:0;box-shadow:none;border:none;border-bottom:1px solid #F1F5F9;"></div>
+                <% } else { %>
+                  <div style="height:280px;display:flex;align-items:center;justify-content:center;background:#f8fafc;border-bottom:1px solid #F1F5F9;">
+                    <div style="text-align:center;color:#64748b;">
+                      <i class="fas fa-map-marked-alt" style="font-size:3rem;margin-bottom:1rem;opacity:0.3;display:block;"></i>
+                      <p style="margin:0;font-size:0.85rem;">Coordenadas no configuradas</p>
+                    </div>
+                  </div>
                 <% } %>
-              </div>
-            </div>
-
-            <!-- Plataformas de Alquiler -->
-            <div class="card" style="margin-bottom: 0;">
-              <div class="card-header-custom">
-                <div class="card-header-left">
-                  <div class="card-icon"><i class="fas fa-globe"></i></div>
-                  <h3>Plataformas de Alquiler</h3>
+                <div class="prop-map-info">
+                  <div class="prop-map-info-item">
+                    <i class="fas fa-map-signs"></i>
+                    <div>
+                      <div class="prop-map-info-label">Barrio</div>
+                      <div class="prop-map-info-val"><%= vivienda.barrio || '—' %></div>
+                    </div>
+                  </div>
+                  <div class="prop-map-divider"></div>
+                  <div class="prop-map-info-item">
+                    <i class="fas fa-mail-bulk"></i>
+                    <div>
+                      <div class="prop-map-info-label">C.P.</div>
+                      <div class="prop-map-info-val"><%= vivienda.codigo_postal || '—' %></div>
+                    </div>
+                  </div>
+                  <div class="prop-map-divider"></div>
+                  <div class="prop-map-info-item">
+                    <i class="fas fa-map-pin"></i>
+                    <div>
+                      <div class="prop-map-info-label">Coordenadas</div>
+                      <div class="prop-map-info-val" style="font-size:0.72rem;">
+                        <% if(vivienda.latitud && vivienda.longitud) { %>
+                          <%= parseFloat(vivienda.latitud).toFixed(5) %>, <%= parseFloat(vivienda.longitud).toFixed(5) %>
+                        <% } else { %>—<% } %>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="platform-links">
-                <a href="<%= vivienda.url_airbnb || '#' %>" <%= vivienda.url_airbnb ? 'target="_blank"' : '' %> class="platform-link airbnb">
-                  <div class="platform-link-content">
-                    <i class="fab fa-airbnb" style="font-size: 1.5rem;"></i>
+
+              <!-- PLATAFORMAS DE ALQUILER (CTA) -->
+              <div class="prop-card" style="margin-bottom:0;">
+                <div class="prop-section" style="padding-bottom:0.9rem;">
+                  <span class="prop-sec-label"><i class="fas fa-globe"></i>Plataformas de Alquiler</span>
+                </div>
+                <div style="padding:1rem 1.5rem 1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+                  <a href="<%= vivienda.url_airbnb || '#' %>" <%= vivienda.url_airbnb ? 'target="_blank"' : '' %> class="prop-plat-btn airbnb">
+                    <i class="fab fa-airbnb prop-plat-ico"></i>
                     <span>Ver en Airbnb</span>
-                  </div>
-                  <i class="fas fa-external-link-alt"></i>
-                </a>
-                <a href="<%= vivienda.url_booking || '#' %>" <%= vivienda.url_booking ? 'target="_blank"' : '' %> class="platform-link booking">
-                  <div class="platform-link-content">
-                    <i class="fas fa-bed" style="font-size: 1.25rem;"></i>
+                    <i class="fas fa-external-link-alt prop-plat-ext"></i>
+                  </a>
+                  <a href="<%= vivienda.url_booking || '#' %>" <%= vivienda.url_booking ? 'target="_blank"' : '' %> class="prop-plat-btn booking">
+                    <i class="fas fa-bed prop-plat-ico"></i>
                     <span>Ver en Booking.com</span>
+                    <i class="fas fa-external-link-alt prop-plat-ext"></i>
+                  </a>
+                  <div class="action-buttons" style="margin-top:0.25rem;">
+                    <button class="btn-action primary">
+                      <i class="fas fa-headset"></i> Contactar Gestor
+                    </button>
+                    <button class="btn-action danger">
+                      <i class="fas fa-tools"></i> Reportar Incidencia
+                    </button>
                   </div>
-                  <i class="fas fa-external-link-alt"></i>
-                </a>
+                </div>
               </div>
-              <div class="action-buttons">
-                <button class="btn-action primary">
-                  <i class="fas fa-headset"></i> Contactar Gestor
-                </button>
-                <button class="btn-action secondary">
-                  <i class="fas fa-tools"></i> Reportar Incidencia
-                </button>
-              </div>
-            </div>
 
-            </div><!-- /columna derecha -->
+            </div><!-- /right col -->
 
-          </div>
+          </div><!-- /prop-two-col -->
         </div>
 
         <!-- TAB 4: Documentos Legales -->
@@ -1886,123 +2013,37 @@
               </button>
             </div>
             <div class="documents-list">
-              <% if (vivienda.referencia_catastral) { %>
-              <div class="document-item">
-                <div class="document-info">
-                  <div class="document-icon">
-                    <i class="fas fa-file-alt"></i>
+              <!-- Documentos subidos por el propietario -->
+              <% if (typeof documentos !== 'undefined' && documentos.length > 0) { %>
+                <% documentos.forEach(doc => { %>
+                <div class="document-item">
+                  <div class="document-info">
+                    <div class="document-icon">
+                      <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div>
+                      <div class="document-name"><%= doc.tipo_documento %></div>
+                      <div class="document-date"><%= new Date(doc.fecha_subida).toLocaleDateString('es-ES') %></div>
+                    </div>
                   </div>
-                  <div>
-                    <div class="document-name">Referencia Catastral</div>
-                    <div class="document-date"><%= vivienda.referencia_catastral %></div>
+                  <div style="display:flex;gap:0.5rem;align-items:center;">
+                    <a href="<%= doc.url_documento %>" class="btn-download" target="_blank" title="Descargar documento">
+                      <i class="fas fa-download"></i>
+                      Descargar
+                    </a>
+                    <button class="btn-download" style="background:#FEF2F2;color:#ef4444;border:1px solid #fecaca;padding:0.4rem 0.6rem;" onclick="confirmarEliminarDoc(<%= doc.id_documento %>, '<%= vivienda.id_vivienda %>')" title="Eliminar documento">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
                   </div>
                 </div>
-                <button class="btn-download">
-                  <i class="fas fa-download"></i>
-                  Descargar
-                </button>
+                <% }) %>
+              <% } else { %>
+              <div style="text-align:center;padding:3rem 2rem;color:#94a3b8;">
+                <i class="fas fa-folder-open" style="font-size:2.5rem;margin-bottom:0.75rem;opacity:0.35;display:block;"></i>
+                <p style="margin:0 0 0.25rem;font-size:0.9rem;font-weight:600;color:#64748b;">Sin documentos</p>
+                <p style="margin:0;font-size:0.8rem;">Usa el botón <strong>Añadir Documento</strong> para subir archivos a esta vivienda.</p>
               </div>
               <% } %>
-
-              <% if (vivienda.numero_registro_autonomico) { %>
-              <div class="document-item">
-                <div class="document-info">
-                  <div class="document-icon">
-                    <i class="fas fa-file-signature"></i>
-                  </div>
-                  <div>
-                    <div class="document-name">Nº Registro Autonómico</div>
-                    <div class="document-date"><%= vivienda.numero_registro_autonomico %></div>
-                  </div>
-                </div>
-                <button class="btn-download">
-                  <i class="fas fa-download"></i>
-                  Descargar
-                </button>
-              </div>
-              <% } %>
-
-              <% if (vivienda.fecha_registro) { %>
-              <div class="document-item">
-                <div class="document-info">
-                  <div class="document-icon">
-                    <i class="fas fa-calendar-check"></i>
-                  </div>
-                  <div>
-                    <div class="document-name">Fecha de Registro</div>
-                    <div class="document-date"><%= new Date(vivienda.fecha_registro).toLocaleDateString('es-ES') %></div>
-                  </div>
-                </div>
-                <button class="btn-download">
-                  <i class="fas fa-eye"></i>
-                  Ver
-                </button>
-              </div>
-              <% } %>
-
-              <div class="document-item">
-                <div class="document-info">
-                  <div class="document-icon">
-                    <i class="fas fa-file-pdf"></i>
-                  </div>
-                  <div>
-                    <div class="document-name">Escrituras</div>
-                    <div class="document-date">Documento notarial</div>
-                  </div>
-                </div>
-                <button class="btn-download">
-                  <i class="fas fa-download"></i>
-                  Descargar
-                </button>
-              </div>
-
-              <div class="document-item">
-                <div class="document-info">
-                  <div class="document-icon">
-                    <i class="fas fa-file-invoice-dollar"></i>
-                  </div>
-                  <div>
-                    <div class="document-name">IBI</div>
-                    <div class="document-date">Impuesto anual</div>
-                  </div>
-                </div>
-                <button class="btn-download">
-                  <i class="fas fa-download"></i>
-                  Descargar
-                </button>
-              </div>
-
-              <div class="document-item">
-                <div class="document-info">
-                  <div class="document-icon">
-                    <i class="fas fa-shield-alt"></i>
-                  </div>
-                  <div>
-                    <div class="document-name">Seguro de Hogar</div>
-                    <div class="document-date">Póliza vigente</div>
-                  </div>
-                </div>
-                <button class="btn-download">
-                  <i class="fas fa-download"></i>
-                  Descargar
-                </button>
-              </div>
-
-              <div class="document-item">
-                <div class="document-info">
-                  <div class="document-icon">
-                    <i class="fas fa-leaf"></i>
-                  </div>
-                  <div>
-                    <div class="document-name">Certificado Energético</div>
-                    <div class="document-date">Eficiencia energética</div>
-                  </div>
-                </div>
-                <button class="btn-download">
-                  <i class="fas fa-download"></i>
-                  Descargar
-                </button>
-              </div>
             </div>
           </div>
         </div>
@@ -2575,19 +2616,9 @@
             <label for="taskDescription">Descripción <span class="req">*</span></label>
             <textarea id="taskDescription" name="taskDescription" required rows="3" placeholder="Ej: Revisar el aire acondicionado de la habitación principal..."></textarea>
           </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="taskDate">Fecha Límite</label>
-              <input type="date" id="taskDate" name="taskDate">
-            </div>
-            <div class="form-group">
-              <label for="taskEstado">Estado</label>
-              <select id="taskEstado" name="taskEstado">
-                <option value="Pendiente">Pendiente</option>
-                <option value="En progreso">En progreso</option>
-                <option value="Completada">Completada</option>
-              </select>
-            </div>
+          <div class="form-group">
+            <label for="taskDate">Fecha Límite</label>
+            <input type="date" id="taskDate" name="taskDate">
           </div>
           <div class="form-group" style="display:flex;align-items:center;gap:0.5rem;margin-top:0.25rem;">
             <input type="checkbox" id="taskVinculadaCalendario" style="width:auto;margin:0;">
@@ -2666,14 +2697,14 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="documentForm">
+        <form id="documentForm" action="/viviendas/<%= vivienda.id_vivienda %>/documentos" method="POST" enctype="multipart/form-data">
           <div class="form-group">
             <label for="documentName">Nombre del Documento *</label>
-            <input type="text" id="documentName" name="documentName" required placeholder="Ej: Contrato de limpieza">
+            <input type="text" id="documentName" name="nombre" required placeholder="Ej: Contrato de limpieza">
           </div>
           <div class="form-group">
             <label for="documentType">Tipo de Documento</label>
-            <select id="documentType" name="documentType">
+            <select id="documentType" name="tipo">
               <option value="legal">Legal</option>
               <option value="financiero">Financiero</option>
               <option value="mantenimiento">Mantenimiento</option>
@@ -2683,7 +2714,11 @@
           </div>
           <div class="form-group">
             <label for="documentFile">Archivo *</label>
-            <input type="file" id="documentFile" name="documentFile" required accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+            <input type="file" id="documentFile" name="documento" required accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+            <small style="color:#94a3b8;font-size:0.78rem;margin-top:0.35rem;display:block;">
+              <i class="fas fa-info-circle"></i>
+              Formatos admitidos: PDF, Word (.doc, .docx), imágenes (.jpg, .jpeg, .png)
+            </small>
           </div>
         </form>
       </div>
@@ -2692,6 +2727,66 @@
         <button type="button" class="btn-primary" onclick="saveDocument()">
           <i class="fas fa-upload"></i>
           Subir Documento
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Visor de Documento -->
+  <div id="docViewerModal" class="modal" style="z-index:2000;">
+    <div class="modal-content" style="max-width:900px;width:95vw;">
+      <div class="modal-header">
+        <h3 id="docViewerTitle"><i class="fas fa-file-alt"></i> Documento</h3>
+        <button class="modal-close" onclick="closeDocViewer()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body" style="padding:0;">
+        <div id="docViewerContent" style="width:100%;min-height:60vh;display:flex;align-items:center;justify-content:center;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Confirmar Eliminar Documento -->
+  <div id="docDeleteModal" class="modal" style="z-index:2000;">
+    <div class="modal-content" style="max-width:420px;">
+      <div class="modal-header" style="background:#FEF2F2;border-bottom:1px solid #fecaca;">
+        <h3 style="color:#991b1b;"><i class="fas fa-trash-alt"></i> Eliminar documento</h3>
+        <button class="modal-close" onclick="closeDocDeleteModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="margin:0;font-size:0.9rem;color:#374151;">¿Seguro que quieres eliminar este documento? Esta acción no se puede deshacer.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" onclick="closeDocDeleteModal()">Cancelar</button>
+        <form id="docDeleteForm" method="POST" style="display:inline;">
+          <input type="hidden" name="_method" value="DELETE">
+          <button type="submit" class="btn-primary" style="background:#991b1b;">
+            <i class="fas fa-trash-alt"></i> Eliminar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Confirmar eliminación de tarea -->
+  <div id="taskDeleteModal" class="modal" style="z-index:2000;">
+    <div class="modal-content" style="max-width:420px;">
+      <div class="modal-header" style="background:#FEF2F2;border-bottom:1px solid #fecaca;">
+        <h3 style="color:#991b1b;"><i class="fas fa-trash-alt"></i> Eliminar tarea</h3>
+        <button class="modal-close" onclick="closeTaskDeleteModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="margin:0;font-size:0.9rem;color:#374151;">¿Seguro que quieres eliminar esta tarea? Esta acción no se puede deshacer.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" onclick="closeTaskDeleteModal()">Cancelar</button>
+        <button type="button" class="btn-primary" id="taskDeleteConfirmBtn" style="background:#991b1b;">
+          <i class="fas fa-trash-alt"></i> Eliminar
         </button>
       </div>
     </div>
@@ -3225,7 +3320,7 @@
         body: JSON.stringify({
           descripcion: desc,
           fecha_limite: document.getElementById('taskDate').value || null,
-          estado: document.getElementById('taskEstado').value,
+          estado: 'Pendiente',
           vinculada_calendario: document.getElementById('taskVinculadaCalendario').checked
         })
       })
@@ -3251,7 +3346,13 @@
     function recargarTareas() {
       return fetch('/propiedades/' + viviendaIdGlobal + '/tareas')
         .then(function(r){ return r.json(); })
-        .then(function(d) { if (d.success) renderTareas(d.tareas); })
+        .then(function(d) {
+          if (d.success) {
+            window._tareas = d.tareas;
+            renderTareas(d.tareas);
+            _syncCalendar();
+          }
+        })
         .catch(function(){ renderTareas([]); });
     }
 
@@ -3295,14 +3396,22 @@
     }
 
     function deleteTask(id) {
-      if (!confirm('¿Eliminar esta tarea?')) return;
-      fetch('/propiedades/' + viviendaIdGlobal + '/tareas/' + id, { method: 'DELETE' })
-        .then(function(r){ return r.json(); })
-        .then(function(d) {
-          if (d.success) { recargarTareas(); showToast('Tarea eliminada', 'success'); }
-          else { showToast(d.error || 'Error al eliminar la tarea', 'error'); }
-        })
-        .catch(function(){ showToast('Error de conexión', 'error'); });
+      const confirmBtn = document.getElementById('taskDeleteConfirmBtn');
+      confirmBtn.onclick = function() {
+        closeTaskDeleteModal();
+        fetch('/propiedades/' + viviendaIdGlobal + '/tareas/' + id, { method: 'DELETE' })
+          .then(function(r){ return r.json(); })
+          .then(function(d) {
+            if (d.success) { recargarTareas(); showToast('Tarea eliminada', 'success'); }
+            else { showToast(d.error || 'Error al eliminar la tarea', 'error'); }
+          })
+          .catch(function(){ showToast('Error de conexión', 'error'); });
+      };
+      document.getElementById('taskDeleteModal').classList.add('show');
+    }
+
+    function closeTaskDeleteModal() {
+      document.getElementById('taskDeleteModal').classList.remove('show');
     }
 
     function escapeHtml(str) {
@@ -3348,10 +3457,40 @@
         form.reportValidity();
         return;
       }
-      
-      // Aquí implementar la lógica de guardado
-      showToast('Documento subido correctamente', 'success');
-      closeDocumentModal();
+      form.submit();
+    }
+
+    // Visor de documento inline
+    function verDocumento(url, nombre) {
+      const modal = document.getElementById('docViewerModal');
+      const title = document.getElementById('docViewerTitle');
+      const content = document.getElementById('docViewerContent');
+      title.innerHTML = '<i class="fas fa-file-alt"></i> ' + (nombre || 'Documento');
+      const ext = url.split('.').pop().toLowerCase();
+      if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) {
+        content.innerHTML = '<img src="' + url + '" style="max-width:100%;max-height:80vh;object-fit:contain;padding:1rem;" alt="' + nombre + '">';
+      } else if (ext === 'pdf') {
+        content.innerHTML = '<iframe src="' + url + '" style="width:100%;height:75vh;border:none;"></iframe>';
+      } else {
+        content.innerHTML = '<div style="padding:2rem;text-align:center;color:#64748b;"><i class="fas fa-file" style="font-size:3rem;margin-bottom:1rem;"></i><p>Este tipo de archivo no puede previsualizarse.<br><a href="' + url + '" target="_blank" style="color:#1a2332;font-weight:600;">Haz clic aquí para abrirlo/descargarlo</a></p></div>';
+      }
+      modal.classList.add('show');
+    }
+
+    function closeDocViewer() {
+      document.getElementById('docViewerModal').classList.remove('show');
+      document.getElementById('docViewerContent').innerHTML = '';
+    }
+
+    // Eliminar documento
+    function confirmarEliminarDoc(docId, viviendaId) {
+      const form = document.getElementById('docDeleteForm');
+      form.action = '/viviendas/' + viviendaId + '/documentos/' + docId + '?_method=DELETE';
+      document.getElementById('docDeleteModal').classList.add('show');
+    }
+
+    function closeDocDeleteModal() {
+      document.getElementById('docDeleteModal').classList.remove('show');
     }
 
     // Close modals on outside click
@@ -3401,6 +3540,7 @@
 
     // ── Transacciones (global) ────────────────────────────────────────────────────────────────────────
     window._transacciones = <%- JSON.stringify(typeof ultimasTransacciones !== 'undefined' ? ultimasTransacciones : []) %>;
+    window._tareas = [];
 
     // ── Navegación mensual ────────────────────────────────────────────────────────────────────────────
     window._viewYear = null;
@@ -3665,6 +3805,7 @@
       .then(function(d){
         if (d.success) {
           filtrarReservas();
+          updateFinancialSummary();
           showToast('Estado actualizado: ' + nuevoEstado, 'success');
         } else { showToast(d.error || 'Error al actualizar estado', 'error'); }
       })
@@ -3765,10 +3906,12 @@
       document.addEventListener('DOMContentLoaded', function() {
         const calendarEl = document.getElementById('calendario');
         if (calendarEl) {
-          const reservas = <%- JSON.stringify(reservasMes) %>;
+          const reservas = <%- JSON.stringify(typeof todasReservas !== 'undefined' ? todasReservas : (typeof reservasMes !== 'undefined' ? reservasMes : [])) %>;
           
-          const events = reservas.map(reserva => ({
-            title: 'Reservado',
+          const events = reservas
+            .filter(r => r.activa !== false)
+            .map(reserva => ({
+            title: (reserva.nombre_huesped || 'Reservado'),
             start: reserva.fecha_inicio,
             end: reserva.fecha_fin,
             backgroundColor: '#1a2332',
@@ -3807,6 +3950,37 @@
         }
       });
     <% } %>
+
+    // ── Sincronizar calendario (reservas + tareas vinculadas) ────────────────────────────────────────
+    function _syncCalendar() {
+      if (!window._calInstance) return;
+      window._calInstance.removeAllEvents();
+      var reservaEvents = reservasGestion
+        .filter(function(r) { return r.activa !== false && r.fecha_inicio && r.fecha_fin; })
+        .map(function(r) {
+          return {
+            title: (r.nombre_huesped || 'Reservado'),
+            start: r.fecha_inicio,
+            end: r.fecha_fin,
+            backgroundColor: '#1a2332',
+            borderColor: '#141d28',
+            textColor: '#ffffff'
+          };
+        });
+      var tareaEvents = (window._tareas || [])
+        .filter(function(t) { return t.vinculada_calendario && t.fecha_limite && t.estado !== 'Completada'; })
+        .map(function(t) {
+          return {
+            title: '\u2713 ' + t.descripcion,
+            start: t.fecha_limite,
+            allDay: true,
+            backgroundColor: '#6366f1',
+            borderColor: '#4f46e5',
+            textColor: '#ffffff'
+          };
+        });
+      window._calInstance.addEventSource(reservaEvents.concat(tareaEvents));
+    }
 
     // ===== RESERVAS =====
 
@@ -3851,6 +4025,8 @@
             };
           });
           filtrarReservas();
+          // Sincronizar el calendario con las reservas actualizadas
+          _syncCalendar();
         })
         .catch(function(e) { console.error('Error al recargar reservas:', e); });
     }

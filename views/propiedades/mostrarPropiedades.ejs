@@ -160,16 +160,12 @@
         <div class="mp-toolbar">
             <div class="mp-search-wrap">
                 <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" class="mp-search" placeholder="Buscar por nombre, ciudad, dirección...">
+                <input type="text" id="searchNombre" class="mp-search" placeholder="Buscar por nombre...">
             </div>
-            <div class="mp-filters">
-                <button class="filter-pill filter-pill--active" data-filter="todas">Todas</button>
-                <button class="filter-pill" data-filter="libre">Libres</button>
-                <button class="filter-pill" data-filter="ocupada">Ocupadas</button>
+            <div class="mp-search-wrap" style="max-width: 220px;">
+                <i class="fas fa-map-marker-alt"></i>
+                <input type="text" id="searchCiudad" class="mp-search" placeholder="Buscar por ciudad...">
             </div>
-            <button class="mp-btn-filter">
-                <i class="fas fa-sliders-h"></i> Filtros
-            </button>
         </div>
 
         <!-- Lista de propiedades -->
@@ -191,7 +187,7 @@
                     else if (el.includes('activo') || el.includes('activa') || el.includes('vigente') || el.includes('aprobado')) legalClass = 'mp-badge--legal-active';
                 }
             %>
-            <article class="mp-card" data-estado="<%= vivienda.estado_actual %>">
+            <article class="mp-card" data-nombre="<%= (vivienda.nombre || '').toLowerCase() %>" data-ciudad="<%= (vivienda.ciudad || '').toLowerCase() %>">
 
               <!-- COL 1: Imagen + Precio -->
               <div class="mp-img-col">

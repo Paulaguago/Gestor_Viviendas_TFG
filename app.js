@@ -68,6 +68,10 @@ const propiedadesRouter = require('./routes/propiedades');
 app.use('/propiedades', requireAuth, propiedadesRouter);
 app.use('/viviendas', requireAuth, propiedadesRouter); // Alias para compatibilidad
 
+// Rutas de finanzas (protegidas)
+const finanzasRouter = require('./routes/finanzas');
+app.use('/finanzas', requireAuth, finanzasRouter);
+
 // Protected routes
 app.use('/prediccion', requireAuth);
 app.use('/alquiler', requireAuth, alquilerRoutes);
