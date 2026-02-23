@@ -2,13 +2,30 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const fs = require('fs');
-const { spawn } = require('child_process');
 const { 
   readJsonPrefer, 
   projectRoot 
 } = require('../utils/dataLoader');
+const { spawnPython } = require('../utils/pythonRunner');
 const { requireAuth } = require('../utils/authMiddleware');
 const { Vivienda, Reserva, User } = require('../models');
+
+// ================= PROXY GEOCODING (evita CORS con Nominatim) =================
+router.get('/api/geocode', async (req, res) => {
+  try {
+    const q = req.query.q;
+    if (!q) return res.json([]);
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}`;
+    const resp = await fetch(url, {
+      headers: { 'User-Agent': 'GestorViviendas/1.0' }
+    });
+    const data = await resp.json();
+    return res.json(data);
+  } catch (e) {
+    console.error('Geocode proxy error:', e.message);
+    return res.json([]);
+  }
+});
 
 // ================= PERFIL DE USUARIO =================
 
@@ -75,6 +92,10 @@ router.get('/opciones-prediccion', requireAuth, (req, res) => {
     user: req.user
   });
 });
+
+// Redirecciones de retrocompatibilidad
+router.get('/form/alquiler', requireAuth, (req, res) => res.redirect('/alquiler'));
+router.get('/form/venta', requireAuth, (req, res) => res.redirect('/venta'));
 
 // Ruta principal - GET / -> siempre muestra la página principal index.ejs
 router.get('/', (req, res) => {
@@ -143,8 +164,7 @@ router.post('/explain/local-live', requireAuth, (req, res) => {
     const barrio_std = inp.barrio_std || inp.barrio_std_price || 35;
     const amenities_text = (inp.amenities && Array.isArray(inp.amenities)) ? inp.amenities.join(', ') : (inp.amenities_text || '');
 
-    const condaPath = 'C:\\Users\\Paula\\anaconda3\\Scripts\\conda.exe';
-    const scriptPath = path.join(projectRoot, 'ebm_local_explain.py');
+    const scriptPath = path.join(projectRoot, 'python_scripts', 'ebm_local_explain.py');
     const args = [
       origen,
       barrio,
@@ -167,17 +187,7 @@ router.post('/explain/local-live', requireAuth, (req, res) => {
       amenities_text
     ].map(String);
 
-    let pythonCmd;
-    let pythonArgs;
-    if (fs.existsSync(condaPath)) {
-      pythonCmd = condaPath;
-      pythonArgs = ['run', '-n', 'base', 'python', scriptPath].concat(args);
-    } else {
-      pythonCmd = 'python';
-      pythonArgs = [scriptPath].concat(args);
-    }
-
-    const py = spawn(pythonCmd, pythonArgs);
+    const py = spawnPython(scriptPath, args);
     let out = '';
     let err = '';
     py.stdout.on('data', d => out += d.toString());

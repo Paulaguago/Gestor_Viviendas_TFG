@@ -116,10 +116,25 @@ def main():
         feature_names = list(df.columns)
 
         # Preparar resultado
+        # shap_values puede ser 2-D (n_samples, n_features) o lista de arrays
+        if isinstance(shap_values, list):
+            sv = np.array(shap_values[0]).flatten().tolist()
+        elif len(shap_values.shape) > 1:
+            sv = shap_values[0].tolist()
+        else:
+            sv = shap_values.tolist()
+
+        # expected_value puede ser array (multi-output) o escalar
+        ev = explainer.expected_value
+        if hasattr(ev, '__len__'):
+            ev = float(ev[0]) if len(ev) > 0 else 0.0
+        else:
+            ev = float(ev)
+
         result = {
             "features": feature_names,
-            "shap_values": shap_values[0].tolist() if len(shap_values.shape) > 1 else shap_values.tolist(),
-            "base_value": float(explainer.expected_value),
+            "shap_values": sv,
+            "base_value": ev,
             "prediction": float(modelo.predict(df)[0])
         }
 

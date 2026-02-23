@@ -141,7 +141,7 @@ async function renderShapLocal() {
       row.className = 'bar-row';
       const pct = (item.value / max * 100).toFixed(0);
       const direction = item.signed >= 0 ? '↑ Precio' : '↓ Precio';
-      const color = item.signed >= 0 ? 'linear-gradient(90deg, #10b981, #059669)' : 'linear-gradient(90deg, #7c2d12, #431407)';
+      const color = item.signed >= 0 ? 'linear-gradient(90deg, #00D4AA, #00A886)' : 'linear-gradient(90deg, #FF6B6B, #CC4444)';
       const desc = FEATURE_DESCRIPTIONS[item.key] || 'Explica cómo esta característica influye en el precio.';
 
       const labelWrap = document.createElement('div');
@@ -256,7 +256,7 @@ async function renderMap() {
   if (sample.barrio && sample.ciudad) {
     try {
       const q = encodeURIComponent(`${sample.barrio}, ${sample.ciudad}`);
-      const resp = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${q}`);
+      const resp = await fetch(`/api/geocode?q=${q}`);
       const data = await resp.json();
       if (Array.isArray(data) && data[0]?.lat && data[0]?.lon) {
         coords = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
@@ -268,8 +268,10 @@ async function renderMap() {
   }
 
   const map = L.map('map', { zoomControl: true }).setView(coords, zoom);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap'
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
   }).addTo(map);
   L.marker(coords).addTo(map).bindPopup(`${sample.barrio} · ${sample.ciudad}`).openPopup();
 }

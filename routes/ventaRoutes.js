@@ -5,10 +5,83 @@ const {
   readJsonPrefer, 
   projectRoot 
 } = require('../utils/dataLoader');
+const { spawnPython } = require('../utils/pythonRunner');
 
-// Formulario venta (placeholder por ahora)
-router.get('/form/venta', (req, res) => {
+// ================= Formulario venta =================
+router.get('/', (req, res) => {
   res.render('prediccion/prediccion_venta');
+});
+
+// ================= POST /predict  (montado en /venta → /venta/predict) =================
+router.post('/predict', async (req, res) => {
+  try {
+    const b = req.body;
+
+    const inputData = {
+      loc_city:          b.loc_city        || '',
+      loc_zone:          b.loc_zone        || '',
+      loc_district:      b.loc_district    || '',
+      loc_neigh:         b.loc_neigh       || '',
+      house_type:        b.house_type      || 'flat',
+      m2_useful:         parseFloat(b.m2_useful)  || 80,
+      m2_real:           parseFloat(b.m2_real)     || parseFloat(b.m2_useful) || 80,
+      room_num:          parseInt(b.room_num, 10)  || 2,
+      bath_num:          parseInt(b.bath_num, 10)  || 1,
+      floor:             parseInt(b.floor, 10)     || 1,
+      ground_size:       parseFloat(b.ground_size) || 0,
+      construct_date:    parseInt(b.construct_date, 10) || 2000,
+      condition:         b.condition          || 'good',
+      energetic_certif:  b.energetic_certif   || 'E',
+      heating:           b.heating            || 'individual',
+      kitchen:           b.kitchen            || 'equipped kitchen',
+      orientation:       b.orientation        || 'south',
+      garage:            b.garage      ? 1 : 0,
+      terrace:           b.terrace     ? 1 : 0,
+      garden:            b.garden      ? 1 : 0,
+      swimming_pool:     b.swimming_pool ? 1 : 0,
+      lift:              b.lift        ? 1 : 0,
+      balcony:           b.balcony     ? 1 : 0,
+      air_conditioner:   b.air_conditioner ? 1 : 0,
+      built_in_wardrobe: b.built_in_wardrobe ? 1 : 0,
+      chimney:           b.chimney     ? 1 : 0,
+      storage_room:      b.storage_room ? 1 : 0,
+      reduced_mobility:  b.reduced_mobility ? 1 : 0,
+      unfurnished:       b.unfurnished ? 1 : 0
+    };
+
+    const scriptPath = path.join(projectRoot, 'python_scripts', 'predict_venta.py');
+    const inputJson  = JSON.stringify(inputData);
+
+    const result = await new Promise((resolve, reject) => {
+      const proc = spawnPython(scriptPath, [], { INPUT_JSON: inputJson });
+      let stdout = '', stderr = '';
+      proc.stdout.on('data', d => { stdout += d.toString(); });
+      proc.stderr.on('data', d => { stderr += d.toString(); });
+      proc.on('close', code => {
+        if (code !== 0) return reject(new Error(`Python exit ${code}: ${stderr}`));
+        try { resolve(JSON.parse(stdout)); }
+        catch (e) { reject(new Error(`JSON parse error: ${stdout}`)); }
+      });
+    });
+
+    return res.render('prediccion/venta_predict_result', {
+      sample: {
+        price:   result.price,
+        currency: result.currency || '€',
+        modelo:  result.model || 'LightGBM',
+        input:   inputData,
+        input_summary: result.input_summary || {}
+      },
+      error: null
+    });
+
+  } catch (err) {
+    console.error('Error predicción venta:', err);
+    return res.render('prediccion/venta_predict_result', {
+      sample: null,
+      error: err.message || 'Error desconocido en la predicción.'
+    });
+  }
 });
 
 // ================= SHAP Global (Ventas) =================

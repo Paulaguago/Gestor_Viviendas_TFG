@@ -1,34 +1,34 @@
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
     * { box-sizing: border-box; }
     body { 
       margin: 0; 
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-      background: linear-gradient(135deg, #e5e7eb 0%, #f3f4f6 50%, #e5e7eb 100%);
-      color: #111827; 
+      font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+      background: #0F1117;
+      color: #fff; 
       min-height: 100vh;
       padding: 2rem 1rem;
     }
     .shell { 
       max-width: 68.75rem; 
       margin: 0 auto; 
-      background: #ffffff; 
-      border-radius: 1.5rem; 
+      background: #1E2130; 
+      border: 1px solid #353950;
+      border-radius: 1.25rem; 
       padding: 3rem 3rem 2.5rem; 
-      box-shadow: 0 1.25rem 2.5rem -0.625rem rgba(0, 0, 0, 0.15), 0 0 0 0.0625rem rgba(0,0,0,0.05);
-      -webkit-backdrop-filter: blur(0.625rem);
-      backdrop-filter: blur(0.625rem);
+      box-shadow: 0 8px 32px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.04) inset;
     }
     h1 { 
       margin: 0 0 0.75rem; 
       letter-spacing: -0.03125rem; 
       font-size: 2rem;
       font-weight: 800;
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      background: linear-gradient(135deg, #6C63FF 0%, #00D4AA 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
     h1 i {
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      background: linear-gradient(135deg, #6C63FF 0%, #00D4AA 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -36,7 +36,7 @@
     }
     p.lead { 
       margin: 0 0 2rem; 
-      color: #6b7280; 
+      color: #8B8FA8; 
       font-size: 1rem;
       line-height: 1.6;
     }
@@ -71,68 +71,68 @@
     }
     label { 
       font-weight: 600; 
-      color: #374151; 
+      color: #c5c8d6; 
       font-size: 0.9375rem;
       display: flex;
       align-items: center;
       gap: 0.375rem;
     }
     label i {
-      color: #6366f1;
+      color: #6C63FF;
       font-size: 1.125rem;
     }
     input, select, .amenity-search { 
-      border: 2px solid #e5e7eb; 
+      border: 1px solid #353950; 
       border-radius: 0.75rem; 
       padding: 0.875rem 1rem; 
       font-size: 0.9375rem; 
-      background: #ffffff; 
+      background: #161822; 
+      color: #fff;
       transition: all 0.2s ease;
       font-family: inherit;
       cursor: pointer;
     }
+    input::placeholder { color: #5a5e73; }
     select {
       appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236366f1' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236C63FF' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 1rem center;
       background-size: 1rem;
       padding-right: 2.5rem;
       font-weight: 500;
     }
-    /* Estilos para las opciones del select (limitado por navegador) */
     select option {
       padding: 1rem;
-      background: #ffffff;
-      color: #1f2937;
+      background: #161822;
+      color: #fff;
       font-size: 0.9375rem;
       line-height: 1.75;
       font-weight: 400;
     }
     select option:disabled {
-      color: #9ca3af;
+      color: #5a5e73;
       font-style: italic;
     }
-    /* Mejora visual en Firefox */
     @-moz-document url-prefix() {
       select option:checked {
-        background: #6366f1 !important;
+        background: #6C63FF !important;
         color: white !important;
       }
       select option:hover {
-        background: #eff6ff !important;
+        background: #2E3248 !important;
       }
     }
     input:hover, select:hover, .amenity-search:hover {
-      border-color: #d1d5db;
+      border-color: #454968;
       transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
     input:focus, select:focus, .amenity-search:focus { 
       outline: none; 
-      border-color: #6366f1; 
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1), 0 1px 3px rgba(0,0,0,0.1);
-      background: #ffffff;
+      border-color: #6C63FF; 
+      box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15), 0 1px 3px rgba(0,0,0,0.3);
+      background: #1a1d2a;
       transform: translateY(0);
     }
     .stack { 
@@ -142,16 +142,16 @@
       gap: 1rem; 
       align-items: center; 
       padding: 1.5rem; 
-      border: 2px solid #ddd6fe; 
+      border: 1px solid rgba(108,99,255,.25); 
       border-radius: 1rem; 
-      background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+      background: rgba(108,99,255,.06);
     }
     .stack strong {
       font-size: 0.9375rem;
-      color: #1f2937;
+      color: #c5c8d6;
     }
     .stack strong i {
-      color: #8b5cf6;
+      color: #6C63FF;
       margin-right: 0.25rem;
     }
     .radio { 
@@ -160,16 +160,17 @@
       gap: 0.625rem; 
       padding: 0.75rem 1.25rem; 
       border-radius: 0.75rem; 
-      border: 2px solid #e5e7eb; 
-      background: #fff; 
+      border: 1px solid #353950; 
+      background: #161822; 
       cursor: pointer;
       transition: all 0.2s ease;
       -webkit-user-select: none;
       user-select: none;
+      color: #c5c8d6;
     }
     .radio:hover {
-      border-color: #8b5cf6;
-      box-shadow: 0 2px 8px rgba(139, 92, 246, 0.15);
+      border-color: #6C63FF;
+      box-shadow: 0 2px 8px rgba(108, 99, 255, 0.15);
       transform: translateY(-1px);
     }
     .radio input[type="radio"] {
@@ -177,12 +178,13 @@
       height: 1.125rem;
       margin: 0;
       cursor: pointer;
-      accent-color: #8b5cf6;
+      accent-color: #6C63FF;
     }
     .radio:has(input:checked) {
-      border-color: #8b5cf6;
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(167, 139, 250, 0.05) 100%);
-      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+      border-color: #6C63FF;
+      background: rgba(108,99,255,.1);
+      box-shadow: 0 4px 12px rgba(108, 99, 255, 0.2);
+      color: #fff;
     }
     .actions { 
       grid-column: 1 / -1; 
@@ -205,49 +207,50 @@
       letter-spacing: 0.2px;
     }
     .btn.primary { 
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      background: linear-gradient(135deg, #6C63FF 0%, #8B5CF6 100%);
       color: #fff; 
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+      box-shadow: 0 4px 15px rgba(108, 99, 255, 0.4);
     }
     .btn.primary i {
       margin-right: 0.5rem;
     }
     .btn.primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+      box-shadow: 0 6px 20px rgba(108, 99, 255, 0.5);
     }
     .btn.primary:active {
       transform: translateY(0);
     }
     .btn.secondary { 
-      background: #f3f4f6; 
-      color: #374151;
-      border: 2px solid #e5e7eb;
+      background: #2E3248; 
+      color: #c5c8d6;
+      border: 1px solid #353950;
     }
     .btn.secondary:hover {
-      background: #e5e7eb;
-      border-color: #d1d5db;
+      background: #353950;
+      border-color: #454968;
+      color: #fff;
     }
     small.hint { 
-      color: #9ca3af; 
+      color: #5a5e73; 
       font-size: 0.8125rem;
       margin-top: -0.25rem;
     }
     .amenities-box { 
       grid-column: 1 / -1; 
-      border: 2px solid #bfdbfe; 
+      border: 1px solid rgba(108,99,255,.25); 
       border-radius: 1rem; 
       padding: 1.5rem; 
-      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      background: rgba(108,99,255,.04);
     }
     .amenities-box > label {
       font-size: 1rem;
       margin-bottom: 1rem;
       display: block;
-      color: #1f2937;
+      color: #c5c8d6;
     }
     .amenities-box > label i {
-      color: #1a2332;
+      color: #6C63FF;
       margin-right: 0.25rem;
     }
     .amenities-box .amenity-search {
@@ -262,21 +265,21 @@
       overflow-y: auto; 
       padding-right: 0.5rem;
       scrollbar-width: thin;
-      scrollbar-color: #d1d5db #f3f4f6;
+      scrollbar-color: #353950 #161822;
     }
     .amenities-grid::-webkit-scrollbar {
       width: 8px;
     }
     .amenities-grid::-webkit-scrollbar-track {
-      background: #f3f4f6;
+      background: #161822;
       border-radius: 4px;
     }
     .amenities-grid::-webkit-scrollbar-thumb {
-      background: #d1d5db;
+      background: #353950;
       border-radius: 4px;
     }
     .amenities-grid::-webkit-scrollbar-thumb:hover {
-      background: #9ca3af;
+      background: #454968;
     }
     .amenity-item { 
       display: flex; 
@@ -287,16 +290,17 @@
       border-radius: 0.5rem;
       transition: background 0.15s ease;
       cursor: pointer;
+      color: #c5c8d6;
     }
     .amenity-item:hover {
-      background: rgba(59, 130, 246, 0.08);
+      background: rgba(108,99,255,.08);
     }
     .amenity-item input { 
       margin-top: 0.25rem;
       width: 1rem;
       height: 1rem;
       cursor: pointer;
-      accent-color: #1a2332;
+      accent-color: #6C63FF;
     }
     .amenity-group { 
       margin-bottom: 1rem; 
@@ -304,7 +308,7 @@
     .amenity-group h4 { 
       margin: 0 0 0.625rem; 
       font-size: 0.875rem; 
-      color: #1a2332;
+      color: #A99FF5;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -312,7 +316,7 @@
     .overlay { 
       position: fixed; 
       inset: 0; 
-      background: rgba(255, 255, 255, 0.95); 
+      background: rgba(15, 17, 23, 0.95); 
       -webkit-backdrop-filter: blur(8px);
       backdrop-filter: blur(8px);
       display: none; 
@@ -326,15 +330,15 @@
     .spinner { 
       width: 48px; 
       height: 48px; 
-      border: 4px solid #e5e7eb; 
-      border-top-color: #6366f1; 
+      border: 4px solid #353950; 
+      border-top-color: #6C63FF; 
       border-radius: 50%; 
       animation: spin 0.8s linear infinite; 
     }
     @keyframes spin { to { transform: rotate(360deg); } }
     .overlay-text { 
       font-weight: 700; 
-      color: #1f2937;
+      color: #fff;
       font-size: 1.125rem;
     }
     

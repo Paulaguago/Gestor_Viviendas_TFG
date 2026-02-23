@@ -243,7 +243,7 @@ def main():
         _CACHE_LOADED = True
 
         # Cargar opciones del modelo (incluye barrios por ciudad)
-        options_path = os.path.join(os.path.dirname(__file__), 'model', 'model_options.json')
+        options_path = os.path.join(PROJECT_ROOT, 'modelos_predictivos', 'alquiler', 'data', 'model_options.json')
         barrios_por_ciudad = {}
         try:
             with open(options_path, 'r', encoding='utf-8') as f:
@@ -278,7 +278,7 @@ def main():
         day_of_week = 0
         quarter = 2
 
-        # Intentar cargar estadísticas por barrio (mean, median, std, count, avg_rating, avg_reviews) desde model/barrio_stats.json
+        # Intentar cargar estadísticas por barrio desde el archivo real (estructura: { ciudad: { barrio: {...} } })
         barrio_mean_price = 0
         barrio_median_price = 0
         barrio_std_price = 0
@@ -286,22 +286,45 @@ def main():
         barrio_avg_rating = 4.8
         barrio_avg_reviews = 50
         try:
-            stats_path = os.path.join(os.path.dirname(__file__), 'model', 'barrio_stats.json')
+            stats_path = os.path.join(PROJECT_ROOT, 'modelos_predictivos', 'alquiler', 'data', 'estadisticas_barrio.json')
             if os.path.exists(stats_path):
                 with open(stats_path, 'r', encoding='utf-8') as f:
                     barrio_stats = json.load(f)
-                # Buscar por nombre exacto o en minúsculas
-                stats = barrio_stats.get(barrio) or barrio_stats.get(barrio.lower())
-                if isinstance(stats, dict):
-                    barrio_mean_price = stats.get('mean', 0)
-                    barrio_median_price = stats.get('median', 0)
-                    barrio_std_price = stats.get('std', 0)
-                    barrio_count = stats.get('count', 0)
-                    barrio_avg_rating = stats.get('avg_rating', 4.8)
-                    barrio_avg_reviews = stats.get('avg_reviews', 50)
-        except Exception:
-            # Fallback: mantener valores por defecto si no hay datos disponibles
-            pass
+                # Buscar por ciudad y luego por barrio (normalizado)
+                city_data = barrio_stats.get(origen) or barrio_stats.get(origen.lower())
+                if not city_data:
+                    # Intentar sin acentos
+                    import unicodedata
+                    def _norm(s):
+                        return unicodedata.normalize('NFD', s.lower()).encode('ascii','ignore').decode()
+                    norm_origen = _norm(origen)
+                    for k, v in barrio_stats.items():
+                        if _norm(k) == norm_origen:
+                            city_data = v
+                            break
+                if city_data and isinstance(city_data, dict):
+                    stats = city_data.get(barrio)
+                    if not stats:
+                        # Intentar buscar sin acentos
+                        norm_barrio = _norm(barrio) if '_norm' in dir() else barrio.lower()
+                        for k, v in city_data.items():
+                            if (_norm(k) if '_norm' in dir() else k.lower()) == norm_barrio:
+                                stats = v
+                                break
+                    if isinstance(stats, dict):
+                        barrio_mean_price = stats.get('mean_price', 0)
+                        barrio_median_price = stats.get('median_price', 0)
+                        barrio_std_price = stats.get('std_price', stats.get('max_price', 0) - stats.get('min_price', 0))
+                        barrio_count = stats.get('count', 0)
+                        barrio_avg_rating = stats.get('avg_rating', 4.8)
+                        barrio_avg_reviews = stats.get('avg_reviews', 50)
+                        print(f"[DEBUG] Barrio stats from file: mean={barrio_mean_price}, median={barrio_median_price}, count={barrio_count}", file=sys.stderr)
+                    else:
+                        print(f"[WARN] Barrio '{barrio}' not found in stats for city '{origen}'", file=sys.stderr)
+                else:
+                    print(f"[WARN] City '{origen}' not found in barrio stats", file=sys.stderr)
+        except Exception as e:
+            print(f"[WARN] Error loading barrio stats: {e}", file=sys.stderr)
 
         # Si el usuario proporcionó valores avanzados, sobrescribir las estadísticas
         try:

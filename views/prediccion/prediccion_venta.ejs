@@ -3,14 +3,254 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Predicción de Venta (Próximamente)</title>
-  <link rel="stylesheet" href="/css/prediccion/prediccion_venta.css">
+  <title>Predicción de Precio de Venta</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/prediccion/prediccion_alquiler.css">
+  <style>
+    h1 {
+      background: linear-gradient(135deg, #00D4AA 0%, #00B894 100%) !important;
+      -webkit-background-clip: text !important;
+      background-clip: text !important;
+    }
+    h1 i {
+      background: linear-gradient(135deg, #00D4AA 0%, #00B894 100%) !important;
+      -webkit-background-clip: text !important;
+      background-clip: text !important;
+    }
+    .btn.primary {
+      background: linear-gradient(135deg, #00D4AA 0%, #00B894 100%) !important;
+      box-shadow: 0 4px 15px rgba(0, 212, 170, 0.35) !important;
+    }
+    .btn.primary:hover {
+      box-shadow: 0 6px 20px rgba(0, 212, 170, 0.45) !important;
+    }
+    .section-title {
+      grid-column: 1 / -1;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #c5c8d6;
+      margin: 0.5rem 0 -0.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #353950;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-title i {
+      color: #00D4AA;
+    }
+    .checkbox-grid {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.75rem;
+    }
+    .checkbox-grid label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+      color: #c5c8d6;
+      cursor: pointer;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      border: 1px solid #353950;
+      transition: all 0.15s;
+      background: #161822;
+    }
+    .checkbox-grid label:hover {
+      background: #2E3248;
+      border-color: #454968;
+    }
+    .checkbox-grid input[type="checkbox"] {
+      accent-color: #00D4AA;
+    }
+    .checkbox-grid input[type="checkbox"]:checked + span {
+      font-weight: 600;
+      color: #00D4AA;
+    }
+  </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Predicción de venta</h1>
-    <p>Estamos preparando el formulario de venta. Pronto podrás elegir el nivel de detalle y generar explicaciones.</p>
-    <a class="btn" href="/opciones-prediccion">Volver</a>
+  <div class="shell">
+    <h1><i class="bi bi-house-door"></i> Predicción de precio de venta</h1>
+    <p class="lead">Introduce los datos de la vivienda para obtener una estimación del precio de venta basada en nuestro modelo LightGBM.</p>
+
+    <form method="post" action="/venta/predict" id="ventaForm">
+
+      <!-- Ubicación -->
+      <div class="section-title"><i class="bi bi-geo-alt"></i> Ubicación</div>
+
+      <div class="field">
+        <label for="loc_city"><i class="bi bi-building"></i> Ciudad / Provincia *</label>
+        <input id="loc_city" name="loc_city" type="text" required placeholder="Ej: Madrid, Barcelona, Valencia…" list="ciudadesList">
+        <datalist id="ciudadesList">
+          <option value="Madrid"><option value="Barcelona"><option value="Valencia">
+          <option value="Sevilla"><option value="Málaga"><option value="Bilbao">
+          <option value="Zaragoza"><option value="Alicante"><option value="Murcia">
+          <option value="Palma"><option value="Las Palmas"><option value="Tenerife">
+          <option value="A Coruña"><option value="Granada"><option value="San Sebastián">
+          <option value="Pamplona"><option value="Vitoria"><option value="Cádiz">
+          <option value="Córdoba"><option value="Santander"><option value="Oviedo">
+          <option value="Tarragona"><option value="Girona"><option value="Valladolid">
+          <option value="Toledo"><option value="Vigo"><option value="Salamanca">
+        </datalist>
+      </div>
+
+      <div class="field">
+        <label for="loc_zone"><i class="bi bi-pin-map"></i> Zona</label>
+        <input id="loc_zone" name="loc_zone" type="text" placeholder="Ej: Centro, Norte, Ensanche…">
+      </div>
+
+      <div class="field">
+        <label for="loc_district"><i class="bi bi-signpost-2"></i> Distrito</label>
+        <input id="loc_district" name="loc_district" type="text" placeholder="Ej: Chamberí, Eixample…">
+      </div>
+
+      <div class="field">
+        <label for="loc_neigh"><i class="bi bi-houses"></i> Barrio</label>
+        <input id="loc_neigh" name="loc_neigh" type="text" placeholder="Ej: Malasaña, Gracia…">
+      </div>
+
+      <!-- Características principales -->
+      <div class="section-title"><i class="bi bi-rulers"></i> Características de la vivienda</div>
+
+      <div class="field">
+        <label for="house_type"><i class="bi bi-house"></i> Tipo de vivienda *</label>
+        <select id="house_type" name="house_type" required>
+          <option value="flat">Piso / Apartamento</option>
+          <option value="penthouse">Ático</option>
+          <option value="duplex">Dúplex</option>
+          <option value="studio">Estudio</option>
+          <option value="house">Casa / Chalet</option>
+          <option value="country house">Casa rural</option>
+          <option value="ground floor">Bajo</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="m2_useful"><i class="bi bi-arrows-fullscreen"></i> m² útiles *</label>
+        <input id="m2_useful" name="m2_useful" type="number" min="10" step="1" required placeholder="80">
+      </div>
+
+      <div class="field">
+        <label for="m2_real"><i class="bi bi-bounding-box"></i> m² construidos</label>
+        <input id="m2_real" name="m2_real" type="number" min="10" step="1" placeholder="90">
+      </div>
+
+      <div class="field">
+        <label for="room_num"><i class="bi bi-door-closed"></i> Habitaciones *</label>
+        <input id="room_num" name="room_num" type="number" min="0" required placeholder="3">
+      </div>
+
+      <div class="field">
+        <label for="bath_num"><i class="bi bi-droplet"></i> Baños *</label>
+        <input id="bath_num" name="bath_num" type="number" min="1" step="1" required placeholder="1">
+      </div>
+
+      <div class="field">
+        <label for="floor"><i class="bi bi-layers"></i> Planta</label>
+        <input id="floor" name="floor" type="number" min="0" placeholder="2">
+      </div>
+
+      <div class="field">
+        <label for="ground_size"><i class="bi bi-textarea-resize"></i> Tamaño parcela (m²)</label>
+        <input id="ground_size" name="ground_size" type="number" min="0" step="1" placeholder="0">
+      </div>
+
+      <div class="field">
+        <label for="construct_date"><i class="bi bi-calendar3"></i> Año de construcción</label>
+        <input id="construct_date" name="construct_date" type="number" min="1800" max="2026" placeholder="2000">
+      </div>
+
+      <!-- Estado y certificaciones -->
+      <div class="section-title"><i class="bi bi-clipboard-check"></i> Estado y certificaciones</div>
+
+      <div class="field">
+        <label for="condition"><i class="bi bi-tools"></i> Estado</label>
+        <select id="condition" name="condition">
+          <option value="good">Buen estado</option>
+          <option value="new development">Obra nueva</option>
+          <option value="needs renovation">Necesita reforma</option>
+          <option value="recently renovated">Reformado recientemente</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="energetic_certif"><i class="bi bi-lightning-charge"></i> Certificación energética</label>
+        <select id="energetic_certif" name="energetic_certif">
+          <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+          <option value="D">D</option><option value="E" selected>E</option><option value="F">F</option>
+          <option value="G">G</option><option value="exempt">Exento</option><option value="in process">En trámite</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="heating"><i class="bi bi-thermometer-half"></i> Calefacción</label>
+        <select id="heating" name="heating">
+          <option value="individual">Individual</option>
+          <option value="central">Central</option>
+          <option value="electric">Eléctrica</option>
+          <option value="no heating">Sin calefacción</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="kitchen"><i class="bi bi-cup-straw"></i> Cocina</label>
+        <select id="kitchen" name="kitchen">
+          <option value="equipped kitchen">Equipada</option>
+          <option value="furnished kitchen">Amueblada</option>
+          <option value="not equipped">Sin equipar</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="orientation"><i class="bi bi-compass"></i> Orientación</label>
+        <select id="orientation" name="orientation">
+          <option value="south">Sur</option><option value="east">Este</option>
+          <option value="west">Oeste</option><option value="north">Norte</option>
+          <option value="southeast">Sureste</option><option value="southwest">Suroeste</option>
+          <option value="northeast">Noreste</option><option value="northwest">Noroeste</option>
+        </select>
+      </div>
+
+      <!-- Servicios y extras -->
+      <div class="section-title"><i class="bi bi-stars"></i> Servicios y extras</div>
+
+      <div class="checkbox-grid">
+        <label><input type="checkbox" name="garage" value="1"><span><i class="bi bi-car-front"></i> Garaje</span></label>
+        <label><input type="checkbox" name="terrace" value="1"><span><i class="bi bi-brightness-high"></i> Terraza</span></label>
+        <label><input type="checkbox" name="garden" value="1"><span><i class="bi bi-tree"></i> Jardín</span></label>
+        <label><input type="checkbox" name="swimming_pool" value="1"><span><i class="bi bi-water"></i> Piscina</span></label>
+        <label><input type="checkbox" name="lift" value="1"><span><i class="bi bi-arrow-up-square"></i> Ascensor</span></label>
+        <label><input type="checkbox" name="balcony" value="1"><span><i class="bi bi-columns-gap"></i> Balcón</span></label>
+        <label><input type="checkbox" name="air_conditioner" value="1"><span><i class="bi bi-snow"></i> Aire acondicionado</span></label>
+        <label><input type="checkbox" name="built_in_wardrobe" value="1"><span><i class="bi bi-box-seam"></i> Armarios empotrados</span></label>
+        <label><input type="checkbox" name="chimney" value="1"><span><i class="bi bi-fire"></i> Chimenea</span></label>
+        <label><input type="checkbox" name="storage_room" value="1"><span><i class="bi bi-archive"></i> Trastero</span></label>
+        <label><input type="checkbox" name="reduced_mobility" value="1"><span><i class="bi bi-person-wheelchair"></i> Accesible</span></label>
+        <label><input type="checkbox" name="unfurnished" value="1"><span><i class="bi bi-dash-circle"></i> Sin amueblar</span></label>
+      </div>
+
+      <!-- Acciones -->
+      <div class="actions" style="grid-column: 1 / -1; display: flex; gap: 1rem; margin-top: 1rem;">
+        <button class="btn primary" type="submit"><i class="bi bi-play-circle"></i> Predecir precio de venta</button>
+        <a class="btn secondary" href="/opciones-prediccion">Volver</a>
+      </div>
+    </form>
   </div>
+
+  <%- include('../partials/spinner') %>
+
+  <script>
+    const formEl = document.querySelector('form');
+    if (formEl) {
+      formEl.addEventListener('submit', () => {
+        if (typeof showSpinner === 'function') {
+          showSpinner('Estamos prediciendo tu precio óptimo', 'Esto podría tardar unos segundos', 'fa-calculator');
+        }
+      });
+    }
+  </script>
 </body>
 </html>

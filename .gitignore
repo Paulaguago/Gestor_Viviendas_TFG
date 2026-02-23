@@ -440,5 +440,4 @@ venv/
 .env.*
 
 *.csv
-modelos_predictivos/alquiler/RF/*.pkl
 

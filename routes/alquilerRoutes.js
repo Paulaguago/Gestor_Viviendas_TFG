@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const fs = require('fs');
-const { spawn } = require('child_process');
 const { 
   readJsonPrefer, 
   options, 
@@ -14,14 +12,15 @@ const {
   RENTAL_MODEL_PATHS, 
   projectRoot 
 } = require('../utils/dataLoader');
+const { spawnPython } = require('../utils/pythonRunner');
 
-// Formulario alquiler (selector de modelo camuflado)
-router.get('/form/alquiler', (req, res) => {
+// Formulario alquiler
+router.get('/', (req, res) => {
   res.render('prediccion/prediccion_alquiler', { options, amenitiesConjunto });
 });
 
 // Resultado demo de alquiler (muestra flujo; en producción se usará /predict)
-router.get('/alquiler/demo-resultado', (req, res) => {
+router.get('/demo-resultado', (req, res) => {
   const sample = {
     price: 120,
     currency: '€',
@@ -42,7 +41,7 @@ router.get('/alquiler/demo-resultado', (req, res) => {
 });
 
 // Predicción real de alquiler (usa predict.py y selecciona modelo por modo)
-router.post('/predict/alquiler', (req, res) => {
+router.post('/predict', (req, res) => {
   const {
     origen,
     barrio,
@@ -80,12 +79,17 @@ router.post('/predict/alquiler', (req, res) => {
     });
   }
 
-  const barrio_mean = req.body.barrio_mean_price || 160;
-  const barrio_median = req.body.barrio_median_price || 150;
-  const barrio_std = req.body.barrio_std_price || 35;
-  const barrio_count = 100;
-  const barrio_avg_rating = 4.8;
-  const barrio_avg_reviews = 50;
+  // Look up REAL barrio stats from estadisticasBarrio (loaded by dataLoader)
+  const _cityKey = findCityKeyBarrio(estadisticasBarrio, origen);
+  const _barrioKey = _cityKey ? findBarrioKeyBarrio(estadisticasBarrio[_cityKey], barrio) : null;
+  const _realStats = (_cityKey && _barrioKey) ? estadisticasBarrio[_cityKey][_barrioKey] : null;
+
+  const barrio_mean = _realStats ? _realStats.mean_price : (req.body.barrio_mean_price || 160);
+  const barrio_median = _realStats ? _realStats.median_price : (req.body.barrio_median_price || 150);
+  const barrio_std = _realStats ? (_realStats.max_price - _realStats.min_price) : (req.body.barrio_std_price || 35);
+  const barrio_count = _realStats ? (_realStats.count || 100) : 100;
+  const barrio_avg_rating = _realStats ? (_realStats.avg_rating || 4.8) : 4.8;
+  const barrio_avg_reviews = _realStats ? (_realStats.avg_reviews || 50) : 50;
   const fechaContext = computeFechaContext(origen, stay_date || '');
 
   // Calcular features derivadas para SHAP local
@@ -143,7 +147,6 @@ router.post('/predict/alquiler', (req, res) => {
   const barriosValidos = barriosObj[origen] || [];
   const neigh_grouped = barriosValidos.includes(barrio) ? barrio : 'Other';
 
-  const condaPath = 'C:\\Users\\Paula\\anaconda3\\Scripts\\conda.exe';
   const scriptPath = path.join(projectRoot, 'python_scripts', 'predict.py');
   const argsBase = [
     origen,
@@ -167,18 +170,7 @@ router.post('/predict/alquiler', (req, res) => {
     amenities_text || ''
   ];
 
-  const env = { ...process.env, MODEL_OVERRIDE_PATH: modelPath };
-  let pythonCmd;
-  let pythonArgs;
-  if (fs.existsSync(condaPath)) {
-    pythonCmd = condaPath;
-    pythonArgs = ['run', '-n', 'base', 'python', scriptPath].concat(argsBase);
-  } else {
-    pythonCmd = 'python';
-    pythonArgs = [scriptPath].concat(argsBase);
-  }
-
-  const python = spawn(pythonCmd, pythonArgs, { env });
+  const python = spawnPython(scriptPath, argsBase.map(String), { MODEL_OVERRIDE_PATH: modelPath });
   let result = '';
   let error = '';
 
@@ -258,32 +250,17 @@ router.post('/predict/alquiler', (req, res) => {
 });
 
 // POST /alquiler/shap-local -> calcular SHAP local para una predicción específica
-router.post('/alquiler/shap-local', (req, res) => {
+router.post('/shap-local', (req, res) => {
   try {
     const modelPath = req.body.modelPath || RENTAL_MODEL_PATHS.rapida;
     const inputData = req.body.input || {};
     
-    const condaPath = 'C:\\Users\\Paula\\anaconda3\\Scripts\\conda.exe';
-    const pythonExe = 'C:\\Users\\Paula\\anaconda3\\python.exe';
     const scriptPath = path.join(projectRoot, 'python_scripts', 'shap_local_rental.py');
     
     const inputJson = JSON.stringify(inputData);
-    const args = [modelPath]; // JSON via env para evitar problemas de parseo en CLI
+    const args = [modelPath];
     
-    let pythonCmd;
-    let pythonArgs;
-    if (fs.existsSync(pythonExe)) {
-      pythonCmd = pythonExe;
-      pythonArgs = [scriptPath].concat(args);
-    } else if (fs.existsSync(condaPath)) {
-      pythonCmd = condaPath;
-      pythonArgs = ['run', '-n', 'base', 'python', scriptPath].concat(args);
-    } else {
-      pythonCmd = 'python';
-      pythonArgs = [scriptPath].concat(args);
-    }
-    
-    const python = spawn(pythonCmd, pythonArgs, { env: { ...process.env, INPUT_JSON: inputJson } });
+    const python = spawnPython(scriptPath, args, { INPUT_JSON: inputJson });
     let output = '';
     let error = '';
     
@@ -327,7 +304,7 @@ router.get('/rental/shap-global', (req, res) => {
 });
 
 // Alias en español
-router.get('/alquiler/explicacion-global', (req, res) => {
+router.get('/explicacion-global', (req, res) => {
   const data = readJsonPrefer([
     path.join(projectRoot, 'modelos_predictivos', 'alquiler', 'RF', 'shap_global_importance_rental.json'),
     path.join(projectRoot, 'model', 'rental', 'shap_global_importance_rental.json')
@@ -376,17 +353,20 @@ router.post('/predict', (req, res) => {
     });
   }
 
-  // Asegurar que siempre haya valores para estadísticas de barrio (OBLIGATORIOS para el modelo)
-  const barrio_mean = req.body.barrio_mean_price || 160;
-  const barrio_median = req.body.barrio_median_price || 150;
-  const barrio_std = req.body.barrio_std_price || 35;
+  // Asegurar que siempre haya valores reales para estadísticas de barrio
+  const _lCityKey = findCityKeyBarrio(estadisticasBarrio, origen);
+  const _lBarrioKey = _lCityKey ? findBarrioKeyBarrio(estadisticasBarrio[_lCityKey], barrio) : null;
+  const _lStats = (_lCityKey && _lBarrioKey) ? estadisticasBarrio[_lCityKey][_lBarrioKey] : null;
+
+  const barrio_mean = _lStats ? _lStats.mean_price : (req.body.barrio_mean_price || 160);
+  const barrio_median = _lStats ? _lStats.median_price : (req.body.barrio_median_price || 150);
+  const barrio_std = _lStats ? (_lStats.max_price - _lStats.min_price) : (req.body.barrio_std_price || 35);
   const stay_date = req.body.stay_date || '';
 
   // Contexto de fecha (festivo/puente/temporada/evento)
   const fechaContext = computeFechaContext(origen, stay_date);
 
-  // Ejecutar el script Python: preferir conda (entorno que contiene sklearn 1.6.1) si existe, si no usar python del sistema
-  const condaPath = 'C:\\Users\\Paula\\anaconda3\\Scripts\\conda.exe';
+  // Ejecutar el script Python de forma portable
   const scriptPath = path.join(projectRoot, 'python_scripts', 'predict.py');
   const argsBase = [
     origen,
@@ -410,19 +390,7 @@ router.post('/predict', (req, res) => {
     amenities_text || ''
   ];
 
-  let pythonCmd;
-  let pythonArgs;
-  if (fs.existsSync(condaPath)) {
-    // Usar: conda run -n base python predict.py <args...>
-    pythonCmd = condaPath;
-    pythonArgs = ['run', '-n', 'base', 'python', scriptPath].concat(argsBase);
-  } else {
-    pythonCmd = 'python';
-    pythonArgs = [scriptPath].concat(argsBase);
-  }
-
-  // Spawn del proceso Python
-  const python = spawn(pythonCmd, pythonArgs);
+  const python = spawnPython(scriptPath, argsBase.map(String));
 
   let result = '';
   let error = '';
