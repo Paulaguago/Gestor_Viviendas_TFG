@@ -85,13 +85,6 @@ router.post('/perfil/cambiar-password', requireAuth, async (req, res) => {
 });
 
 // ================= RUTAS UI DE NAVEGACIÓN =================
-// Landing de selección de dominio (alquiler/venta)
-router.get('/opciones-prediccion', requireAuth, (req, res) => {
-  res.render('prediccion/opciones-prediccion', {
-    title: 'Opciones de Predicción',
-    user: req.user
-  });
-});
 
 // Redirecciones de retrocompatibilidad
 router.get('/form/alquiler', requireAuth, (req, res) => res.redirect('/alquiler'));

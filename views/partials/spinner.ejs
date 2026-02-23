@@ -101,4 +101,9 @@ window.withSpinner = async function(message, subMessage, icon, asyncFunction) {
         hideSpinner();
     }
 };
+
+// Al volver atrás (bfcache), ocultar el spinner que quedó visible
+window.addEventListener('pageshow', function(event) {
+    hideSpinner();
+});
 </script>

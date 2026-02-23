@@ -16,7 +16,7 @@ const { spawnPython } = require('../utils/pythonRunner');
 
 // Formulario alquiler
 router.get('/', (req, res) => {
-  res.render('prediccion/prediccion_alquiler', { options, amenitiesConjunto });
+  res.render('prediccion/prediccion_alquiler', { options, amenitiesConjunto, user: req.user });
 });
 
 // Resultado demo de alquiler (muestra flujo; en producción se usará /predict)

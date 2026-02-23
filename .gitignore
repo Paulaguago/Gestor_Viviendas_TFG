@@ -436,6 +436,7 @@ FodyWeavers.xsd
 # Entornos virtuales adicionales
 # =========================
 venv/
+.venv/
 .env
 .env.*
 

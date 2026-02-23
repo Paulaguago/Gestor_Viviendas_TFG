@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="/css/prediccion/alquiler_predict_result_rf.css">
   <link rel="stylesheet" href="/css/navbar.css">
   <style>
-    /* ── Venta overrides (dark) ─────────────────────── */
+    /* ── Venta overrides (light) ─────────────────────── */
     .detail-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -23,24 +23,24 @@
       align-items: center;
       gap: 8px;
       padding: 10px 14px;
-      background: #161822;
+      background: #f8fafc;
       border-radius: 10px;
-      border: 1px solid #2E3248;
+      border: 1px solid #e2e8f0;
       font-size: 14px;
-      color: #c5c8d6;
+      color: #374151;
     }
     .detail-item i { color: #6C63FF; font-size: 16px; min-width: 18px; }
-    .detail-item .lbl { color: #8B8FA8; margin-right: 4px; }
+    .detail-item .lbl { color: #64748b; margin-right: 4px; }
     .amenity-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
     .amenity-pill {
       display: inline-flex; align-items: center; gap: 4px;
       padding: 5px 12px; border-radius: 20px; font-size: 13px; font-weight: 600;
-      background: rgba(0,212,170,.1); color: #00D4AA; border: 1px solid rgba(0,212,170,.3);
+      background: rgba(0,184,148,.1); color: #00b894; border: 1px solid rgba(0,184,148,.3);
     }
     .section-divider {
       margin: 24px 0 16px; padding-bottom: 8px;
-      border-bottom: 2px solid #353950;
-      font-size: .75rem; font-weight: 700; color: #8B8FA8;
+      border-bottom: 2px solid #e2e8f0;
+      font-size: .75rem; font-weight: 700; color: #64748b;
       display: flex; align-items: center; gap: 8px;
       text-transform: uppercase; letter-spacing: .08em;
     }
@@ -52,10 +52,10 @@
       padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 14px;
       text-decoration: none; transition: all .15s;
     }
-    .btn-primary-g { background: linear-gradient(135deg,#6C63FF,#00D4AA); color:#fff; }
-    .btn-primary-g:hover { filter: brightness(1.1); }
-    .btn-outline-g { background: transparent; color: #A99FF5; border: 2px solid rgba(108,99,255,.4); }
-    .btn-outline-g:hover { background: rgba(108,99,255,.1); }
+    .btn-primary-g { background: linear-gradient(135deg,#6C63FF,#00D4AA); color:#fff; box-shadow: 0 4px 15px rgba(108,99,255,.3); }
+    .btn-primary-g:hover { filter: brightness(1.08); }
+    .btn-outline-g { background: #f1f5f9; color: #6C63FF; border: 2px solid rgba(108,99,255,.3); }
+    .btn-outline-g:hover { background: rgba(108,99,255,.08); }
   </style>
 </head>
 <body>
@@ -131,8 +131,7 @@
       <!-- Acciones -->
       <div class="actions-bar">
         <a href="/venta" class="btn-primary-g"><i class="bi bi-arrow-repeat"></i> Nueva predicción</a>
-        <a href="/opciones-prediccion" class="btn-outline-g"><i class="bi bi-arrow-left"></i> Volver a opciones</a>
-        <a href="/dashboard" class="btn-outline-g"><i class="bi bi-speedometer2"></i> Dashboard</a>
+        <a href="/dashboard" class="btn-outline-g"><i class="bi bi-arrow-left"></i> Volver</a>
       </div>
     </div>
   </div>
@@ -144,7 +143,7 @@
     <p class="muted"><%= error || 'No se pudo calcular el precio de venta.' %></p>
     <div class="actions-bar">
       <a href="/venta" class="btn-primary-g"><i class="bi bi-arrow-repeat"></i> Reintentar</a>
-      <a href="/opciones-prediccion" class="btn-outline-g"><i class="bi bi-arrow-left"></i> Volver</a>
+      <a href="/dashboard" class="btn-outline-g"><i class="bi bi-arrow-left"></i> Volver</a>
     </div>
   </div>
   <% } %>

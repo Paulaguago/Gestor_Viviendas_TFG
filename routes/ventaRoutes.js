@@ -9,7 +9,7 @@ const { spawnPython } = require('../utils/pythonRunner');
 
 // ================= Formulario venta =================
 router.get('/', (req, res) => {
-  res.render('prediccion/prediccion_venta');
+  res.render('prediccion/prediccion_venta', { user: req.user });
 });
 
 // ================= POST /predict  (montado en /venta → /venta/predict) =================

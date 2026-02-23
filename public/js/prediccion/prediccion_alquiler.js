@@ -88,9 +88,10 @@
     renderAmenities();
 
     const formEl = document.querySelector('form');
-    const overlay = document.getElementById('loading-overlay');
-    if (formEl && overlay) {
+    if (formEl) {
       formEl.addEventListener('submit', () => {
-        overlay.classList.add('show');
+        if (typeof showSpinner === 'function') {
+          showSpinner('Estamos prediciendo tu precio óptimo', 'Esto podría tardar unos segundos...', 'fa-calculator');
+        }
       });
     }
