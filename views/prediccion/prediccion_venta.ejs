@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PredicciÃ³n de Precio de Venta</title>
+  <title>Predicción de Precio de Venta</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="/css/navbar.css">
   <link rel="stylesheet" href="/css/prediccion/prediccion_alquiler.css">
@@ -66,18 +66,18 @@
 <body>
   <%- include('../partials/navbar') %>
   <div class="shell">
-    <h1><i class="bi bi-house-door"></i> PredicciÃ³n de precio de venta</h1>
-    <p class="lead">Introduce los datos de la vivienda para obtener una estimaciÃ³n del precio de venta basada en nuestro modelo LightGBM.</p>
+    <h1><i class="bi bi-house-door"></i> Predicción de precio de venta</h1>
+    <p class="lead">Introduce los datos de la vivienda para obtener una estimación del precio de venta basada en nuestro modelo LightGBM.</p>
 
     <form method="post" action="/venta/predict" id="ventaForm">
 
-      <!-- UbicaciÃ³n -->
-      <div class="section-title"><i class="bi bi-geo-alt"></i> UbicaciÃ³n</div>
+      <!-- Ubicación -->
+      <div class="section-title"><i class="bi bi-geo-alt"></i> Ubicación</div>
 
       <div class="field">
         <label for="loc_city"><i class="bi bi-building"></i> Ciudad *</label>
         <select id="loc_city" name="loc_city" required>
-          <option value="">â€” Selecciona ciudad â€”</option>
+          <option value="">— Selecciona ciudad —</option>
           <% Object.keys(locationHierarchy).sort().forEach(city => { %>
             <option value="<%= city %>"><%= city %></option>
           <% }) %>
@@ -87,33 +87,33 @@
       <div class="field">
         <label for="loc_zone"><i class="bi bi-pin-map"></i> Zona</label>
         <select id="loc_zone" name="loc_zone" disabled>
-          <option value="">â€” Selecciona ciudad primero â€”</option>
+          <option value="">— Selecciona ciudad primero —</option>
         </select>
       </div>
 
       <div class="field">
         <label for="loc_district"><i class="bi bi-signpost-2"></i> Distrito</label>
         <select id="loc_district" name="loc_district" disabled>
-          <option value="">â€” Selecciona zona primero â€”</option>
+          <option value="">— Selecciona zona primero —</option>
         </select>
       </div>
 
       <div class="field">
         <label for="loc_neigh"><i class="bi bi-houses"></i> Barrio</label>
         <select id="loc_neigh" name="loc_neigh" disabled>
-          <option value="">â€” Selecciona distrito primero â€”</option>
+          <option value="">— Selecciona distrito primero —</option>
         </select>
       </div>
 
-      <!-- CaracterÃ­sticas principales -->
-      <div class="section-title"><i class="bi bi-rulers"></i> CaracterÃ­sticas de la vivienda</div>
+      <!-- Características principales -->
+      <div class="section-title"><i class="bi bi-rulers"></i> Características de la vivienda</div>
 
       <div class="field">
         <label for="house_type"><i class="bi bi-house"></i> Tipo de vivienda *</label>
         <select id="house_type" name="house_type" required>
           <option value="flat">Piso / Apartamento</option>
-          <option value="penthouse">Ãtico</option>
-          <option value="duplex">DÃºplex</option>
+          <option value="penthouse">Ático</option>
+          <option value="duplex">Dúplex</option>
           <option value="studio">Estudio</option>
           <option value="house">Casa / Chalet</option>
           <option value="country house">Casa rural</option>
@@ -122,12 +122,12 @@
       </div>
 
       <div class="field">
-        <label for="m2_useful"><i class="bi bi-arrows-fullscreen"></i> mÂ² Ãºtiles *</label>
+        <label for="m2_useful"><i class="bi bi-arrows-fullscreen"></i> m² útiles *</label>
         <input id="m2_useful" name="m2_useful" type="number" min="10" step="1" required placeholder="80">
       </div>
 
       <div class="field">
-        <label for="m2_real"><i class="bi bi-bounding-box"></i> mÂ² construidos</label>
+        <label for="m2_real"><i class="bi bi-bounding-box"></i> m² construidos</label>
         <input id="m2_real" name="m2_real" type="number" min="10" step="1" placeholder="90">
       </div>
 
@@ -137,7 +137,7 @@
       </div>
 
       <div class="field">
-        <label for="bath_num"><i class="bi bi-droplet"></i> BaÃ±os *</label>
+        <label for="bath_num"><i class="bi bi-droplet"></i> Baños *</label>
         <input id="bath_num" name="bath_num" type="number" min="1" step="1" required placeholder="1">
       </div>
 
@@ -147,12 +147,12 @@
       </div>
 
       <div class="field">
-        <label for="ground_size"><i class="bi bi-textarea-resize"></i> TamaÃ±o parcela (mÂ²)</label>
+        <label for="ground_size"><i class="bi bi-textarea-resize"></i> Tamaño parcela (m²)</label>
         <input id="ground_size" name="ground_size" type="number" min="0" step="1" placeholder="0">
       </div>
 
       <div class="field">
-        <label for="construct_date"><i class="bi bi-calendar3"></i> AÃ±o de construcciÃ³n</label>
+        <label for="construct_date"><i class="bi bi-calendar3"></i> Año de construcción</label>
         <input id="construct_date" name="construct_date" type="number" min="1800" max="2026" placeholder="2000">
       </div>
 
@@ -170,21 +170,21 @@
       </div>
 
       <div class="field">
-        <label for="energetic_certif"><i class="bi bi-lightning-charge"></i> CertificaciÃ³n energÃ©tica</label>
+        <label for="energetic_certif"><i class="bi bi-lightning-charge"></i> Certificación energética</label>
         <select id="energetic_certif" name="energetic_certif">
           <option value="A">A</option><option value="B">B</option><option value="C">C</option>
           <option value="D">D</option><option value="E" selected>E</option><option value="F">F</option>
-          <option value="G">G</option><option value="exempt">Exento</option><option value="in process">En trÃ¡mite</option>
+          <option value="G">G</option><option value="exempt">Exento</option><option value="in process">En trámite</option>
         </select>
       </div>
 
       <div class="field">
-        <label for="heating"><i class="bi bi-thermometer-half"></i> CalefacciÃ³n</label>
+        <label for="heating"><i class="bi bi-thermometer-half"></i> Calefacción</label>
         <select id="heating" name="heating">
           <option value="individual">Individual</option>
           <option value="central">Central</option>
-          <option value="electric">ElÃ©ctrica</option>
-          <option value="no heating">Sin calefacciÃ³n</option>
+          <option value="electric">Eléctrica</option>
+          <option value="no heating">Sin calefacción</option>
         </select>
       </div>
 
@@ -198,7 +198,7 @@
       </div>
 
       <div class="field">
-        <label for="orientation"><i class="bi bi-compass"></i> OrientaciÃ³n</label>
+        <label for="orientation"><i class="bi bi-compass"></i> Orientación</label>
         <select id="orientation" name="orientation">
           <option value="south">Sur</option><option value="east">Este</option>
           <option value="west">Oeste</option><option value="north">Norte</option>
@@ -207,7 +207,7 @@
         </select>
       </div>
 
-      <!-- Servicios y extras (dinÃ¡mico) -->
+      <!-- Servicios y extras (dinámico) -->
       <div class="section-title"><i class="bi bi-stars"></i> Servicios y extras</div>
 
       <div class="checkbox-grid" id="amenitiesGrid">
@@ -256,9 +256,9 @@
 
     selCity.addEventListener('change', () => {
       const city = selCity.value;
-      selZone.innerHTML  = '<option value="">â€” Sin zona â€”</option>';
-      selDist.innerHTML  = '<option value="">â€” Sin distrito â€”</option>';
-      selNeigh.innerHTML = '<option value="">â€” Sin barrio â€”</option>';
+      selZone.innerHTML  = '<option value="">— Sin zona —</option>';
+      selDist.innerHTML  = '<option value="">— Sin distrito —</option>';
+      selNeigh.innerHTML = '<option value="">— Sin barrio —</option>';
       selDist.disabled  = true;
       selNeigh.disabled = true;
 
@@ -270,7 +270,7 @@
         // Treat empty-zone directly: load its districts
         loadDistricts(city, '');
       } else {
-        populateSelect(selZone, zones, 'â€” Selecciona zona â€”', true);
+        populateSelect(selZone, zones, '— Selecciona zona —', true);
         selZone.disabled = false;
       }
     });
@@ -278,8 +278,8 @@
     selZone.addEventListener('change', () => {
       const city = selCity.value;
       const zone = selZone.value;
-      selDist.innerHTML  = '<option value="">â€” Sin distrito â€”</option>';
-      selNeigh.innerHTML = '<option value="">â€” Sin barrio â€”</option>';
+      selDist.innerHTML  = '<option value="">— Sin distrito —</option>';
+      selNeigh.innerHTML = '<option value="">— Sin barrio —</option>';
       selNeigh.disabled  = true;
       loadDistricts(city, zone);
     });
@@ -288,14 +288,14 @@
       const city  = selCity.value;
       const zone  = selZone.value;
       const dist  = selDist.value;
-      selNeigh.innerHTML = '<option value="">â€” Sin barrio â€”</option>';
+      selNeigh.innerHTML = '<option value="">— Sin barrio —</option>';
       selNeigh.disabled  = true;
 
       const zoneData = LOC[city] && (LOC[city][zone] || LOC[city]['']);
       if (!zoneData) return;
       const distData = zoneData[dist] || zoneData[''];
       if (!distData || distData.length === 0) { selNeigh.disabled = true; return; }
-      populateSelect(selNeigh, distData.filter(n => n), 'â€” Selecciona barrio â€”', true);
+      populateSelect(selNeigh, distData.filter(n => n), '— Selecciona barrio —', true);
     });
 
     function loadDistricts(city, zone) {
@@ -303,7 +303,7 @@
       if (!zoneData) { selDist.disabled = true; return; }
       const dists = Object.keys(zoneData).filter(d => d !== '');
       if (dists.length === 0) { selDist.disabled = true; return; }
-      populateSelect(selDist, dists, 'â€” Selecciona distrito â€”', true);
+      populateSelect(selDist, dists, '— Selecciona distrito —', true);
     }
 
     // ---- Spinner ----
@@ -311,7 +311,7 @@
     if (formEl) {
       formEl.addEventListener('submit', () => {
         if (typeof showSpinner === 'function') {
-          showSpinner('Estamos prediciendo tu precio Ã³ptimo', 'Esto podrÃ­a tardar unos segundos', 'fa-calculator');
+          showSpinner('Estamos prediciendo tu precio óptimo', 'Esto podría tardar unos segundos', 'fa-calculator');
         }
       });
     }

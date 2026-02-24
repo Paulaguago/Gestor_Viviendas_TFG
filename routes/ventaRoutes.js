@@ -86,6 +86,9 @@ router.post('/predict', async (req, res) => {
       });
     });
 
+    const locationParts = [inputData.loc_neigh, inputData.loc_district, inputData.loc_zone, inputData.loc_city].filter(Boolean);
+    const locationStr = locationParts.join(', ');
+
     return res.render('prediccion/venta_predict_result', {
       sample: {
         price:   result.price,
@@ -94,6 +97,7 @@ router.post('/predict', async (req, res) => {
         input:   inputData,
         input_summary: result.input_summary || {}
       },
+      locationStr,
       error: null
     });
 
@@ -101,6 +105,7 @@ router.post('/predict', async (req, res) => {
     console.error('Error predicción venta:', err);
     return res.render('prediccion/venta_predict_result', {
       sample: null,
+      locationStr: '',
       error: err.message || 'Error desconocido en la predicción.'
     });
   }
