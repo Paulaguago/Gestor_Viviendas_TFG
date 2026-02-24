@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const fs = require('fs');
 const { 
   readJsonPrefer, 
   projectRoot 
@@ -9,7 +10,28 @@ const { spawnPython } = require('../utils/pythonRunner');
 
 // ================= Formulario venta =================
 router.get('/', (req, res) => {
-  res.render('prediccion/prediccion_venta', { user: req.user });
+  const ventaDataDir = path.join(projectRoot, 'modelos_predictivos', 'venta', 'data');
+
+  let locationHierarchy = {};
+  let amenitiesVenta = [];
+
+  try {
+    locationHierarchy = JSON.parse(
+      fs.readFileSync(path.join(ventaDataDir, 'location_hierarchy.json'), 'utf8')
+    );
+  } catch (e) { console.warn('location_hierarchy.json not found:', e.message); }
+
+  try {
+    amenitiesVenta = JSON.parse(
+      fs.readFileSync(path.join(ventaDataDir, 'amenities_venta.json'), 'utf8')
+    );
+  } catch (e) { console.warn('amenities_venta.json not found:', e.message); }
+
+  res.render('prediccion/prediccion_venta', {
+    user: req.user,
+    locationHierarchy,
+    amenitiesVenta
+  });
 });
 
 // ================= POST /predict  (montado en /venta → /venta/predict) =================

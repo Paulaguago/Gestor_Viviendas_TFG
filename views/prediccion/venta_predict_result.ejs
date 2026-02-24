@@ -8,144 +8,328 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/prediccion/alquiler_predict_result_rf.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <link rel="stylesheet" href="/css/navbar.css">
   <style>
-    /* ── Venta overrides (light) ─────────────────────── */
-    .detail-grid {
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #0F1117; color: #c5c8d6; min-height: 100vh; }
+
+    /* ── Page layout ─────────────────────────────────── */
+    .vr-page { display: flex; flex-direction: column; height: calc(100vh - 56px); }
+    .vr-body {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 12px;
-      margin-top: 16px;
+      grid-template-columns: 420px 1fr;
+      flex: 1;
+      overflow: hidden;
     }
-    .detail-item {
+    @media (max-width: 900px) {
+      .vr-body { grid-template-columns: 1fr; }
+      .vr-map-panel { height: 320px; }
+    }
+
+    /* ── Left panel ──────────────────────────────────── */
+    .vr-panel {
+      background: #1E2130;
+      border-right: 1px solid #353950;
+      overflow-y: auto;
+      padding: 28px 24px 32px;
       display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      background: #f8fafc;
-      border-radius: 10px;
-      border: 1px solid #e2e8f0;
-      font-size: 14px;
-      color: #374151;
+      flex-direction: column;
+      gap: 20px;
     }
-    .detail-item i { color: #6C63FF; font-size: 16px; min-width: 18px; }
-    .detail-item .lbl { color: #64748b; margin-right: 4px; }
-    .amenity-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-    .amenity-pill {
-      display: inline-flex; align-items: center; gap: 4px;
-      padding: 5px 12px; border-radius: 20px; font-size: 13px; font-weight: 600;
-      background: rgba(0,184,148,.1); color: #00b894; border: 1px solid rgba(0,184,148,.3);
+    .vr-panel::-webkit-scrollbar { width: 5px; }
+    .vr-panel::-webkit-scrollbar-thumb { background: #353950; border-radius: 4px; }
+
+    /* Price hero */
+    .vr-hero { text-align: center; padding: 4px 0 8px; }
+    .vr-hero-label {
+      font-size: .7rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: #8B8FA8; margin-bottom: 6px;
     }
-    .section-divider {
-      margin: 24px 0 16px; padding-bottom: 8px;
-      border-bottom: 2px solid #e2e8f0;
-      font-size: .75rem; font-weight: 700; color: #64748b;
+    .vr-price {
+      font-size: 3rem; font-weight: 900;
+      background: linear-gradient(135deg, #00D4AA 0%, #00B894 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      line-height: 1;
+    }
+    .vr-price-sub { font-size: .85rem; color: #8B8FA8; margin-top: 6px; }
+    .vr-model-pill {
+      display: inline-block; margin-top: 10px;
+      padding: 4px 14px; border-radius: 20px; font-size: .75rem; font-weight: 700;
+      background: rgba(108,99,255,.15); color: #6C63FF; border: 1px solid rgba(108,99,255,.3);
+    }
+
+    /* Summary chips */
+    .vr-chips { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; }
+    .vr-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 11px; border-radius: 20px; font-size: .78rem; font-weight: 600;
+      background: #2a2d3e; color: #c5c8d6; border: 1px solid #353950;
+    }
+    .vr-chip i { color: #00D4AA; font-size: .8rem; }
+
+    /* Section divider */
+    .vr-section {
+      font-size: .68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: #8B8FA8;
       display: flex; align-items: center; gap: 8px;
-      text-transform: uppercase; letter-spacing: .08em;
+      border-bottom: 1px solid #353950; padding-bottom: 8px;
     }
-    .actions-bar {
-      display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap;
+    .vr-section i { color: #00D4AA; font-size: .85rem; }
+
+    /* Detail grid */
+    .vr-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
     }
-    .actions-bar a {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 14px;
-      text-decoration: none; transition: all .15s;
+    .vr-detail-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 12px; background: #161822;
+      border-radius: 9px; border: 1px solid #2a2d3e;
+      font-size: .82rem; color: #c5c8d6;
     }
-    .btn-primary-g { background: linear-gradient(135deg,#6C63FF,#00D4AA); color:#fff; box-shadow: 0 4px 15px rgba(108,99,255,.3); }
-    .btn-primary-g:hover { filter: brightness(1.08); }
-    .btn-outline-g { background: #f1f5f9; color: #6C63FF; border: 2px solid rgba(108,99,255,.3); }
-    .btn-outline-g:hover { background: rgba(108,99,255,.08); }
+    .vr-detail-item i { color: #6C63FF; font-size: .95rem; min-width: 16px; }
+    .vr-detail-item .lbl { color: #8B8FA8; margin-right: 3px; }
+
+    /* Amenity pills */
+    .vr-amenities { display: flex; flex-wrap: wrap; gap: 7px; }
+    .vr-amenity {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 11px; border-radius: 20px; font-size: .78rem; font-weight: 600;
+      background: rgba(0,212,170,.1); color: #00D4AA; border: 1px solid rgba(0,212,170,.25);
+    }
+
+    /* Actions */
+    .vr-actions { display: flex; gap: 10px; flex-wrap: wrap; padding-top: 4px; }
+    .vr-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: .85rem;
+      text-decoration: none; transition: all .15s; cursor: pointer;
+      border: none;
+    }
+    .vr-btn-primary {
+      background: linear-gradient(135deg, #00D4AA, #00B894);
+      color: #0F1117; box-shadow: 0 4px 14px rgba(0,212,170,.35);
+    }
+    .vr-btn-primary:hover { filter: brightness(1.08); }
+    .vr-btn-outline {
+      background: #2a2d3e; color: #c5c8d6; border: 1px solid #353950;
+    }
+    .vr-btn-outline:hover { background: #353950; }
+
+    /* ── Map panel ───────────────────────────────────── */
+    .vr-map-panel { position: relative; background: #161822; }
+    #vr-map { width: 100%; height: 100%; min-height: 400px; }
+    .vr-map-overlay {
+      position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+      background: rgba(30,33,48,.92); backdrop-filter: blur(8px);
+      border: 1px solid #353950; border-radius: 12px;
+      padding: 10px 18px; font-size: .85rem; color: #c5c8d6;
+      display: flex; align-items: center; gap: 8px; z-index: 999;
+      white-space: nowrap; max-width: calc(100% - 32px);
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .vr-map-overlay i { color: #00D4AA; }
+    .vr-map-noloc {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 12px;
+      color: #8B8FA8; font-size: .9rem;
+    }
+    .vr-map-noloc i { font-size: 2.5rem; color: #353950; }
+
+    /* Error page */
+    .vr-error {
+      max-width: 560px; margin: 80px auto; padding: 40px 32px;
+      background: #1E2130; border: 1px solid #353950; border-radius: 16px;
+      text-align: center;
+    }
+    .vr-error i { font-size: 2.5rem; color: #ef4444; }
+    .vr-error h3 { margin: 12px 0 8px; font-size: 1.3rem; color: #fff; }
+    .vr-error p { color: #8B8FA8; font-size: .9rem; }
   </style>
 </head>
 <body>
   <%- include('../partials/navbar') %>
+
   <% if (sample) { %>
-  <div class="grid" style="max-width: 860px; margin: 40px auto; padding: 0 16px;">
-    <div class="card">
-      <!-- Precio principal -->
-      <div class="title"><i class="bi bi-house-door"></i> Precio estimado de venta</div>
-      <div class="price" style="font-size: 2.8rem; margin: 12px 0;">
-        <%= typeof sample.price === 'number' ? sample.price.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : sample.price %> <%= sample.currency %>
-      </div>
-      <div class="pill"><%= sample.modelo %></div>
+  <%
+    const amenityMeta = {
+      garage:           { icon: 'bi-car-front',        text: 'Garaje' },
+      terrace:          { icon: 'bi-brightness-high',  text: 'Terraza' },
+      garden:           { icon: 'bi-tree',             text: 'Jardín' },
+      swimming_pool:    { icon: 'bi-water',            text: 'Piscina' },
+      lift:             { icon: 'bi-arrow-up-square',  text: 'Ascensor' },
+      balcony:          { icon: 'bi-columns-gap',      text: 'Balcón' },
+      air_conditioner:  { icon: 'bi-snow',             text: 'Aire acondicionado' },
+      built_in_wardrobe:{ icon: 'bi-box-seam',         text: 'Armarios empotrados' },
+      chimney:          { icon: 'bi-fire',             text: 'Chimenea' },
+      storage_room:     { icon: 'bi-archive',          text: 'Trastero' },
+      reduced_mobility: { icon: 'bi-person-wheelchair',text: 'Accesible' },
+      unfurnished:      { icon: 'bi-dash-circle',      text: 'Sin amueblar' }
+    };
+    const activeAmenities = Object.entries(amenityMeta).filter(([k]) => sample.input[k] == 1);
+    const locationParts = [sample.input.loc_neigh, sample.input.loc_district, sample.input.loc_zone, sample.input.loc_city].filter(Boolean);
+    const locationStr = locationParts.join(', ');
+  %>
 
-      <!-- Chips resumen -->
-      <div style="margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px;">
-        <% if (sample.input) { %>
-          <span class="chip"><i class="bi bi-building"></i> <%= sample.input.loc_city || 'N/A' %></span>
-          <span class="chip"><i class="bi bi-house"></i> <%= sample.input.house_type %></span>
-          <span class="chip"><i class="bi bi-arrows-fullscreen"></i> <%= sample.input.m2_useful %> m²</span>
-          <span class="chip"><i class="bi bi-door-closed"></i> <%= sample.input.room_num %> hab.</span>
-          <span class="chip"><i class="bi bi-droplet"></i> <%= sample.input.bath_num %> baños</span>
-        <% } %>
-      </div>
+  <div class="vr-page">
+    <div class="vr-body">
 
-      <!-- Detalles de la vivienda -->
-      <div class="section-divider"><i class="bi bi-list-check"></i> Datos introducidos</div>
+      <!-- ── LEFT: Details ── -->
+      <div class="vr-panel">
 
-      <div class="detail-grid">
-        <div class="detail-item"><i class="bi bi-geo-alt"></i> <span class="lbl">Ciudad:</span> <%= sample.input.loc_city || '—' %></div>
-        <% if (sample.input.loc_zone) { %><div class="detail-item"><i class="bi bi-pin-map"></i> <span class="lbl">Zona:</span> <%= sample.input.loc_zone %></div><% } %>
-        <% if (sample.input.loc_district) { %><div class="detail-item"><i class="bi bi-signpost-2"></i> <span class="lbl">Distrito:</span> <%= sample.input.loc_district %></div><% } %>
-        <% if (sample.input.loc_neigh) { %><div class="detail-item"><i class="bi bi-houses"></i> <span class="lbl">Barrio:</span> <%= sample.input.loc_neigh %></div><% } %>
-        <div class="detail-item"><i class="bi bi-house"></i> <span class="lbl">Tipo:</span> <%= sample.input.house_type %></div>
-        <div class="detail-item"><i class="bi bi-arrows-fullscreen"></i> <span class="lbl">m² útiles:</span> <%= sample.input.m2_useful %></div>
-        <div class="detail-item"><i class="bi bi-bounding-box"></i> <span class="lbl">m² construidos:</span> <%= sample.input.m2_real %></div>
-        <div class="detail-item"><i class="bi bi-door-closed"></i> <span class="lbl">Habitaciones:</span> <%= sample.input.room_num %></div>
-        <div class="detail-item"><i class="bi bi-droplet"></i> <span class="lbl">Baños:</span> <%= sample.input.bath_num %></div>
-        <div class="detail-item"><i class="bi bi-layers"></i> <span class="lbl">Planta:</span> <%= sample.input.floor %></div>
-        <div class="detail-item"><i class="bi bi-calendar3"></i> <span class="lbl">Año:</span> <%= sample.input.construct_date %></div>
-        <div class="detail-item"><i class="bi bi-tools"></i> <span class="lbl">Estado:</span> <%= sample.input.condition %></div>
-        <div class="detail-item"><i class="bi bi-lightning-charge"></i> <span class="lbl">Energía:</span> <%= sample.input.energetic_certif %></div>
-        <div class="detail-item"><i class="bi bi-thermometer-half"></i> <span class="lbl">Calefacción:</span> <%= sample.input.heating %></div>
-        <div class="detail-item"><i class="bi bi-compass"></i> <span class="lbl">Orientación:</span> <%= sample.input.orientation %></div>
-      </div>
-
-      <!-- Amenities -->
-      <%
-        const amenityLabels = {
-          garage: { icon: 'bi-car-front', text: 'Garaje' },
-          terrace: { icon: 'bi-brightness-high', text: 'Terraza' },
-          garden: { icon: 'bi-tree', text: 'Jardín' },
-          swimming_pool: { icon: 'bi-water', text: 'Piscina' },
-          lift: { icon: 'bi-arrow-up-square', text: 'Ascensor' },
-          balcony: { icon: 'bi-columns-gap', text: 'Balcón' },
-          air_conditioner: { icon: 'bi-snow', text: 'Aire acondicionado' },
-          built_in_wardrobe: { icon: 'bi-box-seam', text: 'Armarios empotrados' },
-          chimney: { icon: 'bi-fire', text: 'Chimenea' },
-          storage_room: { icon: 'bi-archive', text: 'Trastero' },
-          reduced_mobility: { icon: 'bi-person-wheelchair', text: 'Accesible' }
-        };
-        const activeAmenities = Object.entries(amenityLabels).filter(([k]) => sample.input[k] == 1);
-      %>
-      <% if (activeAmenities.length) { %>
-        <div class="section-divider"><i class="bi bi-stars"></i> Servicios incluidos</div>
-        <div class="amenity-pills">
-          <% activeAmenities.forEach(([k, v]) => { %>
-            <span class="amenity-pill"><i class="bi <%= v.icon %>"></i> <%= v.text %></span>
-          <% }); %>
+        <!-- Price hero -->
+        <div class="vr-hero">
+          <div class="vr-hero-label"><i class="bi bi-house-door"></i> Precio estimado de venta</div>
+          <div class="vr-price">
+            <%= typeof sample.price === 'number'
+              ? sample.price.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
+              : sample.price %> <%= sample.currency %>
+          </div>
+          <div class="vr-price-sub">Estimación basada en modelo predictivo</div>
+          <span class="vr-model-pill"><%= sample.modelo %></span>
         </div>
-      <% } %>
 
-      <!-- Acciones -->
-      <div class="actions-bar">
-        <a href="/venta" class="btn-primary-g"><i class="bi bi-arrow-repeat"></i> Nueva predicción</a>
-        <a href="/dashboard" class="btn-outline-g"><i class="bi bi-arrow-left"></i> Volver</a>
+        <!-- Summary chips -->
+        <div class="vr-chips">
+          <span class="vr-chip"><i class="bi bi-building"></i> <%= sample.input.loc_city || 'N/A' %></span>
+          <span class="vr-chip"><i class="bi bi-house"></i> <%= sample.input.house_type %></span>
+          <span class="vr-chip"><i class="bi bi-arrows-fullscreen"></i> <%= sample.input.m2_useful %> m²</span>
+          <span class="vr-chip"><i class="bi bi-door-closed"></i> <%= sample.input.room_num %> hab.</span>
+          <span class="vr-chip"><i class="bi bi-droplet"></i> <%= sample.input.bath_num %> baños</span>
+        </div>
+
+        <!-- Location details -->
+        <div>
+          <div class="vr-section"><i class="bi bi-geo-alt"></i> Ubicación</div>
+          <div class="vr-detail-grid" style="margin-top:10px;">
+            <div class="vr-detail-item"><i class="bi bi-building"></i><span class="lbl">Ciudad:</span><%= sample.input.loc_city || '—' %></div>
+            <% if (sample.input.loc_zone) { %><div class="vr-detail-item"><i class="bi bi-pin-map"></i><span class="lbl">Zona:</span><%= sample.input.loc_zone %></div><% } %>
+            <% if (sample.input.loc_district) { %><div class="vr-detail-item"><i class="bi bi-signpost-2"></i><span class="lbl">Distrito:</span><%= sample.input.loc_district %></div><% } %>
+            <% if (sample.input.loc_neigh) { %><div class="vr-detail-item"><i class="bi bi-houses"></i><span class="lbl">Barrio:</span><%= sample.input.loc_neigh %></div><% } %>
+          </div>
+        </div>
+
+        <!-- Property details -->
+        <div>
+          <div class="vr-section"><i class="bi bi-list-check"></i> Características</div>
+          <div class="vr-detail-grid" style="margin-top:10px;">
+            <div class="vr-detail-item"><i class="bi bi-house"></i><span class="lbl">Tipo:</span><%= sample.input.house_type %></div>
+            <div class="vr-detail-item"><i class="bi bi-arrows-fullscreen"></i><span class="lbl">m² útiles:</span><%= sample.input.m2_useful %></div>
+            <div class="vr-detail-item"><i class="bi bi-bounding-box"></i><span class="lbl">m² constr.:</span><%= sample.input.m2_real %></div>
+            <div class="vr-detail-item"><i class="bi bi-door-closed"></i><span class="lbl">Habitaciones:</span><%= sample.input.room_num %></div>
+            <div class="vr-detail-item"><i class="bi bi-droplet"></i><span class="lbl">Baños:</span><%= sample.input.bath_num %></div>
+            <div class="vr-detail-item"><i class="bi bi-layers"></i><span class="lbl">Planta:</span><%= sample.input.floor %></div>
+            <% if (sample.input.ground_size > 0) { %><div class="vr-detail-item"><i class="bi bi-textarea-resize"></i><span class="lbl">Parcela:</span><%= sample.input.ground_size %> m²</div><% } %>
+            <div class="vr-detail-item"><i class="bi bi-calendar3"></i><span class="lbl">Año:</span><%= sample.input.construct_date %></div>
+            <div class="vr-detail-item"><i class="bi bi-tools"></i><span class="lbl">Estado:</span><%= sample.input.condition %></div>
+            <div class="vr-detail-item"><i class="bi bi-lightning-charge"></i><span class="lbl">Energía:</span><%= sample.input.energetic_certif %></div>
+            <div class="vr-detail-item"><i class="bi bi-thermometer-half"></i><span class="lbl">Calefacción:</span><%= sample.input.heating %></div>
+            <div class="vr-detail-item"><i class="bi bi-compass"></i><span class="lbl">Orientación:</span><%= sample.input.orientation %></div>
+          </div>
+        </div>
+
+        <!-- Amenities -->
+        <% if (activeAmenities.length) { %>
+        <div>
+          <div class="vr-section"><i class="bi bi-stars"></i> Servicios incluidos</div>
+          <div class="vr-amenities" style="margin-top:10px;">
+            <% activeAmenities.forEach(([k, v]) => { %>
+              <span class="vr-amenity"><i class="bi <%= v.icon %>"></i> <%= v.text %></span>
+            <% }); %>
+          </div>
+        </div>
+        <% } %>
+
+        <!-- Actions -->
+        <div class="vr-actions" style="margin-top:auto;">
+          <a href="/venta" class="vr-btn vr-btn-primary"><i class="bi bi-arrow-repeat"></i> Nueva predicción</a>
+          <a href="/dashboard" class="vr-btn vr-btn-outline"><i class="bi bi-arrow-left"></i> Volver</a>
+        </div>
       </div>
+
+      <!-- ── RIGHT: Map ── -->
+      <div class="vr-map-panel">
+        <div id="vr-map"></div>
+        <div class="vr-map-overlay" id="mapLabel">
+          <i class="bi bi-geo-alt-fill"></i>
+          <span><%= locationStr || 'Ubicación no especificada' %></span>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <% } else { %>
   <!-- Error -->
-  <div class="card" style="max-width:720px; margin: 40px auto;">
-    <h3><i class="bi bi-exclamation-triangle" style="color:#ef4444;"></i> Error en la predicción</h3>
-    <p class="muted"><%= error || 'No se pudo calcular el precio de venta.' %></p>
-    <div class="actions-bar">
-      <a href="/venta" class="btn-primary-g"><i class="bi bi-arrow-repeat"></i> Reintentar</a>
-      <a href="/dashboard" class="btn-outline-g"><i class="bi bi-arrow-left"></i> Volver</a>
+  <div class="vr-error">
+    <i class="bi bi-exclamation-triangle"></i>
+    <h3>Error en la predicción</h3>
+    <p><%= error || 'No se pudo calcular el precio de venta.' %></p>
+    <div class="vr-actions" style="justify-content:center; margin-top:20px;">
+      <a href="/venta" class="vr-btn vr-btn-primary"><i class="bi bi-arrow-repeat"></i> Reintentar</a>
+      <a href="/dashboard" class="vr-btn vr-btn-outline"><i class="bi bi-arrow-left"></i> Volver</a>
     </div>
   </div>
   <% } %>
-</body>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    <% if (sample) { %>
+    const locationQuery = '<%= locationStr.replace(/'/g, "\\'") %>';
+
+    // Dark tile layer (CartoDB Dark Matter)
+    const map = L.map('vr-map', { zoomControl: true, attributionControl: true });
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    // Custom teal marker
+    const markerIcon = L.divIcon({
+      html: `<div style="
+        width:36px; height:36px; border-radius:50% 50% 50% 0;
+        background:linear-gradient(135deg,#00D4AA,#00B894);
+        transform:rotate(-45deg);
+        box-shadow:0 4px 14px rgba(0,212,170,.5);
+        border:3px solid #fff;
+      "></div>`,
+      iconSize: [36, 36],
+      iconAnchor: [18, 36],
+      className: ''
+    });
+
+    if (locationQuery.trim()) {
+      fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(locationQuery + ', España')}&format=json&limit=1`, {
+        headers: { 'Accept-Language': 'es' }
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.length > 0) {
+          const lat = parseFloat(data[0].lat);
+          const lon = parseFloat(data[0].lon);
+          map.setView([lat, lon], 14);
+          L.marker([lat, lon], { icon: markerIcon })
+            .addTo(map)
+            .bindPopup(`<strong><%= (sample.input.loc_city || '').replace(/'/g, "\\'") %></strong><br><%= (locationStr).replace(/'/g, "\\'") %>`)
+            .openPopup();
+        } else {
+          // Fallback to Spain center
+          map.setView([40.416775, -3.703790], 6);
+          document.getElementById('mapLabel').innerHTML = '<i class="bi bi-geo-alt"></i><span>Ubicación no encontrada en el mapa</span>';
+        }
+      })
+      .catch(() => {
+        map.setView([40.416775, -3.703790], 6);
+      });
+    } else {
+      map.setView([40.416775, -3.703790], 6);
+      document.getElementById('mapLabel').innerHTML = '<i class="bi bi-geo-alt"></i><span>Sin ubicación especificada</span>';
+    }
+    <% } %>
+
+    <%- include('../partials/navbar') %>
+  </body>
 </html>

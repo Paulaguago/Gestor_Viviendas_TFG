@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Predicción de Precio de Venta</title>
+  <title>PredicciÃ³n de Precio de Venta</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="/css/navbar.css">
   <link rel="stylesheet" href="/css/prediccion/prediccion_alquiler.css">
@@ -37,9 +37,7 @@
       align-items: center;
       gap: 0.5rem;
     }
-    .section-title i {
-      color: #00D4AA;
-    }
+    .section-title i { color: #00D4AA; }
     .checkbox-grid {
       grid-column: 1 / -1;
       display: grid;
@@ -59,70 +57,63 @@
       transition: all 0.15s;
       background: #161822;
     }
-    .checkbox-grid label:hover {
-      background: #2E3248;
-      border-color: #454968;
-    }
-    .checkbox-grid input[type="checkbox"] {
-      accent-color: #00D4AA;
-    }
-    .checkbox-grid input[type="checkbox"]:checked + span {
-      font-weight: 600;
-      color: #00D4AA;
-    }
+    .checkbox-grid label:hover { background: #2E3248; border-color: #454968; }
+    .checkbox-grid input[type="checkbox"] { accent-color: #00D4AA; }
+    .checkbox-grid input[type="checkbox"]:checked + span { font-weight: 600; color: #00D4AA; }
+    select:disabled { opacity: 0.4; cursor: not-allowed; }
   </style>
 </head>
 <body>
   <%- include('../partials/navbar') %>
   <div class="shell">
-    <h1><i class="bi bi-house-door"></i> Predicción de precio de venta</h1>
-    <p class="lead">Introduce los datos de la vivienda para obtener una estimación del precio de venta basada en nuestro modelo LightGBM.</p>
+    <h1><i class="bi bi-house-door"></i> PredicciÃ³n de precio de venta</h1>
+    <p class="lead">Introduce los datos de la vivienda para obtener una estimaciÃ³n del precio de venta basada en nuestro modelo LightGBM.</p>
 
     <form method="post" action="/venta/predict" id="ventaForm">
 
-      <!-- Ubicación -->
-      <div class="section-title"><i class="bi bi-geo-alt"></i> Ubicación</div>
+      <!-- UbicaciÃ³n -->
+      <div class="section-title"><i class="bi bi-geo-alt"></i> UbicaciÃ³n</div>
 
       <div class="field">
-        <label for="loc_city"><i class="bi bi-building"></i> Ciudad / Provincia *</label>
-        <input id="loc_city" name="loc_city" type="text" required placeholder="Ej: Madrid, Barcelona, Valencia…" list="ciudadesList">
-        <datalist id="ciudadesList">
-          <option value="Madrid"><option value="Barcelona"><option value="Valencia">
-          <option value="Sevilla"><option value="Málaga"><option value="Bilbao">
-          <option value="Zaragoza"><option value="Alicante"><option value="Murcia">
-          <option value="Palma"><option value="Las Palmas"><option value="Tenerife">
-          <option value="A Coruña"><option value="Granada"><option value="San Sebastián">
-          <option value="Pamplona"><option value="Vitoria"><option value="Cádiz">
-          <option value="Córdoba"><option value="Santander"><option value="Oviedo">
-          <option value="Tarragona"><option value="Girona"><option value="Valladolid">
-          <option value="Toledo"><option value="Vigo"><option value="Salamanca">
-        </datalist>
+        <label for="loc_city"><i class="bi bi-building"></i> Ciudad *</label>
+        <select id="loc_city" name="loc_city" required>
+          <option value="">â€” Selecciona ciudad â€”</option>
+          <% Object.keys(locationHierarchy).sort().forEach(city => { %>
+            <option value="<%= city %>"><%= city %></option>
+          <% }) %>
+        </select>
       </div>
 
       <div class="field">
         <label for="loc_zone"><i class="bi bi-pin-map"></i> Zona</label>
-        <input id="loc_zone" name="loc_zone" type="text" placeholder="Ej: Centro, Norte, Ensanche…">
+        <select id="loc_zone" name="loc_zone" disabled>
+          <option value="">â€” Selecciona ciudad primero â€”</option>
+        </select>
       </div>
 
       <div class="field">
         <label for="loc_district"><i class="bi bi-signpost-2"></i> Distrito</label>
-        <input id="loc_district" name="loc_district" type="text" placeholder="Ej: Chamberí, Eixample…">
+        <select id="loc_district" name="loc_district" disabled>
+          <option value="">â€” Selecciona zona primero â€”</option>
+        </select>
       </div>
 
       <div class="field">
         <label for="loc_neigh"><i class="bi bi-houses"></i> Barrio</label>
-        <input id="loc_neigh" name="loc_neigh" type="text" placeholder="Ej: Malasaña, Gracia…">
+        <select id="loc_neigh" name="loc_neigh" disabled>
+          <option value="">â€” Selecciona distrito primero â€”</option>
+        </select>
       </div>
 
-      <!-- Características principales -->
-      <div class="section-title"><i class="bi bi-rulers"></i> Características de la vivienda</div>
+      <!-- CaracterÃ­sticas principales -->
+      <div class="section-title"><i class="bi bi-rulers"></i> CaracterÃ­sticas de la vivienda</div>
 
       <div class="field">
         <label for="house_type"><i class="bi bi-house"></i> Tipo de vivienda *</label>
         <select id="house_type" name="house_type" required>
           <option value="flat">Piso / Apartamento</option>
-          <option value="penthouse">Ático</option>
-          <option value="duplex">Dúplex</option>
+          <option value="penthouse">Ãtico</option>
+          <option value="duplex">DÃºplex</option>
           <option value="studio">Estudio</option>
           <option value="house">Casa / Chalet</option>
           <option value="country house">Casa rural</option>
@@ -131,12 +122,12 @@
       </div>
 
       <div class="field">
-        <label for="m2_useful"><i class="bi bi-arrows-fullscreen"></i> m² útiles *</label>
+        <label for="m2_useful"><i class="bi bi-arrows-fullscreen"></i> mÂ² Ãºtiles *</label>
         <input id="m2_useful" name="m2_useful" type="number" min="10" step="1" required placeholder="80">
       </div>
 
       <div class="field">
-        <label for="m2_real"><i class="bi bi-bounding-box"></i> m² construidos</label>
+        <label for="m2_real"><i class="bi bi-bounding-box"></i> mÂ² construidos</label>
         <input id="m2_real" name="m2_real" type="number" min="10" step="1" placeholder="90">
       </div>
 
@@ -146,7 +137,7 @@
       </div>
 
       <div class="field">
-        <label for="bath_num"><i class="bi bi-droplet"></i> Baños *</label>
+        <label for="bath_num"><i class="bi bi-droplet"></i> BaÃ±os *</label>
         <input id="bath_num" name="bath_num" type="number" min="1" step="1" required placeholder="1">
       </div>
 
@@ -156,12 +147,12 @@
       </div>
 
       <div class="field">
-        <label for="ground_size"><i class="bi bi-textarea-resize"></i> Tamaño parcela (m²)</label>
+        <label for="ground_size"><i class="bi bi-textarea-resize"></i> TamaÃ±o parcela (mÂ²)</label>
         <input id="ground_size" name="ground_size" type="number" min="0" step="1" placeholder="0">
       </div>
 
       <div class="field">
-        <label for="construct_date"><i class="bi bi-calendar3"></i> Año de construcción</label>
+        <label for="construct_date"><i class="bi bi-calendar3"></i> AÃ±o de construcciÃ³n</label>
         <input id="construct_date" name="construct_date" type="number" min="1800" max="2026" placeholder="2000">
       </div>
 
@@ -179,21 +170,21 @@
       </div>
 
       <div class="field">
-        <label for="energetic_certif"><i class="bi bi-lightning-charge"></i> Certificación energética</label>
+        <label for="energetic_certif"><i class="bi bi-lightning-charge"></i> CertificaciÃ³n energÃ©tica</label>
         <select id="energetic_certif" name="energetic_certif">
           <option value="A">A</option><option value="B">B</option><option value="C">C</option>
           <option value="D">D</option><option value="E" selected>E</option><option value="F">F</option>
-          <option value="G">G</option><option value="exempt">Exento</option><option value="in process">En trámite</option>
+          <option value="G">G</option><option value="exempt">Exento</option><option value="in process">En trÃ¡mite</option>
         </select>
       </div>
 
       <div class="field">
-        <label for="heating"><i class="bi bi-thermometer-half"></i> Calefacción</label>
+        <label for="heating"><i class="bi bi-thermometer-half"></i> CalefacciÃ³n</label>
         <select id="heating" name="heating">
           <option value="individual">Individual</option>
           <option value="central">Central</option>
-          <option value="electric">Eléctrica</option>
-          <option value="no heating">Sin calefacción</option>
+          <option value="electric">ElÃ©ctrica</option>
+          <option value="no heating">Sin calefacciÃ³n</option>
         </select>
       </div>
 
@@ -207,7 +198,7 @@
       </div>
 
       <div class="field">
-        <label for="orientation"><i class="bi bi-compass"></i> Orientación</label>
+        <label for="orientation"><i class="bi bi-compass"></i> OrientaciÃ³n</label>
         <select id="orientation" name="orientation">
           <option value="south">Sur</option><option value="east">Este</option>
           <option value="west">Oeste</option><option value="north">Norte</option>
@@ -216,22 +207,16 @@
         </select>
       </div>
 
-      <!-- Servicios y extras -->
+      <!-- Servicios y extras (dinÃ¡mico) -->
       <div class="section-title"><i class="bi bi-stars"></i> Servicios y extras</div>
 
-      <div class="checkbox-grid">
-        <label><input type="checkbox" name="garage" value="1"><span><i class="bi bi-car-front"></i> Garaje</span></label>
-        <label><input type="checkbox" name="terrace" value="1"><span><i class="bi bi-brightness-high"></i> Terraza</span></label>
-        <label><input type="checkbox" name="garden" value="1"><span><i class="bi bi-tree"></i> Jardín</span></label>
-        <label><input type="checkbox" name="swimming_pool" value="1"><span><i class="bi bi-water"></i> Piscina</span></label>
-        <label><input type="checkbox" name="lift" value="1"><span><i class="bi bi-arrow-up-square"></i> Ascensor</span></label>
-        <label><input type="checkbox" name="balcony" value="1"><span><i class="bi bi-columns-gap"></i> Balcón</span></label>
-        <label><input type="checkbox" name="air_conditioner" value="1"><span><i class="bi bi-snow"></i> Aire acondicionado</span></label>
-        <label><input type="checkbox" name="built_in_wardrobe" value="1"><span><i class="bi bi-box-seam"></i> Armarios empotrados</span></label>
-        <label><input type="checkbox" name="chimney" value="1"><span><i class="bi bi-fire"></i> Chimenea</span></label>
-        <label><input type="checkbox" name="storage_room" value="1"><span><i class="bi bi-archive"></i> Trastero</span></label>
-        <label><input type="checkbox" name="reduced_mobility" value="1"><span><i class="bi bi-person-wheelchair"></i> Accesible</span></label>
-        <label><input type="checkbox" name="unfurnished" value="1"><span><i class="bi bi-dash-circle"></i> Sin amueblar</span></label>
+      <div class="checkbox-grid" id="amenitiesGrid">
+        <% amenitiesVenta.forEach(function(am) { %>
+          <label>
+            <input type="checkbox" name="<%= am.name %>" value="1">
+            <span><i class="bi <%= am.icon %>"></i> <%= am.label %></span>
+          </label>
+        <% }) %>
       </div>
 
       <!-- Acciones -->
@@ -245,11 +230,88 @@
   <%- include('../partials/spinner') %>
 
   <script>
+    // ---- Location hierarchy from server ----
+    const LOC = <%- JSON.stringify(locationHierarchy) %>;
+
+    const selCity   = document.getElementById('loc_city');
+    const selZone   = document.getElementById('loc_zone');
+    const selDist   = document.getElementById('loc_district');
+    const selNeigh  = document.getElementById('loc_neigh');
+
+    function populateSelect(sel, values, placeholder, enable) {
+      sel.innerHTML = '';
+      const def = document.createElement('option');
+      def.value = '';
+      def.textContent = placeholder;
+      sel.appendChild(def);
+      values.forEach(v => {
+        if (!v) return; // skip empty string keys (sin zona/distrito)
+        const opt = document.createElement('option');
+        opt.value = v;
+        opt.textContent = v;
+        sel.appendChild(opt);
+      });
+      sel.disabled = !enable;
+    }
+
+    selCity.addEventListener('change', () => {
+      const city = selCity.value;
+      selZone.innerHTML  = '<option value="">â€” Sin zona â€”</option>';
+      selDist.innerHTML  = '<option value="">â€” Sin distrito â€”</option>';
+      selNeigh.innerHTML = '<option value="">â€” Sin barrio â€”</option>';
+      selDist.disabled  = true;
+      selNeigh.disabled = true;
+
+      if (!city || !LOC[city]) { selZone.disabled = true; return; }
+
+      const zones = Object.keys(LOC[city]).filter(z => z !== '');
+      if (zones.length === 0) {
+        selZone.disabled = true;
+        // Treat empty-zone directly: load its districts
+        loadDistricts(city, '');
+      } else {
+        populateSelect(selZone, zones, 'â€” Selecciona zona â€”', true);
+        selZone.disabled = false;
+      }
+    });
+
+    selZone.addEventListener('change', () => {
+      const city = selCity.value;
+      const zone = selZone.value;
+      selDist.innerHTML  = '<option value="">â€” Sin distrito â€”</option>';
+      selNeigh.innerHTML = '<option value="">â€” Sin barrio â€”</option>';
+      selNeigh.disabled  = true;
+      loadDistricts(city, zone);
+    });
+
+    selDist.addEventListener('change', () => {
+      const city  = selCity.value;
+      const zone  = selZone.value;
+      const dist  = selDist.value;
+      selNeigh.innerHTML = '<option value="">â€” Sin barrio â€”</option>';
+      selNeigh.disabled  = true;
+
+      const zoneData = LOC[city] && (LOC[city][zone] || LOC[city]['']);
+      if (!zoneData) return;
+      const distData = zoneData[dist] || zoneData[''];
+      if (!distData || distData.length === 0) { selNeigh.disabled = true; return; }
+      populateSelect(selNeigh, distData.filter(n => n), 'â€” Selecciona barrio â€”', true);
+    });
+
+    function loadDistricts(city, zone) {
+      const zoneData = LOC[city] && (LOC[city][zone] !== undefined ? LOC[city][zone] : LOC[city]['']);
+      if (!zoneData) { selDist.disabled = true; return; }
+      const dists = Object.keys(zoneData).filter(d => d !== '');
+      if (dists.length === 0) { selDist.disabled = true; return; }
+      populateSelect(selDist, dists, 'â€” Selecciona distrito â€”', true);
+    }
+
+    // ---- Spinner ----
     const formEl = document.querySelector('form');
     if (formEl) {
       formEl.addEventListener('submit', () => {
         if (typeof showSpinner === 'function') {
-          showSpinner('Estamos prediciendo tu precio óptimo', 'Esto podría tardar unos segundos', 'fa-calculator');
+          showSpinner('Estamos prediciendo tu precio Ã³ptimo', 'Esto podrÃ­a tardar unos segundos', 'fa-calculator');
         }
       });
     }

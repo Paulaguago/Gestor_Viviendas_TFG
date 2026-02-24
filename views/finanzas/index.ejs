@@ -117,10 +117,10 @@
         .fn-year-bar select:focus { border-color: var(--teal); }
         .fn-year-bar .refresh-btn {
             width: 38px; height: 38px; border-radius: 10px; border: 1.5px solid var(--border);
-            background: var(--card-bg); display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: background .15s, border-color .15s; color: var(--text-muted);
+            background: #2a2d3e; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: background .15s, border-color .15s; color: #c5c8d6;
         }
-        .fn-year-bar .refresh-btn:hover { background: var(--page-bg); border-color: var(--teal); color: var(--teal); }
+        .fn-year-bar .refresh-btn:hover { background: #353950; border-color: var(--teal); color: var(--teal); }
 
         /* ===== KPI GRID ===== */
         .kpi-grid {
@@ -131,7 +131,7 @@
         }
         .kpi-card {
             background: var(--card-bg);
-            border: 1px solid var(--border);
+            border: 1px solid #CBD5E1;
             border-radius: var(--radius);
             padding: 1.25rem 1.35rem 1.1rem;
             box-shadow: var(--shadow);
@@ -182,14 +182,14 @@
         /* ===== CARD ===== */
         .fn-card {
             background: var(--card-bg);
-            border: 1px solid var(--border);
+            border: 1px solid #CBD5E1;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             overflow: hidden;
         }
         .fn-card-header {
             padding: 1.1rem 1.35rem .9rem;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid #CBD5E1;
             display: flex; align-items: center; justify-content: space-between; gap: 1rem;
         }
         .fn-card-header h2 {
@@ -217,7 +217,7 @@
             border-radius: 10px;
             padding: .9rem 1.1rem;
         }
-        .summary-item .si-label { font-size: .7rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .3rem; }
+        .summary-item .si-label { font-size: .7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .3rem; }
         .summary-item .si-val { font-size: 1.2rem; font-weight: 800; }
         .summary-item .si-sub { font-size: .72rem; color: var(--text-muted); margin-top: .15rem; }
         .si-val.green  { color: var(--green); }
@@ -362,12 +362,13 @@
             </div>
             <div class="fn-year-bar">
                 <form method="GET" action="/finanzas" id="year-form" style="display:flex;gap:.6rem;align-items:center;">
+                    <span style="font-size:.8rem;font-weight:600;color:var(--text-muted);white-space:nowrap;">Filtrar por año:</span>
                     <select name="año" onchange="document.getElementById('year-form').submit()">
                         <% yearsAvailable.forEach(y => { %>
                             <option value="<%= y %>" <%= y === year ? 'selected' : '' %>><%= y %></option>
                         <% }); %>
                     </select>
-                    <button type="submit" class="refresh-btn" title="Actualizar">
+                    <button type="submit" class="refresh-btn" title="Actualizar datos">
                         <i class="bi bi-arrow-clockwise"></i>
                     </button>
                 </form>
@@ -495,6 +496,7 @@
                     <div class="sub">Comparativa de rendimiento por propiedad • <%= year %></div>
                 </div>
                 <div class="rank-tabs">
+                    <span style="font-size:.8rem; font-weight:600; color:var(--text-muted); white-space:nowrap; align-self:center;">Ordenar por:</span>
                     <button class="rank-tab active" onclick="sortRanking('ingresos', this)">Ingresos</button>
                     <button class="rank-tab" onclick="sortRanking('ocupacion', this)">Ocupación</button>
                     <button class="rank-tab" onclick="sortRanking('rentabilidad', this)">Rentabilidad</button>

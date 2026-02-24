@@ -1,0 +1,62 @@
+[
+  {
+    "name": "garage",
+    "label": "Garaje",
+    "icon": "bi-car-front"
+  },
+  {
+    "name": "terrace",
+    "label": "Terraza",
+    "icon": "bi-brightness-high"
+  },
+  {
+    "name": "garden",
+    "label": "Jardín",
+    "icon": "bi-tree"
+  },
+  {
+    "name": "swimming_pool",
+    "label": "Piscina",
+    "icon": "bi-water"
+  },
+  {
+    "name": "lift",
+    "label": "Ascensor",
+    "icon": "bi-arrow-up-square"
+  },
+  {
+    "name": "balcony",
+    "label": "Balcón",
+    "icon": "bi-columns-gap"
+  },
+  {
+    "name": "air_conditioner",
+    "label": "Aire acondicionado",
+    "icon": "bi-snow"
+  },
+  {
+    "name": "built_in_wardrobe",
+    "label": "Armarios empotrados",
+    "icon": "bi-box-seam"
+  },
+  {
+    "name": "chimney",
+    "label": "Chimenea",
+    "icon": "bi-fire"
+  },
+  {
+    "name": "storage_room",
+    "label": "Trastero",
+    "icon": "bi-archive"
+  },
+  {
+    "name": "reduced_mobility",
+    "label": "Accesible (movilidad reducida)",
+    "icon": "bi-person-wheelchair"
+  },
+  {
+    "name": "unfurnished",
+    "label": "Sin amueblar",
+    "icon": "bi-dash-circle"
+  }
+]
