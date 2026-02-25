@@ -111,6 +111,40 @@ router.post('/predict', async (req, res) => {
   }
 });
 
+// ================= SHAP Local (Ventas) =================
+// POST /venta/shap-local -> calcular SHAP local para una predicción específica
+router.post('/shap-local', (req, res) => {
+  try {
+    const inputData = req.body.input || req.body || {};
+
+    const scriptPath = path.join(projectRoot, 'python_scripts', 'shap_local_venta.py');
+    const inputJson  = JSON.stringify(inputData);
+
+    const python = spawnPython(scriptPath, [], { INPUT_JSON: inputJson });
+    let output = '';
+    let error  = '';
+
+    python.stdout.on('data', d => { output += d.toString(); });
+    python.stderr.on('data', d => { error  += d.toString(); });
+
+    python.on('close', (code) => {
+      if (code === 0 && output.trim()) {
+        try {
+          const result = JSON.parse(output);
+          return res.json(result);
+        } catch (e) {
+          console.error('[SHAP Venta Local] Error parseando JSON:', e.message);
+          return res.status(500).json({ error: 'Error parseando resultado SHAP', detail: e.message, raw: output.substring(0, 500) });
+        }
+      }
+      console.error('[SHAP Venta Local] exit code:', code, 'stderr:', error);
+      res.status(500).json({ error: 'Error calculando SHAP local de venta', stderr: error.substring(0, 1000), code });
+    });
+  } catch (e) {
+    res.status(500).json({ error: 'Error interno', detail: e.message });
+  }
+});
+
 // ================= SHAP Global (Ventas) =================
 // GET /sales/shap-global -> importancia global SHAP para LightGBM (ventas)
 router.get('/sales/shap-global', (req, res) => {

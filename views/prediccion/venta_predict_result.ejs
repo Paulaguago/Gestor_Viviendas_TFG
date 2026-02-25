@@ -128,6 +128,127 @@
     .vr-error i { font-size: 2.5rem; color: #EF4444; }
     .vr-error h3 { margin: 12px 0 8px; font-size: 1.3rem; color: #0F172A; }
     .vr-error p { color: #64748b; font-size: .9rem; }
+
+    /* ── SHAP Explainability section ──────────────────────────── */
+    .vr-explain-section { margin-top: 1.5rem; }
+    .vr-explain-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 960px) { .vr-explain-grid { grid-template-columns: 1fr; } }
+
+    .vr-shap-title {
+      font-size: .7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: #64748b;
+      display: flex; align-items: center; gap: 7px;
+      border-bottom: 1.5px solid #F1F5F9; padding-bottom: 10px; margin-bottom: 16px;
+    }
+    .vr-shap-title i { color: #10B981; font-size: .85rem; }
+
+    #vr-shap-factors { display: flex; flex-direction: column; gap: 10px; }
+
+    .vr-shap-row { display: grid; grid-template-columns: 170px minmax(0,1fr) 110px; gap: 10px; align-items: center; }
+    @media (max-width: 680px) { .vr-shap-row { grid-template-columns: 1fr; gap: 4px; } }
+
+    .vr-shap-label-wrap { display: flex; align-items: center; gap: 6px; }
+    .vr-shap-label { font-size: .82rem; font-weight: 600; color: #334155; }
+    .vr-shap-info-btn {
+      width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid #CBD5E1;
+      background: #F8FAFC; color: #64748b; font-size: .65rem; font-weight: 700;
+      cursor: pointer; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
+      transition: all .15s;
+    }
+    .vr-shap-info-btn:hover { background: #10B981; color: #fff; border-color: #10B981; }
+
+    .vr-shap-bar-wrap { display: flex; align-items: center; }
+    .vr-shap-bar-outer {
+      width: 100%; height: 10px; background: #F1F5F9;
+      border-radius: 99px; overflow: hidden;
+    }
+    .vr-shap-bar-inner { height: 100%; border-radius: 99px; transition: width .5s ease; }
+
+    .vr-shap-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+    .vr-shap-meta strong { font-size: .82rem; color: #0F172A; }
+    .vr-shap-direction { font-size: .72rem; font-weight: 700; }
+    .vr-shap-direction.up   { color: #10B981; }
+    .vr-shap-direction.down { color: #EF4444; }
+    .vr-shap-eur { font-size: .7rem; color: #64748b; }
+
+    .vr-shap-error { color: #EF4444; font-size: .85rem; }
+    #vr-shap-base-note {
+      font-size: .78rem; color: #64748b; margin-top: 14px;
+      padding: 10px 14px; background: #F8FAFC;
+      border-left: 3px solid #10B981; border-radius: 0 8px 8px 0;
+      display: none;
+    }
+
+    /* Spinner while loading */
+    .vr-shap-spinner {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      padding: 24px 0;
+    }
+    .vr-shap-spinner .spin {
+      width: 32px; height: 32px; border: 3px solid #E2E8F0;
+      border-top-color: #10B981; border-radius: 50%;
+      animation: vr-spin .8s linear infinite;
+    }
+    @keyframes vr-spin { to { transform: rotate(360deg); } }
+
+    /* ── Model metrics card ───────────────────────────────────── */
+    .vr-metric-progress {
+      height: 8px; background: #F1F5F9; border-radius: 99px;
+      overflow: hidden; margin: 8px 0 4px;
+    }
+    .vr-metric-progress span {
+      display: block; height: 100%;
+      background: linear-gradient(90deg, #10B981, #059669);
+      border-radius: 99px; transition: width .6s ease;
+    }
+    .vr-metric-boxes {
+      display: flex; flex-direction: column;
+      gap: 10px; margin-top: 14px;
+    }
+    .vr-metric-box {
+      border-radius: 10px; padding: 13px 16px;
+      border: 1px solid transparent;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .vr-metric-box.blue   { background: #EFF6FF; border-color: #BFDBFE; }
+    .vr-metric-box.purple { background: #F5F3FF; border-color: #DDD6FE; }
+    .vr-metric-box.green  { background: #ECFDF5; border-color: #A7F3D0; }
+    .vr-metric-box-label { font-size: .78rem; font-weight: 600; color: #64748b; }
+    .vr-metric-box-label i { margin-right: 5px; }
+    .vr-metric-box-value { font-size: 1.1rem; font-weight: 800; color: #0F172A; white-space: nowrap; }
+    .badge-soft {
+      display: inline-block; padding: 2px 10px; border-radius: 12px;
+      font-size: .7rem; font-weight: 700;
+      background: #ECFDF5; color: #059669; border: 1px solid #A7F3D0;
+      margin-left: 6px;
+    }
+    #vr-metric-desc { font-size: .78rem; color: #64748b; margin-top: 10px; line-height: 1.6; }
+
+    /* ── Info Modal ──────────────────────────────────────────── */
+    .vr-shap-modal-backdrop {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.45); z-index: 9999;
+      align-items: center; justify-content: center;
+    }
+    .vr-shap-modal-backdrop.active { display: flex; }
+    .vr-shap-modal-box {
+      background: #fff; border-radius: 16px; padding: 28px 28px 24px;
+      max-width: 440px; width: 90%; position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,.18);
+    }
+    .vr-shap-modal-close {
+      position: absolute; top: 14px; right: 14px;
+      background: none; border: none; font-size: 1.4rem;
+      cursor: pointer; color: #94A3B8; line-height: 1;
+    }
+    .vr-shap-modal-close:hover { color: #0F172A; }
+    .vr-shap-modal-title { font-size: 1rem; font-weight: 700; color: #0F172A; margin-bottom: 10px; }
+    .vr-shap-modal-desc  { font-size: .88rem; color: #475569; line-height: 1.6; }
   </style>
 </head>
 <body>
@@ -239,7 +360,60 @@
       </div>
 
     </div>
-  </div>
+
+    <!-- ── Explainability + Metrics section ── -->
+    <div class="vr-explain-section">
+      <div class="vr-explain-grid">
+
+        <!-- SHAP factors card -->
+      <div class="vr-card">
+        <div class="vr-shap-title"><i class="bi bi-bar-chart-steps"></i> Factores que determinan el precio</div>
+        <p style="font-size:.82rem; color:#64748b; margin: 0 0 14px;">
+          El modelo analiza <strong>todas las características del inmueble</strong> y calcula cuánto
+          sube o baja el precio estimado respecto a la media del mercado. Las barras muestran
+          la importancia relativa de cada factor y su dirección (↑ sube, ↓ baja).
+        </p>
+        <div id="vr-shap-factors">
+          <div class="vr-shap-spinner"><div class="spin"></div><span style="font-size:.8rem;color:#64748b;">Calculando importancia de variables...</span></div>
+        </div>
+        <div id="vr-shap-base-note"></div>
+      </div>
+
+      <!-- Metrics card -->
+      <div class="vr-card">
+        <div class="vr-shap-title"><i class="bi bi-graph-up"></i> Precisión del modelo <span class="badge-soft" id="vr-metric-name">LightGBM</span></div>
+        <p style="font-size:.8rem; color:#64748b; margin:0 0 8px;">Exactitud global estimada: <strong id="vr-metric-acc-text">—</strong></p>
+        <div class="vr-metric-progress"><span id="vr-metric-acc-bar" style="width:0%"></span></div>
+        <div class="vr-metric-boxes">
+          <div class="vr-metric-box blue">
+            <div class="vr-metric-box-label"><i class="bi bi-graph-up"></i> Error medio</div>
+            <div class="vr-metric-box-value" id="vr-metric-mae">—</div>
+          </div>
+          <div class="vr-metric-box purple">
+            <div class="vr-metric-box-label"><i class="bi bi-bullseye"></i> Confianza (R²)</div>
+            <div class="vr-metric-box-value" id="vr-metric-r2">—</div>
+          </div>
+          <div class="vr-metric-box green">
+            <div class="vr-metric-box-label"><i class="bi bi-bar-chart-line"></i> Desviación</div>
+            <div class="vr-metric-box-value" id="vr-metric-rmse">—</div>
+          </div>
+        </div>
+        <p id="vr-metric-desc"></p>
+
+        <hr style="margin: 20px 0; border-color: #F1F5F9;">
+
+        <div class="vr-shap-title" style="margin-top:4px;"><i class="bi bi-info-circle"></i> ¿Cómo funciona?</div>
+        <ul style="font-size:.8rem; color:#475569; line-height:1.9; padding-left:18px; margin:0;">
+          <li><strong>Analizamos</strong> todas las características físicas, de ubicación y económicas del inmueble.</li>
+          <li><strong>Calculamos</strong> el impacto individual de cada factor usando SHAP (SHapley Additive exPlanations).</li>
+          <li><strong>Sumamos</strong> todos los impactos al precio base para obtener el precio final estimado.</li>
+        </ul>
+      </div>
+
+      </div><!-- /vr-explain-grid -->
+    </div><!-- /vr-explain-section -->
+
+  </div><!-- /vr-page -->
 
   <% } else { %>
   <!-- Error -->
@@ -250,6 +424,17 @@
     <div class="vr-actions" style="justify-content:center; margin-top:20px;">
       <a href="/venta" class="vr-btn vr-btn-primary"><i class="bi bi-arrow-repeat"></i> Reintentar</a>
       <a href="/dashboard" class="vr-btn vr-btn-outline"><i class="bi bi-arrow-left"></i> Volver</a>
+    </div>
+  </div>
+  <% } %>
+
+  <!-- Info Modal for SHAP variables -->
+  <% if (sample) { %>
+  <div id="vr-shap-modal" class="vr-shap-modal-backdrop">
+    <div class="vr-shap-modal-box">
+      <button class="vr-shap-modal-close" id="vr-shap-modal-close">×</button>
+      <div class="vr-shap-modal-title" id="vr-shap-modal-title"></div>
+      <div class="vr-shap-modal-desc"  id="vr-shap-modal-desc"></div>
     </div>
   </div>
   <% } %>
@@ -303,5 +488,13 @@
     }
     <% } %>
   </script>
+
+  <% if (sample) { %>
+  <script>
+    // Inject input data for SHAP explainability
+    const ventaSample = <%- JSON.stringify({ input: sample.input }) %>;
+  </script>
+  <script src="/js/prediccion/venta_predict_result.js"></script>
+  <% } %>
 </body>
 </html>
