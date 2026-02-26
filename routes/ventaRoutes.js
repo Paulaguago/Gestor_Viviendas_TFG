@@ -73,9 +73,10 @@ router.post('/predict', async (req, res) => {
 
     const scriptPath = path.join(projectRoot, 'python_scripts', 'predict_venta.py');
     const inputJson  = JSON.stringify(inputData);
+    const modeloType = (b.modelo || 'lightgbm').toLowerCase();
 
     const result = await new Promise((resolve, reject) => {
-      const proc = spawnPython(scriptPath, [], { INPUT_JSON: inputJson });
+      const proc = spawnPython(scriptPath, [], { INPUT_JSON: inputJson, MODELO_TYPE: modeloType });
       let stdout = '', stderr = '';
       proc.stdout.on('data', d => { stdout += d.toString(); });
       proc.stderr.on('data', d => { stderr += d.toString(); });

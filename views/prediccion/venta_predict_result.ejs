@@ -14,6 +14,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      --green-dark: #1a7a3c;
+      --green-mid:  #2d6a4f;
+      --green-light: #ecf7ef;
+      --green-border: #a8d5b5;
+      --red-deep: #c0392b;
+    }
     body { font-family: 'Inter', system-ui, sans-serif; background: #F4F6F9; color: #0F172A; margin: 0; }
 
     /* ── Page wrapper ──────────────────────────────── */
@@ -33,11 +40,10 @@
       text-transform: uppercase; color: #64748b;
       display: flex; align-items: center; gap: .4rem;
     }
-    .vr-hero-label i { color: #10B981; }
+    .vr-hero-label i { color: var(--green-dark); }
     .vr-price {
       font-size: 3rem; font-weight: 900;
-      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
+      color: var(--green-dark);
       line-height: 1; margin: .4rem 0;
     }
     .vr-price-sub { font-size: .85rem; color: #64748b; }
@@ -52,45 +58,66 @@
       padding: 6px 13px; border-radius: 20px; font-size: .78rem; font-weight: 600;
       background: #F1F5F9; color: #334155; border: 1px solid #E2E8F0;
     }
-    .vr-chip i { color: #10B981; font-size: .8rem; }
+    .vr-chip i { color: var(--green-dark); font-size: .8rem; }
 
-    /* ── Two-column body ───────────────────────────── */
-    .vr-body { display: grid; grid-template-columns: 400px 1fr; gap: 1.5rem; align-items: start; }
-    @media (max-width: 960px) { .vr-body { grid-template-columns: 1fr; } }
+    /* ── Main two-column grid ─────────────────────── */
+    .vr-main-grid {
+      display: grid;
+      grid-template-columns: 60% 40%;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 768px) { .vr-main-grid { grid-template-columns: 1fr; } }
 
-    .vr-panel { display: flex; flex-direction: column; gap: 1.25rem; }
+    /* Left column flows naturally */
+    .vr-left-col { display: flex; flex-direction: column; gap: 16px; }
+
+    /* Right column is sticky */
+    .vr-right-col {
+      display: flex; flex-direction: column; gap: 16px;
+      position: sticky; top: 20px;
+    }
+    @media (max-width: 768px) { .vr-right-col { position: static; } }
+
     .vr-card {
       background: #fff; border-radius: 12px;
-      box-shadow: 0 1px 3px rgba(0,0,0,.08); padding: 1.25rem 1.375rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,.10); padding: 1.25rem 1.375rem;
+      border-left: 3px solid var(--green-dark);
     }
 
     /* Section titles */
     .vr-section {
-      font-size: .7rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .08em; color: #64748b;
-      display: flex; align-items: center; gap: 7px;
-      border-bottom: 1.5px solid #F1F5F9; padding-bottom: 10px; margin-bottom: 12px;
+      font-size: .75rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .09em; color: #3a4a3e;
+      display: flex; align-items: center; gap: 8px;
+      border-bottom: 2px solid #e4ede7; padding-bottom: 11px; margin-bottom: 14px;
     }
-    .vr-section i { color: #10B981; font-size: .85rem; }
+    .vr-section i { color: var(--green-dark); font-size: .9rem; }
 
     /* Detail grid */
     .vr-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .vr-detail-item {
-      display: flex; align-items: center; gap: 7px;
-      padding: 9px 12px; background: #F8FAFC;
-      border-radius: 8px; border: 1px solid #E2E8F0;
-      font-size: .82rem; color: #334155;
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 12px; background: #f8faf9;
+      border-radius: 8px; border: 1px solid #ddeee4;
+      font-size: .82rem; color: #1e2e24;
     }
-    .vr-detail-item i { color: #3B82F6; font-size: .9rem; min-width: 16px; flex-shrink: 0; }
+    .vr-detail-item i {
+      color: #fff; font-size: .78rem;
+      min-width: 24px; height: 24px; flex-shrink: 0;
+      background: var(--green-dark); border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
     .vr-detail-item .lbl { color: #64748b; margin-right: 3px; }
 
     /* Amenity pills */
     .vr-amenities { display: flex; flex-wrap: wrap; gap: 7px; }
     .vr-amenity {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 5px 11px; border-radius: 20px; font-size: .78rem; font-weight: 600;
-      background: #ECFDF5; color: #059669; border: 1px solid #A7F3D0;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 13px; border-radius: 20px; font-size: .78rem; font-weight: 700;
+      background: var(--green-dark); color: #fff; border: 1px solid var(--green-dark);
     }
+    .vr-amenity i { color: #fff; opacity: .9; }
 
     /* Actions */
     .vr-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: .75rem; }
@@ -99,14 +126,14 @@
       padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: .85rem;
       text-decoration: none; transition: all .15s; cursor: pointer; border: none;
     }
-    .vr-btn-primary { background: #10B981; color: #fff; box-shadow: 0 4px 14px rgba(16,185,129,.3); }
-    .vr-btn-primary:hover { background: #059669; color: #fff; }
+    .vr-btn-primary { background: var(--green-dark); color: #fff; box-shadow: 0 4px 14px rgba(26,122,60,.3); }
+    .vr-btn-primary:hover { background: var(--green-mid); color: #fff; }
     .vr-btn-outline { background: #fff; color: #334155; border: 1.5px solid #E2E8F0; }
     .vr-btn-outline:hover { background: #F1F5F9; }
 
-    /* ── Map panel ─────────────────────────────────── */
-    .vr-map-panel { position: relative; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
-    #vr-map { width: 100%; height: 600px; }
+    /* ── Map inside card ──────────────────────────── */
+    .vr-map-wrap { position: relative; border-radius: 8px; overflow: hidden; margin-top: 4px; }
+    #vr-map { width: 100%; height: 280px; }
     .vr-map-overlay {
       position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
       background: rgba(255,255,255,.95); backdrop-filter: blur(8px);
@@ -117,7 +144,7 @@
       overflow: hidden; text-overflow: ellipsis;
       box-shadow: 0 2px 8px rgba(0,0,0,.1);
     }
-    .vr-map-overlay i { color: #10B981; }
+    .vr-map-overlay i { color: var(--green-dark); }
 
     /* Error page */
     .vr-error {
@@ -129,23 +156,15 @@
     .vr-error h3 { margin: 12px 0 8px; font-size: 1.3rem; color: #0F172A; }
     .vr-error p { color: #64748b; font-size: .9rem; }
 
-    /* ── SHAP Explainability section ──────────────────────────── */
-    .vr-explain-section { margin-top: 1.5rem; }
-    .vr-explain-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 340px;
-      gap: 1.5rem;
-      align-items: start;
-    }
-    @media (max-width: 960px) { .vr-explain-grid { grid-template-columns: 1fr; } }
+    /* ── SHAP section (lives in left col) ────────── */
 
     .vr-shap-title {
-      font-size: .7rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .08em; color: #64748b;
-      display: flex; align-items: center; gap: 7px;
-      border-bottom: 1.5px solid #F1F5F9; padding-bottom: 10px; margin-bottom: 16px;
+      font-size: .75rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .09em; color: #3a4a3e;
+      display: flex; align-items: center; gap: 8px;
+      border-bottom: 2px solid #e4ede7; padding-bottom: 11px; margin-bottom: 16px;
     }
-    .vr-shap-title i { color: #10B981; font-size: .85rem; }
+    .vr-shap-title i { color: var(--green-dark); font-size: .9rem; }
 
     #vr-shap-factors { display: flex; flex-direction: column; gap: 10px; }
 
@@ -160,7 +179,7 @@
       cursor: pointer; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
       transition: all .15s;
     }
-    .vr-shap-info-btn:hover { background: #10B981; color: #fff; border-color: #10B981; }
+    .vr-shap-info-btn:hover { background: var(--green-dark); color: #fff; border-color: var(--green-dark); }
 
     .vr-shap-bar-wrap { display: flex; align-items: center; }
     .vr-shap-bar-outer {
@@ -172,15 +191,15 @@
     .vr-shap-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
     .vr-shap-meta strong { font-size: .82rem; color: #0F172A; }
     .vr-shap-direction { font-size: .72rem; font-weight: 700; }
-    .vr-shap-direction.up   { color: #10B981; }
-    .vr-shap-direction.down { color: #EF4444; }
+    .vr-shap-direction.up   { color: var(--green-dark); font-weight: 800; }
+    .vr-shap-direction.down { color: var(--red-deep);   font-weight: 800; }
     .vr-shap-eur { font-size: .7rem; color: #64748b; }
 
     .vr-shap-error { color: #EF4444; font-size: .85rem; }
     #vr-shap-base-note {
       font-size: .78rem; color: #64748b; margin-top: 14px;
-      padding: 10px 14px; background: #F8FAFC;
-      border-left: 3px solid #10B981; border-radius: 0 8px 8px 0;
+      padding: 10px 14px; background: #f8faf9;
+      border-left: 3px solid var(--green-dark); border-radius: 0 8px 8px 0;
       display: none;
     }
 
@@ -191,7 +210,7 @@
     }
     .vr-shap-spinner .spin {
       width: 32px; height: 32px; border: 3px solid #E2E8F0;
-      border-top-color: #10B981; border-radius: 50%;
+      border-top-color: var(--green-dark); border-radius: 50%;
       animation: vr-spin .8s linear infinite;
     }
     @keyframes vr-spin { to { transform: rotate(360deg); } }
@@ -203,7 +222,7 @@
     }
     .vr-metric-progress span {
       display: block; height: 100%;
-      background: linear-gradient(90deg, #10B981, #059669);
+      background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
       border-radius: 99px; transition: width .6s ease;
     }
     .vr-metric-boxes {
@@ -217,14 +236,14 @@
     }
     .vr-metric-box.blue   { background: #EFF6FF; border-color: #BFDBFE; }
     .vr-metric-box.purple { background: #F5F3FF; border-color: #DDD6FE; }
-    .vr-metric-box.green  { background: #ECFDF5; border-color: #A7F3D0; }
+    .vr-metric-box.green  { background: var(--green-light); border-color: var(--green-border); }
     .vr-metric-box-label { font-size: .78rem; font-weight: 600; color: #64748b; }
     .vr-metric-box-label i { margin-right: 5px; }
-    .vr-metric-box-value { font-size: 1.1rem; font-weight: 800; color: #0F172A; white-space: nowrap; }
+    .vr-metric-box-value { font-size: 1.25rem; font-weight: 800; color: var(--green-dark); white-space: nowrap; }
     .badge-soft {
       display: inline-block; padding: 2px 10px; border-radius: 12px;
       font-size: .7rem; font-weight: 700;
-      background: #ECFDF5; color: #059669; border: 1px solid #A7F3D0;
+      background: var(--green-light); color: var(--green-dark); border: 1px solid var(--green-border);
       margin-left: 6px;
     }
     #vr-metric-desc { font-size: .78rem; color: #64748b; margin-top: 10px; line-height: 1.6; }
@@ -300,11 +319,11 @@
       </div>
     </div>
 
-    <!-- ── Two-column body ── -->
-    <div class="vr-body">
+    <!-- ── Main 2-column grid ── -->
+    <div class="vr-main-grid">
 
-      <!-- LEFT: details -->
-      <div class="vr-panel">
+      <!-- ════ LEFT COLUMN (60%) ════ -->
+      <div class="vr-left-col">
 
         <!-- Location -->
         <div class="vr-card">
@@ -317,7 +336,7 @@
           </div>
         </div>
 
-        <!-- Property details -->
+        <!-- Characteristics -->
         <div class="vr-card">
           <div class="vr-section"><i class="bi bi-list-check"></i> Características</div>
           <div class="vr-detail-grid">
@@ -348,70 +367,71 @@
         </div>
         <% } %>
 
-      </div>
-
-      <!-- ── RIGHT: Map ── -->
-      <div class="vr-map-panel">
-        <div id="vr-map"></div>
-        <div class="vr-map-overlay" id="mapLabel">
-          <i class="bi bi-geo-alt-fill"></i>
-          <span><%= locationStr || 'Ubicación no especificada' %></span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ── Explainability + Metrics section ── -->
-    <div class="vr-explain-section">
-      <div class="vr-explain-grid">
-
-        <!-- SHAP factors card -->
-      <div class="vr-card">
-        <div class="vr-shap-title"><i class="bi bi-bar-chart-steps"></i> Factores que determinan el precio</div>
-        <p style="font-size:.82rem; color:#64748b; margin: 0 0 14px;">
-          El modelo analiza <strong>todas las características del inmueble</strong> y calcula cuánto
-          sube o baja el precio estimado respecto a la media del mercado. Las barras muestran
-          la importancia relativa de cada factor y su dirección (↑ sube, ↓ baja).
-        </p>
-        <div id="vr-shap-factors">
-          <div class="vr-shap-spinner"><div class="spin"></div><span style="font-size:.8rem;color:#64748b;">Calculando importancia de variables...</span></div>
-        </div>
-        <div id="vr-shap-base-note"></div>
-      </div>
-
-      <!-- Metrics card -->
-      <div class="vr-card">
-        <div class="vr-shap-title"><i class="bi bi-graph-up"></i> Precisión del modelo <span class="badge-soft" id="vr-metric-name">LightGBM</span></div>
-        <p style="font-size:.8rem; color:#64748b; margin:0 0 8px;">Exactitud global estimada: <strong id="vr-metric-acc-text">—</strong></p>
-        <div class="vr-metric-progress"><span id="vr-metric-acc-bar" style="width:0%"></span></div>
-        <div class="vr-metric-boxes">
-          <div class="vr-metric-box blue">
-            <div class="vr-metric-box-label"><i class="bi bi-graph-up"></i> Error medio</div>
-            <div class="vr-metric-box-value" id="vr-metric-mae">—</div>
+        <!-- SHAP factors -->
+        <div class="vr-card">
+          <div class="vr-shap-title"><i class="bi bi-bar-chart-steps"></i> Factores que determinan el precio</div>
+          <p style="font-size:.82rem; color:#64748b; margin: 0 0 14px;">
+            El modelo analiza <strong>todas las características del inmueble</strong> y calcula cuánto
+            sube o baja el precio estimado respecto a la media del mercado. Las barras muestran
+            la importancia relativa de cada factor y su dirección (▲ sube, ▼ baja).
+          </p>
+          <div id="vr-shap-factors">
+            <div class="vr-shap-spinner"><div class="spin"></div><span style="font-size:.8rem;color:#64748b;">Calculando importancia de variables...</span></div>
           </div>
-          <div class="vr-metric-box purple">
-            <div class="vr-metric-box-label"><i class="bi bi-bullseye"></i> Confianza (R²)</div>
-            <div class="vr-metric-box-value" id="vr-metric-r2">—</div>
-          </div>
-          <div class="vr-metric-box green">
-            <div class="vr-metric-box-label"><i class="bi bi-bar-chart-line"></i> Desviación</div>
-            <div class="vr-metric-box-value" id="vr-metric-rmse">—</div>
+          <div id="vr-shap-base-note"></div>
+        </div>
+
+      </div><!-- /vr-left-col -->
+
+      <!-- ════ RIGHT COLUMN (40%, sticky) ════ -->
+      <div class="vr-right-col">
+
+        <!-- Map card -->
+        <div class="vr-card">
+          <div class="vr-section"><i class="bi bi-map"></i> Ubicación en el mapa</div>
+          <div class="vr-map-wrap">
+            <div id="vr-map"></div>
+            <div class="vr-map-overlay" id="mapLabel">
+              <i class="bi bi-geo-alt-fill"></i>
+              <span><%= locationStr || 'Ubicación no especificada' %></span>
+            </div>
           </div>
         </div>
-        <p id="vr-metric-desc"></p>
 
-        <hr style="margin: 20px 0; border-color: #F1F5F9;">
+        <!-- Metrics card -->
+        <div class="vr-card">
+          <div class="vr-shap-title"><i class="bi bi-graph-up"></i> Precisión del modelo <span class="badge-soft" id="vr-metric-name">LightGBM</span></div>
+          <p style="font-size:.8rem; color:#64748b; margin:0 0 8px;">Exactitud global estimada: <strong id="vr-metric-acc-text">—</strong></p>
+          <div class="vr-metric-progress"><span id="vr-metric-acc-bar" style="width:0%"></span></div>
+          <div class="vr-metric-boxes">
+            <div class="vr-metric-box blue">
+              <div class="vr-metric-box-label"><i class="bi bi-graph-up"></i> Error medio</div>
+              <div class="vr-metric-box-value" id="vr-metric-mae">—</div>
+            </div>
+            <div class="vr-metric-box purple">
+              <div class="vr-metric-box-label"><i class="bi bi-bullseye"></i> Confianza (R²)</div>
+              <div class="vr-metric-box-value" id="vr-metric-r2">—</div>
+            </div>
+            <div class="vr-metric-box green">
+              <div class="vr-metric-box-label"><i class="bi bi-bar-chart-line"></i> Desviación</div>
+              <div class="vr-metric-box-value" id="vr-metric-rmse">—</div>
+            </div>
+          </div>
+          <p id="vr-metric-desc"></p>
 
-        <div class="vr-shap-title" style="margin-top:4px;"><i class="bi bi-info-circle"></i> ¿Cómo funciona?</div>
-        <ul style="font-size:.8rem; color:#475569; line-height:1.9; padding-left:18px; margin:0;">
-          <li><strong>Analizamos</strong> todas las características físicas, de ubicación y económicas del inmueble.</li>
-          <li><strong>Calculamos</strong> el impacto individual de cada factor usando SHAP (SHapley Additive exPlanations).</li>
-          <li><strong>Sumamos</strong> todos los impactos al precio base para obtener el precio final estimado.</li>
-        </ul>
-      </div>
+          <hr style="margin: 16px 0; border-color: #e4ede7;">
 
-      </div><!-- /vr-explain-grid -->
-    </div><!-- /vr-explain-section -->
+          <div class="vr-shap-title" style="margin-top:4px;"><i class="bi bi-info-circle"></i> ¿Cómo funciona?</div>
+          <ul style="font-size:.8rem; color:#475569; line-height:1.9; padding-left:18px; margin:0;">
+            <li><strong>Analizamos</strong> todas las características físicas, de ubicación y económicas del inmueble.</li>
+            <li><strong>Calculamos</strong> el impacto individual de cada factor usando SHAP (SHapley Additive exPlanations).</li>
+            <li><strong>Sumamos</strong> todos los impactos al precio base para obtener el precio final estimado.</li>
+          </ul>
+        </div>
+
+      </div><!-- /vr-right-col -->
+
+    </div><!-- /vr-main-grid -->
 
   </div><!-- /vr-page -->
 
@@ -443,6 +463,7 @@
   <script>
     <% if (sample) { %>
     const locationQuery = '<%= locationStr.replace(/\'/g, "\\'") %>';
+    const cityQuery = '<%= (sample.input.loc_city || '').replace(/\'/g, "\\'") %>';
 
     const map = L.map('vr-map', { zoomControl: true, attributionControl: true });
 
@@ -454,11 +475,37 @@
 
     // Green marker matching the accent colour
     const markerIcon = L.divIcon({
-      html: `<div style="width:32px;height:32px;border-radius:50% 50% 50% 0;background:linear-gradient(135deg,#10B981,#059669);transform:rotate(-45deg);box-shadow:0 4px 12px rgba(16,185,129,.45);border:3px solid #fff;"></div>`,
+      html: `<div style="width:32px;height:32px;border-radius:50% 50% 50% 0;background:linear-gradient(135deg,#1a7a3c,#2d6a4f);transform:rotate(-45deg);box-shadow:0 4px 12px rgba(26,122,60,.45);border:3px solid #fff;"></div>`,
       iconSize: [32, 32],
       iconAnchor: [16, 32],
       className: ''
     });
+
+    function showCityMarker(city) {
+      fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city + ', España')}&format=json&limit=1`, {
+        headers: { 'Accept-Language': 'es' }
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.length > 0) {
+          const lat = parseFloat(data[0].lat);
+          const lon = parseFloat(data[0].lon);
+          map.setView([lat, lon], 11);
+          L.marker([lat, lon], { icon: markerIcon })
+            .addTo(map)
+            .bindPopup(`<strong>${city}</strong>`)
+            .openPopup();
+          document.getElementById('mapLabel').innerHTML = `<i class="bi bi-geo-alt"></i><span>Ubicación aproximada: ${city}</span>`;
+        } else {
+          map.setView([40.416775, -3.703790], 6);
+          document.getElementById('mapLabel').innerHTML = '<i class="bi bi-geo-alt"></i><span>Ubicación no encontrada en el mapa</span>';
+        }
+      })
+      .catch(() => {
+        map.setView([40.416775, -3.703790], 6);
+        document.getElementById('mapLabel').innerHTML = '<i class="bi bi-geo-alt"></i><span>Ubicación no encontrada en el mapa</span>';
+      });
+    }
 
     if (locationQuery.trim()) {
       fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(locationQuery + ', España')}&format=json&limit=1`, {
@@ -474,14 +521,23 @@
             .addTo(map)
             .bindPopup(`<strong><%= (sample.input.loc_city || '').replace(/\'/g, "\\'") %></strong><br><%= locationStr.replace(/\'/g, "\\'") %>`)
             .openPopup();
+        } else if (cityQuery.trim()) {
+          showCityMarker(cityQuery);
         } else {
           map.setView([40.416775, -3.703790], 6);
           document.getElementById('mapLabel').innerHTML = '<i class="bi bi-geo-alt"></i><span>Ubicación no encontrada en el mapa</span>';
         }
       })
       .catch(() => {
-        map.setView([40.416775, -3.703790], 6);
+        if (cityQuery.trim()) {
+          showCityMarker(cityQuery);
+        } else {
+          map.setView([40.416775, -3.703790], 6);
+          document.getElementById('mapLabel').innerHTML = '<i class="bi bi-geo-alt"></i><span>Ubicación no encontrada en el mapa</span>';
+        }
       });
+    } else if (cityQuery.trim()) {
+      showCityMarker(cityQuery);
     } else {
       map.setView([40.416775, -3.703790], 6);
       document.getElementById('mapLabel').innerHTML = '<i class="bi bi-geo-alt"></i><span>Sin ubicación especificada</span>';

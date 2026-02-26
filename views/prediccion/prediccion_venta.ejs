@@ -5,231 +5,387 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Predicción de Precio de Venta</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/navbar.css">
-  <link rel="stylesheet" href="/css/prediccion/prediccion_alquiler.css">
   <style>
-    h1 {
-      background: linear-gradient(135deg, #00D4AA 0%, #00B894 100%) !important;
-      -webkit-background-clip: text !important;
-      background-clip: text !important;
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      --green-dark: #1a7a3c;
+      --green-mid:  #155f30;
+      --green-light: #f0f7f3;
+      --green-border: #a8d5b5;
     }
-    h1 i {
-      background: linear-gradient(135deg, #00D4AA 0%, #00B894 100%) !important;
-      -webkit-background-clip: text !important;
-      background-clip: text !important;
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #f5f5f5;
+      color: #1e2e24;
+      margin: 0;
     }
-    .btn.primary {
-      background: linear-gradient(135deg, #00D4AA 0%, #00B894 100%) !important;
-      box-shadow: 0 4px 15px rgba(0, 212, 170, 0.35) !important;
+
+    /* ── Page wrapper ── */
+    .vp-page { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+
+    /* ── Page title ── */
+    .vp-header { margin-bottom: 1.5rem; }
+    .vp-header h1 {
+      font-size: 1.75rem; font-weight: 900; color: var(--green-dark);
+      display: flex; align-items: center; gap: 10px; margin: 0 0 6px;
     }
-    .btn.primary:hover {
-      box-shadow: 0 6px 20px rgba(0, 212, 170, 0.45) !important;
+    .vp-header p { font-size: .9rem; color: #64748b; margin: 0; }
+
+    /* ── Card ── */
+    .vp-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+      padding: 1.375rem 1.5rem;
+      margin-bottom: 16px;
     }
-    .section-title {
-      grid-column: 1 / -1;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #c5c8d6;
-      margin: 0.5rem 0 -0.5rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid #353950;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+
+    /* ── Section title ── */
+    .vp-section {
+      font-size: .72rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .09em; color: var(--green-dark);
+      display: flex; align-items: center; gap: 8px;
+      border-bottom: 2px solid #e4ede7;
+      padding-bottom: 10px; margin-bottom: 16px;
     }
-    .section-title i { color: #00D4AA; }
-    .checkbox-grid {
-      grid-column: 1 / -1;
+    .vp-section i { font-size: .9rem; }
+
+    /* ── Field grid ── */
+    .vp-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 0.75rem;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px 16px;
     }
-    .checkbox-grid label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.95rem;
-      color: #c5c8d6;
+    .vp-field { display: flex; flex-direction: column; gap: 6px; }
+    .vp-field label {
+      font-size: 13px; font-weight: 600; color: #444;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .vp-field label i { color: var(--green-dark); font-size: .85rem; }
+    .vp-field input,
+    .vp-field select {
+      height: 40px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 0 12px;
+      font-size: .875rem;
+      font-family: inherit;
+      background: #fff;
+      color: #1e2e24;
+      transition: border-color .15s, box-shadow .15s;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%231a7a3c' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 32px;
+    }
+    .vp-field input { background-image: none; padding-right: 12px; }
+    .vp-field input:focus,
+    .vp-field select:focus {
+      outline: none;
+      border-color: var(--green-dark);
+      box-shadow: 0 0 0 3px rgba(26,122,60,.12);
+    }
+    .vp-field select:disabled { opacity: .45; cursor: not-allowed; }
+
+    /* ── Toggle amenity badges ── */
+    .vp-amenities { display: flex; flex-wrap: wrap; gap: 8px; }
+    .vp-amenity-toggle { display: none; }
+    .vp-amenity-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 20px; font-size: .8rem; font-weight: 600;
+      cursor: pointer; transition: all .15s;
+      background: #f0f0f0; color: #555; border: 1px solid #ddd;
+      user-select: none;
+    }
+    .vp-amenity-label:hover { background: #e4ede7; border-color: var(--green-border); color: var(--green-dark); }
+    .vp-amenity-toggle:checked + .vp-amenity-label {
+      background: var(--green-dark); color: #fff; border-color: var(--green-dark);
+    }
+
+    /* ── Model selector ── */
+    .vp-model-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    }
+    @media (max-width: 500px) { .vp-model-grid { grid-template-columns: 1fr; } }
+
+    .vp-model-radio { display: none; }
+    .vp-model-card {
+      position: relative;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 16px 16px 14px;
       cursor: pointer;
-      padding: 0.5rem 0.75rem;
-      border-radius: 0.5rem;
-      border: 1px solid #353950;
-      transition: all 0.15s;
-      background: #161822;
+      transition: border-color .15s, background .15s, box-shadow .15s;
+      background: #fff;
     }
-    .checkbox-grid label:hover { background: #2E3248; border-color: #454968; }
-    .checkbox-grid input[type="checkbox"] { accent-color: #00D4AA; }
-    .checkbox-grid input[type="checkbox"]:checked + span { font-weight: 600; color: #00D4AA; }
-    select:disabled { opacity: 0.4; cursor: not-allowed; }
+    .vp-model-card:hover { border-color: var(--green-border); background: #fafcfb; }
+    .vp-model-radio:checked + .vp-model-card {
+      border: 2px solid var(--green-dark);
+      background: var(--green-light);
+      box-shadow: 0 2px 10px rgba(26,122,60,.12);
+    }
+    .vp-model-check {
+      position: absolute; top: 10px; right: 12px;
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid #ccc;
+      background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .65rem; color: transparent;
+      transition: all .15s;
+    }
+    .vp-model-radio:checked + .vp-model-card .vp-model-check {
+      background: var(--green-dark); border-color: var(--green-dark); color: #fff;
+    }
+    .vp-model-icon { font-size: 1.5rem; margin-bottom: 6px; color: var(--green-dark); }
+    .vp-model-radio:checked + .vp-model-card .vp-model-icon { color: var(--green-dark); }
+    .vp-model-title { font-size: .92rem; font-weight: 700; color: #1e2e24; margin-bottom: 4px; }
+    .vp-model-desc  { font-size: .78rem; color: #64748b; line-height: 1.5; margin-bottom: 8px; }
+    .vp-model-badge {
+      display: inline-block; padding: 2px 10px;
+      border-radius: 12px; font-size: .68rem; font-weight: 700;
+    }
+    .vp-model-badge.green { background: var(--green-light); color: var(--green-dark); border: 1px solid var(--green-border); }
+    .vp-model-badge.blue  { background: #e8eef8; color: #1a3a6c; border: 1px solid #b3c4e0; }
+
+    /* ── Actions ── */
+    .vp-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .vp-btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: 8px;
+      background: var(--green-dark); color: #fff;
+      font-weight: 700; font-size: .9rem; font-family: inherit;
+      border: none; cursor: pointer;
+      box-shadow: 0 4px 14px rgba(26,122,60,.28);
+      transition: background .15s, box-shadow .15s;
+      text-decoration: none;
+    }
+    .vp-btn-primary:hover { background: var(--green-mid); color: #fff; }
+    .vp-btn-outline {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 11px 20px; border-radius: 8px;
+      background: #fff; color: #334155; font-weight: 600; font-size: .9rem;
+      border: 1.5px solid #e0e0e0; cursor: pointer; font-family: inherit;
+      text-decoration: none; transition: background .15s;
+    }
+    .vp-btn-outline:hover { background: #f1f5f9; }
   </style>
 </head>
 <body>
   <%- include('../partials/navbar') %>
-  <div class="shell">
-    <h1><i class="bi bi-house-door"></i> Predicción de precio de venta</h1>
-    <p class="lead">Introduce los datos de la vivienda para obtener una estimación del precio de venta basada en nuestro modelo LightGBM.</p>
+
+  <div class="vp-page">
+
+    <div class="vp-header">
+      <h1><i class="bi bi-house-door"></i> Predicción de precio de venta</h1>
+      <p>Introduce los datos de la vivienda para obtener una estimación del precio de venta.</p>
+    </div>
 
     <form method="post" action="/venta/predict" id="ventaForm">
+      <!-- Campo oculto para el modelo seleccionado -->
+      <input type="hidden" name="modelo" id="modeloHidden" value="lightgbm">
 
-      <!-- Ubicación -->
-      <div class="section-title"><i class="bi bi-geo-alt"></i> Ubicación</div>
+      <!-- ── Ubicación ── -->
+      <div class="vp-card">
+        <div class="vp-section"><i class="bi bi-geo-alt"></i> Ubicación</div>
+        <div class="vp-grid">
+          <div class="vp-field">
+            <label for="loc_city"><i class="bi bi-building"></i> Ciudad *</label>
+            <select id="loc_city" name="loc_city" required>
+              <option value="">— Selecciona ciudad —</option>
+              <% Object.keys(locationHierarchy).sort().forEach(city => { %>
+                <option value="<%= city %>"><%= city %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="vp-field">
+            <label for="loc_zone"><i class="bi bi-pin-map"></i> Zona</label>
+            <select id="loc_zone" name="loc_zone" disabled>
+              <option value="">— Selecciona ciudad primero —</option>
+            </select>
+          </div>
+          <div class="vp-field">
+            <label for="loc_district"><i class="bi bi-signpost-2"></i> Distrito</label>
+            <select id="loc_district" name="loc_district" disabled>
+              <option value="">— Selecciona zona primero —</option>
+            </select>
+          </div>
+          <div class="vp-field">
+            <label for="loc_neigh"><i class="bi bi-houses"></i> Barrio</label>
+            <select id="loc_neigh" name="loc_neigh" disabled>
+              <option value="">— Selecciona distrito primero —</option>
+            </select>
+          </div>
+        </div>
+      </div>
 
-      <div class="field">
-        <label for="loc_city"><i class="bi bi-building"></i> Ciudad *</label>
-        <select id="loc_city" name="loc_city" required>
-          <option value="">— Selecciona ciudad —</option>
-          <% Object.keys(locationHierarchy).sort().forEach(city => { %>
-            <option value="<%= city %>"><%= city %></option>
+      <!-- ── Características ── -->
+      <div class="vp-card">
+        <div class="vp-section"><i class="bi bi-rulers"></i> Características de la vivienda</div>
+        <div class="vp-grid">
+          <div class="vp-field">
+            <label for="house_type"><i class="bi bi-house"></i> Tipo de vivienda *</label>
+            <select id="house_type" name="house_type" required>
+              <option value="flat">Piso / Apartamento</option>
+              <option value="penthouse">Ático</option>
+              <option value="duplex">Dúplex</option>
+              <option value="studio">Estudio</option>
+              <option value="house">Casa / Chalet</option>
+              <option value="country house">Casa rural</option>
+              <option value="ground floor">Bajo</option>
+            </select>
+          </div>
+          <div class="vp-field">
+            <label for="m2_useful"><i class="bi bi-arrows-fullscreen"></i> m² útiles *</label>
+            <input id="m2_useful" name="m2_useful" type="number" min="10" step="1" required placeholder="80">
+          </div>
+          <div class="vp-field">
+            <label for="m2_real"><i class="bi bi-bounding-box"></i> m² construidos</label>
+            <input id="m2_real" name="m2_real" type="number" min="10" step="1" placeholder="90">
+          </div>
+          <div class="vp-field">
+            <label for="room_num"><i class="bi bi-door-closed"></i> Habitaciones *</label>
+            <input id="room_num" name="room_num" type="number" min="0" required placeholder="3">
+          </div>
+          <div class="vp-field">
+            <label for="bath_num"><i class="bi bi-droplet"></i> Baños *</label>
+            <input id="bath_num" name="bath_num" type="number" min="1" step="1" required placeholder="1">
+          </div>
+          <div class="vp-field">
+            <label for="floor"><i class="bi bi-layers"></i> Planta</label>
+            <input id="floor" name="floor" type="number" min="0" placeholder="2">
+          </div>
+          <div class="vp-field">
+            <label for="ground_size"><i class="bi bi-textarea-resize"></i> Tamaño parcela (m²)</label>
+            <input id="ground_size" name="ground_size" type="number" min="0" step="1" placeholder="0">
+          </div>
+          <div class="vp-field">
+            <label for="construct_date"><i class="bi bi-calendar3"></i> Año de construcción</label>
+            <input id="construct_date" name="construct_date" type="number" min="1800" max="2026" placeholder="2000">
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Estado y certificaciones ── -->
+      <div class="vp-card">
+        <div class="vp-section"><i class="bi bi-clipboard-check"></i> Estado y certificaciones</div>
+        <div class="vp-grid">
+          <div class="vp-field">
+            <label for="condition"><i class="bi bi-tools"></i> Estado</label>
+            <select id="condition" name="condition">
+              <option value="good">Buen estado</option>
+              <option value="new development">Obra nueva</option>
+              <option value="needs renovation">Necesita reforma</option>
+              <option value="recently renovated">Reformado recientemente</option>
+            </select>
+          </div>
+          <div class="vp-field">
+            <label for="energetic_certif"><i class="bi bi-lightning-charge"></i> Certificación energética</label>
+            <select id="energetic_certif" name="energetic_certif">
+              <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+              <option value="D">D</option><option value="E" selected>E</option><option value="F">F</option>
+              <option value="G">G</option><option value="exempt">Exento</option><option value="in process">En trámite</option>
+            </select>
+          </div>
+          <div class="vp-field">
+            <label for="heating"><i class="bi bi-thermometer-half"></i> Calefacción</label>
+            <select id="heating" name="heating">
+              <option value="individual">Individual</option>
+              <option value="central">Central</option>
+              <option value="electric">Eléctrica</option>
+              <option value="no heating">Sin calefacción</option>
+            </select>
+          </div>
+          <div class="vp-field">
+            <label for="kitchen"><i class="bi bi-cup-straw"></i> Cocina</label>
+            <select id="kitchen" name="kitchen">
+              <option value="equipped kitchen">Equipada</option>
+              <option value="furnished kitchen">Amueblada</option>
+              <option value="not equipped">Sin equipar</option>
+            </select>
+          </div>
+          <div class="vp-field">
+            <label for="orientation"><i class="bi bi-compass"></i> Orientación</label>
+            <select id="orientation" name="orientation">
+              <option value="south">Sur</option><option value="east">Este</option>
+              <option value="west">Oeste</option><option value="north">Norte</option>
+              <option value="southeast">Sureste</option><option value="southwest">Suroeste</option>
+              <option value="northeast">Noreste</option><option value="northwest">Noroeste</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Servicios y extras ── -->
+      <div class="vp-card">
+        <div class="vp-section"><i class="bi bi-stars"></i> Servicios y extras</div>
+        <div class="vp-amenities" id="amenitiesGrid">
+          <% amenitiesVenta.forEach(function(am) { %>
+            <input type="checkbox" class="vp-amenity-toggle" id="am_<%= am.name %>" name="<%= am.name %>" value="1">
+            <label class="vp-amenity-label" for="am_<%= am.name %>">
+              <i class="bi <%= am.icon %>"></i> <%= am.label %>
+            </label>
           <% }) %>
-        </select>
+        </div>
       </div>
 
-      <div class="field">
-        <label for="loc_zone"><i class="bi bi-pin-map"></i> Zona</label>
-        <select id="loc_zone" name="loc_zone" disabled>
-          <option value="">— Selecciona ciudad primero —</option>
-        </select>
-      </div>
+      <!-- ── Selección de modelo ── -->
+      <div class="vp-card">
+        <div class="vp-section"><i class="bi bi-cpu"></i> ¿Cómo quieres calcular el precio?</div>
+        <div class="vp-model-grid">
 
-      <div class="field">
-        <label for="loc_district"><i class="bi bi-signpost-2"></i> Distrito</label>
-        <select id="loc_district" name="loc_district" disabled>
-          <option value="">— Selecciona zona primero —</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="loc_neigh"><i class="bi bi-houses"></i> Barrio</label>
-        <select id="loc_neigh" name="loc_neigh" disabled>
-          <option value="">— Selecciona distrito primero —</option>
-        </select>
-      </div>
-
-      <!-- Características principales -->
-      <div class="section-title"><i class="bi bi-rulers"></i> Características de la vivienda</div>
-
-      <div class="field">
-        <label for="house_type"><i class="bi bi-house"></i> Tipo de vivienda *</label>
-        <select id="house_type" name="house_type" required>
-          <option value="flat">Piso / Apartamento</option>
-          <option value="penthouse">Ático</option>
-          <option value="duplex">Dúplex</option>
-          <option value="studio">Estudio</option>
-          <option value="house">Casa / Chalet</option>
-          <option value="country house">Casa rural</option>
-          <option value="ground floor">Bajo</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="m2_useful"><i class="bi bi-arrows-fullscreen"></i> m² útiles *</label>
-        <input id="m2_useful" name="m2_useful" type="number" min="10" step="1" required placeholder="80">
-      </div>
-
-      <div class="field">
-        <label for="m2_real"><i class="bi bi-bounding-box"></i> m² construidos</label>
-        <input id="m2_real" name="m2_real" type="number" min="10" step="1" placeholder="90">
-      </div>
-
-      <div class="field">
-        <label for="room_num"><i class="bi bi-door-closed"></i> Habitaciones *</label>
-        <input id="room_num" name="room_num" type="number" min="0" required placeholder="3">
-      </div>
-
-      <div class="field">
-        <label for="bath_num"><i class="bi bi-droplet"></i> Baños *</label>
-        <input id="bath_num" name="bath_num" type="number" min="1" step="1" required placeholder="1">
-      </div>
-
-      <div class="field">
-        <label for="floor"><i class="bi bi-layers"></i> Planta</label>
-        <input id="floor" name="floor" type="number" min="0" placeholder="2">
-      </div>
-
-      <div class="field">
-        <label for="ground_size"><i class="bi bi-textarea-resize"></i> Tamaño parcela (m²)</label>
-        <input id="ground_size" name="ground_size" type="number" min="0" step="1" placeholder="0">
-      </div>
-
-      <div class="field">
-        <label for="construct_date"><i class="bi bi-calendar3"></i> Año de construcción</label>
-        <input id="construct_date" name="construct_date" type="number" min="1800" max="2026" placeholder="2000">
-      </div>
-
-      <!-- Estado y certificaciones -->
-      <div class="section-title"><i class="bi bi-clipboard-check"></i> Estado y certificaciones</div>
-
-      <div class="field">
-        <label for="condition"><i class="bi bi-tools"></i> Estado</label>
-        <select id="condition" name="condition">
-          <option value="good">Buen estado</option>
-          <option value="new development">Obra nueva</option>
-          <option value="needs renovation">Necesita reforma</option>
-          <option value="recently renovated">Reformado recientemente</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="energetic_certif"><i class="bi bi-lightning-charge"></i> Certificación energética</label>
-        <select id="energetic_certif" name="energetic_certif">
-          <option value="A">A</option><option value="B">B</option><option value="C">C</option>
-          <option value="D">D</option><option value="E" selected>E</option><option value="F">F</option>
-          <option value="G">G</option><option value="exempt">Exento</option><option value="in process">En trámite</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="heating"><i class="bi bi-thermometer-half"></i> Calefacción</label>
-        <select id="heating" name="heating">
-          <option value="individual">Individual</option>
-          <option value="central">Central</option>
-          <option value="electric">Eléctrica</option>
-          <option value="no heating">Sin calefacción</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="kitchen"><i class="bi bi-cup-straw"></i> Cocina</label>
-        <select id="kitchen" name="kitchen">
-          <option value="equipped kitchen">Equipada</option>
-          <option value="furnished kitchen">Amueblada</option>
-          <option value="not equipped">Sin equipar</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="orientation"><i class="bi bi-compass"></i> Orientación</label>
-        <select id="orientation" name="orientation">
-          <option value="south">Sur</option><option value="east">Este</option>
-          <option value="west">Oeste</option><option value="north">Norte</option>
-          <option value="southeast">Sureste</option><option value="southwest">Suroeste</option>
-          <option value="northeast">Noreste</option><option value="northwest">Noroeste</option>
-        </select>
-      </div>
-
-      <!-- Servicios y extras (dinámico) -->
-      <div class="section-title"><i class="bi bi-stars"></i> Servicios y extras</div>
-
-      <div class="checkbox-grid" id="amenitiesGrid">
-        <% amenitiesVenta.forEach(function(am) { %>
           <label>
-            <input type="checkbox" name="<%= am.name %>" value="1">
-            <span><i class="bi <%= am.icon %>"></i> <%= am.label %></span>
+            <input type="radio" name="_modeloSelector" class="vp-model-radio" value="lightgbm" checked>
+            <div class="vp-model-card">
+              <div class="vp-model-check"><i class="bi bi-check"></i></div>
+              <div class="vp-model-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+              <div class="vp-model-title">Rápido y directo</div>
+              <div class="vp-model-desc">Estimación inmediata. Ideal para una primera valoración rápida y fiable.</div>
+              <span class="vp-model-badge green">Recomendado</span>
+            </div>
           </label>
-        <% }) %>
+
+          <label>
+            <input type="radio" name="_modeloSelector" class="vp-model-radio" value="ebm">
+            <div class="vp-model-card">
+              <div class="vp-model-check"><i class="bi bi-check"></i></div>
+              <div class="vp-model-icon"><i class="bi bi-bar-chart-line-fill"></i></div>
+              <div class="vp-model-title">Detallado y preciso</div>
+              <div class="vp-model-desc">Análisis más profundo con explicación de cada factor que influye en el precio.</div>
+              <span class="vp-model-badge blue">Más explicativo</span>
+            </div>
+          </label>
+
+        </div>
       </div>
 
-      <!-- Acciones -->
-      <div class="actions" style="grid-column: 1 / -1; display: flex; gap: 1rem; margin-top: 1rem;">
-        <button class="btn primary" type="submit"><i class="bi bi-play-circle"></i> Predecir precio de venta</button>
-        <a class="btn secondary" href="/dashboard">Volver</a>
+      <!-- ── Acciones ── -->
+      <div class="vp-actions">
+        <button class="vp-btn-primary" type="submit">
+          <i class="bi bi-play-circle"></i> Predecir precio de venta
+        </button>
+        <a class="vp-btn-outline" href="/dashboard">
+          <i class="bi bi-arrow-left"></i> Volver
+        </a>
       </div>
+
     </form>
   </div>
 
   <%- include('../partials/spinner') %>
 
   <script>
+    // ---- Sync modelo hidden field with card selection ----
+    document.querySelectorAll('input[name="_modeloSelector"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        document.getElementById('modeloHidden').value = radio.value;
+      });
+    });
+
     // ---- Location hierarchy from server ----
     const LOC = <%- JSON.stringify(locationHierarchy) %>;
 
@@ -245,7 +401,7 @@
       def.textContent = placeholder;
       sel.appendChild(def);
       values.forEach(v => {
-        if (!v) return; // skip empty string keys (sin zona/distrito)
+        if (!v) return;
         const opt = document.createElement('option');
         opt.value = v;
         opt.textContent = v;
@@ -267,7 +423,6 @@
       const zones = Object.keys(LOC[city]).filter(z => z !== '');
       if (zones.length === 0) {
         selZone.disabled = true;
-        // Treat empty-zone directly: load its districts
         loadDistricts(city, '');
       } else {
         populateSelect(selZone, zones, '— Selecciona zona —', true);
@@ -307,7 +462,7 @@
     }
 
     // ---- Spinner ----
-    const formEl = document.querySelector('form');
+    const formEl = document.getElementById('ventaForm');
     if (formEl) {
       formEl.addEventListener('submit', () => {
         if (typeof showSpinner === 'function') {

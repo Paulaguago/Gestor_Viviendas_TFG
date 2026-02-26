@@ -104,16 +104,29 @@ def main():
 
         data = json.loads(input_json)
 
-        # ── Cargar modelo y encoder ──────────────────────────────────
-        model_dir = os.path.join(PROJECT_ROOT, 'modelos_predictivos', 'venta', 'LIGHTGBM')
-        model_path = os.path.join(model_dir, 'model_lightgbm_no_leakage.pkl')
-        encoder_path = os.path.join(model_dir, 'target_encoder_no_leakage.pkl')
+        # ── Seleccionar modelo según MODELO_TYPE ─────────────────────
+        modelo_type = os.environ.get('MODELO_TYPE', 'lightgbm').lower()
+
+        # Intentar EBM si se solicita, caer a LightGBM si no hay .pkl
+        ebm_path = os.path.join(PROJECT_ROOT, 'modelos_predictivos', 'venta', 'EBM', 'ebm_regressor_optimized.pkl')
+        use_ebm = modelo_type == 'ebm' and os.path.exists(ebm_path)
+
+        if use_ebm:
+            model_dir    = os.path.join(PROJECT_ROOT, 'modelos_predictivos', 'venta', 'EBM')
+            model_path   = ebm_path
+            encoder_path = os.path.join(model_dir, 'ebm_target_encoder.pkl')
+            model_label  = 'EBM (Explainable Boosting Machine)'
+        else:
+            model_dir    = os.path.join(PROJECT_ROOT, 'modelos_predictivos', 'venta', 'LIGHTGBM')
+            model_path   = os.path.join(model_dir, 'model_lightgbm_no_leakage.pkl')
+            encoder_path = os.path.join(model_dir, 'target_encoder_no_leakage.pkl')
+            model_label  = 'LightGBM'
 
         if not os.path.exists(model_path):
             print(f"Error: No se encontró el modelo en {model_path}", file=sys.stderr)
             sys.exit(1)
 
-        print(f"[DEBUG] Cargando modelo desde: {model_path}", file=sys.stderr)
+        print(f"[DEBUG] Cargando modelo ({model_label}) desde: {model_path}", file=sys.stderr)
         model = joblib.load(model_path)
         print(f"[DEBUG] Modelo cargado", file=sys.stderr)
 
@@ -293,7 +306,7 @@ def main():
             result = {
                 "price": round(float(price), 2),
                 "currency": "EUR",
-                "model": "LightGBM (sin fuga)",
+                "model": model_label,
                 "input_summary": {
                     "city": loc_city,
                     "zone": loc_zone,

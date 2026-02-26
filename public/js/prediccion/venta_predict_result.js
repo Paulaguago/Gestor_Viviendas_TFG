@@ -180,10 +180,10 @@ async function renderShapLocal() {
     sorted.forEach(item => {
       const pct        = (item.value / max * 100).toFixed(0);
       const isPositive  = item.signed >= 0;
-      const direction   = isPositive ? '↑ Sube precio' : '↓ Baja precio';
+      const direction   = isPositive ? '▲ Sube precio' : '▼ Baja precio';
       const color       = isPositive
-        ? 'linear-gradient(90deg, #10B981, #059669)'
-        : 'linear-gradient(90deg, #EF4444, #DC2626)';
+        ? 'linear-gradient(90deg, #1a7a3c, #2d6a4f)'
+        : 'linear-gradient(90deg, #c0392b, #96281b)';
       const desc = FEATURE_DESCRIPTIONS[item.key] || 'Esta característica influye en el precio estimado.';
 
       // Impacto monetario en euros (convertido desde espacio log)
