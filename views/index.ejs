@@ -96,13 +96,16 @@
             <!-- Video Demo Predicción -->
             <div class="max-w-4xl mx-auto mb-12">
                 <div class="relative bg-gradient-to-br from-blue-800/30 to-blue-900/40 rounded-3xl p-4 border border-blue-700/30">
-                    <div class="aspect-video bg-blue-900/50 rounded-2xl flex items-center justify-center relative overflow-hidden">
-                        <!-- Próximamente: Video demo de predicción de alquiler -->
-                        <div class="text-center">
-                            <i class="bi bi-play-circle-fill text-7xl text-yellow-400 mb-4"></i>
-                            <p class="text-xl font-semibold text-gray-300">Demo de Predicción de Alquiler</p>
-                            <p class="text-sm text-gray-400 mt-2">Próximamente</p>
-                        </div>
+                    <div class="aspect-video rounded-2xl overflow-hidden">
+                        <video
+                            class="w-full h-full object-cover"
+                            controls
+                            preload="metadata"
+                            poster=""
+                        >
+                            <source src="/images/imagenes_inicio/PrediccionAlquiler.mp4" type="video/mp4">
+                            Tu navegador no soporta la reproducción de vídeo.
+                        </video>
                     </div>
                 </div>
             </div>
@@ -273,7 +276,7 @@
                 </div>
                 
                 <!-- Grid de ciudades destacadas -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                <div class="grid grid-cols-3 md:grid-cols-5 gap-4 mt-6">
                     <div class="bg-blue-800/40 rounded-xl p-4 text-center border border-blue-700/30">
                         <i class="bi bi-geo-alt-fill text-yellow-400 text-2xl mb-2"></i>
                         <p class="font-bold text-white text-lg">Madrid</p>
@@ -294,6 +297,31 @@
                         <p class="font-bold text-white text-lg">Málaga</p>
                         <p class="text-gray-400 text-sm">+142 propiedades</p>
                     </div>
+                    <div class="bg-blue-800/40 rounded-xl p-4 text-center border border-blue-700/30">
+                        <i class="bi bi-geo-alt-fill text-yellow-400 text-2xl mb-2"></i>
+                        <p class="font-bold text-white text-lg">Sevilla</p>
+                        <p class="text-gray-400 text-sm">+98 propiedades</p>
+                    </div>
+                    <div class="bg-blue-800/40 rounded-xl p-4 text-center border border-blue-700/30">
+                        <i class="bi bi-geo-alt-fill text-yellow-400 text-2xl mb-2"></i>
+                        <p class="font-bold text-white text-lg">Euskadi</p>
+                        <p class="text-gray-400 text-sm">+76 propiedades</p>
+                    </div>
+                    <div class="bg-blue-800/40 rounded-xl p-4 text-center border border-blue-700/30">
+                        <i class="bi bi-geo-alt-fill text-yellow-400 text-2xl mb-2"></i>
+                        <p class="font-bold text-white text-lg">Girona</p>
+                        <p class="text-gray-400 text-sm">+88 propiedades</p>
+                    </div>
+                    <div class="bg-blue-800/40 rounded-xl p-4 text-center border border-blue-700/30">
+                        <i class="bi bi-geo-alt-fill text-yellow-400 text-2xl mb-2"></i>
+                        <p class="font-bold text-white text-lg">Mallorca</p>
+                        <p class="text-gray-400 text-sm">+117 propiedades</p>
+                    </div>
+                    <div class="bg-blue-800/40 rounded-xl p-4 text-center border border-blue-700/30">
+                        <i class="bi bi-geo-alt-fill text-yellow-400 text-2xl mb-2"></i>
+                        <p class="font-bold text-white text-lg">Menorca</p>
+                        <p class="text-gray-400 text-sm">+54 propiedades</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -311,15 +339,9 @@
                 
                 <!-- Propiedad 1 -->
                 <div class="bg-gradient-to-br from-blue-800/30 to-blue-900/40 rounded-3xl overflow-hidden border border-blue-700/30 hover:border-yellow-400/50 transition group">
-                    <!-- Placeholder para imagen de propiedad -->
-                    <div class="h-56 bg-gradient-to-br from-blue-700/50 to-blue-800/50 relative overflow-hidden">
-                        <!-- Descomenta y reemplaza con imagen real:
-                        <img src="/images/properties/property-1.jpg" alt="Apartamento Madrid" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                        -->
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <i class="bi bi-house-door-fill text-6xl text-blue-600/40"></i>
-                        </div>
-                        <div class="absolute top-4 right-4 bg-neon-green text-black font-bold px-3 py-1 rounded-full text-sm">
+                    <div class="h-56 relative overflow-hidden">
+                        <img src="/images/imagenes_inicio/FotoMadrid.jpg" alt="Apartamento Madrid" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-yellow-400 text-black font-bold px-3 py-1 rounded-full text-sm">
                             87% ocupación
                         </div>
                     </div>
@@ -342,11 +364,8 @@
 
                 <!-- Propiedad 2 -->
                 <div class="bg-gradient-to-br from-blue-800/30 to-blue-900/40 rounded-3xl overflow-hidden border border-blue-700/30 hover:border-yellow-400/50 transition group">
-                    <div class="h-56 bg-gradient-to-br from-purple-700/50 to-purple-800/50 relative overflow-hidden">
-                        <!-- Placeholder -->
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <i class="bi bi-building text-6xl text-purple-600/40"></i>
-                        </div>
+                    <div class="h-56 relative overflow-hidden">
+                        <img src="/images/imagenes_inicio/FotoBarcelona.jpg" alt="Loft Moderno Barcelona" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                         <div class="absolute top-4 right-4 bg-yellow-400 text-black font-bold px-3 py-1 rounded-full text-sm">
                             92% ocupación
                         </div>
@@ -370,12 +389,9 @@
 
                 <!-- Propiedad 3 -->
                 <div class="bg-gradient-to-br from-blue-800/30 to-blue-900/40 rounded-3xl overflow-hidden border border-blue-700/30 hover:border-yellow-400/50 transition group">
-                    <div class="h-56 bg-gradient-to-br from-green-700/50 to-green-800/50 relative overflow-hidden">
-                        <!-- Placeholder -->
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <i class="bi bi-house-heart-fill text-6xl text-green-600/40"></i>
-                        </div>
-                        <div class="absolute top-4 right-4 bg-neon-green text-black font-bold px-3 py-1 rounded-full text-sm">
+                    <div class="h-56 relative overflow-hidden">
+                        <img src="/images/imagenes_inicio/FotoMarbella.jpg" alt="Villa Playa Marbella" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-4 right-4 bg-yellow-400 text-black font-bold px-3 py-1 rounded-full text-sm">
                             95% ocupación
                         </div>
                     </div>
@@ -669,9 +685,10 @@
                 { nombre: 'Valencia', coords: [39.4699, -0.3763], propiedades: 156 },
                 { nombre: 'Málaga', coords: [36.7213, -4.4214], propiedades: 142 },
                 { nombre: 'Sevilla', coords: [37.3891, -5.9845], propiedades: 98 },
-                { nombre: 'Bilbao', coords: [43.2630, -2.9350], propiedades: 76 },
-                { nombre: 'Alicante', coords: [38.3452, -0.4810], propiedades: 112 },
-                { nombre: 'Granada', coords: [37.1773, -3.5986], propiedades: 64 }
+                { nombre: 'Euskadi', coords: [43.2630, -2.9350], propiedades: 76 },
+                { nombre: 'Girona', coords: [41.9794, 2.8214], propiedades: 88 },
+                { nombre: 'Mallorca', coords: [39.5696, 2.6502], propiedades: 117 },
+                { nombre: 'Menorca', coords: [39.8853, 4.2642], propiedades: 54 }
             ];
             
             ciudades.forEach(ciudad => {
