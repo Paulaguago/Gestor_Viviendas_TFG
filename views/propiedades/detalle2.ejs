@@ -1690,6 +1690,13 @@
                     <div class="ficha-icon-sm"><i class="fas fa-<%= vivienda.activa ? 'check-circle' : 'times-circle' %>"></i></div>
                     <span class="ficha-label">Estado</span>
                     <span class="ficha-value"><%= vivienda.activa ? 'Activa' : 'Inactiva' %></span>
+                    <button class="btn-edit-field" data-field="activa" data-value="<%= vivienda.activa ? '1' : '0' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
+                  </div>
+                  <div class="ficha-item">
+                    <div class="ficha-icon-sm"><i class="fas fa-balance-scale"></i></div>
+                    <span class="ficha-label">Estado Legal</span>
+                    <span class="ficha-value"><%= vivienda.estado_legal || 'Sin estado' %></span>
+                    <button class="btn-edit-field" data-field="estado_legal" data-value="<%= vivienda.estado_legal || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
                 </div>
               </div>
@@ -1888,8 +1895,9 @@
               <div class="prop-section" style="border-bottom:none;">
                 <div class="prop-section-hdr">
                   <span class="prop-sec-label"><i class="fas fa-star"></i>Comodidades</span>
+                  <button class="btn-edit-field" type="button" onclick="startEditAmenities('<%= vivienda.id_vivienda %>')" style="margin-left:auto;" title="Editar comodidades"><i class="fas fa-pen"></i></button>
                 </div>
-                <div class="amenities-list">
+                <div class="amenities-list" id="amenities-display">
                   <%
                     let amenitiesList = [];
                     if (vivienda.amenities) {
@@ -1951,7 +1959,7 @@
                     </div>
                   </div>
                   <div class="prop-map-divider"></div>
-                  <div class="prop-map-info-item">
+                  <div class="prop-map-info-item" style="position:relative;">
                     <i class="fas fa-map-pin"></i>
                     <div>
                       <div class="prop-map-info-label">Coordenadas</div>
@@ -1961,6 +1969,7 @@
                         <% } else { %>—<% } %>
                       </div>
                     </div>
+                    <button class="btn-edit-field" type="button" onclick="startEditCoordinates('<%= vivienda.id_vivienda %>', '<%= vivienda.latitud || '' %>', '<%= vivienda.longitud || '' %>')" style="position:absolute;right:0;top:50%;transform:translateY(-50%);padding:0.4rem 0.6rem;border:none;background:transparent;color:#64748b;cursor:pointer;transition:all .2s;" title="Editar coordenadas"><i class="fas fa-pen"></i></button>
                   </div>
                 </div>
               </div>
@@ -4601,18 +4610,143 @@
     const label = btn.closest('.ficha-item').querySelector('.ficha-label').textContent.trim();
     document.getElementById('editFieldLabel').textContent = label;
     document.getElementById('editFieldName').value = field;
-    const textarea = document.getElementById('editFieldInput');
-    textarea.rows = (field.indexOf('url') === 0) ? 3 : 1;
-    textarea.value = value;
+    const container = document.getElementById('editFieldInputContainer');
+    
+    // Campos con opciones predefinidas
+    const selectFields = {
+      'tipo_vivienda': ['Apartamento', 'Chalet', 'Adosado', 'Pareado', 'Loft', 'Estudio', 'Ático', 'Duplex', 'Casa', 'Villa', 'Bungalow'],
+      'categoria': ['Apartamento turístico', 'Vivienda turística', 'Vivienda de uso turístico', 'Casa Rural'],
+      'estado_legal': ['Activa', 'En trámite', 'No aplica'],
+      'activa': ['Activa', 'Inactiva']
+    };
+    
+    // Para campos con select
+    if (selectFields[field]) {
+      const options = selectFields[field];
+      let selectHtml = '<select id="editFieldInput" style="width:100%;border:1.5px solid #e2e8f0;border-radius:.4rem;padding:.5rem .75rem;font-size:0.875rem;color:#1a2332;outline:none;transition:border .2s;"><option value="">-- Seleccionar --</option>';
+      
+      options.forEach(opt => {
+        selectHtml += '<option value="' + opt + '" ' + (value === opt ? 'selected' : '') + '>' + opt + '</option>';
+      });
+      selectHtml += '</select>';
+      
+      container.innerHTML = selectHtml;
+      document.getElementById('editFieldInput').value = value;
+    } else if (field === 'activa') {
+      // Para el campo activa con valores booleanos
+      container.innerHTML = '<select id="editFieldInput" style="width:100%;border:1.5px solid #e2e8f0;border-radius:.4rem;padding:.5rem .75rem;font-size:0.875rem;color:#1a2332;outline:none;transition:border .2s;"><option value="1">Activa</option><option value="0">Inactiva</option></select>';
+      document.getElementById('editFieldInput').value = value;
+    } else {
+      // TextArea para otros campos
+      container.innerHTML = '<textarea id="editFieldInput" rows="1" style="width:100%;border:1.5px solid #e2e8f0;border-radius:.4rem;padding:.5rem .75rem;font-size:0.875rem;color:#1a2332;outline:none;resize:vertical;transition:border .2s;font-family:inherit;" onfocus="this.style.borderColor=\'#1a2332\'" onblur="this.style.borderColor=\'#e2e8f0\'"></textarea>';
+      const newTextarea = document.getElementById('editFieldInput');
+      newTextarea.rows = (field.indexOf('url') === 0) ? 3 : 1;
+      newTextarea.value = value;
+    }
+    
     const modal = new bootstrap.Modal(document.getElementById('modalEditField'));
     modal.show();
-    setTimeout(function(){ textarea.focus(); }, 300);
+    setTimeout(function(){ 
+      const input = document.getElementById('editFieldInput');
+      if (input) input.focus(); 
+    }, 300);
   }
+
+  function startEditCoordinates(viviendaId, lat, lng) {
+    document.getElementById('editCoordLat').value = lat || '';
+    document.getElementById('editCoordLng').value = lng || '';
+    const modal = new bootstrap.Modal(document.getElementById('modalEditCoordinates'));
+    modal.show();
+    setTimeout(function() { 
+      document.getElementById('editCoordLat').focus(); 
+    }, 300);
+  }
+
+  function startEditAmenities(viviendaId) {
+    // Leer comodidades actuales de la página
+    const amenitiesDisplay = document.getElementById('amenities-display');
+    let currentAmenities = [];
+    
+    if (amenitiesDisplay) {
+      const tags = amenitiesDisplay.querySelectorAll('.amenity-tag span');
+      tags.forEach(tag => {
+        currentAmenities.push(tag.textContent);
+      });
+    }
+    
+    const amenitiesContainer = document.getElementById('amenitiesEditList');
+    if (!amenitiesContainer) return;
+    
+    amenitiesContainer.innerHTML = '';
+    
+    // Lista de comodidades disponibles
+    const availableAmenities = [
+      { nombre: 'WiFi', icon: 'wifi' },
+      { nombre: 'Aire acondicionado', icon: 'snowflake' },
+      { nombre: 'Calefacción', icon: 'thermometer' },
+      { nombre: 'Cocina', icon: 'utensils' },
+      { nombre: 'Parking', icon: 'car' },
+      { nombre: 'Piscina', icon: 'water' },
+      { nombre: 'Jardín', icon: 'tree' },
+      { nombre: 'Terraza', icon: 'sun' },
+      { nombre: 'Ascensor', icon: 'arrow-up' },
+      { nombre: 'Calentador de agua', icon: 'shower' },
+      { nombre: 'Máquina de lavadora', icon: 'washer' },
+      { nombre: 'Lavarropa', icon: 'soap' },
+      { nombre: 'Electrodomésticos', icon: 'blender' }
+    ];
+    
+    availableAmenities.forEach(amenity => {
+      const isChecked = currentAmenities.includes(amenity.nombre);
+      const label = document.createElement('label');
+      label.style.cssText = 'display:flex;align-items:center;padding:0.6rem;cursor:pointer;border-radius:.4rem;margin-bottom:0.4rem;transition:background .2s;';
+      label.innerHTML = '<input type="checkbox" class="amenity-checkbox" value="' + amenity.nombre + '" ' + (isChecked ? 'checked' : '') + ' style="width:18px;height:18px;cursor:pointer;"> <i class="fas fa-' + amenity.icon + '" style="margin:0 0.5rem;color:#64748b;width:20px;text-align:center;"></i><span style="flex:1;">' + amenity.nombre + '</span>';
+      label.addEventListener('mouseenter', function() { this.style.background = '#f1f5f9'; });
+      label.addEventListener('mouseleave', function() { this.style.background = 'transparent'; });
+      amenitiesContainer.appendChild(label);
+    });
+    
+    const modal = new bootstrap.Modal(document.getElementById('modalEditAmenities'));
+    modal.show();
+  }
+
 
   document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btnSaveField').addEventListener('click', function() {
       const field = document.getElementById('editFieldName').value;
-      const newValue = document.getElementById('editFieldInput').value.trim();
+      let newValue = document.getElementById('editFieldInput').value;
+      if (typeof newValue === 'string') newValue = newValue.trim();
+      
+      // Validación de campos numéricos
+      const noNegativeFields = ['superficie', 'superficie_parcela', 'num_habitaciones', 'num_banos', 'capacidad_maxima', 'ano_construccion', 'planta', 'precio_compra', 'escalera', 'piso', 'codigo_postal'];
+      const noDecimalFields = ['num_habitaciones', 'num_banos', 'capacidad_maxima', 'planta', 'escalera', 'piso', 'codigo_postal'];
+      
+      // Validar campos numéricos
+      if (noNegativeFields.includes(field) && newValue !== '') {
+        // Verificar que no contiene signo negativo
+        if (newValue.includes('-')) {
+          showToast('No se permiten valores negativos en este campo', 'error');
+          return;
+        }
+        
+        const numValue = parseFloat(newValue);
+        
+        if (isNaN(numValue)) {
+          showToast('El valor debe ser un número válido', 'error');
+          return;
+        }
+        
+        if (numValue < 0) {
+          showToast('No se permiten valores negativos en este campo', 'error');
+          return;
+        }
+        
+        if (noDecimalFields.includes(field) && !Number.isInteger(numValue)) {
+          showToast('Este campo no acepta decimales', 'error');
+          return;
+        }
+      }
+      
       const saveBtn = document.getElementById('btnSaveField');
       saveBtn.disabled = true;
       saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Guardando\u2026';
@@ -4634,6 +4768,13 @@
               valueEl.textContent = newValue ? newValue + ' m\u00b2' : '\u2014';
             } else if (field === 'capacidad_maxima') {
               valueEl.textContent = newValue ? newValue + ' personas' : '\u2014';
+            } else if (field === 'activa') {
+              valueEl.textContent = newValue === '1' || newValue === true ? 'Activa' : 'Inactiva';
+              const parent = item.parentElement;
+              if (parent) {
+                parent.classList.remove('i-activa', 'i-inactiva');
+                parent.classList.add(newValue === '1' || newValue === true ? 'i-activa' : 'i-inactiva');
+              }
             } else if (field.indexOf('url') === 0) {
               valueEl.textContent = newValue ? 'Ver enlace' : '\u2014';
               valueEl.title = newValue;
@@ -4654,6 +4795,93 @@
         showToast('Error de conexi\u00f3n', 'error');
       });
     });
+    
+    // Guardar coordenadas
+    const btnSaveCoordinates = document.getElementById('btnSaveCoordinates');
+    if (btnSaveCoordinates) {
+      btnSaveCoordinates.addEventListener('click', function() {
+        const lat = document.getElementById('editCoordLat').value.trim();
+        const lng = document.getElementById('editCoordLng').value.trim();
+        
+        if (!lat || !lng) {
+          showToast('Por favor ingresa ambas coordenadas', 'error');
+          return;
+        }
+        
+        const latNum = parseFloat(lat);
+        const lngNum = parseFloat(lng);
+        
+        if (isNaN(latNum) || isNaN(lngNum)) {
+          showToast('Las coordenadas deben ser números válidos', 'error');
+          return;
+        }
+        
+        this.disabled = true;
+        this.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Guardando\u2026';
+        
+        fetch('/propiedades/' + viviendaIdGlobal + '/coordinates', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ latitud: latNum, longitud: lngNum })
+        })
+        .then(r => r.json())
+        .then(d => {
+          this.disabled = false;
+          this.innerHTML = '<i class="fas fa-check me-1"></i>Guardar';
+          if (d.success) {
+            bootstrap.Modal.getInstance(document.getElementById('modalEditCoordinates')).hide();
+            showToast('Coordenadas guardadas correctamente', 'success');
+            // Recargar página para actualizar mapa
+            setTimeout(() => location.reload(), 1500);
+          } else {
+            showToast(d.error || 'Error al guardar', 'error');
+          }
+        })
+        .catch(err => {
+          this.disabled = false;
+          this.innerHTML = '<i class="fas fa-check me-1"></i>Guardar';
+          showToast('Error de conexi\u00f3n', 'error');
+        });
+      });
+    }
+    
+    // Guardar comodidades
+    const btnSaveAmenities = document.getElementById('btnSaveAmenities');
+    if (btnSaveAmenities) {
+      btnSaveAmenities.addEventListener('click', function() {
+        const checkboxes = document.querySelectorAll('.amenity-checkbox:checked');
+        const selectedAmenities = Array.from(checkboxes).map(cb => cb.value);
+        this.disabled = true;
+        this.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Guardando\u2026';
+        
+        fetch('/propiedades/' + viviendaIdGlobal + '/amenities', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amenities: selectedAmenities })
+        })
+        .then(r => r.json())
+        .then(d => {
+          this.disabled = false;
+          this.innerHTML = '<i class="fas fa-check me-1"></i>Guardar';
+          if (d.success) {
+            // Actualizar display
+            const amenitiesDisplay = document.getElementById('amenities-display');
+            amenitiesDisplay.innerHTML = selectedAmenities.length > 0 
+              ? selectedAmenities.map(a => '<div class="amenity-tag"><i class="fas fa-check-circle"></i><span>' + a + '</span></div>').join('')
+              : '<p style="color:#94a3b8;font-size:0.8rem;margin:0;">No hay comodidades especificadas</p>';
+            bootstrap.Modal.getInstance(document.getElementById('modalEditAmenities')).hide();
+            showToast('Comodidades guardadas correctamente', 'success');
+          } else {
+            showToast(d.error || 'Error al guardar', 'error');
+          }
+        })
+        .catch(err => {
+          this.disabled = false;
+          this.innerHTML = '<i class="fas fa-check me-1"></i>Guardar';
+          showToast('Error de conexi\u00f3n', 'error');
+        });
+      });
+    }
   });
 
   </script>
@@ -4673,17 +4901,83 @@
         </div>
         <div class="modal-body" style="padding:1.25rem;">
           <label style="font-size:0.75rem;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.4rem;">Nuevo valor</label>
-          <textarea id="editFieldInput"
-            rows="1"
-            style="width:100%;border:1.5px solid #e2e8f0;border-radius:.4rem;padding:.5rem .75rem;font-size:0.875rem;color:#1a2332;outline:none;resize:vertical;transition:border .2s;font-family:inherit;"
-            onfocus="this.style.borderColor='#1a2332'"
-            onblur="this.style.borderColor='#e2e8f0'"></textarea>
+          <div id="editFieldInputContainer">
+            <textarea id="editFieldInput"
+              rows="1"
+              style="width:100%;border:1.5px solid #e2e8f0;border-radius:.4rem;padding:.5rem .75rem;font-size:0.875rem;color:#1a2332;outline:none;resize:vertical;transition:border .2s;font-family:inherit;"
+              onfocus="this.style.borderColor='#1a2332'"
+              onblur="this.style.borderColor='#e2e8f0'"></textarea>
+          </div>
           <input type="hidden" id="editFieldName">
         </div>
         <div class="modal-footer" style="border:none;padding:.75rem 1.25rem;gap:.5rem;justify-content:flex-end;">
           <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal"
             style="font-size:.8rem;border-radius:.4rem;">Cancelar</button>
           <button type="button" id="btnSaveField" class="btn btn-sm"
+            style="background:#1a2332;color:#fff;border:none;border-radius:.4rem;font-size:.8rem;padding:.35rem .9rem;">
+            <i class="fas fa-check me-1"></i>Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: editar comodidades -->
+  <div class="modal fade" id="modalEditAmenities" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:420px">
+      <div class="modal-content" style="border:none;border-radius:0.75rem;overflow:hidden;">
+        <div class="modal-header" style="background:#1a2332;border:none;padding:1rem 1.25rem;">
+          <h6 class="modal-title" style="color:#fff;font-weight:600;font-size:0.9rem;margin:0;">
+            <i class="fas fa-star me-2" style="color:#38bdf8;"></i>Editar Comodidades
+          </h6>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" style="padding:1.25rem;max-height:400px;overflow-y:auto;">
+          <label style="font-size:0.75rem;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.75rem;">Selecciona las comodidades disponibles</label>
+          <div id="amenitiesEditList"></div>
+        </div>
+        <div class="modal-footer" style="border:none;padding:.75rem 1.25rem;gap:.5rem;justify-content:flex-end;">
+          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal"
+            style="font-size:.8rem;border-radius:.4rem;">Cancelar</button>
+          <button type="button" id="btnSaveAmenities" class="btn btn-sm"
+            style="background:#1a2332;color:#fff;border:none;border-radius:.4rem;font-size:.8rem;padding:.35rem .9rem;">
+            <i class="fas fa-check me-1"></i>Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: editar coordenadas -->
+  <div class="modal fade" id="modalEditCoordinates" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:420px">
+      <div class="modal-content" style="border:none;border-radius:0.75rem;overflow:hidden;">
+        <div class="modal-header" style="background:#1a2332;border:none;padding:1rem 1.25rem;">
+          <h6 class="modal-title" style="color:#fff;font-weight:600;font-size:0.9rem;margin:0;">
+            <i class="fas fa-map-pin me-2" style="color:#38bdf8;"></i>Editar Coordenadas
+          </h6>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" style="padding:1.25rem;">
+          <div style="margin-bottom:1rem;">
+            <label style="font-size:0.75rem;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.4rem;">Latitud</label>
+            <input type="number" id="editCoordLat" placeholder="Ej: 40.416775" step="0.000001"
+              style="width:100%;border:1.5px solid #e2e8f0;border-radius:.4rem;padding:.5rem .75rem;font-size:0.875rem;color:#1a2332;outline:none;transition:border .2s;font-family:inherit;"
+              onfocus="this.style.borderColor='#1a2332'"
+              onblur="this.style.borderColor='#e2e8f0'">
+          </div>
+          <div>
+            <label style="font-size:0.75rem;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.4rem;">Longitud</label>
+            <input type="number" id="editCoordLng" placeholder="Ej: -3.703790" step="0.000001"
+              style="width:100%;border:1.5px solid #e2e8f0;border-radius:.4rem;padding:.5rem .75rem;font-size:0.875rem;color:#1a2332;outline:none;transition:border .2s;font-family:inherit;"
+              onfocus="this.style.borderColor='#1a2332'"
+              onblur="this.style.borderColor='#e2e8f0'">
+          </div>
+        </div>
+        <div class="modal-footer" style="border:none;padding:.75rem 1.25rem;gap:.5rem;justify-content:flex-end;">
+          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal"
+            style="font-size:.8rem;border-radius:.4rem;">Cancelar</button>
+          <button type="button" id="btnSaveCoordinates" class="btn btn-sm"
             style="background:#1a2332;color:#fff;border:none;border-radius:.4rem;font-size:.8rem;padding:.35rem .9rem;">
             <i class="fas fa-check me-1"></i>Guardar
           </button>

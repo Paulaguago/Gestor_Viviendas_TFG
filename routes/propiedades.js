@@ -455,6 +455,28 @@ router.patch('/:id/campo', async (req, res) => {
   }
 });
 
+// Actualizar comodidades/amenities - PATCH /propiedades/:id/amenities
+router.patch('/:id/amenities', async (req, res) => {
+  try {
+    const vivienda = await Vivienda.findOne({
+      where: { id_vivienda: req.params.id, id_usuario: req.user.id_usuario }
+    });
+    if (!vivienda) return res.status(404).json({ success: false, error: 'Vivienda no encontrada' });
+
+    const { amenities } = req.body;
+    if (!Array.isArray(amenities)) {
+      return res.status(400).json({ success: false, error: 'Amenities debe ser un array' });
+    }
+
+    // Guardar como JSON stringificado
+    await vivienda.update({ amenities: JSON.stringify(amenities) });
+    res.json({ success: true });
+  } catch (e) {
+    console.error('Error al actualizar amenities:', e);
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
 // Actualizar vivienda completa - PUT /propiedades/:id
 router.put('/:id', async (req, res) => {
   try {
