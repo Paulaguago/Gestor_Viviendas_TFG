@@ -477,6 +477,28 @@ router.patch('/:id/amenities', async (req, res) => {
   }
 });
 
+// Actualizar coordenadas - PATCH /propiedades/:id/coordinates
+router.patch('/:id/coordinates', async (req, res) => {
+  try {
+    const vivienda = await Vivienda.findOne({
+      where: { id_vivienda: req.params.id, id_usuario: req.user.id_usuario }
+    });
+    if (!vivienda) return res.status(404).json({ success: false, error: 'Vivienda no encontrada' });
+
+    const { latitud, longitud } = req.body;
+    
+    if (latitud === undefined || longitud === undefined) {
+      return res.status(400).json({ success: false, error: 'Latitud y longitud son requeridas' });
+    }
+
+    await vivienda.update({ latitud, longitud });
+    res.json({ success: true });
+  } catch (e) {
+    console.error('Error al actualizar coordenadas:', e);
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
 // Actualizar vivienda completa - PUT /propiedades/:id
 router.put('/:id', async (req, res) => {
   try {

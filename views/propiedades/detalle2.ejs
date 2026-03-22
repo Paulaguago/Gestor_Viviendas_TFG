@@ -1686,12 +1686,6 @@
                     <span class="ficha-value"><%= vivienda.categoria || 'Sin categoría' %></span>
                     <button class="btn-edit-field" data-field="categoria" data-value="<%= vivienda.categoria || '' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
                   </div>
-                  <div class="ficha-item <%= vivienda.activa ? 'i-activa' : 'i-inactiva' %>">
-                    <div class="ficha-icon-sm"><i class="fas fa-<%= vivienda.activa ? 'check-circle' : 'times-circle' %>"></i></div>
-                    <span class="ficha-label">Estado</span>
-                    <span class="ficha-value"><%= vivienda.activa ? 'Activa' : 'Inactiva' %></span>
-                    <button class="btn-edit-field" data-field="activa" data-value="<%= vivienda.activa ? '1' : '0' %>" onclick="startEditField(this)" title="Editar"><i class="fas fa-pen"></i></button>
-                  </div>
                   <div class="ficha-item">
                     <div class="ficha-icon-sm"><i class="fas fa-balance-scale"></i></div>
                     <span class="ficha-label">Estado Legal</span>
@@ -4653,63 +4647,156 @@
   }
 
   function startEditCoordinates(viviendaId, lat, lng) {
-    document.getElementById('editCoordLat').value = lat || '';
-    document.getElementById('editCoordLng').value = lng || '';
-    const modal = new bootstrap.Modal(document.getElementById('modalEditCoordinates'));
-    modal.show();
-    setTimeout(function() { 
-      document.getElementById('editCoordLat').focus(); 
-    }, 300);
+    console.log('Abriendo editor de coordenadas para vivienda:', viviendaId);
+    console.log('Coordenadas actuales - Latitud:', lat, 'Longitud:', lng);
+    
+    const editCoordLat = document.getElementById('editCoordLat');
+    const editCoordLng = document.getElementById('editCoordLng');
+    
+    if (!editCoordLat || !editCoordLng) {
+      console.error('No se encontraron los campos de entrada de coordenadas');
+      showToast('Error: No se puede abrir el editor de coordenadas', 'error');
+      return;
+    }
+    
+    // Establecer valores, convirtiendo cadenas vacías a vacío
+    editCoordLat.value = lat && lat.trim() ? parseFloat(lat) : '';
+    editCoordLng.value = lng && lng.trim() ? parseFloat(lng) : '';
+    
+    const modalElement = document.getElementById('modalEditCoordinates');
+    if (!modalElement) {
+      console.error('No se encontró el modal modalEditCoordinates');
+      showToast('Error: No se puede abrir el modal', 'error');
+      return;
+    }
+    
+    try {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+      console.log('Modal de coordenadas mostrado');
+      
+      setTimeout(function() { 
+        editCoordLat.focus();
+      }, 300);
+    } catch (e) {
+      console.error('Error mostrando modal:', e);
+      showToast('Error al abrir el editor de coordenadas', 'error');
+    }
   }
 
   function startEditAmenities(viviendaId) {
-    // Leer comodidades actuales de la página
+    console.log('Abriendo editor de comodidades para vivienda:', viviendaId);
+    
+    // Leer comodidades actuales del elemento amenities-display
     const amenitiesDisplay = document.getElementById('amenities-display');
     let currentAmenities = [];
     
     if (amenitiesDisplay) {
-      const tags = amenitiesDisplay.querySelectorAll('.amenity-tag span');
-      tags.forEach(tag => {
-        currentAmenities.push(tag.textContent);
+      const amenityTags = amenitiesDisplay.querySelectorAll('.amenity-tag span');
+      amenityTags.forEach(tag => {
+        const text = tag.textContent.trim();
+        if (text) {
+          currentAmenities.push(text);
+        }
       });
     }
     
+    console.log('Comodidades actuales:', currentAmenities);
+    
     const amenitiesContainer = document.getElementById('amenitiesEditList');
-    if (!amenitiesContainer) return;
+    if (!amenitiesContainer) {
+      console.error('No se encontró el contenedor de comodidades');
+      showToast('Error: No se puede abrir el editor de comodidades', 'error');
+      return;
+    }
     
     amenitiesContainer.innerHTML = '';
     
-    // Lista de comodidades disponibles
-    const availableAmenities = [
-      { nombre: 'WiFi', icon: 'wifi' },
-      { nombre: 'Aire acondicionado', icon: 'snowflake' },
-      { nombre: 'Calefacción', icon: 'thermometer' },
-      { nombre: 'Cocina', icon: 'utensils' },
-      { nombre: 'Parking', icon: 'car' },
-      { nombre: 'Piscina', icon: 'water' },
-      { nombre: 'Jardín', icon: 'tree' },
-      { nombre: 'Terraza', icon: 'sun' },
-      { nombre: 'Ascensor', icon: 'arrow-up' },
-      { nombre: 'Calentador de agua', icon: 'shower' },
-      { nombre: 'Máquina de lavadora', icon: 'washer' },
-      { nombre: 'Lavarropa', icon: 'soap' },
-      { nombre: 'Electrodomésticos', icon: 'blender' }
+    // Lista de comodidades predefinidas
+    const predefinedAmenities = [
+      'WiFi',
+      'Aire acondicionado',
+      'Calefacción',
+      'Cocina',
+      'Parking',
+      'Piscina',
+      'Jardín',
+      'Terraza',
+      'Ascensor',
+      'Calentador de agua',
+      'Máquina de lavadora',
+      'Lavarropa',
+      'Electrodomésticos',
+      'Jacuzzi',
+      'Lavadora',
+      'Nevera'
     ];
     
-    availableAmenities.forEach(amenity => {
-      const isChecked = currentAmenities.includes(amenity.nombre);
+    // Crear mapa de todas las comodidades
+    const allAmenities = {};
+    
+    // Añadir predefinidas
+    predefinedAmenities.forEach(name => {
+      allAmenities[name] = true;
+    });
+    
+    // Añadir personalizadas
+    currentAmenities.forEach(name => {
+      allAmenities[name] = true;
+    });
+    
+    // Mostrar checkboxes
+    Object.keys(allAmenities).sort().forEach(amenityName => {
+      const isChecked = currentAmenities.includes(amenityName);
       const label = document.createElement('label');
       label.style.cssText = 'display:flex;align-items:center;padding:0.6rem;cursor:pointer;border-radius:.4rem;margin-bottom:0.4rem;transition:background .2s;';
-      label.innerHTML = '<input type="checkbox" class="amenity-checkbox" value="' + amenity.nombre + '" ' + (isChecked ? 'checked' : '') + ' style="width:18px;height:18px;cursor:pointer;"> <i class="fas fa-' + amenity.icon + '" style="margin:0 0.5rem;color:#64748b;width:20px;text-align:center;"></i><span style="flex:1;">' + amenity.nombre + '</span>';
-      label.addEventListener('mouseenter', function() { this.style.background = '#f1f5f9'; });
-      label.addEventListener('mouseleave', function() { this.style.background = 'transparent'; });
+      
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.className = 'amenity-checkbox';
+      checkbox.value = amenityName;
+      checkbox.checked = isChecked;
+      checkbox.style.cssText = 'width:18px;height:18px;cursor:pointer;';
+      
+      const icon = document.createElement('i');
+      icon.className = 'fas fa-check-circle';
+      icon.style.cssText = 'margin:0 0.5rem;color:#64748b;width:20px;text-align:center;';
+      
+      const span = document.createElement('span');
+      span.textContent = amenityName;
+      span.style.flex = '1';
+      
+      label.appendChild(checkbox);
+      label.appendChild(icon);
+      label.appendChild(span);
+      
+      label.addEventListener('mouseenter', function() { 
+        this.style.background = '#f1f5f9'; 
+      });
+      label.addEventListener('mouseleave', function() { 
+        this.style.background = 'transparent'; 
+      });
+      
       amenitiesContainer.appendChild(label);
     });
     
-    const modal = new bootstrap.Modal(document.getElementById('modalEditAmenities'));
-    modal.show();
+    // Limpiar campo de entrada
+    const newAmenityInput = document.getElementById('newAmenityInput');
+    if (newAmenityInput) {
+      newAmenityInput.value = '';
+    }
+    
+    // Mostrar modal
+    const modalElement = document.getElementById('modalEditAmenities');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+      console.log('Modal mostrado');
+    } else {
+      console.error('No se encontró el modal modalEditAmenities');
+      showToast('Error: No se puede abrir el modal', 'error');
+    }
   }
-
 
   document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btnSaveField').addEventListener('click', function() {
@@ -4816,6 +4903,17 @@
           return;
         }
         
+        // Validar rangos de coordenadas
+        if (latNum < -90 || latNum > 90) {
+          showToast('La latitud debe estar entre -90 y 90', 'error');
+          return;
+        }
+        
+        if (lngNum < -180 || lngNum > 180) {
+          showToast('La longitud debe estar entre -180 y 180', 'error');
+          return;
+        }
+        
         this.disabled = true;
         this.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Guardando\u2026';
         
@@ -4829,10 +4927,21 @@
           this.disabled = false;
           this.innerHTML = '<i class="fas fa-check me-1"></i>Guardar';
           if (d.success) {
+            // Actualizar el display de coordenadas en la página
+            const coordDisplay = document.querySelector('.prop-map-info-val');
+            if (coordDisplay) {
+              coordDisplay.textContent = latNum.toFixed(5) + ', ' + lngNum.toFixed(5);
+            }
+            
             bootstrap.Modal.getInstance(document.getElementById('modalEditCoordinates')).hide();
             showToast('Coordenadas guardadas correctamente', 'success');
-            // Recargar página para actualizar mapa
-            setTimeout(() => location.reload(), 1500);
+            
+            // Recargar página para actualizar mapa si existe
+            setTimeout(() => {
+              if (document.getElementById('map')) {
+                location.reload();
+              }
+            }, 1000);
           } else {
             showToast(d.error || 'Error al guardar', 'error');
           }
@@ -4840,7 +4949,8 @@
         .catch(err => {
           this.disabled = false;
           this.innerHTML = '<i class="fas fa-check me-1"></i>Guardar';
-          showToast('Error de conexi\u00f3n', 'error');
+          console.error('Error:', err);
+          showToast('Error de conexión', 'error');
         });
       });
     }
@@ -4880,6 +4990,85 @@
           this.innerHTML = '<i class="fas fa-check me-1"></i>Guardar';
           showToast('Error de conexi\u00f3n', 'error');
         });
+      });
+    }
+    
+    // Evento para añadir nueva comodidad
+    const btnAddAmenity = document.getElementById('btnAddAmenity');
+    if (btnAddAmenity) {
+      btnAddAmenity.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log('Botón de añadir comodidad presionado');
+        
+        const newAmenityInput = document.getElementById('newAmenityInput');
+        if (!newAmenityInput) {
+          console.error('No se encontró el campo de entrada');
+          return;
+        }
+        
+        const newAmenity = newAmenityInput.value.trim();
+        
+        if (!newAmenity) {
+          showToast('Por favor ingresa un nombre de comodidad', 'error');
+          return;
+        }
+        
+        // Verificar que no exista ya
+        const existingCheckboxes = document.querySelectorAll('input.amenity-checkbox');
+        let alreadyExists = false;
+        
+        existingCheckboxes.forEach(checkbox => {
+          if (checkbox.value === newAmenity) {
+            alreadyExists = true;
+          }
+        });
+        
+        if (alreadyExists) {
+          showToast('Esta comodidad ya está en la lista', 'error');
+          newAmenityInput.value = '';
+          return;
+        }
+        
+        // Crear el nuevo elemento
+        const label = document.createElement('label');
+        label.style.cssText = 'display:flex;align-items:center;padding:0.6rem;cursor:pointer;border-radius:.4rem;margin-bottom:0.4rem;transition:background .2s;';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'amenity-checkbox';
+        checkbox.value = newAmenity;
+        checkbox.checked = true;
+        checkbox.style.cssText = 'width:18px;height:18px;cursor:pointer;';
+        
+        const icon = document.createElement('i');
+        icon.className = 'fas fa-check-circle';
+        icon.style.cssText = 'margin:0 0.5rem;color:#64748b;width:20px;text-align:center;';
+        
+        const span = document.createElement('span');
+        span.textContent = newAmenity;
+        span.style.flex = '1';
+        
+        label.appendChild(checkbox);
+        label.appendChild(icon);
+        label.appendChild(span);
+        
+        label.addEventListener('mouseenter', function() {
+          this.style.background = '#f1f5f9';
+        });
+        label.addEventListener('mouseleave', function() {
+          this.style.background = 'transparent';
+        });
+        
+        const amenitiesContainer = document.getElementById('amenitiesEditList');
+        if (amenitiesContainer) {
+          amenitiesContainer.appendChild(label);
+        }
+        
+        newAmenityInput.value = '';
+        newAmenityInput.focus();
+        showToast('Comodidad añadida', 'success');
       });
     }
   });
@@ -4932,9 +5121,19 @@
           </h6>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-body" style="padding:1.25rem;max-height:400px;overflow-y:auto;">
-          <label style="font-size:0.75rem;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.75rem;">Selecciona las comodidades disponibles</label>
+        <div class="modal-body" style="padding:1.25rem;max-height:450px;overflow-y:auto;">
+          <label style="font-size:0.75rem;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.75rem;">Selecciona las comodidades</label>
           <div id="amenitiesEditList"></div>
+          
+          <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #e2e8f0;">
+            <label style="font-size:0.75rem;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.5rem;">Añadir comodidad personalizada</label>
+            <div style="display:flex;gap:.5rem;">
+              <input type="text" id="newAmenityInput" placeholder="Ej: Aire secador" style="flex:1;border:1.5px solid #e2e8f0;border-radius:.4rem;padding:.5rem .75rem;font-size:0.875rem;outline:none;" onfocus="this.style.borderColor='#1a2332'" onblur="this.style.borderColor='#e2e8f0'">
+              <button type="button" id="btnAddAmenity" class="btn btn-sm" style="background:#1a2332;color:#fff;border:none;border-radius:.4rem;padding:.35rem .75rem;font-size:.8rem;white-space:nowrap;">
+                <i class="fas fa-plus"></i> Añadir
+              </button>
+            </div>
+          </div>
         </div>
         <div class="modal-footer" style="border:none;padding:.75rem 1.25rem;gap:.5rem;justify-content:flex-end;">
           <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal"
