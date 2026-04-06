@@ -525,7 +525,7 @@ router.post('/:id/transacciones', async (req, res) => {
     const { tipo, importe, descripcion, fecha, categoria } = req.body;
     if (!tipo || !importe || !fecha) return res.status(400).json({ success: false, error: 'Faltan campos obligatorios' });
 
-    // Find-or-create category record so the donut chart can split by category
+    // Buscar o crear categoría para el donut
     let id_categoria = null;
     if (categoria) {
       const [catRecord] = await CategoriaFinanciera.findOrCreate({
@@ -571,7 +571,7 @@ router.post('/:id/reservas', async (req, res) => {
     if (!fecha_inicio || !fecha_fin) return res.status(400).json({ success: false, error: 'Fechas obligatorias' });
     if (new Date(fecha_inicio) >= new Date(fecha_fin)) return res.status(400).json({ success: false, error: 'La fecha de entrada debe ser anterior a la fecha de salida' });
 
-    // Helper: convert HH:MM to minutes
+    // HH:MM a minutos
     const toMin = (t) => { const [h,m] = (t||'00:00').split(':').map(Number); return h*60+m; };
     const horaEntradaNueva = hora_llegada || '15:00';
     const horaSalidaNueva  = hora_salida  || '11:00';
@@ -742,7 +742,7 @@ router.patch('/:id/reservas/:rid', async (req, res) => {
       updates.importe_total = req.body.importe_total ? parseFloat(req.body.importe_total) : null;
     }
 
-    // Helper: convert HH:MM to minutes
+    // HH:MM a minutos
     const toMin = (t) => { const [h,m] = (t||'00:00').split(':').map(Number); return h*60+m; };
 
     // Comprobar solapamiento si se cambian fechas
@@ -821,7 +821,7 @@ router.patch('/:id/reservas/:rid', async (req, res) => {
 
     await reserva.update(updates);
 
-    // Sync linked income transaction if importe changed and reservation is paid
+    // Sincronizar transacción vinculada si cambió el importe
     if (updates.importe_total !== undefined) {
       const isPaid = updates.pagado !== undefined ? updates.pagado : reserva.pagado;
       if (isPaid && updates.importe_total) {
