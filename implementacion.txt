@@ -1,0 +1,254 @@
+Capítulo implementación
+Capítulo implementación
+1. Arquitectura general del sistema
+2. Stack tecnológico e infraestructura
+2.1. Tecnologías de frontend, backend y servicios externos
+2.2. Datos, machine learning y entorno de desarrollo
+3. Integración y comunicación entre componentes
+3.1. Interacción interfaz-servidor (Frontend ↔ Backend)
+3.2. Persistencia de datos (Backend ↔ Base de Datos)
+3.3. Orquestación del motor analítico (Backend ↔ Python)
+3.4. Consumo de servicios externos (Backend ↔ APIs)
+4. Módulo predictivo de inteligencia artificial
+4.1. Arquitectura del sistema predictivo
+4.2. Datos y preprocesamiento
+4.2.1. Dominio de alquiler turístico
+4.2.2. Dominio de venta de inmuebles
+4.3. Ingeniería de características y codificación
+4.4. Modelos de machine learning implementados
+4.4.1. Modelos de alquiler
+4.4.2. Modelos de venta
+4.5. Explicabilidad, contexto temporal y persistencia
+4.5.1. Fundamento matemático y SHAP
+4.5.2. Contexto temporal y estacionalidad
+4.5.3. Persistencia y post-procesamiento
+5. Organización del proyecto y navegación funcional
+5.1. Estructura arquitectónica del proyecto
+5.2. Catálogo de rutas y flujo de navegación
+5.2.1. Gestión de acceso y perfil
+5.2.2. Operaciones de negocio (/propiedades y /finanzas)
+5.2.3. Endpoints de inteligencia artificial (/alquiler y /venta)
+5.2.4. Flujo de experiencia de usuario (UX)
+6. Referencias y bibliografía
+
+
+
+
+
+
+
+
+
+
+
+1. Arquitectura general del sistema
+El sistema desarrollado ha sido diseñado siguiendo una arquitectura monolítica fundamentada en el patrón de diseño Modelo-Vista-Controlador (MVC).
+Esta estructura principal se complementa con un subsistema analítico dedicado a la ejecución de modelos predictivos, los cuales operan como procesos independientes en el entorno de Python. De este modo, la solución tecnológica se articula en cuatro componentes o capas lógicas claramente definidas:
+Capa de Presentación (Frontend): Constituye la interfaz con la que interactúa el usuario final. Se ha implementado mediante el uso de plantillas EJS (Embedded JavaScript templating) renderizadas desde el servidor. Para el diseño visual y la estructura de la interfaz, se ha optado por una combinación de hojas de estilo en cascada (CSS) personalizadas junto con la integración de los frameworks de diseño Tailwind CSS y Bootstrap 5, lo que garantiza una apariencia responsiva y estandarizada. Asimismo, se ha incorporado código JavaScript del lado del cliente para dotar a la plataforma de interactividad y permitir la visualización dinámica de los datos.
+Capa de Lógica de Negocio (Backend): Desarrollada sobre el entorno de ejecución Node.js y utilizando el framework Express.js, esta capa actúa como el núcleo operativo de la aplicación. Es la encargada de gestionar el enrutamiento de las peticiones HTTP, procesar la autenticación de los usuarios y orquestar la comunicación tanto con la base de datos como con los módulos externos de Inteligencia Artificial.
+Capa de Persistencia de Datos: La gestión de la información se centraliza en una base de datos relacional MySQL. Para facilitar la interacción y el modelado de datos desde el backend, se ha integrado el mapeador objeto-relacional (ORM) Sequelize. Esta capa almacena de forma estructurada y segura toda la información del dominio, incluyendo la gestión de usuarios, propiedades inmobiliarias, reservas, transacciones financieras, registro de incidencias, tareas de mantenimiento y control de huéspedes.
+Subsistema de Inteligencia Artificial: Este componente es fundamental para aportar valor predictivo a la herramienta. Está constituido por un conjunto de scripts en Python que implementan diversos algoritmos de aprendizaje automático (Machine Learning), concretamente: Random Forest, Gradient Boosting, LightGBM y Explainable Boosting Machines (EBM). Su objetivo es generar predicciones precisas sobre los precios de alquiler y venta de los inmuebles. Además del cálculo predictivo, el subsistema integra técnicas de explicabilidad (XAI) mediante la librería SHAP (SHapley Additive exPlanations) y las características nativas de los EBM, permitiendo justificar las predicciones tanto a nivel local (para un inmueble específico) como global (impacto general de las variables).
+Integración de Tecnologías: Para lograr una sinergia operativa entre la aplicación web principal y el módulo predictivo, la comunicación entre el backend (Node.js) y los modelos (Python) se ha resuelto mediante la invocación de procesos hijos (child processes). En este flujo de trabajo, el servidor de Node.js ejecuta los scripts de Python de forma asíncrona, inyectando los datos de entrada necesarios mediante argumentos de línea de comandos o variables de entorno. Una vez que el modelo de Inteligencia Artificial finaliza su inferencia, devuelve los resultados y sus correspondientes explicaciones a través de la salida estándar (stdout) en formato estructurado JSON. Este enfoque permite que Node.js procese la respuesta fácilmente y la envíe a la capa de presentación para su visualización.
+
+2. Stack tecnológico e infraestructura
+Este bloque agrupa tanto las tecnologías concretas empleadas en la aplicación como las decisiones de infraestructura y entorno que hacen posible su ejecución, mantenimiento y evolución. La reorganización permite presentar el stack de forma menos fragmentada sin perder el detalle técnico original.
+
+2.1. Tecnologías de frontend, backend y servicios externos
+La interfaz de usuario se ha implementado mediante un modelo de renderizado del lado del servidor (SSR) que garantiza una carga de datos eficiente, complementado con diversas librerías cliente para mejorar la interactividad.
+Tecnologías de Frontend:
+EJS (Embedded JavaScript Templates, v3.1.9): Se utiliza como motor de plantillas principal. Su función es la generación dinámica de documentos HTML en el servidor, permitiendo inyectar variables del backend directamente en la interfaz según el estado de la sesión o los datos de la base de datos.
+Tailwind CSS: Este framework de utilidades se ha empleado para el diseño de las páginas públicas (como la landing page y formularios de acceso). Su integración mediante CDN facilita un diseño responsivo y moderno mediante clases directas en el marcado.
+Bootstrap 5.3: Utilizado para la arquitectura visual de los módulos internos (paneles de gestión, finanzas y administración de propiedades). Aporta componentes predefinidos como modales, acordeones y el sistema de rejilla (grid), asegurando la coherencia visual en toda la aplicación.
+Bibliotecas de Iconografía: Se integran Bootstrap Icons (v1.10.5) y Font Awesome (v6.4.0) para proporcionar una guía visual intuitiva al usuario a través de elementos gráficos vectoriales.
+Chart.js (v4.4.0): Librería empleada para la generación de gráficos interactivos en el panel principal, permitiendo la visualización de datos financieros (ingresos y gastos) de forma clara.
+Plotly.js (v2.32.0): Se utiliza específicamente en el módulo de inteligencia artificial para representar las gráficas de explicabilidad generadas por los modelos EBM (Explainable Boosting Machines).
+Leaflet.js (v1.9.4): Empleada para la integración de mapas interactivos basados en OpenStreetMap, permitiendo la geolocalización de los inmuebles en las vistas de detalle y resultados de predicción.
+Particles.js (v2.0.0): Utilizada para mejorar la experiencia estética en las interfaces de autenticación mediante fondos animados de partículas.
+JavaScript (ES6+): Uso de JavaScript nativo (vanilla) para gestionar la lógica del cliente, incluyendo validaciones de formularios, gestión de calendarios interactivos y carga dinámica de datos sin recargar la página.
+CSS Personalizado: Desarrollo de hojas de estilo específicas (landing.css, dashboard.css, etc.) para extender las capacidades de los frameworks externos, definiendo la paleta de colores, la tipografía (Inter de Google Fonts) y efectos visuales particulares.
+
+El núcleo de la aplicación se apoya en un entorno de ejecución basado en JavaScript y un motor predictivo basado en Python.
+Tecnologías de Backend:
+Node.js: Entorno de ejecución fundamental que permite ejecutar JavaScript en el servidor bajo un modelo de entrada/salida no bloqueante, ideal para aplicaciones web concurrentes.
+Express.js (v4.18.2): Framework encargado de la gestión de rutas, procesamiento de peticiones HTTP, manejo de archivos estáticos y la integración de middleware en el servidor.
+Sequelize (v6.37.7): Se utiliza como ORM (Object-Relational Mapping) para gestionar la base de datos MySQL. Facilita la interacción con los datos mediante objetos de JavaScript y automatiza la sincronización del esquema y las relaciones.
+Passport.js (v0.7.0): Middleware encargado de la seguridad y autenticación. Utiliza una estrategia local para validar credenciales y gestionar la persistencia del usuario en la sesión.
+bcryptjs (v2.4.3): Herramienta criptográfica que asegura las contraseñas de los usuarios mediante el algoritmo bcrypt con un factor de coste de 10, evitando el almacenamiento de texto plano.
+Gestión de Estado y Sesión: Se utilizan express-session (v1.17.3) para la persistencia del estado del usuario (con expiración de 24 horas) y connect-flash para la comunicación de mensajes temporales de éxito o error entre redirecciones.
+Multer (v2.0.2): Gestiona la carga de archivos multimedia (multipart/form-data), permitiendo subir imágenes y documentos con restricciones de tamaño (5 MB) y validación de tipos de archivo (JPEG, PNG, WebP, etc.).
+method-override: Habilita el uso de verbos HTTP como PUT y DELETE en navegadores que solo soportan nativamente GET y POST, permitiendo una arquitectura de API RESTful.
+Python 3: Se integra como lenguaje secundario para la ejecución de los modelos de Machine Learning. La comunicación con Node.js se realiza a través del módulo child_process, utilizando la salida estándar (stdout) y el formato JSON para el intercambio de resultados.
+
+Servicios Externos y APIs de Terceros:
+API de Geocodificación Nominatim (OpenStreetMap): Utilizada para convertir direcciones postales en coordenadas geográficas. Se accede a través de un proxy interno en /api/geocode para solventar restricciones de CORS.
+API de CARTO: Proporciona las capas cartográficas (tiles) en estilo claro (light_all) para el renderizado de los mapas con Leaflet.js.
+
+2.2. Datos, machine learning y entorno de desarrollo
+El sistema utiliza MySQL como base de datos relacional (SGBDR), gestionada mediante el conector mysql2 (v3.16.2). La base de datos, denominada tfg, se organiza en un esquema relacional optimizado para la integridad de los datos.
+Tabla
+Descripción
+Usuarios
+Registro de credenciales y perfiles.
+Viviendas
+Datos técnicos y descriptivos de los inmuebles.
+Reservas
+Gestión de estancias vinculadas a las viviendas.
+Huéspedes
+Información de carácter personal de los viajeros.
+Reserva_huesped
+Tabla de ruptura para la relación N:M entre reservas y huéspedes.
+Categorias_financieras
+Clasificación personalizada de transacciones.
+Transacciones
+Registro de movimientos económicos (ingresos/gastos).
+Tareas y incidencias
+Control operativo y de mantenimiento.
+Documentos_vivienda
+Gestión documental de los inmuebles.
+
+Relaciones y Configuración: Se han implementado claves foráneas con política de eliminación en cascada (CASCADE) para asegurar la integridad referencial. La conexión se optimiza mediante un pool de máximo 5 conexiones simultáneas con tiempos de inactividad controlados.
+
+El componente de inteligencia artificial se ha desarrollado utilizando el ecosistema científico de Python:
+scikit-learn (≥1.3): Implementación de algoritmos Random Forest y Gradient Boosting para la predicción de alquileres, además de herramientas de preprocesamiento.
+LightGBM (≥4.0): Algoritmo de Gradient Boosting de alto rendimiento utilizado para la predicción de precios de venta.
+InterpretML / EBM (≥0.6): Implementación de Explainable Boosting Machines para ofrecer predicciones interpretables mediante modelos aditivos generalizados.
+SHAP (≥0.44): Utilizado junto a TreeExplainer para desglosar la importancia de cada variable en las predicciones de los modelos de caja negra.
+Pandas y NumPy: Pilares para la manipulación de estructuras de datos (DataFrames) y la realización de cálculos numéricos complejos.
+category_encoders (≥2.6): Empleado para la transformación de variables categóricas (como barrios o tipos de habitación) mediante técnicas de Target Encoding.
+joblib (≥1.3): Utilizado para la serialización y persistencia de los modelos entrenados en archivos con extensión .pkl.
+
+Para garantizar la estabilidad y la reproducibilidad del proyecto, se ha configurado un ecosistema de desarrollo basado en la segregación de entornos y el uso de herramientas de gestión de dependencias estándares en la industria.
+Entorno de Ejecución y Servidores: La aplicación opera bajo un entorno de ejecución local, configurado sobre el sistema operativo Windows, donde interactúan tres núcleos principales. Servidor de Aplicaciones: Basado en Node.js y el framework Express.js, configurado para atender peticiones en el puerto 3000. Este servidor actúa como el orquestador central de la lógica del sistema. Gestión de Persistencia: Se utiliza una instancia local de MySQL Server (127.0.0.1:3306) para la gestión de datos relacionales, garantizando tiempos de respuesta mínimos durante la fase de desarrollo. Entorno de Computación Analítica: El subsistema de inteligencia artificial se ejecuta mediante un intérprete de Python 3. Se ha implementado un entorno virtual (.venv) dedicado, lo que permite el aislamiento de las librerías de Machine Learning y evita conflictos de versiones con otras aplicaciones del sistema.
+Metodología de Control de Versiones: La gestión del código fuente y el histórico de cambios se ha realizado mediante Git, utilizando GitHub como plataforma de alojamiento remoto bajo el repositorio institucional Paulaguago/Gestor_Viviendas_TFG. Se ha seguido una estrategia de ramificación (branching) basada en flujos de trabajo profesionales, diferenciando claramente dos líneas de desarrollo: Rama main: Contiene el código estable y las versiones funcionales del sistema. Rama develop: Destinada a la integración de nuevas funcionalidades y pruebas activas antes de su paso a producción.
+Gestión de Dependencias y Paquetes: Dada la naturaleza políglota del proyecto (JavaScript y Python), se emplean dos gestores de paquetes especializados para asegurar la integridad del software. npm (Node Package Manager): Administra las dependencias del backend. A través del archivo package.json, se definen tanto las librerías de producción como las herramientas de desarrollo, permitiendo la automatización de tareas mediante scripts personalizados (start, dev). pip: Se encarga de la instalación y control de versiones de los módulos de Python. Todas las dependencias críticas para los modelos predictivos están documentadas en el archivo requirements.txt, facilitando la portabilidad del subsistema de IA a otros entornos.
+Entorno de Desarrollo Integrado (IDE): Como herramienta principal de programación se ha utilizado Visual Studio Code (VS Code). La elección de este IDE responde a su capacidad de integración con múltiples lenguajes de forma simultánea, permitiendo depurar el código de Node.js, gestionar los entornos virtuales de Python y realizar consultas directas a la base de datos MySQL desde una interfaz unificada, lo que ha optimizado los tiempos de implementación y pruebas.
+
+3. Integración y comunicación entre componentes
+La robustez del sistema reside en la comunicación eficiente entre sus distintas capas. Para ello, se han implementado diversos protocolos y patrones de diseño que aseguran la integridad y fluidez de la información.
+
+3.1. Interacción interfaz-servidor (Frontend ↔ Backend)
+La comunicación entre la capa de presentación y la lógica de negocio se articula mediante el protocolo HTTP, combinando dos estrategias complementarias según la necesidad funcional:
+Renderizado en Servidor (SSR): Para las vistas estructurales como el dashboard o la gestión de inventario, se emplea el motor EJS. El servidor procesa la lógica, consulta la persistencia y genera un documento HTML completo. Este enfoque mejora la velocidad de carga inicial y garantiza que el usuario reciba una interfaz coherente con su estado de sesión.
+Comunicación Asíncrona (AJAX): Para mejorar la experiencia de usuario (UX) en operaciones granulares (como la actualización de una reserva o el registro de un gasto), se utiliza la API Fetch de JavaScript. Esto permite el intercambio de datos en formato JSON y la actualización dinámica del DOM (Modelo de Objetos del Documento) sin necesidad de recargar la página completa.
+
+3.2. Persistencia de datos (Backend ↔ Base de Datos)
+La capa de datos se gestiona íntegramente a través del ORM Sequelize, eliminando la dependencia de consultas SQL manuales y proporcionando una capa de abstracción orientada a objetos. Las ventajas clave integradas son:
+Modelado Estructurado: Cada entidad de la base de datos MySQL está representada por una clase en JavaScript, donde se definen tipos de datos, restricciones de nulidad y validaciones de negocio.
+Gestión de Relaciones: Se han configurado asociaciones complejas (1:N y N:M) mediante métodos nativos del ORM, permitiendo el uso de eager loading (cláusula include). Esto optimiza el rendimiento al recuperar, por ejemplo, una vivienda junto con todos sus documentos e incidencias en una única operación de lectura.
+Integridad y Sincronización: Mediante el método sync(), el sistema garantiza que el esquema físico de la base de datos coincida siempre con las definiciones del código, facilitando el despliegue y la escalabilidad del modelo de datos.
+
+3.3. Orquestación del motor analítico (Backend ↔ Python)
+Uno de los aspectos técnicos más complejos del proyecto es la interoperabilidad entre Node.js y el subsistema de Inteligencia Artificial en Python. Esta se ha resuelto mediante el uso del módulo child_process, encapsulado en una utilidad específica denominada pythonRunner.js.
+El flujo de ejecución sigue una secuencia determinista:
+Preparación: El servidor Node.js recibe la petición del usuario y formatea los parámetros de entrada (características de la vivienda).
+Ejecución: Se instancia un proceso hijo mediante el comando spawn, invocando los scripts especializados (predict.py, predict_venta.py o los módulos de explicabilidad SHAP/EBM).
+Inferencia: El script Python carga el modelo serializado (.pkl), realiza el preprocesamiento de variables y ejecuta el algoritmo.
+Retorno: Los resultados y las explicaciones gráficas se envían al servidor a través de la salida estándar (stdout) en formato estructurado JSON.
+Para asegurar la portabilidad, se ha implementado una lógica de detección automática del intérprete de Python que prioriza el uso del entorno virtual (.venv), garantizando que el sistema utilice siempre las versiones correctas de las librerías de Machine Learning.
+
+3.4. Consumo de servicios externos (Backend ↔ APIs)
+La aplicación expande sus capacidades mediante la integración de servicios de terceros, gestionados principalmente desde el lado del servidor:
+Arquitectura de Proxy para Geocodificación: Se ha implementado un proxy interno para la API de Nominatim (OpenStreetMap). El frontend no consulta directamente al servicio externo; en su lugar, delega la petición al backend. Esta técnica no solo centraliza el manejo de errores y posibles timeouts, sino que también evita problemas de seguridad y restricciones de CORS (Cross-Origin Resource Sharing), ofreciendo una interfaz de API propia y simplificada para la aplicación.
+
+4. Módulo predictivo de inteligencia artificial
+El sistema predictivo constituye el núcleo de innovación tecnológica del proyecto. Su propósito es proporcionar estimaciones precisas de precios para el mercado de alquiler turístico y venta de inmuebles, integrando técnicas de Inteligencia Artificial Explicable (XAI). A diferencia de los modelos de "caja negra" convencionales, este sistema permite al usuario comprender los factores subyacentes que determinan cada valoración.
+
+4.1. Arquitectura del sistema predictivo
+Se ha implementado una arquitectura dual que desacopla la gestión web (Node.js) del motor de computación científica (Python). El sistema se divide en dos dominios independientes:
+Predicción de Alquiler: Basada en modelos Random Forest y Gradient Boosting entrenados con datasets de Airbnb.
+Predicción de Venta: Fundamentada en modelos LightGBM y Explainable Boosting Machines (EBM).
+El flujo de ejecución es determinista: los datos capturados en el frontend son procesados por una ruta de Express, que invoca un proceso hijo de Python mediante una utilidad personalizada (pythonRunner.js). Este script carga los modelos serializados, realiza la inferencia y devuelve un objeto estructurado en formato JSON.
+
+4.2. Datos y preprocesamiento
+Esta sección agrupa la adquisición de datos y las fases de preparación previas a la inferencia y al entrenamiento, manteniendo separados los dos dominios analíticos del proyecto.
+
+4.2.1. Dominio de alquiler turístico
+Los datos provienen de listados públicos de Airbnb en España. El pipeline de limpieza, localizado en implementacion.py, ejecuta las siguientes fases:
+Tratamiento de Precios: Conversión de moneda (USD a EUR) y filtrado de outliers mediante el método del Rango Intercuartílico (IQR).
+Normalización Textual: Extracción numérica de campos como bathrooms y detección de amenidades mediante parsing de cadenas para generar variables binarias (piscina, Wi-Fi, aire acondicionado, etc.).
+Enriquecimiento Contextual: Se han calculado estadísticas agregadas por barrio (mediana de precio, popularidad y desviación típica) almacenadas en archivos JSON para su uso como features de entrada.
+
+4.2.2. Dominio de venta de inmuebles
+Se emplea un dataset del mercado inmobiliario español enriquecido con datos socioeconómicos provinciales del INE (Población, PIB y Renta per Cápita). Esto permite que el modelo no sólo evalúe las características físicas (m², planta, estado), sino también el entorno económico del inmueble.
+
+4.3. Ingeniería de características y codificación
+Esta etapa es crítica para transformar los datos brutos en variables con alto poder predictivo. Se han definido dos conjuntos de características:
+Modelo de Alquiler (43 variables): Incluye categorías básicas, amenidades binarias, categorías de capacidad, métricas de reseñas y ratios derivados (ej. bath_per_bed).
+Modelo de Venta (44 variables): Enfocado en superficies físicas (m2_useful), antigüedad (incluyendo age_squared para capturar relaciones no lineales), jerarquía de ubicación y equipamiento premium.
+Para gestionar variables de alta cardinalidad (como el barrio o la ciudad), se ha implementado la técnica de Target Encoding. Este método reemplaza cada categoría por la media del precio de la variable objetivo, aplicando un factor de suavizado (smoothing) de 2.0 para evitar el sobreajuste (overfitting). Se ha preferido esta técnica sobre el One-Hot Encoding para evitar la dispersión de datos (sparsity) que perjudicaría el rendimiento de los modelos basados en árboles.
+
+4.4. Modelos de machine learning implementados
+
+4.4.1. Modelos de alquiler
+El sistema permite elegir entre:
+Random Forest Regressor: Un ensemble paralelo de 300 árboles que reduce la varianza.
+Gradient Boosting Regressor: Un modelo secuencial de 500 árboles que optimiza los errores residuales con un learning_rate de 0.05.
+Ensemble Ponderado: En fase de entrenamiento, una combinación de ambos (60% RF / 40% GB) alcanza un R² > 0.68.
+
+4.4.2. Modelos de venta
+LightGBM: Optimizado para la velocidad y el manejo de grandes volúmenes de datos mediante el muestreo GOSS.
+EBM (Explainable Boosting Machine): Un modelo aditivo generalizado que permite una interpretación directa de la contribución de cada variable a la predicción final.
+
+4.5. Explicabilidad, contexto temporal y persistencia
+Este apartado integra en un único bloque las decisiones de interpretabilidad, ajuste contextual y almacenamiento del ciclo analítico, evitando la fragmentación anterior sin renunciar a ningún contenido técnico.
+
+4.5.1. Fundamento matemático y SHAP
+Para garantizar la transparencia en los modelos de "caja negra", se utiliza SHAP (SHapley Additive exPlanations). Esta técnica se basa en la teoría de juegos para asignar a cada característica una contribución marginal al precio.
+Desde el punto de vista matemático, SHAP aproxima la contribución de una variable como el promedio ponderado de su aportación a todas las coaliciones posibles de variables. En términos conceptuales, cada valor de Shapley mide cuánto cambia la predicción esperada cuando una característica entra en el modelo respecto a los subconjuntos donde aún no estaba presente. Esto permite descomponer la predicción final en una suma interpretable formada por un valor base y las contribuciones individuales de cada feature.
+
+4.5.2. Contexto temporal y estacionalidad
+El modelo de alquiler incorpora un motor de contexto temporal (computeFechaContext) que ajusta el precio según:
+Festivos nacionales y autonómicos (Calendario Laboral).
+Eventos de gran afluencia (Fallas, Semana Santa, San Fermín).
+Variables de temporada (verano/invierno) y efecto fin de semana.
+
+4.5.3. Persistencia y post-procesamiento
+Todos los modelos se serializan mediante la librería joblib en formato .pkl. Debido a que los datos de entrenamiento de Airbnb utilizan originalmente dólares (USD), el backend aplica una conversión automática a euros mediante la tasa configurable USD_TO_EUR (0.92). En el caso de los modelos de venta, se aplica la función exponencial para revertir la transformación logarítmica utilizada durante el entrenamiento (np.exp()).
+
+5. Organización del proyecto y navegación funcional
+Este bloque reúne tanto la estructura física del repositorio como la organización de rutas y recorridos de uso, de manera que la arquitectura del código y la arquitectura funcional queden descritas de forma conjunta.
+
+5.1. Estructura arquitectónica del proyecto
+El sistema se ha organizado siguiendo el patrón de diseño MVC (Modelo-Vista-Controlador), segregando las responsabilidades para facilitar el mantenimiento y la escalabilidad. A continuación, se detalla la jerarquía del directorio raíz Gestor_Viviendas_TFG/:
+config/: Contiene los módulos de configuración global, destacando la conexión mediante el ORM Sequelize (database.js) y la gestión de almacenamiento de archivos multimedia con Multer.
+models/: Define la capa de persistencia. Incluye los modelos relacionales (Usuario, Vivienda, Reserva, etc.) y un archivo index.js que orquesta las asociaciones y claves foráneas.
+routes/: Actúa como el controlador del sistema, mapeando las peticiones HTTP a la lógica de negocio específica (finanzas, autenticación, gestión de inmuebles e IA).
+views/: Capa de presentación desarrollada en EJS. Se organiza en subdirectorios por módulos y utiliza partials para componentes reutilizables (navbars, footers, modales).
+public/: Recursos estáticos servidos directamente al cliente, incluyendo hojas de estilo (CSS), lógica de validación en frontend (JS), librerías de visualización (Plotly, Chart.js) y el repositorio de imágenes subidas.
+python_scripts/: Scripts de inferencia y explicabilidad que son ejecutados de forma aislada por el servidor Node.js.
+modelos_predictivos/: Almacén de artefactos de Machine Learning serializados (.pkl) y datos de entrenamiento segmentados por dominio (Alquiler/Venta).
+
+5.2. Catálogo de rutas y flujo de navegación
+La interoperabilidad del sistema se define a través de un conjunto de endpoints protegidos y públicos, diseñados bajo principios de diseño REST.
+
+5.2.1. Gestión de acceso y perfil
+El sistema utiliza Passport.js para la gestión de sesiones. Las rutas bajo el prefijo /auth gestionan el ciclo de vida de la sesión del usuario, mientras que /perfil permite la gestión de credenciales y datos personales mediante métodos POST y PATCH.
+
+5.2.2. Operaciones de negocio (/propiedades y /finanzas)
+Este módulo constituye el núcleo de gestión operativa. Se han implementado rutas para el CRUD completo de viviendas, integrando sub-rutas para la gestión de reservas, transacciones financieras, tareas pendientes y gestión documental. El módulo de /finanzas centraliza estas operaciones mediante consultas agregadas que alimentan los KPIs del sistema.
+
+5.2.3. Endpoints de inteligencia artificial (/alquiler y /venta)
+Las rutas predictivas están diseñadas para manejar peticiones asíncronas de alta carga.
+POST /predict: Recibe las características del inmueble y devuelve la estimación económica.
+POST /shap-local / /explain/local-live: Invocan los motores de explicabilidad en tiempo real para generar los gráficos de contribución de variables.
+
+5.2.4. Flujo de experiencia de usuario (UX)
+Entrada: Acceso a la landing page y registro de cuenta.
+Gestión: Desde el Dashboard, el usuario accede al inventario de propiedades.
+Operación: En el detalle de la propiedad, se registran incidencias, reservas o documentos.
+Análisis: Uso de los módulos de IA para valorar la rentabilidad de los activos y consulta del panel financiero para balances de ingresos/gastos.
+Como síntesis funcional del sistema, el recorrido del usuario conecta la autenticación, la administración del inventario, la operación diaria sobre cada inmueble y la capa analítica de apoyo a la toma de decisiones económicas, manteniendo la coherencia entre el flujo de navegación y la organización de rutas descrita anteriormente.
+
+6. Referencias y bibliografía
+Node.js. Documentación oficial de entorno de ejecución. https://nodejs.org/
+Express.js. Framework web para Node.js. https://expressjs.com/
+Sequelize. ORM para Node.js y bases de datos relacionales. https://sequelize.org/
+Lundberg, S. M. & Lee, S.-I. (2017). "A Unified Approach to Interpreting Model Predictions." Advances in Neural Information Processing Systems. (Referencia para SHAP).
+Nori, H. et al. (2019). "InterpretML: A Unified Framework for Machine Learning Interpretability." arXiv. (Referencia para EBM).
+Ke, G. et al. (2017). "LightGBM: A Highly Efficient Gradient Boosting Decision Tree." NIPS.
+Pedregosa, F. et al. (2011). "Scikit-learn: Machine Learning in Python." JMLR.
+Leaflet.js. Librería de mapas interactivos. https://leafletjs.com/
+Chart.js. Visualización de datos basada en canvas. https://www.chartjs.org/
+Nominatim. Servicio de geocodificación basado en OpenStreetMap. https://nominatim.org/
+
+

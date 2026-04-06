@@ -1285,9 +1285,23 @@
       background: #141d28;
     }
 
+    /* Clase reutilizable para grids de 2 columnas en tabs */
+    .tab-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
     /* Responsive */
     @media (max-width: 1024px) {
       .two-column-layout {
+        grid-template-columns: 1fr;
+      }
+      .tab-two-col {
+        grid-template-columns: 1fr;
+      }
+      .stats-summary {
         grid-template-columns: 1fr;
       }
     }
@@ -1317,6 +1331,28 @@
 
       .form-row {
         grid-template-columns: 1fr;
+      }
+
+      .dir-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .calendar-wrapper {
+        padding: 0.5rem;
+      }
+
+      .fc .fc-toolbar {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .fc .fc-toolbar-title {
+        font-size: 1rem;
+      }
+
+      .fc .fc-button {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
       }
     }
   </style>
@@ -1393,7 +1429,7 @@
         <div class="tab-content active" id="tab-general">
 
           <!-- Calendario + Tareas (izquierda) | Próximas Reservas (derecha) -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start;">
+          <div class="tab-two-col">
 
             <!-- Columna izquierda: Calendario + Tareas -->
             <div style="display: flex; flex-direction: column; gap: 1.5rem;">
@@ -1606,7 +1642,7 @@
           </div>
 
           <!-- Últimos Ingresos + Últimos Gastos -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start;">
+          <div class="tab-two-col">
 
             <!-- Últimos Ingresos -->
             <div class="card" style="margin-bottom: 0;">

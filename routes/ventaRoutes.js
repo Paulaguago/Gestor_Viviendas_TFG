@@ -8,7 +8,7 @@ const {
 } = require('../utils/dataLoader');
 const { spawnPython } = require('../utils/pythonRunner');
 
-// ================= Formulario venta =================
+// Formulario venta
 router.get('/', (req, res) => {
   const ventaDataDir = path.join(projectRoot, 'modelos_predictivos', 'venta', 'data');
 
@@ -34,7 +34,7 @@ router.get('/', (req, res) => {
   });
 });
 
-// ================= POST /predict  (montado en /venta → /venta/predict) =================
+// POST /predict (predicción de venta)
 router.post('/predict', async (req, res) => {
   try {
     const b = req.body;
@@ -112,7 +112,7 @@ router.post('/predict', async (req, res) => {
   }
 });
 
-// ================= SHAP Local (Ventas) =================
+// SHAP local ventas
 // POST /venta/shap-local -> calcular SHAP local para una predicción específica
 router.post('/shap-local', (req, res) => {
   try {
@@ -146,7 +146,7 @@ router.post('/shap-local', (req, res) => {
   }
 });
 
-// ================= SHAP Global (Ventas) =================
+// SHAP global ventas
 // GET /sales/shap-global -> importancia global SHAP para LightGBM (ventas)
 router.get('/sales/shap-global', (req, res) => {
   const data = readJsonPrefer([

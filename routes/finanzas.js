@@ -11,7 +11,7 @@ router.get('/', requireAuth, async (req, res) => {
         const startDate = `${year}-01-01`;
         const endDate = `${year}-12-31`;
 
-        // --- Propiedades activas del usuario ---
+        // Propiedades activas del usuario
         const viviendas = await Vivienda.findAll({
             where: { id_usuario: userId, activa: true }
         });
@@ -34,7 +34,7 @@ router.get('/', requireAuth, async (req, res) => {
             return res.render('finanzas/index', emptyPayload);
         }
 
-        // --- Transacciones del año ---
+        // Transacciones del año
         const transacciones = await Transaccion.findAll({
             where: {
                 id_vivienda: { [Op.in]: viviendasIds },
@@ -47,7 +47,7 @@ router.get('/', requireAuth, async (req, res) => {
             }]
         });
 
-        // --- Reservas del año ---
+        // Reservas del año
         const reservas = await Reserva.findAll({
             where: {
                 id_vivienda: { [Op.in]: viviendasIds },
@@ -56,7 +56,7 @@ router.get('/', requireAuth, async (req, res) => {
             }
         });
 
-        // ====== KPIs ======
+        // KPIs
         let ingresosTotales = 0;
         let gastosTotales = 0;
         transacciones.forEach(t => {
@@ -85,7 +85,7 @@ router.get('/', requireAuth, async (req, res) => {
         });
         const ocupacionMedia = Math.round(totalOcupPct / viviendasIds.length);
 
-        // ====== Datos mensuales ======
+        // Datos mensuales
         const mesesAbr = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
         const monthlyData = mesesAbr.map((mes, i) => {
             const m = i + 1;
@@ -100,7 +100,7 @@ router.get('/', requireAuth, async (req, res) => {
             return { mes, ingresos: ing, gastos: gas, balance: ing - gas, reservas: rMonth.length };
         });
 
-        // ====== Ranking por propiedad ======
+        // Ranking por propiedad
         const rankingData = viviendasIds.map(vid => {
             const viv = viviendas.find(v => v.id_vivienda === vid);
             const tViv = transacciones.filter(t => t.id_vivienda === vid);
@@ -133,7 +133,7 @@ router.get('/', requireAuth, async (req, res) => {
             };
         }).sort((a, b) => b.ingresos - a.ingresos);
 
-        // ====== Donut: distribución de gastos por categoría ======
+        // Donut: gastos por categoría
         // Palabras clave para inferir categoría cuando no hay id_categoria
         const KEYWORD_CATEGORIES = [
             { keys: ['luz', 'electric', 'electricidad', 'endesa', 'iberdrola', 'suministro eléc'], label: 'Electricidad' },
@@ -173,7 +173,7 @@ router.get('/', requireAuth, async (req, res) => {
             .map(([nombre, importe]) => ({ nombre, importe: Math.round(importe * 100) / 100 }))
             .sort((a, b) => b.importe - a.importe);
 
-        // ====== Alertas automáticas ======
+        // Alertas automáticas
         const alerts = [];
         const pendientesCount = reservas.filter(r => r.pagado === false).length;
         if (pendientesCount > 0) {
@@ -198,7 +198,7 @@ router.get('/', requireAuth, async (req, res) => {
             alerts.push({ tipo: 'info', texto: `Ocupación media baja (${ocupacionMedia}%). Considera revisar tu estrategia de precios` });
         }
 
-        // ====== Años disponibles (selector) ======
+        // Años disponibles (selector)
         const curYear = new Date().getFullYear();
         const yearsAvailable = [];
         for (let y = curYear; y >= curYear - 4; y--) yearsAvailable.push(y);
