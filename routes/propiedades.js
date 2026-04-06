@@ -1,3 +1,4 @@
+const { getUserFriendlyErrorMessage } = require('../utils/errorHandler');
 const express = require('express');
 const router = express.Router();
 const { Vivienda, Reserva, Tarea, DocumentoVivienda, Transaccion, Huesped, CategoriaFinanciera } = require('../models');
@@ -164,7 +165,7 @@ router.post('/', uploadImage.single('imagen'), async (req, res) => {
     res.status(500).json({ 
       success: false, 
       message: 'Error al crear la vivienda', 
-      error: error.message 
+      error: getUserFriendlyErrorMessage(error) 
     });
   }
 });
@@ -392,7 +393,7 @@ router.get('/:id', async (req, res) => {
     });
   } catch (error) {
     console.error('Error al cargar el detalle de la vivienda:', error);
-    res.status(500).send('Error al cargar el detalle de la vivienda: ' + error.message);
+    res.status(500).send(getUserFriendlyErrorMessage(error));
   }
 });
 
@@ -463,17 +464,63 @@ router.patch('/:id/amenities', async (req, res) => {
     });
     if (!vivienda) return res.status(404).json({ success: false, error: 'Vivienda no encontrada' });
 
-    const { amenities } = req.body;
-    if (!Array.isArray(amenities)) {
-      return res.status(400).json({ success: false, error: 'Amenities debe ser un array' });
+    const { action, amenity } = req.body;
+    let { amenities } = req.body;
+
+    // Obtener los actuales
+    let currentAmenities = [];
+    if (vivienda.amenities) {
+      try {
+        currentAmenities = JSON.parse(vivienda.amenities);
+        if (!Array.isArray(currentAmenities)) currentAmenities = [];
+      } catch (e) {
+        currentAmenities = [];
+      }
+    }
+
+    // Logica de añadir o quitar especificamente una comodidad
+    if (action === 'add') {
+      const cleanAmenity = amenity ? amenity.trim() : '';
+      if (!cleanAmenity) {
+        return res.status(400).json({ success: false, error: 'Por favor, escribe el nombre de la comodidad antes de guardarla.' });
+      }
+      // Evitar duplicados case-insensitive
+      const isDuplicate = currentAmenities.some(a => {
+        let name = typeof a === 'string' ? a : (a.nombre || a.name || String(a));
+        return name.toLowerCase() === cleanAmenity.toLowerCase();
+      });
+      if (isDuplicate) {
+        return res.status(400).json({ success: false, error: `La comodidad "${cleanAmenity}" ya está registrada en esta vivienda.` });
+      }
+      currentAmenities.push(cleanAmenity);
+      amenities = currentAmenities;
+    } else if (action === 'remove') {
+      const cleanAmenity = amenity ? amenity.trim() : '';
+      if (!cleanAmenity) {
+        return res.status(400).json({ success: false, error: 'No se ha indicado ninguna comodidad para eliminar.' });
+      }
+      currentAmenities = currentAmenities.filter(a => {
+        let name = typeof a === 'string' ? a : (a.nombre || a.name || String(a));
+        return name !== cleanAmenity;
+      });
+      amenities = currentAmenities;
+    } 
+    // Fallback: Si envían todo el array directamente
+    else if (Array.isArray(amenities)) {
+      // Filtrar vacíos si es re-guardado completo
+      amenities = amenities.filter(a => a && String(a).trim() !== '');
+      // Evitar duplicados
+      amenities = [...new Set(amenities.map(a => String(a).trim()))];
+    } else {
+      return res.status(400).json({ success: false, error: 'Petición inválida.' });
     }
 
     // Guardar como JSON stringificado
     await vivienda.update({ amenities: JSON.stringify(amenities) });
-    res.json({ success: true });
-  } catch (e) {
-    console.error('Error al actualizar amenities:', e);
-    res.status(500).json({ success: false, error: e.message });
+    res.json({ success: true, amenities: amenities });
+  } catch (error) {
+    console.error('Error al actualizar amenities:', error);
+    res.status(500).json({ success: false, error: getUserFriendlyErrorMessage(error) });
   }
 });
 
@@ -556,7 +603,7 @@ router.delete('/:id', async (req, res) => {
     return res.json({ success: true });
   } catch (error) {
     console.error('Error al desactivar vivienda:', error);
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, error: getUserFriendlyErrorMessage(error) });
   }
 });
 
@@ -590,7 +637,7 @@ router.post('/:id/transacciones', async (req, res) => {
     return res.json({ success: true, transaccion: t });
   } catch (error) {
     console.error('Error al crear transacción:', error);
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, error: getUserFriendlyErrorMessage(error) });
   }
 });
 
@@ -721,7 +768,7 @@ router.post('/:id/reservas', async (req, res) => {
     return res.json({ success: true, reserva, huesped, transaccionAutoCreada });
   } catch (error) {
     console.error('Error al crear reserva:', error);
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, error: getUserFriendlyErrorMessage(error) });
   }
 });
 
@@ -736,7 +783,7 @@ router.delete('/:id/transacciones/:tid', async (req, res) => {
     return res.json({ success: true });
   } catch (error) {
     console.error('Error al eliminar transacción:', error);
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, error: getUserFriendlyErrorMessage(error) });
   }
 });
 
@@ -759,7 +806,7 @@ router.delete('/:id/reservas/:rid', async (req, res) => {
     return res.json({ success: true, eraPagada: !!reserva.pagado, transaccionEliminada });
   } catch (error) {
     console.error('Error al eliminar reserva:', error);
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, error: getUserFriendlyErrorMessage(error) });
   }
 });
 
@@ -881,7 +928,7 @@ router.patch('/:id/reservas/:rid', async (req, res) => {
     return res.json({ success: true, transaccionCreada });
   } catch (error) {
     console.error('Error al actualizar reserva:', error);
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, error: getUserFriendlyErrorMessage(error) });
   }
 });
 
@@ -898,7 +945,7 @@ router.get('/:id/reservas', async (req, res) => {
     return res.json({ success: true, reservas });
   } catch (error) {
     console.error('Error al obtener reservas:', error);
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, error: getUserFriendlyErrorMessage(error) });
   }
 });
 
@@ -914,7 +961,7 @@ router.get('/:id/transacciones', async (req, res) => {
     return res.json({ success: true, transacciones });
   } catch (error) {
     console.error('Error al obtener transacciones:', error);
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, error: getUserFriendlyErrorMessage(error) });
   }
 });
 
@@ -930,7 +977,7 @@ router.get('/:id/tareas', async (req, res) => {
     return res.json({ success: true, tareas });
   } catch (error) {
     console.error('Error al obtener tareas:', error);
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, error: getUserFriendlyErrorMessage(error) });
   }
 });
 
@@ -953,7 +1000,7 @@ router.post('/:id/tareas', async (req, res) => {
     return res.json({ success: true, tarea });
   } catch (error) {
     console.error('Error al crear tarea:', error);
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, error: getUserFriendlyErrorMessage(error) });
   }
 });
 
@@ -968,7 +1015,29 @@ router.delete('/:id/tareas/:tid', async (req, res) => {
     return res.json({ success: true });
   } catch (error) {
     console.error('Error al eliminar tarea:', error);
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, error: getUserFriendlyErrorMessage(error) });
+  }
+});
+
+// Actualizar estado de la tarea (Pendiente <-> Completada)
+router.patch('/:id/tareas/:tid/estado', async (req, res) => {
+  try {
+    const vivienda = await Vivienda.findOne({ where: { id_vivienda: req.params.id, id_usuario: req.user.id_usuario } });
+    if (!vivienda) return res.status(404).json({ success: false, error: 'Vivienda no encontrada' });
+    
+    const tarea = await Tarea.findOne({ where: { id_tarea: req.params.tid, id_vivienda: req.params.id } });
+    if (!tarea) return res.status(404).json({ success: false, error: 'Tarea no encontrada' });
+    
+    const { estado } = req.body;
+    if (estado !== 'Pendiente' && estado !== 'Completada') {
+      return res.status(400).json({ success: false, error: 'Estado no válido' });
+    }
+
+    await tarea.update({ estado });
+    return res.json({ success: true, tarea });
+  } catch (error) {
+    console.error('Error al actualizar estado de la tarea:', error);
+    return res.status(500).json({ success: false, error: getUserFriendlyErrorMessage(error) });
   }
 });
 
@@ -989,7 +1058,7 @@ router.post('/:id/documentos', upload.single('documento'), async (req, res) => {
     res.redirect(`/viviendas/${req.params.id}?tab=documents`);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error al subir el documento: ' + error.message);
+    res.status(500).send(getUserFriendlyErrorMessage(error));
   }
 });
 
@@ -1013,7 +1082,7 @@ router.delete('/:id/documentos/:docId', async (req, res) => {
     res.redirect(`/viviendas/${req.params.id}?tab=documents`);
   } catch (error) {
     console.error('Error al eliminar documento:', error);
-    res.status(500).send('Error al eliminar el documento: ' + error.message);
+    res.status(500).send(getUserFriendlyErrorMessage(error));
   }
 });
 

@@ -253,29 +253,29 @@
                 <div class="np-grid-3">
                   <div>
                     <label class="np-label"><i class="fas fa-users"></i> Capacidad <span style="color:var(--np-red);">*</span></label>
-                    <input type="number" name="capacidad_maxima" required min="1" class="np-input" placeholder="4">
+                    <input type="number" name="capacidad_maxima" required min="1" class="np-input" placeholder="4" onkeydown="if(['-','+','e','E','.',','].includes(event.key)) event.preventDefault();">
                   </div>
                   <div>
                     <label class="np-label"><i class="fas fa-bed"></i> Dormitorios <span style="color:var(--np-red);">*</span></label>
-                    <input type="number" name="num_habitaciones" required min="0" class="np-input" placeholder="2">
+                    <input type="number" name="num_habitaciones" required min="0" class="np-input" placeholder="2" onkeydown="if(['-','+','e','E','.',','].includes(event.key)) event.preventDefault();">
                   </div>
                   <div>
                     <label class="np-label"><i class="fas fa-bath"></i> Baños <span style="color:var(--np-red);">*</span></label>
-                    <input type="number" name="num_banos" required min="0" class="np-input" placeholder="1">
+                    <input type="number" name="num_banos" required min="0" class="np-input" placeholder="1" onkeydown="if(['-','+','e','E','.',','].includes(event.key)) event.preventDefault();">
                   </div>
                 </div>
                 <div class="np-grid-3">
                   <div>
                     <label class="np-label"><i class="fas fa-ruler-combined"></i> Superficie (m²) <span style="color:var(--np-red);">*</span></label>
-                    <input type="number" name="superficie" required min="1" class="np-input" placeholder="75">
+                    <input type="number" name="superficie" required min="1" class="np-input" placeholder="75" onkeydown="if(['-','+','e','E','.',','].includes(event.key)) event.preventDefault();">
                   </div>
                   <div>
                     <label class="np-label"><i class="fas fa-tree"></i> Parcela (m²)</label>
-                    <input type="number" name="superficie_parcela" min="0" class="np-input" placeholder="Opcional">
+                    <input type="number" name="superficie_parcela" min="0" class="np-input" placeholder="Opcional" onkeydown="if(['-','+','e','E','.',','].includes(event.key)) event.preventDefault();">
                   </div>
                   <div>
                     <label class="np-label"><i class="fas fa-calendar"></i> Año construcción</label>
-                    <input type="number" name="ano_construccion" min="1800" max="2030" class="np-input" placeholder="2005">
+                    <input type="number" name="ano_construccion" min="1800" max="2030" class="np-input" placeholder="2005" onkeydown="if(['-','+','e','E','.',','].includes(event.key)) event.preventDefault();">
                   </div>
                 </div>
               </div>
@@ -299,11 +299,11 @@
                   </div>
                   <div>
                     <label class="np-label"><i class="fas fa-stairs"></i> Escalera</label>
-                    <input type="text" name="escalera" class="np-input" placeholder="2">
+                    <input type="number" name="escalera" min="0" class="np-input" placeholder="2" onkeydown="if(['-','+','e','E','.',','].includes(event.key)) event.preventDefault();">
                   </div>
                   <div>
                     <label class="np-label"><i class="fas fa-layer-group"></i> Piso</label>
-                    <input type="text" name="piso" class="np-input" placeholder="3º">
+                    <input type="number" name="piso" min="0" class="np-input" placeholder="3" onkeydown="if(['-','+','e','E','.',','].includes(event.key)) event.preventDefault();">
                   </div>
                   <div>
                     <label class="np-label"><i class="fas fa-hashtag"></i> Puerta</label>
@@ -318,7 +318,7 @@
                   </div>
                   <div>
                     <label class="np-label"><i class="fas fa-envelope"></i> Código Postal</label>
-                    <input type="text" name="codigo_postal" class="np-input" placeholder="28001">
+                    <input type="number" name="codigo_postal" min="0" class="np-input" placeholder="28001" onkeydown="if(['-','+','e','E','.',','].includes(event.key)) event.preventDefault();">
                   </div>
                   <div>
                     <label class="np-label"><i class="fas fa-globe"></i> País <span style="color:var(--np-red);">*</span></label>
@@ -361,7 +361,7 @@
                   <label class="np-label"><i class="fas fa-euro-sign"></i> Precio por Noche</label>
                   <div class="np-price-wrap">
                     <span class="np-currency">€</span>
-                    <input type="number" name="precio_alquiler" step="0.01" min="0" class="np-price-input" placeholder="50.00">
+                    <input type="number" name="precio_alquiler" step="0.01" min="0" class="np-price-input" placeholder="50.00" onkeydown="if(['-','+','e','E'].includes(event.key)) event.preventDefault();" oninput="if(this.value < 0) this.value = Math.abs(this.value);">
                   </div>
                 </div>
               </div>
@@ -456,8 +456,8 @@
                   </div>
                 </div>
                 <div>
-                  <label class="np-label"><i class="fas fa-calendar-check"></i> Fecha de Registro</label>
-                  <input type="date" name="fecha_registro" class="np-input" style="max-width:16rem;">
+                  <label class="np-label"><i class="fas fa-calendar-check"></i> Fecha de Registro <span style="color:var(--np-red);">*</span></label>
+                  <input type="date" name="fecha_registro" class="np-input" style="max-width:16rem;" required>
                 </div>
               </div>
             </div>

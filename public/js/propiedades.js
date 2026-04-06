@@ -502,7 +502,7 @@ async function submitNuevaPropiedad() {
     } catch (error) {
         hideSpinner();
         console.error('Error en la solicitud:', error);
-        showModernAlert('Error al enviar el formulario. Revisa la consola para más detalles.', 'error');
+        showModernAlert('Error de conexión con el servidor. Por favor, intenta guardar la propiedad de nuevo más tarde.', 'error');
     }
 }
 

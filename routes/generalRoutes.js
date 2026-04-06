@@ -1,3 +1,4 @@
+const { getUserFriendlyErrorMessage } = require('../utils/errorHandler');
 const express = require('express');
 const router = express.Router();
 const path = require('path');
@@ -195,13 +196,13 @@ router.post('/explain/local-live', requireAuth, (req, res) => {
           const ebmEur = Number((ebmUsd * rate).toFixed(2));
           return res.json({ ebm_usd: ebmUsd, ebm_eur: ebmEur, local: obj.local || obj });
         } catch (e) {
-          return res.status(500).json({ error: 'JSON parse error', detail: e.message, raw: out, stderr: err });
+          return res.status(500).json({ error: 'JSON parse error', detail: getUserFriendlyErrorMessage(e), raw: out, stderr: err });
         }
       }
       res.status(500).json({ error: 'EBM explain failed', stderr: err });
     });
   } catch (e) {
-    res.status(500).json({ error: 'Internal error', detail: e.message });
+    res.status(500).json({ error: 'Internal error', detail: getUserFriendlyErrorMessage(e) });
   }
 });
 

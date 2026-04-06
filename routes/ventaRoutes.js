@@ -1,3 +1,4 @@
+const { getUserFriendlyErrorMessage } = require('../utils/errorHandler');
 const express = require('express');
 const router = express.Router();
 const path = require('path');
@@ -135,14 +136,14 @@ router.post('/shap-local', (req, res) => {
           return res.json(result);
         } catch (e) {
           console.error('[SHAP Venta Local] Error parseando JSON:', e.message);
-          return res.status(500).json({ error: 'Error parseando resultado SHAP', detail: e.message, raw: output.substring(0, 500) });
+          return res.status(500).json({ error: 'Error parseando resultado SHAP', detail: getUserFriendlyErrorMessage(e), raw: output.substring(0, 500) });
         }
       }
       console.error('[SHAP Venta Local] exit code:', code, 'stderr:', error);
       res.status(500).json({ error: 'Error calculando SHAP local de venta', stderr: error.substring(0, 1000), code });
     });
   } catch (e) {
-    res.status(500).json({ error: 'Error interno', detail: e.message });
+    res.status(500).json({ error: 'Error interno', detail: getUserFriendlyErrorMessage(e) });
   }
 });
 

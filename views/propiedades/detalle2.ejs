@@ -1922,42 +1922,49 @@
               </div>
 
               <!-- COMODIDADES -->
-              <div class="prop-section" style="border-bottom:none;">
+              <div class="prop-section" style="border-bottom:none; margin-bottom: 2rem;">
                 <div class="prop-section-hdr">
                   <span class="prop-sec-label"><i class="fas fa-star"></i>Comodidades</span>
-                  <button class="btn-edit-field" type="button" onclick="startEditAmenities('<%= vivienda.id_vivienda %>')" style="margin-left:auto;" title="Editar comodidades"><i class="fas fa-pen"></i></button>
                 </div>
-                <div class="amenities-list" id="amenities-display">
-                  <%
-                    let amenitiesList = [];
-                    if (vivienda.amenities) {
-                      try {
-                        const parsed = JSON.parse(vivienda.amenities);
-                        amenitiesList = Array.isArray(parsed) ? parsed : [];
-                      } catch(e) {}
-                    }
-                    if (amenitiesList.length > 0) {
-                      amenitiesList.forEach(function(amenity) {
-                        const nombre = (typeof amenity === 'string') ? amenity : (amenity.nombre || amenity.name || String(amenity));
-                        const icon = (typeof amenity === 'object' && amenity.icon) ? amenity.icon : 'check-circle';
-                  %>
-                        <div class="amenity-tag">
-                          <i class="fas fa-<%= icon %>"></i>
-                          <span><%= nombre %></span>
-                        </div>
-                  <%    });
-                    } else { %>
-                      <p style="color:#94a3b8;font-size:0.8rem;margin:0;">No hay comodidades especificadas</p>
-                  <% } %>
-                </div>
-              </div>
+                <div style="background:#fff; border:1px solid #e2e8f0; border-radius:0.75rem; padding:1.25rem;">
+                  <div class="amenities-list" id="amenities-display">
+                    <% 
+                      let amenitiesList = [];
+                      if (vivienda.amenities) {
+                        try {
+                          const parsed = JSON.parse(vivienda.amenities);
+                          amenitiesList = Array.isArray(parsed) ? parsed : [];
+                        } catch(e) {}
+                      }
+                      if (amenitiesList.length > 0) {
+                        amenitiesList.forEach(function(amenity) {
+                          const nombre = (typeof amenity === 'string') ? amenity : (amenity.nombre || amenity.name || String(amenity));
+                          const icon = (typeof amenity === 'object' && amenity.icon) ? amenity.icon : 'check-circle';
+                    %>
+                          <div class="amenity-tag" style="background:#f1f5f9; position:relative; padding-right:2.5rem;">
+                            <i class="fas fa-<%= icon %>" style="color:#64748b;"></i>
+                            <span style="font-weight:600;"><%= nombre %></span>
+                            <button type="button" title="Eliminar comodidad" onclick="eliminarComodidad('<%= vivienda.id_vivienda %>', '<%= nombre %>')" style="position:absolute; right:0; top:0; height:100%; width:2.2rem; display:flex; align-items:center; justify-content:center; background:none; border:none; border-left:1px solid #e2e8f0; color:#ef4444; border-radius: 0 0.5rem 0.5rem 0; cursor:pointer; transition:all 0.2s; opacity:0.8;">
+                              <i class="fas fa-times"></i>
+                            </button>
+                          </div>
+                    <%    });
+                      } else { %>
+                        <p id="no-amenities-msg" style="color:#94a3b8;font-size:0.85rem;margin:0;width:100%;font-style:italic;">No hay comodidades especificadas</p>
+                    <% } %>
+                  </div>
 
-            </div><!-- /left col -->
+                  <!-- Botón y formulario para añadir -->
+                  <div style="margin-top:1.25rem; border-top:1px dashed #e2e8f0; padding-top:1rem;">
+                    <div id="btn-add-amenity-wrap">
+                      <button type="button" class="btn-primary" onclick="mostrarInputComodidad()" style="font-size:0.85rem; padding:0.4rem 0.8rem; border-radius:0.5rem; background:transparent; color:#0f172a; border:1px dashed #94a3b8;"><i class="fas fa-plus"></i> Añadir Comodidad</button>
+                    </div>
+                    <div id="add-amenity-form" style="display:none; align-items:center; gap:0.5rem; animation:fadeIn 0.3s ease;">
+                      <input type="text" id="nueva-comodidad-input" placeholder="Ej. Piscina, Barbacoa, WiFi rápido..." class="input-form" style="padding:0.4rem 0.8rem; font-size:0.85rem; flex:1; max-width:250px; border-radius:0.5rem; margin:0;" onkeypress="if(event.key==='Enter') guardarNuevaComodidad('<%= vivienda.id_vivienda %>')">
+                      <button type="button" onclick="guardarNuevaComodidad('<%= vivienda.id_vivienda %>')" style="background:#0f172a; color:#fff; border:none; padding:0.45rem 1rem; border-radius:0.5rem; font-size:0.85rem; font-weight:600; cursor:pointer;" onmouseover="this.style.background='#1e293b'" onmouseout="this.style.background='#0f172a'"><i class="fas fa-save"></i> Guardar</button>
+                      <button type="button" onclick="ocultarInputComodidad()" style="background:#f1f5f9; color:#64748b; border:1px solid #cbd5e1; padding:0.45rem; border-radius:0.5rem; font-size:0.85rem; cursor:pointer;" title="Cancelar"><i class="fas fa-undo"></i></button>
+                    </div>
 
-            <!-- ════ RIGHT COLUMN ════ -->
-            <div style="display:flex;flex-direction:column;gap:1.5rem;">
-
-              <!-- UBICACIÓN -->
               <div class="prop-card" style="margin-bottom:0;">
                 <div class="prop-section" style="padding-bottom:0.9rem;">
                   <span class="prop-sec-label"><i class="fas fa-map-marker-alt"></i>Ubicación</span>
@@ -3449,18 +3456,46 @@
           vencida = fl < hoyT && t.estado !== 'Completada';
         }
         var cal = t.vinculada_calendario ? '<i class="fas fa-calendar-check" title="Vinculada al calendario" style="color:#6366f1;margin-left:5px;font-size:0.72rem;"></i>' : '';
-        html += '<div style="display:flex;align-items:center;gap:0.75rem;padding:0.65rem 0.75rem;background:#f8fafc;border-radius:0.5rem;border:1px solid #e2e8f0;">'
-          + '<div style="flex:1;min-width:0;">'
+        
+        var isCompleted = t.estado === 'Completada';
+        var checkIcon = isCompleted ? 'fa-check-circle' : 'fa-circle';
+        var checkColor = isCompleted ? '#10b981' : '#cbd5e1';
+        var nextState = isCompleted ? 'Pendiente' : 'Completada';
+        var displayStatus = vencida ? 'Vencida' : t.estado;
+        var displayColor = vencida ? '#ef4444' : color;
+        var displayBg = vencida ? '#fee2e2' : bg;
+
+        html += '<div style="display:flex;align-items:center;gap:0.75rem;padding:0.65rem 0.75rem;background:#f8fafc;border-radius:0.5rem;border:1px solid #e2e8f0;opacity:' + (isCompleted ? '0.6' : '1') + ';">'
+          + '<button onclick="toggleTaskStatus(' + t.id_tarea + ', \'' + nextState + '\')" title="Marcar como ' + nextState.toLowerCase() + '" style="background:none;border:none;padding:0;cursor:pointer;color:' + checkColor + ';font-size:1.3rem;display:flex;align-items:center;justify-content:center;transition:color 0.2s;"><i class="' + (isCompleted ? 'fas' : 'far') + ' ' + checkIcon + '"></i></button>'
+          + '<div style="flex:1;min-width:0;text-decoration:' + (isCompleted ? 'line-through' : 'none') + ';">'
           + '<div style="font-size:0.85rem;font-weight:600;color:#1a2332;">' + escapeHtml(t.descripcion) + cal + '</div>'
           + (fechaStr ? '<div style="font-size:0.75rem;color:' + (vencida ? '#ef4444' : '#64748b') + ';margin-top:2px;"><i class="fas fa-clock" style="margin-right:3px;"></i>' + fechaStr + (vencida ? '&nbsp;⚠ Vencida' : '') + '</div>' : '')
           + '</div>'
-          + '<span style="font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:20px;white-space:nowrap;color:' + color + ';background:' + bg + ';border:1px solid ' + color + '40;">' + escapeHtml(t.estado) + '</span>'
+          + '<span style="font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:20px;white-space:nowrap;color:' + displayColor + ';background:' + displayBg + ';border:1px solid ' + displayColor + '40;">' + escapeHtml(displayStatus) + '</span>'
           + '<button onclick="deleteTask(' + t.id_tarea + ')" title="Eliminar tarea" style="width:28px;height:28px;border:none;background:#fee2e2;color:#dc2626;border-radius:50%;cursor:pointer;font-size:0.72rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">'
           + '<i class="fas fa-trash"></i></button>'
           + '</div>';
       });
       html += '</div>';
       container.innerHTML = html;
+    }
+
+    function toggleTaskStatus(id, newStatus) {
+      fetch('/propiedades/' + viviendaIdGlobal + '/tareas/' + id + '/estado', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ estado: newStatus })
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(d) {
+        if (d.success) { 
+          recargarTareas(); 
+          showToast('Estado reasignado', 'success'); 
+        } else { 
+          showToast(d.error || 'Error al actualizar', 'error'); 
+        }
+      })
+      .catch(function(){ showToast('Error de conexión', 'error'); });
     }
 
     function deleteTask(id) {
@@ -5221,5 +5256,112 @@
     </div>
   </div>
 
+  <!-- Modal Confirmar Eliminar Comodidad -->
+  <div class="modal fade" id="modalConfirmDeleteAmenity" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:400px">
+      <div class="modal-content" style="border:none;border-radius:0.75rem;overflow:hidden;box-shadow:0 10px 25px -5px rgba(0,0,0,0.1);">
+        <div class="modal-header" style="background:#f8fafc;border-bottom:1px solid #f1f5f9;padding:1.25rem;">
+          <h5 class="modal-title" style="font-size:1.1rem;font-weight:600;color:#0f172a;"><i class="fas fa-exclamation-triangle" style="color:#ef4444;margin-right:0.6rem;"></i>Eliminar Comodidad</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="font-size:.8rem;"></button>
+        </div>
+        <div class="modal-body" style="padding:1.5rem 1.25rem;">
+          <p style="margin:0;color:#475569;font-size:0.95rem;">¿Seguro que quieres eliminar la comodidad <strong id="amenityToDeleteName" style="color:#0f172a;"></strong>?</p>
+        </div>
+        <div class="modal-footer" style="border-top:1px solid #f1f5f9;padding:.75rem 1.25rem;gap:.5rem;justify-content:flex-end;">
+          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal" style="font-size:.85rem;border-radius:.4rem;padding:0.4rem 0.9rem;">Cancelar</button>
+          <button type="button" id="btnConfirmDeleteAmenity" class="btn btn-sm" style="background:#ef4444;color:#fff;border:none;border-radius:.4rem;font-size:.85rem;padding:0.4rem 0.9rem;" onclick="ejecutarEliminarComodidad()">
+            <i class="fas fa-trash me-1"></i>Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- GESTIÓN DE COMODIDADES (AMENITIES) INLINE ---
+    let pendingDeleteAmenity = { id: null, nombre: null };
+
+    function mostrarInputComodidad() {
+      document.getElementById('btn-add-amenity-wrap').style.display = 'none';
+      document.getElementById('add-amenity-form').style.display = 'flex';
+      document.getElementById('nueva-comodidad-input').focus();
+    }
+
+    function ocultarInputComodidad() {
+      document.getElementById('add-amenity-form').style.display = 'none';
+      document.getElementById('btn-add-amenity-wrap').style.display = 'block';
+      document.getElementById('nueva-comodidad-input').value = '';
+    }
+
+    async function guardarNuevaComodidad(viviendaId) {
+      const input = document.getElementById('nueva-comodidad-input');
+      const nombre = input.value.trim();
+
+      if (!nombre) {
+        alert('Por favor, escribe una comodidad.');
+        return;
+      }
+
+      try {
+        const response = await fetch(`/propiedades/${viviendaId}/amenities`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'add', amenity: nombre })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          // Recargar la página para reflejar el cambio, o actualizar lista de amenities (elegimos recargar por consistencia con otros endpoints si no tenemos todo el render en JS, pero un refresh es rápido)
+          window.location.reload();
+        } else {
+          alert('Error: ' + (data.message || data.error || 'No se pudo guardar'));
+        }
+      } catch (error) {
+        console.error('Error al guardar la comodidad:', error);
+        alert('Ocurrió un error en la solicitud.');
+      }
+    }
+
+    function eliminarComodidad(viviendaId, nombre) {
+      pendingDeleteAmenity = { id: viviendaId, nombre: nombre };
+      document.getElementById('amenityToDeleteName').textContent = `"${nombre}"`;
+      const modalElement = document.getElementById('modalConfirmDeleteAmenity');
+      const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+
+    async function ejecutarEliminarComodidad() {
+      const { id: viviendaId, nombre } = pendingDeleteAmenity;
+      if (!viviendaId || !nombre) return;
+      
+      const btn = document.getElementById('btnConfirmDeleteAmenity');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Eliminando...';
+
+      try {
+        const response = await fetch(`/propiedades/${viviendaId}/amenities`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'remove', amenity: nombre })
+        });
+        
+        const data = await response.json();
+
+        if (response.ok) {
+          window.location.reload();
+        } else {
+          alert('Error: ' + (data.message || data.error || 'No se pudo eliminar'));
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-trash me-1"></i>Eliminar';
+        }
+      } catch (error) {
+        console.error('Error al eliminar la comodidad:', error);
+        alert('Ocurrió un error en la solicitud.');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-trash me-1"></i>Eliminar';
+      }
+    }
+  </script>
 </body>
 </html>
