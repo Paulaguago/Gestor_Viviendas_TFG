@@ -287,7 +287,7 @@ router.post('/shap-local', (req, res) => {
   }
 });
 
-// GET /rental/shap-global -> importancia global SHAP para RF (alquiler)
+// SHAP global alquiler (RF)
 router.get('/rental/shap-global', (req, res) => {
   const data = readJsonPrefer([
     path.join(projectRoot, 'modelos_predictivos', 'alquiler', 'RF', 'shap_global_importance_rental.json'),

@@ -37,9 +37,7 @@ const testConnection = async () => {
     }
 };
 
-// Función para sincronizar las tablas
-// Uso normal:          syncDatabase()          → CREATE TABLE IF NOT EXISTS (sin ALTER)
-// Reset total (dev):   RESET_DB=true node app.js → DROP + CREATE con todos los campos
+// Sincronizar tablas (RESET_DB=true -> borra y recrea todo)
 const syncDatabase = async (force = false) => {
     try {
         const shouldReset = process.env.RESET_DB === 'true';

@@ -10,7 +10,7 @@ const { spawnPython } = require('../utils/pythonRunner');
 const { requireAuth } = require('../utils/authMiddleware');
 const { Vivienda, Reserva, User } = require('../models');
 
-// ================= PROXY GEOCODING (evita CORS con Nominatim) =================
+// Proxy geocoding (evita CORS con Nominatim)
 router.get('/api/geocode', async (req, res) => {
   try {
     const q = req.query.q;
@@ -27,7 +27,7 @@ router.get('/api/geocode', async (req, res) => {
   }
 });
 
-// ================= PERFIL DE USUARIO =================
+// Perfil de usuario
 
 router.get('/perfil', requireAuth, (req, res) => {
     res.render('perfil', {
@@ -84,7 +84,7 @@ router.post('/perfil/cambiar-password', requireAuth, async (req, res) => {
     res.redirect('/perfil');
 });
 
-// ================= RUTAS UI DE NAVEGACIÓN =================
+// Rutas de navegación
 
 // Redirecciones de retrocompatibilidad
 router.get('/form/alquiler', requireAuth, (req, res) => res.redirect('/alquiler'));
@@ -97,7 +97,7 @@ router.get('/', (req, res) => {
   });
 });
 
-// ================= EBM: endpoints para explicaciones =================
+// EBM: endpoints explicaciones
 // GET /explain/global -> explicación global EBM
 router.get('/explain/global', requireAuth, (req, res) => {
   const base = path.join(projectRoot, 'model');
@@ -120,7 +120,7 @@ router.get('/explain/local', requireAuth, (req, res) => {
   return res.json(data);
 });
 
-// ================= EBM: explicación local en vivo para la instancia actual =================
+// EBM: explicación local en vivo
 // POST /explain/local-live
 router.post('/explain/local-live', requireAuth, (req, res) => {
   try {
@@ -205,7 +205,7 @@ router.post('/explain/local-live', requireAuth, (req, res) => {
   }
 });
 
-// ================= Random Forest: endpoints auxiliares =================
+// Random Forest: endpoints
 // GET /rf/importance -> importancias globales del RF (si se han exportado)
 router.get('/rf/importance', requireAuth, (req, res) => {
   const base = path.join(projectRoot, 'model');
@@ -238,7 +238,7 @@ router.get('/rf/distribution', requireAuth, (req, res) => {
   return res.json(data);
 });
 
-// ================= API GEOCODING =================
+// Geocoding API
 // GET /api/geocoding -> proxy para Nominatim (evitar CORS)
 router.get('/api/geocoding', requireAuth, async (req, res) => {
   try {

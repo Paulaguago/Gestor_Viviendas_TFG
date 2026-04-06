@@ -4,7 +4,6 @@ const { User } = require('../models');
 const { requireGuest } = require('../utils/authMiddleware');
 const router = express.Router();
 
-// Render login page
 router.get('/login', requireGuest, (req, res) => {
     res.render('auth/login', { 
         title: 'Iniciar Sesión',
@@ -13,14 +12,12 @@ router.get('/login', requireGuest, (req, res) => {
     });
 });
 
-// Handle login
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/dashboard',
     failureRedirect: '/auth/login',
     failureFlash: true
 }));
 
-// Render register page
 router.get('/register', requireGuest, (req, res) => {
     res.render('auth/register', { 
         title: 'Registrarse',
@@ -29,12 +26,10 @@ router.get('/register', requireGuest, (req, res) => {
     });
 });
 
-// Handle registration
 router.post('/register', requireGuest, async (req, res) => {
     try {
         const { username, email, password, confirmPassword, razon_social, dni_cif, telefono } = req.body;
 
-        // Validation
         if (!username || !email || !password || !confirmPassword) {
             req.flash('error', 'Todos los campos son obligatorios');
             return res.redirect('/auth/register');
@@ -86,7 +81,7 @@ router.post('/register', requireGuest, async (req, res) => {
     }
 });
 
-// Handle logout - GET (desde navbar)
+// Logout GET (desde navbar)
 router.get('/logout', (req, res, next) => {
     req.logout((err) => {
         if (err) {
@@ -106,7 +101,7 @@ router.get('/logout', (req, res, next) => {
     });
 });
 
-// Handle logout - POST (por si se usa en algún formulario)
+// Logout POST (formulario)
 router.post('/logout', (req, res, next) => {
     req.logout((err) => {
         if (err) {
