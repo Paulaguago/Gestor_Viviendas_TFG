@@ -1062,6 +1062,7 @@
     }
     .prop-map-info-item { display: flex; align-items: center; gap: 0.5rem; flex: 1; min-width: 0; }
     .prop-map-info-item > i { color: #94a3b8; font-size: 0.8rem; flex-shrink: 0; }
+    .prop-map-info-item:hover .btn-edit-field { opacity: 1; }
     .prop-map-info-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; color: #94a3b8; }
     .prop-map-info-val   { font-size: 0.78rem; font-weight: 600; color: #0F172A; line-height: 1.3; }
     .prop-map-divider    { width: 1px; background: #e2e8f0; align-self: stretch; margin: 0 0.3rem; flex-shrink: 0; }
@@ -1964,6 +1965,13 @@
                       <button type="button" onclick="guardarNuevaComodidad('<%= vivienda.id_vivienda %>')" style="background:#0f172a; color:#fff; border:none; padding:0.45rem 1rem; border-radius:0.5rem; font-size:0.85rem; font-weight:600; cursor:pointer;" onmouseover="this.style.background='#1e293b'" onmouseout="this.style.background='#0f172a'"><i class="fas fa-save"></i> Guardar</button>
                       <button type="button" onclick="ocultarInputComodidad()" style="background:#f1f5f9; color:#64748b; border:1px solid #cbd5e1; padding:0.45rem; border-radius:0.5rem; font-size:0.85rem; cursor:pointer;" title="Cancelar"><i class="fas fa-undo"></i></button>
                     </div>
+                    </div><!-- cierra div margin-top del botón+form -->
+                </div><!-- cierra div background white -->
+              </div><!-- cierra prop-section comodidades -->
+            </div><!-- cierra prop-card columna izquierda -->
+
+            <!-- ════ RIGHT COLUMN ════ -->
+            <div style="display:flex;flex-direction:column;gap:1.5rem;">
 
               <div class="prop-card" style="margin-bottom:0;">
                 <div class="prop-section" style="padding-bottom:0.9rem;">
@@ -2030,11 +2038,9 @@
 
                 </div>
               </div>
-
             </div><!-- /right col -->
-
           </div><!-- /prop-two-col -->
-        </div>
+        </div><!-- /tab-property -->
 
         <!-- TAB 4: Documentos Legales -->
         <div class="tab-content" id="tab-documents">
@@ -3469,7 +3475,7 @@
           + '<button onclick="toggleTaskStatus(' + t.id_tarea + ', \'' + nextState + '\')" title="Marcar como ' + nextState.toLowerCase() + '" style="background:none;border:none;padding:0;cursor:pointer;color:' + checkColor + ';font-size:1.3rem;display:flex;align-items:center;justify-content:center;transition:color 0.2s;"><i class="' + (isCompleted ? 'fas' : 'far') + ' ' + checkIcon + '"></i></button>'
           + '<div style="flex:1;min-width:0;text-decoration:' + (isCompleted ? 'line-through' : 'none') + ';">'
           + '<div style="font-size:0.85rem;font-weight:600;color:#1a2332;">' + escapeHtml(t.descripcion) + cal + '</div>'
-          + (fechaStr ? '<div style="font-size:0.75rem;color:' + (vencida ? '#ef4444' : '#64748b') + ';margin-top:2px;"><i class="fas fa-clock" style="margin-right:3px;"></i>' + fechaStr + (vencida ? '&nbsp;⚠ Vencida' : '') + '</div>' : '')
+          + (fechaStr ? '<div style="font-size:0.75rem;color:' + (vencida ? '#ef4444' : '#64748b') + ';margin-top:2px;"><i class="fas fa-clock" style="margin-right:3px;"></i>' + fechaStr + (vencida ? '&nbsp; Vencida' : '') + '</div>' : '')
           + '</div>'
           + '<span style="font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:20px;white-space:nowrap;color:' + displayColor + ';background:' + displayBg + ';border:1px solid ' + displayColor + '40;">' + escapeHtml(displayStatus) + '</span>'
           + '<button onclick="deleteTask(' + t.id_tarea + ')" title="Eliminar tarea" style="width:28px;height:28px;border:none;background:#fee2e2;color:#dc2626;border-radius:50%;cursor:pointer;font-size:0.72rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">'
@@ -5004,15 +5010,38 @@
               coordDisplay.textContent = latNum.toFixed(5) + ', ' + lngNum.toFixed(5);
             }
             
+            // Actualizar el mapa en tiempo real si existe
+            if (window._mapInstance) {
+              // Mover la vista del mapa a las nuevas coordenadas
+              window._mapInstance.setView([latNum, lngNum], 15);
+              
+              // Remover marcador anterior y añadir uno nuevo
+              window._mapInstance.eachLayer(layer => {
+                if (layer instanceof L.Marker) {
+                  window._mapInstance.removeLayer(layer);
+                }
+              });
+              
+              // Crear nuevo marcador con las nuevas coordenadas
+              const _pinIcon = L.divIcon({
+                className: '',
+                html: '<div style="width:16px;height:16px;background:#1a2332;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.35);"></div>',
+                iconSize: [16, 16],
+                iconAnchor: [8, 8]
+              });
+              
+              L.marker([latNum, lngNum], { icon: _pinIcon })
+                .addTo(window._mapInstance)
+                .bindPopup(
+                  '<div style="font-size:0.85rem;line-height:1.5;">'
+                  + '<strong><%= (vivienda.nombre || vivienda.direccion || vivienda.calle || '').replace(/'/g, "&#39;") %></strong><br>'
+                  + '<%= (vivienda.ciudad || '') %><%= vivienda.pais ? ", " + vivienda.pais : "" %>'
+                  + '</div>'
+                ).openPopup();
+            }
+            
             bootstrap.Modal.getInstance(document.getElementById('modalEditCoordinates')).hide();
             showToast('Coordenadas guardadas correctamente', 'success');
-            
-            // Recargar página para actualizar mapa si existe
-            setTimeout(() => {
-              if (document.getElementById('map')) {
-                location.reload();
-              }
-            }, 1000);
           } else {
             showToast(d.error || 'Error al guardar', 'error');
           }
