@@ -380,7 +380,10 @@
             <!-- Ingresos -->
             <div class="kpi-card green">
                 <div class="kpi-header">
-                    <span class="kpi-label">Ingresos Totales</span>
+                    <span class="kpi-label">
+                        Ingresos Totales
+                        <i class="bi bi-info-circle text-muted ms-1" style="cursor:help" title="Suma total de facturación en el período seleccionado"></i>
+                    </span>
                     <span class="kpi-icon-wrap green"><i class="bi bi-arrow-up-circle-fill"></i></span>
                 </div>
                 <div class="kpi-value"><%= kpis.ingresos.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) %> €</div>
@@ -389,7 +392,10 @@
             <!-- Gastos -->
             <div class="kpi-card red">
                 <div class="kpi-header">
-                    <span class="kpi-label">Gastos Totales</span>
+                    <span class="kpi-label">
+                        Gastos Totales
+                        <i class="bi bi-info-circle text-muted ms-1" style="cursor:help" title="Suma total de gastos operativos (limpieza, mantenimiento, etc.)"></i>
+                    </span>
                     <span class="kpi-icon-wrap red"><i class="bi bi-arrow-down-circle-fill"></i></span>
                 </div>
                 <div class="kpi-value"><%= kpis.gastos.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) %> €</div>
@@ -398,7 +404,10 @@
             <!-- Beneficio Neto -->
             <div class="kpi-card teal">
                 <div class="kpi-header">
-                    <span class="kpi-label">Beneficio Neto</span>
+                    <span class="kpi-label">
+                        Beneficio Neto
+                        <i class="bi bi-info-circle text-muted ms-1" style="cursor:help" title="Margen neto calculado: Ingresos menos Gastos"></i>
+                    </span>
                     <span class="kpi-icon-wrap teal"><i class="bi bi-piggy-bank-fill"></i></span>
                 </div>
                 <div class="kpi-value <%= kpis.beneficio < 0 ? 'negative' : '' %>"><%= kpis.beneficio.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) %> €</div>
@@ -407,7 +416,10 @@
             <!-- Pendientes de cobro -->
             <div class="kpi-card amber">
                 <div class="kpi-header">
-                    <span class="kpi-label">Pendientes Cobro</span>
+                    <span class="kpi-label">
+                        Pendientes Cobro
+                        <i class="bi bi-info-circle text-muted ms-1" style="cursor:help" title="Reservas registradas cuyo pago no ha sido marcado como completado"></i>
+                    </span>
                     <span class="kpi-icon-wrap amber"><i class="bi bi-hourglass-split"></i></span>
                 </div>
                 <div class="kpi-value"><%= kpis.pendientes.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) %> €</div>
@@ -416,7 +428,10 @@
             <!-- Reservas Totales -->
             <div class="kpi-card blue">
                 <div class="kpi-header">
-                    <span class="kpi-label">Reservas Totales</span>
+                    <span class="kpi-label">
+                        Reservas Totales
+                        <i class="bi bi-info-circle text-muted ms-1" style="cursor:help" title="Cantidad absoluta de reservas documentadas, independientemente de su estado"></i>
+                    </span>
                     <span class="kpi-icon-wrap blue"><i class="bi bi-calendar-check-fill"></i></span>
                 </div>
                 <div class="kpi-value"><%= kpis.totalReservas %></div>
@@ -425,7 +440,10 @@
             <!-- Ocupación Media -->
             <div class="kpi-card purple">
                 <div class="kpi-header">
-                    <span class="kpi-label">Ocupación Media</span>
+                    <span class="kpi-label">
+                        Ocupación Media
+                        <i class="bi bi-info-circle text-muted ms-1" style="cursor:help" title="Promedio de los días ocupados sobre los días totales disponibles"></i>
+                    </span>
                     <span class="kpi-icon-wrap purple"><i class="bi bi-houses-fill"></i></span>
                 </div>
                 <div class="kpi-value"><%= kpis.ocupacionMedia %>%</div>

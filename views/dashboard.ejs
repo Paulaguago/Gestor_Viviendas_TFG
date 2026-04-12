@@ -230,25 +230,37 @@
     <div class="db-kpi-grid">
       <div class="db-kpi">
         <div class="db-kpi-icon db-kpi-icon--blue"><i class="fas fa-calendar-check"></i></div>
-        <p class="db-kpi-label">Pr&oacute;ximas Reservas</p>
+        <p class="db-kpi-label">
+          Pr&oacute;ximas Reservas 
+          <i class="fas fa-info-circle text-muted ms-1" style="cursor:help" title="Número de reservas confirmadas que aún no han comenzado"></i>
+        </p>
         <p class="db-kpi-value"><%= stats.proximasReservas %></p>
         <p class="db-kpi-sub"><%= stats.proximasReservas == 0 ? 'Sin reservas pendientes' : 'Pendientes de empezar' %></p>
       </div>
       <div class="db-kpi">
         <div class="db-kpi-icon db-kpi-icon--green"><i class="fas fa-euro-sign"></i></div>
-        <p class="db-kpi-label">Ingresos del Mes</p>
+        <p class="db-kpi-label">
+          Ingresos del Mes
+          <i class="fas fa-info-circle text-muted ms-1" style="cursor:help" title="Suma de todos los ingresos generados durante el mes en curso"></i>
+        </p>
         <p class="db-kpi-value"><%= parseFloat(stats.ingresosMes) > 0 ? Number(stats.ingresosMes).toLocaleString('es-ES') + '\u20AC' : '0\u20AC' %></p>
         <p class="db-kpi-sub"><%= parseFloat(stats.ingresosMes) == 0 ? 'Sin datos a\u00FAn' : 'Mes actual' %></p>
       </div>
       <div class="db-kpi">
         <div class="db-kpi-icon db-kpi-icon--red"><i class="fas fa-receipt"></i></div>
-        <p class="db-kpi-label">Gastos del Mes</p>
+        <p class="db-kpi-label">
+          Gastos del Mes
+          <i class="fas fa-info-circle text-muted ms-1" style="cursor:help" title="Suma de todos los gastos documentados y registrados este mes"></i>
+        </p>
         <p class="db-kpi-value"><%= parseFloat(stats.gastosMes) > 0 ? Number(stats.gastosMes).toLocaleString('es-ES') + '\u20AC' : '0\u20AC' %></p>
         <p class="db-kpi-sub"><%= parseFloat(stats.gastosMes) == 0 ? 'Sin datos a\u00FAn' : 'Mes actual' %></p>
       </div>
       <div class="db-kpi">
         <div class="db-kpi-icon db-kpi-icon--teal"><i class="fas fa-balance-scale"></i></div>
-        <p class="db-kpi-label">Balance del Mes</p>
+        <p class="db-kpi-label">
+          Balance del Mes
+          <i class="fas fa-info-circle text-muted ms-1" style="cursor:help" title="Beneficio neto mensual: Ingresos menos Gastos de este mes"></i>
+        </p>
         <p class="db-kpi-value" style="color:<%= parseFloat(stats.balanceMes) >= 0 ? '#0D9488' : '#EF4444' %>">
           <%= parseFloat(stats.balanceMes) >= 0 ? '+' : '' %><%= Number(stats.balanceMes).toLocaleString('es-ES') %>&#8364;
         </p>
@@ -256,13 +268,19 @@
       </div>
       <div class="db-kpi">
         <div class="db-kpi-icon db-kpi-icon--purple"><i class="fas fa-percent"></i></div>
-        <p class="db-kpi-label">Ocupaci&oacute;n Media</p>
+        <p class="db-kpi-label">
+          Ocupaci&oacute;n Media
+          <i class="fas fa-info-circle text-muted ms-1" style="cursor:help" title="Porcentaje de noches reservadas respecto al total de noches disponibles del mes"></i>
+        </p>
         <p class="db-kpi-value"><%= stats.ocupacion %>%</p>
         <p class="db-kpi-sub"><%= stats.ocupacion == 0 ? 'Sin datos a\u00FAn' : 'Este mes' %></p>
       </div>
       <div class="db-kpi">
         <div class="db-kpi-icon db-kpi-icon--amber"><i class="fas fa-hourglass-half"></i></div>
-        <p class="db-kpi-label">Cobros Pendientes</p>
+        <p class="db-kpi-label">
+          Cobros Pendientes
+          <i class="fas fa-info-circle text-muted ms-1" style="cursor:help" title="Número de reservas que aún no tienen registrado su cobro final"></i>
+        </p>
         <p class="db-kpi-value"><%= stats.cobrosPendientes %></p>
         <p class="db-kpi-sub"><%= stats.cobrosPendientes == 0 ? 'Sin datos a\u00FAn' : 'Reservas sin cobrar' %></p>
       </div>
