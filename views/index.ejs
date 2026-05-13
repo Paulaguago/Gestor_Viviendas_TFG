@@ -200,15 +200,21 @@
     <section class="py-20 px-6 lg:px-12 bg-gradient-to-b from-blue-950/20 to-blue-950/50 border-t-2 border-yellow-400/20" id="video">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-12">
-                <h2 class="text-4xl lg:text-5xl font-extrabold mb-4">Gestión profesional en <span class="text-yellow-400">3 pasos</span></h2>
+                <h2 class="text-4xl lg:text-5xl font-extrabold mb-4">Gestión <span class="text-yellow-400">profesional e intuitiva</span></h2>
                 <p class="text-xl text-gray-300">Así de simple. Mira cómo funciona.</p>
             </div>
             
             <!-- Contenedor de Video -->
             <div class="relative mb-16 bg-gradient-to-br from-blue-800/30 to-blue-900/40 rounded-3xl p-4 border border-blue-700/30">
-                <div class="aspect-video bg-blue-900/50 rounded-2xl flex items-center justify-center relative overflow-hidden">
-                    <!-- Foto de: Captura de pantalla del dashboard principal de la aplicación -->
-                    <i class="bi bi-play-circle-fill text-8xl text-yellow-400 cursor-pointer hover:text-yellow-500 transition hover:scale-110"></i>
+                <div class="aspect-video rounded-2xl overflow-hidden">
+                    <video
+                        class="w-full h-full object-cover"
+                        controls
+                        preload="metadata"
+                    >
+                        <source src="/images/imagenes_inicio/demo_completa.mp4" type="video/mp4">
+                        Tu navegador no soporta la reproducción de vídeo.
+                    </video>
                 </div>
             </div>
             
