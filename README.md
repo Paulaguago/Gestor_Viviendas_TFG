@@ -141,7 +141,7 @@ const sequelize = new Sequelize('nombre_bd', 'usuario', 'contraseña', {
 
 La aplicación sincronizará automáticamente los modelos Sequelize la primera vez que se ejecute.
 
-## ▶️ Ejecución del Proyecto
+## Ejecución del Proyecto
 
 ### Modo Desarrollo (con auto-reload)
 
