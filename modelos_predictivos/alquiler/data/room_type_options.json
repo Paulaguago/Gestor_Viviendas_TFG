@@ -1,8 +1,0 @@
-{
-  "room_type": [
-    { "value": "entire", "label": "Entire" },
-    { "value": "private", "label": "Privada" },
-    { "value": "shared", "label": "Compartida" },
-    { "value": "hotel", "label": "Hotel" }
-  ]
-}
